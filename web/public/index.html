@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语词汇知识库</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Segoe UI','Noto Sans SC',sans-serif;font-size:22px;line-height:2.2;color:#1a1a1a;background:#f8f9fa;padding:16px;max-width:1400px;margin:0 auto}
+h1{font-size:36px;margin-bottom:4px}.subtitle{color:#666;margin-bottom:16px;font-size:14px}
+.letter-bar{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:16px;position:sticky;top:0;background:#f8f9fa;padding:6px 0;z-index:10}
+.letter-btn{width:36px;height:36px;border:1px solid #ddd;border-radius:5px;background:#fff;cursor:pointer;font-size:15px;font-weight:600}
+.letter-btn:hover{background:#e9ecef}.letter-btn.active{background:#1a73e8;color:#fff}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+th{background:#f1f3f5;text-align:left;padding:8px 10px;font-size:18px;color:#555;border-bottom:2px solid #dee2e6}
+td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;font-size:14px}
+tr:hover{background:#f8f9ff}
+.word-link{color:#1a73e8;text-decoration:none;font-weight:600;cursor:pointer}
+.colloc-preview{font-size:18px;color:#555;display:block}
+.stage-badge{display:inline-block;padding:1px 6px;border-radius:8px;font-size:15px;font-weight:600}
+.stage-0{background:#f0f0f0;color:#999}.stage-1{background:#fff3cd;color:#856404}.stage-2{background:#cce5ff;color:#004085}.stage-3{background:#d4edda;color:#155724}
+.loading{text-align:center;padding:40px;color:#999;font-size:16px}
+#searchBox{width:100%;padding:8px 12px;font-size:19px;border:1px solid #ddd;border-radius:6px;margin-bottom:12px}
+#searchBox:focus{outline:none;border-color:#1a73e8}
+</style></head>
+<body>
+<h1>📚 英语词汇知识库</h1>
+<p class="subtitle" id="subtitle">Loading...</p>
+<div class="letter-bar" id="letterBar"></div>
+<input type="text" id="searchBox" placeholder="🔍 Search word..." oninput="filter()">
+<table id="tbl">
+<thead><tr><th style="width:40px">#</th><th style="width:120px">Word</th><th>POS</th><th>Collocations &amp; Preposition Patterns</th><th style="width:60px">Stage</th></tr></thead>
+<tbody id="tb"><tr><td colspan="5" class="loading">Loading vocabulary data...</td></tr></tbody>
+</table>
+<script src="data.js"></script>
+<script>
+var D = WORD_DATA;
+var currentLetter = '';
+var searchQuery = '';
+
+document.getElementById('subtitle').textContent = D.words.length + ' words  ·  ' + 
+  Object.values(D.collocs).reduce(function(a,b){return a+b.length;},0) + ' collocations  ·  ' +
+  Object.values(D.preps).reduce(function(a,b){return a+b.length;},0) + ' preposition patterns';
+
+// Build letter bar
+var letters = {};
+D.words.forEach(function(w){ letters[w.letter] = true; });
+var bar = document.getElementById('letterBar');
+var sortedLetters = Object.keys(letters).sort();
+var self = this;
+sortedLetters.forEach(function(l){
+  var b = document.createElement('button');
+  b.className = 'letter-btn';
+  b.textContent = l;
+  b.onclick = function(){ setLetter(l); };
+  bar.appendChild(b);
+});
+var allBtn = document.createElement('button');
+allBtn.className = 'letter-btn active';
+allBtn.textContent = 'All';
+allBtn.onclick = function(){ setLetter(''); };
+bar.appendChild(allBtn);
+
+// Show all words by default
+render();
+
+function setLetter(l){
+  currentLetter = l;
+  document.querySelectorAll('.letter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(l) {
+    // Find and highlight the clicked letter button
+    document.querySelectorAll('.letter-btn').forEach(function(b){ if(b.textContent===l) b.classList.add('active'); });
+  } else {
+    document.querySelectorAll('.letter-btn').forEach(function(b){ if(b.textContent==='All') b.classList.add('active'); });
+  }
+  render();
+}
+
+function filter(){
+  searchQuery = document.getElementById('searchBox').value.toLowerCase();
+  render();
+}
+
+function render(){
+  var sn = {0:'😴 New',1:'📖 Learning',2:'🔄 Reviewing',3:'✅ Mastered'};
+  var filtered = [];
+  D.words.forEach(function(v){
+    if(currentLetter && v.letter !== currentLetter) return;
+    if(searchQuery && !v.word.includes(searchQuery) && !(v.meaning||'').includes(searchQuery)) return;
+    filtered.push(v);
+  });
+  
+  var html = '';
+  filtered.forEach(function(v){
+    // Collect all collocations and prepositions
+    var allCollocs = [];
+    var collocs = D.collocs[v.id] || [];
+    var preps = D.preps[v.id] || [];
+    collocs.forEach(function(c){ allCollocs.push(c.en); });
+    preps.forEach(function(p){ allCollocs.push(p.pat); });
+    var preview = allCollocs.join(', ');
+    
+    html += '<tr onclick="location.href=\'word.html?id='+v.id+'\'" style="cursor:pointer">'+
+      '<td>'+v.id+'</td>'+
+      '<td><span class="word-link">'+v.word+'</span>'+(v.phonetic?'<br><small style="color:#999;font-size:11px">/'+v.phonetic+'/</small>':'')+'</td>'+
+      '<td style="font-size:13px;color:#666">'+v.pos+'</td>'+
+      '<td><span class="colloc-preview" title="'+preview.replace(/"/g,'&quot;')+'">'+preview+'</span></td>'+
+      '<td><span class="stage-badge stage-'+v.stage+'">'+sn[v.stage]+'</span></td></tr>';
+  });
+  
+  document.getElementById('tb').innerHTML = html || '<tr><td colspan="5" class="loading">No words found</td></tr>';
+}
+</script>
+</body></html>
