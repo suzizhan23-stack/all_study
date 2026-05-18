@@ -18,7 +18,7 @@ code, pre { font-size: 16px !important; }
 ## 📖 Table of Contents
 
 <table>
-<tr><td><b>1.</b> <a href="#1-back">back</a><br><small>back a proposal, back down, back off, back up, back out of sth — 退出某事, back sb/sth up on sth — 在某事上支持某人/某物</small></td><td><b>2.</b> <a href="#2-baffle">baffle</a><br><small>baffle the experts, baffle description, utterly baffle, be baffled by sth — 被某事难住</small></td></tr><tr><td><b>3.</b> <a href="#3-bail">bail</a><br><small>bail out, bail sb out, bail water, bail sb out of sth — 把某人保释出来；使某人摆脱困境, bail on sb (informal) — 放某人鸽子；抛弃某人</small></td><td><b>4.</b> <a href="#4-bait">bait</a><br><small>bait a hook, bait a trap, bait sb into doing sth, bait sb into sth — 引诱某人进入某状态/做某事</small></td></tr><tr><td><b>5.</b> <a href="#5-bake">bake</a><br><small>bake bread/cake/cookies, bake in the sun, freshly baked, bake sth at (temperature) — 在某温度下烘烤, bake sth for (time) — 烘烤某物（时间）</small></td><td><b>6.</b> <a href="#6-balance">balance</a><br><small>balance the budget, balance work and life, balance an account, balance on one foot, balance sth against sth — 权衡某物与某物, balance on sth — 在……上保持平衡</small></td></tr><tr><td><b>7.</b> <a href="#7-ballot">ballot</a><br><small>ballot for sb, ballot on sth, cast a ballot, ballot for sb/sth — 投票支持某人/某事, ballot on sth — 就某事进行投票</small></td><td><b>8.</b> <a href="#8-ban">ban</a><br><small>ban smoking, ban a book/film, ban the use of sth, impose a ban, ban sb from sth/doing sth — 禁止某人做某事, ban sth from sth — 将某物从某处禁止</small></td></tr><tr><td><b>9.</b> <a href="#9-band">band</a><br><small>band together, band together against, band together to do sth, band together against sb/sth — 联合起来反对某人/某事, band together into sth — 联合组成……</small></td><td><b>10.</b> <a href="#10-bandage">bandage</a><br><small>bandage a wound, bandage an injury, bandage sb's arm/leg/head, bandage sth up — 包扎好某处</small></td></tr><tr><td><b>11.</b> <a href="#11-bang">bang</a><br><small>bang the door, bang on the table, bang into sth, bang on/at sth — 猛敲某物, bang into sb/sth — 撞到某人/某物</small></td><td><b>12.</b> <a href="#12-bank">bank</a><br><small>bank money, bank on sb/sth, bank with a bank, bank on sb/sth — 指望/依赖某人/某事, bank with sth — 在某银行有账户</small></td></tr><tr><td><b>13.</b> <a href="#13-bankrupt">bankrupt</a><br><small>bankrupt a company, bankrupt oneself, virtually bankrupt, be bankrupted by sth — 因某事而破产</small></td><td><b>14.</b> <a href="#14-bar">bar</a><br><small>bar the door, bar sb from sth, bar entry, bar sb from sth/doing sth — 禁止某人做某事</small></td></tr><tr><td><b>15.</b> <a href="#15-barbecue">barbecue</a><br><small>barbecue meat/chicken/fish, barbecue in the yard, barbecue party, barbecue sth for sb — 为某人烧烤某物, barbecue sth on sth — 在某物上烧烤</small></td><td><b>16.</b> <a href="#16-bare">bare</a><br><small>bare one's soul/heart, bare one's teeth, bare the truth, bare sth to sb — 向某人袒露某事</small></td></tr><tr><td><b>17.</b> <a href="#17-bargain">bargain</a><br><small>bargain with sb, bargain over/for sth, bargain hard, bargain with sb over/for sth — 就某事与某人讨价还价, bargain for/on sth — 预料到某事（常用于否定）</small></td><td><b>18.</b> <a href="#18-barge">barge</a><br><small>barge in, barge into a room, barge through, barge into sb/sth — 撞上某人/某物；闯入, barge in on sb/sth — 打断某人/闯入某处</small></td></tr><tr><td><b>19.</b> <a href="#19-bark">bark</a><br><small>bark at sb, bark out orders, bark up the wrong tree, bark at sb/sth — 对某人/某物吠叫；对某人厉声说话, bark out sth — 厉声说出某事</small></td><td><b>20.</b> <a href="#20-base">base</a><br><small>base sth on/upon sth, be based in, evidence-based, base sth on/upon sth — 以某物为某物的基础, be based in — 以……为基地/总部在</small></td></tr><tr><td><b>21.</b> <a href="#21-bat">bat</a><br><small>bat the ball, bat one's eyelashes, bat for a team, bat against sb — 与某人（投手）对阵, bat for sb — 为某人击球</small></td><td><b>22.</b> <a href="#22-bathe">bathe</a><br><small>bathe a wound, bathe in the sun, bathe in light, bathe sth in/with sth — 用某物清洗；使某物沐浴在……中, bathe in sth — 在……中沐浴/沉浸</small></td></tr><tr><td><b>23.</b> <a href="#23-batter">batter</a><br><small>batter sb/sth, batter down the door, battered by storms, batter at/on/against sth — 猛击某物, batter sb into sth — 迫使某人做某事</small></td><td><b>24.</b> <a href="#24-battle">battle</a><br><small>battle against/with sb/sth, battle for sth, battle an illness/disease, battle with/against sb/sth — 与某人/某物斗争, battle for sth — 为某物而战, battle over sth — 就某事争执</small></td></tr><tr><td><b>25.</b> <a href="#25-be">be</a><br><small>be about to, be able to, be going to, be + adj., there be, be at sth — 在某处, be in sth — 在……里；处于……状态, be on sth — 在……上；正在进行</small></td><td><b>26.</b> <a href="#26-beam">beam</a><br><small>beam at sb, beam with joy/pride, beam a signal/message, beam at sb — 对某人微笑, beam with sth — 因某事而面露喜色, beam sth to sb/sth — 向某人/某物发射某物</small></td></tr><tr><td><b>27.</b> <a href="#27-bear">bear</a><br><small>bear responsibility, bear the cost, bear fruit, bear in mind, bear with sb, bear on/upon sth — 与某事有关, bear with sb/sth — 容忍某人/某事, bear sth out — 证实某事</small></td><td><b>28.</b> <a href="#28-beat">beat</a><br><small>beat a record, beat the competition, beat eggs, beat the drum, beat sb up, beat sb at sth — 在某事上打败某人, beat on/against sth — 拍打某物, beat sb to sth — 抢先某人做某事</small></td></tr><tr><td><b>29.</b> <a href="#29-beautify">beautify</a><br><small>beautify the city, beautify a garden, beautify oneself, beautify sth with sth — 用某物美化某物</small></td><td><b>30.</b> <a href="#30-beckon">beckon</a><br><small>beckon sb over, beckon to sb, beckon sb forward, beckon to sb — 向某人招手示意, beckon sb into/to sth — 招手示意某人进入/去某处</small></td></tr><tr><td><b>31.</b> <a href="#31-become">become</a><br><small>become + adj., become of sb/sth, become a habit, become of sb/sth — 某人/某物发生/遭遇（常与 what/whoever 连用）</small></td><td><b>32.</b> <a href="#32-bed">bed</a><br><small>bed down, bed sb down, bed plants out, bed down in/on sth — 在某处睡觉/安顿, bed sth in sth — 将某物嵌入某物</small></td></tr><tr><td><b>33.</b> <a href="#33-beg">beg</a><br><small>beg for sth, beg sb to do sth, beg forgiveness, beg the question, beg for sth — 乞求某物, beg of sb — 请求某人</small></td><td><b>34.</b> <a href="#34-begin">begin</a><br><small>begin to do sth, begin doing sth, begin with sth, to begin with, begin with sth — 从某事开始, begin by doing sth — 以做某事开始</small></td></tr><tr><td><b>35.</b> <a href="#35-behave">behave</a><br><small>behave well/badly, behave oneself, behave like sb/sth, behave towards/to sb — 对待某人（的方式）, behave like sb/sth — 表现得像某人/某物</small></td><td><b>36.</b> <a href="#36-believe">believe</a><br><small>believe in sb/sth, believe it or not, believe so, make believe, believe in sb/sth — 相信某人/某事；信任</small></td></tr><tr><td><b>37.</b> <a href="#37-belong">belong</a><br><small>belong to sb/sth, belong in/on/under, belong together, belong to sb/sth — 属于某人/某物, belong in/on/under sth — 应放在某处</small></td><td><b>38.</b> <a href="#38-bend">bend</a><br><small>bend down/over/forward, bend the rules, bend sb's ear, bend to pressure, bend over sth — 弯腰于某物之上, bend to sth — 屈服于某事, bend sth into sth — 把某物弯成某形状</small></td></tr><tr><td><b>39.</b> <a href="#39-benefit">benefit</a><br><small>benefit from sth, benefit greatly/enormously, mutual benefit, benefit from/by sth — 从某事中受益</small></td><td><b>40.</b> <a href="#40-beset">beset</a><br><small>beset by problems/difficulties, beset with doubts, beset on all sides, beset by/with sth — 被某事困扰；充满某物</small></td></tr><tr><td><b>41.</b> <a href="#41-besiege">besiege</a><br><small>besiege a city/fortress, besiege sb with questions, besieged by fans, besiege sb with sth — 用某物（问题/请求等）纠缠某人, be besieged by sb — 被某人包围/围困</small></td><td><b>42.</b> <a href="#42-bet">bet</a><br><small>bet on sth, bet sb sth, you bet, I bet, bet on sth — 在某事上下注, bet against sb/sth — 赌某人/某事不会成功</small></td></tr><tr><td><b>43.</b> <a href="#43-betray">betray</a><br><small>betray sb's trust, betray a secret, betray one's feelings/emotions, feel betrayed, betray sb to sb — 向某人出卖某人, betray sth to sb — 向某人泄露某事</small></td><td><b>44.</b> <a href="#44-better">better</a><br><small>better oneself, better the situation, better a record, better sb/sth in sth — 在某方面超过某人/某物</small></td></tr><tr><td><b>45.</b> <a href="#45-beware">beware</a><br><small>beware of sth/sb, beware of doing sth, beware the ..., beware of sth/sb — 当心某物/某人, beware of doing sth — 注意不要做某事</small></td><td><b>46.</b> <a href="#46-bewilder">bewilder</a><br><small>bewilder sb, be bewildered by/at sth, completely/totally bewildered, be bewildered by/at sth — 被某事弄糊涂</small></td></tr><tr><td><b>47.</b> <a href="#47-bias">bias</a><br><small>bias sb/sth, bias the results, bias against/toward, be biased, bias sb against/toward sb/sth — 使某人对某人/某物有偏见/偏向</small></td><td><b>48.</b> <a href="#48-bid">bid</a><br><small>bid on a project, bid for a contract, bid farewell, bid someone welcome, bid defiance, bid adieu, highest bidder, bid against someone, bid up the price, bid aggressively, successful bid, bid on eBay, competitive bidding, bid on + item (auction), bid for + contract/project, bid against + competitor, bid up + price</small></td></tr><tr><td><b>49.</b> <a href="#49-bill">bill</a><br><small>bill someone for, bill at a rate, bill monthly, bill the client, bill the customer, billable hours, over-bill, bill a service, bill as a cost, bill separately, bill in arrears, bill for + service/item, bill at + price/rate, bill as + role/description</small></td><td><b>50.</b> <a href="#50-bin">bin</a><br><small>bin the rubbish, bin unwanted items, bin the idea, bin the whole thing, bin the document, bin the draft, bin the plan, bin immediately, bin without hesitation, bin the application, bin the evidence, bin in + container, bin off + plan/event (UK slang)</small></td></tr><tr><td><b>51.</b> <a href="#51-bind">bind</a><br><small>bind together, bind up a wound, bind the contract, bind hands, bind tightly, bind with rope, bind by law, bind in solidarity, bind the pages, bind fast, bind securely, bind the agreement, legally binding, bind with + material/tool, bind to + object/person, bind by + rule/agreement, bind in + volume (publishing)</small></td><td><b>52.</b> <a href="#52-bite">bite</a><br><small>bite into, bite off, bite down, bite hard, bite the dust, bite the bullet, bite one's tongue, bite one's lips, bite the hand that feeds, bite the apple, bite back, bite deeply, bite-sized, bite into + object, bite off + piece, bite at + something, bite through + material</small></td></tr><tr><td><b>53.</b> <a href="#53-blackmail">blackmail</a><br><small>blackmail someone into, blackmail for money, attempt to blackmail, try to blackmail, blackmail a person, blackmail a company, blackmail with threats, blackmail using evidence, blackmail over an affair, emotional blackmail, blackmail letter, blackmail scheme, blackmail into + doing something, blackmail for + money/favors, blackmail over + subject</small></td><td><b>54.</b> <a href="#54-blame">blame</a><br><small>blame for, blame on, blame unfairly, blame entirely, blame partly, blame the victim, blame oneself, blame the system, blame the weather, take the blame, shift the blame, assign blame, blame for + wrongdoing, blame on + person/thing</small></td></tr><tr><td><b>55.</b> <a href="#55-blank">blank</a><br><small>blank out, blank a person, blank completely, blank entirely, blank the screen, blank the memory, blank the opponent, blank the question, blank the test, go blank, draw a blank, blank stare, blank out + memory/screen, blank on + topic (informal)</small></td><td><b>56.</b> <a href="#56-blanket">blanket</a><br><small>blanket the area, blanket the city, blanket with snow, blanket with fog, blanket the market, blanket coverage, blanket policy, blanket statement, blanket ban, blanket the region, blanket the sky, blanket completely, blanket with + substance, blanket across + area</small></td></tr><tr><td><b>57.</b> <a href="#57-blast">blast</a><br><small>blast through, blast away, blast off, blast a hole, blast music, blast the competition, blast someone for, blast into space, blast the building, blast the speaker, blast the opposition, full blast, blast into + space/debris, blast from + weapon/speaker, blast for + reason</small></td><td><b>58.</b> <a href="#58-blaze">blaze</a><br><small>blaze a trail, blaze through, blaze with fire, blaze brightly, blaze up, blaze away, blaze down, blaze across, blaze in the sky, blaze the path, eyes blazing, blaze a route, blaze through + place/task, blaze across + surface/sky, blaze with + emotion/color</small></td></tr><tr><td><b>59.</b> <a href="#59-bleach">bleach</a><br><small>bleach white, bleach out, bleach the stain, bleach hair, bleach clothes, bleach with chlorine, bleach in the sun, bleach the fabric, bleach the wood, bleach thoroughly, bleach the teeth, bleach the paper, bleach from + surface, bleach out of + material, bleach to + color</small></td><td><b>60.</b> <a href="#60-bleed">bleed</a><br><small>bleed profusely, bleed heavily, bleed from a wound, bleed to death, bleed the brakes, bleed the system, bleed dry, bleed cash, bleed the company, bleed resources, nose bleeds, bleed internally, bleed from + body part, bleed into + area, bleed for + cause/person, bleed out + substance</small></td></tr><tr><td><b>61.</b> <a href="#61-blend">blend</a><br><small>blend together, blend in, blend with, blend into, blend seamlessly, blend thoroughly, blend the ingredients, blend colors, blend flavors, blend cultures, blend styles, blend the mixture, blend with + substance/color, blend into + environment/background, blend together + items</small></td><td><b>62.</b> <a href="#62-bless">bless</a><br><small>bless someone, bless the food, bless the house, bless with children, bless with talent, bless with good fortune, bless from above, bless the marriage, bless the nation, bless the couple, bless your heart, count one's blessings, bless with + gift/quality, bless by + authority/God</small></td></tr><tr><td><b>63.</b> <a href="#63-blind">blind</a><br><small>blind with light, blind by tears, blind to the truth, blind by love, blind the driver, blind the enemy, blind with rage, blind temporarily, blind permanently, blind the witness, blind someone with, blinded by ambition, blind to + reality/faults, blind by + emotion/light, blind with + substance</small></td><td><b>64.</b> <a href="#64-blink">blink</a><br><small>blink rapidly, blink once, blink several times, blink back tears, blink in surprise, blink in the light, blink at, blink the indicator, blink the headlights, blink the cursor, blink away, without blinking, blink at + person/thing, blink in + light/surprise, blink away + tears/moisture, blink from + intensity/source</small></td></tr><tr><td><b>65.</b> <a href="#65-block">block</a><br><small>block the way, block the road, block the view, block access, block a shot, block a payment, block a user, block a website, block the passage, block traffic, block progress, block completely, block the entrance, block from + doing something, block off + area, block out + light/sound, block up + pipe/channel</small></td><td><b>66.</b> <a href="#66-bloom">bloom</a><br><small>bloom in spring, bloom beautifully, bloom early, bloom late, bloom wildly, bloom with color, bloom on the vine, bloom all summer, bloom again, bloom annually, bloom in abundance, begin to bloom, start to bloom, bloom into + state/person, bloom in + season, bloom with + flowers/color</small></td></tr><tr><td><b>67.</b> <a href="#67-blossom">blossom</a><br><small>blossom into, blossom out, blossom in spring, blossom fully, blossom beautifully, blossom on the tree, blossom after rain, blossom with age, blossom as an artist, blossom into friendship, blossom in the sun, begin to blossom, blossom into + person/relationship, blossom with + flowers/quality, blossom from + source</small></td><td><b>68.</b> <a href="#68-blow">blow</a><br><small>blow up, blow out, blow over, blow off, blow away, blow down, blow the candle, blow the whistle, blow a fuse, blow your nose, blow a bubble, blow the trumpet, blow a kiss, blow the deadline, blow a tire, blow off + surface/event, blow out + candle/flame, blow up + building/balloon, blow over + object/person, blow through + place/money, blow from + direction</small></td></tr><tr><td><b>69.</b> <a href="#69-bluff">bluff</a><br><small>bluff your way, bluff through, bluff it out, call a bluff, bluff the opponent, bluff convincingly, bluff successfully, bluff at poker, bluff a win, bluff a rival, see through a bluff, bluff into + action, bluff out of + situation, bluff about + ability/claim</small></td><td><b>70.</b> <a href="#70-blunder">blunder</a><br><small>blunder into, blunder through, blunder badly, blunder again, blunder the question, blunder an opportunity, blunder a speech, blunder the interview, blunder in the dark, blunder about, blunder around, blunder into a trap, blunder into + situation/place, blunder through + task/speech, blunder upon + discovery</small></td></tr><tr><td><b>71.</b> <a href="#71-blunt">blunt</a><br><small>blunt the edge, blunt a knife, blunt the blade, blunt the scissors, blunt the impact, blunt the effect, blunt the pain, blunt criticism, blunt the attack, blunt ambition, blunt enthusiasm, blunt progress, blunt by + overuse/force, blunt with + use/time</small></td><td><b>72.</b> <a href="#72-blur">blur</a><br><small>blur the line, blur the boundary, blur the distinction, blur the vision, blur the image, blur the photograph, blur the memory, blur together, blur into, blur with tears, blur with speed, blur completely, blur into + something, blur with + emotion/liquid, blur from + motion/tears</small></td></tr><tr><td><b>73.</b> <a href="#73-blush">blush</a><br><small>blush deeply, blush easily, blush with embarrassment, blush with shame, blush at the compliment, blush at the remark, blush bright red, blush furiously, blush visibly, blush like a schoolgirl, make someone blush, cause to blush, blush at + remark/compliment, blush with + emotion, blush from + cause</small></td><td><b>74.</b> <a href="#74-board">board</a><br><small>board a plane, board a ship, board a train, board the bus, board the flight, board up, board with a family, board the windows, board the door, board the house, boarding pass, boarding school, board in + city, board with + family, board at + school, board up + building/window</small></td></tr><tr><td><b>75.</b> <a href="#75-boast">boast</a><br><small>boast about, boast of, boast proudly, boast openly, boast constantly, boast that, boast the best, boast a collection, boast a record, boast facilities, boast a view, boast an achievement, boast about + achievement/possession, boast of + quality/success, boast to + person</small></td><td><b>76.</b> <a href="#76-boil">boil</a><br><small>boil water, boil an egg, boil potatoes, boil rice, boil down to, boil over, boil away, boil up, boil the kettle, boil the pot, boil vigorously, boil gently, bring to a boil, boil for + time, boil down to + essence/issue, boil over + container/situation, boil in + liquid</small></td></tr><tr><td><b>77.</b> <a href="#77-bolster">bolster</a><br><small>bolster support, bolster confidence, bolster the economy, bolster morale, bolster defenses, bolster the argument, bolster the case, bolster the claim, bolster evidence, bolster a theory, bolster the system, bolster security, bolster with + evidence/support, bolster against + threat/criticism</small></td><td><b>78.</b> <a href="#78-bolt">bolt</a><br><small>bolt the door, bolt the window, bolt the gate, bolt down, bolt from, bolt upright, bolt in fear, bolt the horse, bolt the room, bolt the frame, bolt out, make a bolt for, bolt from + place, bolt through + area, bolt onto + surface, bolt down + food</small></td></tr><tr><td><b>79.</b> <a href="#79-bomb">bomb</a><br><small>bomb the city, bomb the target, bomb a test, bomb an exam, bomb the performance, bomb through traffic, bomb down the road, bomb the enemy, bomb the building, bomb civilians, bomb repeatedly, carpet bomb, bomb from + aircraft/base, bomb into + submission/surrender, bomb out of + competition, bomb along + road</small></td><td><b>80.</b> <a href="#80-bond">bond</a><br><small>bond with someone, bond together, bond over, bond emotionally, bond socially, bond the materials, bond the surfaces, bond strongly, bond firmly, bond the family, develop a bond, form a bond, bond with + person/animal, bond over + interest/experience, bond to + surface/material</small></td></tr><tr><td><b>81.</b> <a href="#81-book">book</a><br><small>book a ticket, book a room, book a flight, book a table, book a hotel, book a tour, book online, book in advance, book early, book a session, book a performer, book someone for, be booked for, book for + event/time, book into + hotel, book on + flight/course, book through + agent/website</small></td><td><b>82.</b> <a href="#82-boom">boom</a><br><small>boom out, boom through, boom across, boom in the distance, the economy booms, the industry booms, the market booms, boom years, boom and bust, population boom, baby boom, boom in sales, booming voice, boom from + source, boom across + area, boom with + sound/activity, boom in + sector/region</small></td></tr><tr><td><b>83.</b> <a href="#83-boost">boost</a><br><small>boost sales, boost the economy, boost confidence, boost morale, boost performance, boost production, boost energy, boost the signal, boost the engine, boost a career, boost the immune system, boost revenue, boost efficiency, boost by + amount/percentage, boost with + method/measure, boost to + new level</small></td><td><b>84.</b> <a href="#84-border">border</a><br><small>border the country, border the city, border the property, border the road, border the river, border on rudeness, border on absurdity, border the garden, border the path, border with flowers, border a dress, border the photograph, border on + place/state, border with + country/region</small></td></tr><tr><td><b>85.</b> <a href="#85-bore">bore</a><br><small>bore a hole, bore through, bore into, bore the audience, bore someone to death, bore with details, bore easily, bore the class, bore the reader, bore everyone, bore a tunnel, bore a well, bore through + material, bore into + surface, bore with + story/detail, bore to + effect/death</small></td><td><b>86.</b> <a href="#86-borrow">borrow</a><br><small>borrow money, borrow a book, borrow a car, borrow from a friend, borrow from a bank, borrow an idea, borrow a phrase, borrow heavily, borrow freely, borrow against property, borrow short-term, borrow long-term, borrow from + person/institution, borrow against + asset/collateral, borrow for + purpose</small></td></tr><tr><td><b>87.</b> <a href="#87-boss">boss</a><br><small>boss around, boss about, boss people, boss the team, boss the operation, boss the project, boss the kitchen, boss the office, boss the staff, boss the crew, boss arrogantly, boss constantly, boss around + place/situation, boss about + place/situation</small></td><td><b>88.</b> <a href="#88-bother">bother</a><br><small>bother someone, bother about, bother with, bother to do, not bother, bother much, bother constantly, bother the neighbors, bother the manager, bother yourself, sorry to bother, don't bother, bother about + concern/issue, bother with + task/person, bother to + infinitive</small></td></tr><tr><td><b>89.</b> <a href="#89-bottle">bottle</a><br><small>bottle up, bottle the wine, bottle the beer, bottle water, bottle the sauce, bottle the fruit, bottle emotions, bottle anger, bottle feelings, bottle resentment, bottle the product, bottle it (slang), bottle up + emotion, bottle in + container, bottle for + storage/time</small></td><td><b>90.</b> <a href="#90-bounce">bounce</a><br><small>bounce back, bounce off, bounce up and down, bounce the ball, bounce the check, bounce an idea, bounce high, bounce the baby, bounce into the room, bounce along, bounce across, bounce repeatedly, bounce off + surface, bounce back + from state, bounce into + place, bounce on + surface/spring</small></td></tr><tr><td><b>91.</b> <a href="#91-bound">bound</a><br><small>bound across, bound over, bound up, bound forward, bound into the room, bound along the path, bound up the stairs, bound with energy, be bounded by, bound the territory, bound the area, bound the field, bound across + space, bound into + place, bound by + boundary/limit, bound with + energy/joy</small></td><td><b>92.</b> <a href="#92-bow">bow</a><br><small>bow down, bow to, bow before, bow out, bow the head, bow deeply, bow low, bow politely, bow gracefully, bow in respect, bow in submission, bow under pressure, bow to + person/pressure, bow before + authority, bow out of + competition/event, bow under + weight/pressure</small></td></tr><tr><td><b>93.</b> <a href="#93-bowl">bowl</a><br><small>bowl a ball, bowl a strike, bowl a spare, bowl a game, bowl the batter, bowl a maiden over (cricket), bowl along, bowl over, bowl down, bowl the pins, bowl in a league, bowl a perfect game, bowl over + pin/person, bowl along + road/path, bowl down + object, bowl in + competition</small></td><td><b>94.</b> <a href="#94-box">box</a><br><small>box up, box in, box the items, box the gift, box the goods, box the opponent, box professionally, box at the gym, box for a living, box someone's ears, box clever, box the compass, box in + space/situation, box with + opponent, box into + corner, box up + items for storage</small></td></tr><tr><td><b>95.</b> <a href="#95-boycott">boycott</a><br><small>boycott a product, boycott a company, boycott an event, boycott a country, boycott classes, boycott the election, boycott goods, call for a boycott, organize a boycott, impose a boycott, lift a boycott, economic boycott, consumer boycott, trade boycott, boycott + over/for [reason], boycott + in protest against [something]</small></td><td><b>96.</b> <a href="#96-brace">brace</a><br><small>brace yourself, brace for impact, brace against the wind, brace a structure, brace the roof, brace one's legs, brace one's shoulders, brace the economy, brace the market, brace the walls, brace for a crisis, brace for bad news, brace a beam, steel-braced, brace for [something], brace against [something], brace with [material], brace on [something]</small></td></tr><tr><td><b>97.</b> <a href="#97-bracket">bracket</a><br><small>bracket together, bracket by income, bracket by age, tax bracket, income bracket, age bracket, price bracket, tournament bracket, bracket a word, bracket a phrase, bracket the entries, be bracketed as, fall into a bracket, upper bracket, lower bracket, bracket + with [something/someone], bracket + as [something]</small></td><td><b>98.</b> <a href="#98-brag">brag</a><br><small>brag about, love to brag, nothing to brag about, brag openly, brag endlessly, brag shamelessly, brag constantly, have bragging rights, brag of one's achievements, brag of one's wealth, brag to friends, brag on social media, big brag, humble brag, brag about [something], brag of [something], brag to [someone]</small></td></tr><tr><td><b>99.</b> <a href="#99-brake">brake</a><br><small>brake hard, brake suddenly, brake sharply, brake gently, slam on the brakes, apply the brakes, hit the brakes, release the brakes, brake pedal, brake system, brake failure, brake lights, anti-lock brakes, brake to a stop, emergency brake, brake for [something], brake to [a stop/a halt]</small></td><td><b>100.</b> <a href="#100-branch">branch</a><br><small>branch out, branch off, branch away from, branch out into new markets, branch out into new fields, branch out on one's own, branch of a river, branch of a road, branch of a company, branch of knowledge, branch of government, branch network, local branch, overseas branch, branch off from [something], branch out into [something]</small></td></tr><tr><td><b>101.</b> <a href="#101-brand">brand</a><br><small>brand a product, brand a company, brand oneself, brand an image, brand identity, brand awareness, brand loyalty, brand recognition, brand ambassador, brand strategy, brand extension, brand manager, brand value, brand as a luxury, brand as a traitor, brand + as [something], brand + with [a mark/a label]</small></td><td><b>102.</b> <a href="#102-breach">breach</a><br><small>breach a contract, breach an agreement, breach security, breach a wall, breach a dam, breach a barrier, breach protocol, breach confidentiality, breach a code, breach a defense, breach a rule, breach the peace, breach of trust, breach of duty, data breach, breach + through [something], breach + in [something]</small></td></tr><tr><td><b>103.</b> <a href="#103-break">break</a><br><small>break a record, break a promise, break a law, break a habit, break the ice, break the news, break the silence, break a leg, break ground, break a code, break a tie, break a window, break a bone, break the surface, break loose, break into [something], break out of [something], break through [something], break down into [something], break with [something/someone], break in on [something], break off from [something]</small></td><td><b>104.</b> <a href="#104-breathe">breathe</a><br><small>breathe deeply, breathe heavily, breathe in, breathe out, breathe air, breathe oxygen, breathe fire, breathe a sigh of relief, breathe life into, breathe new life, breathe freely, breathe easily, breathe through the nose, barely breathe, hard to breathe, breathe in [something], breathe through [something], breathe with [difficulty/relief]</small></td></tr><tr><td><b>105.</b> <a href="#105-breed">breed</a><br><small>breed animals, breed dogs, breed horses, breed cattle, breed plants, breed resistance, breed contempt, breed success, breed violence, breed disease, breed bacteria, breed suspicion, selectively breed, pure breed, cross breed, breed + in [environment], breed + for [trait/purpose]</small></td><td><b>106.</b> <a href="#106-brew">brew</a><br><small>brew beer, brew coffee, brew tea, brew a pot, home brew, brew a storm, brew trouble, brew a plan, brew a plot, brew a scheme, let something brew, freshly brewed, brew house, brew master, brew + for [someone], brew + from [ingredient]</small></td></tr><tr><td><b>107.</b> <a href="#107-bribe">bribe</a><br><small>bribe a judge, bribe an official, bribe a witness, bribe a politician, bribe a guard, bribe one's way, bribe voters, accept a bribe, offer a bribe, take a bribe, pay a bribe, demand a bribe, anti-bribery, bribery scandal, bribery charges, bribe + into [doing something], bribe + with [something]</small></td><td><b>108.</b> <a href="#108-bridge">bridge</a><br><small>bridge the gap, bridge the divide, bridge differences, bridge cultures, bridge worlds, bridge the distance, bridge the chasm, bridge the generation gap, bridge the digital divide, bridge communication, bridge understanding, bridge the gulf, bridge the separation, bridge + between [two things], bridge + with [something]</small></td></tr><tr><td><b>109.</b> <a href="#109-brief">brief</a><br><small>brief a team, brief a client, brief a lawyer, brief the president, brief the media, brief soldiers, brief staff, brief on the situation, brief about changes, be fully briefed, keep someone briefed, legal brief, briefing session, briefing document, pre-flight briefing, brief + on [something], brief + about [something]</small></td><td><b>110.</b> <a href="#110-brighten">brighten</a><br><small>brighten up, brighten a room, brighten the sky, brighten one's day, brighten one's mood, brighten one's face, brighten one's eyes, brighten the atmosphere, brighten the future, brighten one's spirits, brighten the outlook, brighten the corner, brighten with joy, brighten with color, brighten naturally, brighten + with [something], brighten + up [something/someone]</small></td></tr><tr><td><b>111.</b> <a href="#111-bring">bring</a><br><small>bring someone, bring something, bring good news, bring bad news, bring joy, bring happiness, bring trouble, bring change, bring results, bring success, bring peace, bring war, bring an end, bring to mind, bring to light, bring + to [someone/somewhere], bring + from [somewhere], bring + with [someone], bring + up [a topic], bring + about [something], bring + out [something], bring + in [something], bring + down [something/someone]</small></td><td><b>112.</b> <a href="#112-broadcast">broadcast</a><br><small>broadcast a program, broadcast a show, broadcast news, broadcast live, broadcast a game, broadcast a speech, broadcast a message, broadcast an announcement, broadcast on TV, broadcast on radio, broadcast online, broadcast worldwide, satellite broadcast, live broadcast, broadcast station, broadcast + to [audience/place], broadcast + on [medium/channel]</small></td></tr><tr><td><b>113.</b> <a href="#113-broaden">broaden</a><br><small>broaden one's horizons, broaden one's mind, broaden one's perspective, broaden one's experience, broaden one's knowledge, broaden one's outlook, broaden one's understanding, broaden one's view, broaden the scope, broaden the range, broaden the appeal, broaden the base, broaden participation, broaden access, broaden a road, broaden + into [something], broaden + from [something] to [something]</small></td><td><b>114.</b> <a href="#114-broker">broker</a><br><small>broker a deal, broker an agreement, broker a peace, broker a ceasefire, broker a settlement, broker a truce, broker a compromise, broker a contract, broker a merger, broker a treaty, broker a transaction, broker a solution, broker talks, broker negotiations, broker a meeting, broker + between [parties], broker + with [someone]</small></td></tr><tr><td><b>115.</b> <a href="#115-brood">brood</a><br><small>brood over, brood about, brood on, brood silently, brood alone, brood constantly, brood endlessly, brood in silence, brood in one's room, brood over a problem, brood over a loss, brood over a mistake, brood over the past, brood hen, brood eggs, brood over [something], brood about [something], brood on [something]</small></td><td><b>116.</b> <a href="#116-browse">browse</a><br><small>browse the internet, browse a website, browse online, browse the web, browse a store, browse a catalog, browse a magazine, browse a book, browse through, browse around, browse casually, browse aimlessly, browse for information, browse for gifts, browse securely, browse through [something], browse for [something]</small></td></tr><tr><td><b>117.</b> <a href="#117-bruise">bruise</a><br><small>bruise easily, bruise one's arm, bruise one's leg, bruise one's face, bruise one's ego, bruise one's pride, bruise feelings, bruised fruit, bruised skin, bruised tissue, badly bruised, deeply bruised, emotionally bruised, fresh bruise, dark bruise, bruise + on [body part], bruise + from [something]</small></td><td><b>118.</b> <a href="#118-brush">brush</a><br><small>brush one's teeth, brush one's hair, brush one's coat, brush the floor, brush away, brush off, brush aside, brush past, brush against, brush up on, brush with death, brush stroke, brush fire, brush away tears, brush off criticism, brush against [something/someone], brush off [something/someone], brush past [someone], brush over [something], brush with [something]</small></td></tr><tr><td><b>119.</b> <a href="#119-bubble">bubble</a><br><small>bubble up, bubble over, bubble away, bubble with excitement, bubble with enthusiasm, bubble with joy, bubble with anger, bubble with ideas, bubble to the surface, bubble in the pot, soap bubble, air bubble, gas bubble, bubble bath, bubble gum, bubble with [emotion], bubble up from/through [something], bubble over with [something]</small></td><td><b>120.</b> <a href="#120-buck">buck</a><br><small>buck the trend, buck the system, buck authority, buck convention, buck tradition, buck the odds, buck expectations, buck the market, buck up, buck off, buck wildly, buck hard, try to buck, buck and kick, buck against, buck + against [something], buck + up [someone]</small></td></tr><tr><td><b>121.</b> <a href="#121-buckle">buckle</a><br><small>buckle up, buckle a belt, buckle a strap, buckle a shoe, buckle one's seatbelt, buckle under pressure, buckle under stress, buckle under the weight, buckle under strain, buckle under the load, knees buckle, legs buckle, bridge buckle, pipe buckle, buckle down, buckle under [something], buckle down to [something]</small></td><td><b>122.</b> <a href="#122-bud">bud</a><br><small>bud in spring, bud early, bud late, begin to bud, start to bud, trees budding, flowers budding, buds appear, bud opening, newly budded, budding artist, budding romance, budding talent, budding relationship, budding entrepreneur, bud into [something]</small></td></tr><tr><td><b>123.</b> <a href="#123-budget">budget</a><br><small>budget money, budget time, budget resources, budget carefully, budget wisely, budget tightly, budget for a trip, budget for a project, budget for emergencies, budget one's income, budget one's expenses, annual budget, monthly budget, tight budget, budget deficit, budget for [something], budget + at [amount]</small></td><td><b>124.</b> <a href="#124-buffer">buffer</a><br><small>buffer the impact, buffer the blow, buffer the effect, buffer against loss, buffer against shock, buffer zone, buffer solution, buffer capacity, buffer state, buffer stock, buffer data, buffer memory, buffer size, provide a buffer, act as a buffer, buffer + against [something], buffer + from [something]</small></td></tr><tr><td><b>125.</b> <a href="#125-buffet">buffet</a><br><small>buffeted by the wind, buffeted by storms, buffeted by waves, buffeted by fate, buffeted by criticism, buffeted by misfortune, buffeted by the economy, buffeted by hardship, buffeted about, buffeted around, wind-buffeted, storm-buffeted, wave-buffeted, buffeted coast, buffeted region, buffet + by [something], buffet + against [something]</small></td><td><b>126.</b> <a href="#126-bug">bug</a><br><small>bug someone, bug me, bug the room, bug the phone, bug the office, bug the conversation, stop bugging me, really bug, kind of bug, bug detector, bugging device, plant a bug, sweep for bugs, spy bug, audio bug, bug + about [something]</small></td></tr><tr><td><b>127.</b> <a href="#127-build">build</a><br><small>build a house, build a bridge, build a road, build a wall, build a career, build a relationship, build trust, build confidence, build a team, build a business, build an empire, build on success, build upon, build up, build from scratch, build on/upon [something], build + into [something], build + around [something], build + up [something], build + out of [material]</small></td><td><b>128.</b> <a href="#128-bully">bully</a><br><small>bully someone, bully a classmate, bully a coworker, bully the weak, bully into submission, bullied at school, bullied online, cyber bully, bully victim, anti-bullying, bullying behavior, bullied mercilessly, bully relentlessly, physical bullying, verbal bullying, bully + into [doing something]</small></td></tr><tr><td><b>129.</b> <a href="#129-bump">bump</a><br><small>bump one's head, bump one's elbow, bump into someone, bump into something, bump against, bump along, bump up, bump off, bump in the road, speed bump, bump start, bump gently, bump hard, bump into [someone/something], bump against [something], bump + up [something], bump + off [something], bump + along [something]</small></td><td><b>130.</b> <a href="#130-bunch">bunch</a><br><small>bunch together, bunch up, bunch around, bunch of flowers, bunch of grapes, bunch of keys, bunch of bananas, bunch people together, bunch up the cloth, bunch in a corner, bunch tightly, bunch loosely, bunch nervously, bunch in groups, clothes bunch, bunch + together, bunch + around [something/someone]</small></td></tr><tr><td><b>131.</b> <a href="#131-bundle">bundle</a><br><small>bundle up, bundle together, bundle off, bundle out, bundle into, bundle of clothes, bundle of sticks, bundle of cash, bundle of nerves, software bundle, product bundle, bundle of joy, bundle tightly, bundle carefully, bundle quickly, bundle + into [something], bundle + off to [somewhere], bundle + up in [something], bundle + with [something]</small></td><td><b>132.</b> <a href="#132-burden">burden</a><br><small>burden someone, burden with debt, burden with responsibility, burden with guilt, burden with worry, burden with taxes, burden with work, burden the economy, burden the system, burden the environment, heavily burdened, financially burdened, emotionally burdened, unfairly burdened, burden of proof, burden + with [something], burden + by [something]</small></td></tr><tr><td><b>133.</b> <a href="#133-burn">burn</a><br><small>burn down, burn up, burn out, burn off, burn calories, burn energy, burn fuel, burn fat, burn bridges, burn one's bridges, burn the midnight oil, burn with curiosity, burn with anger, burn with passion, burn to the ground, burn + down [something], burn + through [something], burn + with [emotion], burn + to [ash/death], burn + out of [something]</small></td><td><b>134.</b> <a href="#134-burst">burst</a><br><small>burst into tears, burst into laughter, burst into flames, burst out laughing, burst out crying, burst open, burst through, burst in, burst with pride, burst with joy, burst with excitement, burst a balloon, burst a pipe, burst a dam, burst at the seams, burst into [something], burst out of [something], burst through [something], burst with [emotion], burst in on [someone/something]</small></td></tr><tr><td><b>135.</b> <a href="#135-bury">bury</a><br><small>bury a body, bury the dead, bury treasure, bury bones, bury the hatchet, bury one's face, bury one's head, bury one's feelings, bury one's past, bury secrets, bury evidence, bury memories, bury differences, buried alive, buried deep, bury + in [something/place], bury + under [something], bury + beneath [something]</small></td><td><b>136.</b> <a href="#136-bust">bust</a><br><small>bust a window, bust a lock, bust a pipe, bust a balloon, bust open, bust up, bust out, bust into, drug bust, police bust, bust a criminal, bust a gang, bust a myth, bust a move, boom or bust, bust + out of [somewhere], bust + into [somewhere], bust + up [something/someone], bust + for [crime]</small></td></tr><tr><td><b>137.</b> <a href="#137-butcher">butcher</a><br><small>butcher meat, butcher a cow, butcher a pig, butcher a chicken, butcher a speech, butcher a song, butcher a play, butcher a language, butcher the job, butcher the performance, butcher an innocent, butcher shop, butcher knife, butcher block, butcher paper, butcher + for [purpose/meat]</small></td><td><b>138.</b> <a href="#138-butt">butt</a><br><small>butt heads, butt in, butt out, butt against, goat butts, ram butts, bull butts, butt someone, butt into conversation, butt into someone's business, stop butting in, butt roughly, butt playfully, butt stubbornly, head butt, butt + into [something/someone], butt + against [something], butt + in on [something]</small></td></tr><tr><td><b>139.</b> <a href="#139-butter">butter</a><br><small>butter bread, butter toast, butter a pan, butter a dish, butter generously, butter lightly, butter both sides, butter up, butter someone up, butter up the boss, butter up the teacher, melted butter, browned butter, butter knife, butter dish, butter + with [something], butter + up [someone]</small></td><td><b>140.</b> <a href="#140-button">button</a><br><small>button a shirt, button a coat, button up, button down, button one's lip, button it, button the collar, button the cuffs, button carefully, button incorrectly, button all the way, button tightly, button loosely, button front, button fly, button + up [something], button + into [something]</small></td></tr><tr><td><b>141.</b> <a href="#141-buy">buy</a><br><small>buy a house, buy a car, buy food, buy clothes, buy online, buy in bulk, buy on credit, buy on impulse, buy on sale, buy time, buy peace, buy freedom, buy off, buy out, buy into, buy + from [someone/somewhere], buy + for [price/amount], buy + with [payment method], buy + off [someone], buy + into [something], buy + out [someone], buy + up [something]</small></td><td><b>142.</b> <a href="#142-buzz">buzz</a><br><small>buzz around, buzz with activity, buzz with excitement, buzz with rumors, buzz with energy, buzz with ideas, buzz in, buzz off, buzz about, bees buzz, phone buzzes, alarm buzzes, buzzer buzzes, buzz happily, buzz loudly, buzz + with [activity/emotion], buzz + around [place], buzz + about [something], buzz + in/into [place]</small></td></tr><tr><td><b>143.</b> <a href="#143-bypass">bypass</a><br><small>bypass a city, bypass a town, bypass traffic, bypass an obstacle, bypass a problem, bypass security, bypass a rule, bypass a regulation, bypass a procedure, bypass a step, bypass authority, bypass the system, bypass surgery, heart bypass, bypass road, bypass + through [something], bypass + around [something]</small></td><td></td></tr></table>
+<tr><td id="toc-1-back"><b>1.</b> <a href="#1-back">back</a><br><small>back a proposal, back down, back off, back up, back out of sth — 退出某事, back sb/sth up on sth — 在某事上支持某人/某物</small></td><td id="toc-2-baffle"><b>2.</b> <a href="#2-baffle">baffle</a><br><small>baffle the experts, baffle description, utterly baffle, be baffled by sth — 被某事难住</small></td></tr><tr><td id="toc-3-bail"><b>3.</b> <a href="#3-bail">bail</a><br><small>bail out, bail sb out, bail water, bail sb out of sth — 把某人保释出来；使某人摆脱困境, bail on sb (informal) — 放某人鸽子；抛弃某人</small></td><td id="toc-4-bait"><b>4.</b> <a href="#4-bait">bait</a><br><small>bait a hook, bait a trap, bait sb into doing sth, bait sb into sth — 引诱某人进入某状态/做某事</small></td></tr><tr><td id="toc-5-bake"><b>5.</b> <a href="#5-bake">bake</a><br><small>bake bread/cake/cookies, bake in the sun, freshly baked, bake sth at (temperature) — 在某温度下烘烤, bake sth for (time) — 烘烤某物（时间）</small></td><td id="toc-6-balance"><b>6.</b> <a href="#6-balance">balance</a><br><small>balance the budget, balance work and life, balance an account, balance on one foot, balance sth against sth — 权衡某物与某物, balance on sth — 在……上保持平衡</small></td></tr><tr><td id="toc-7-ballot"><b>7.</b> <a href="#7-ballot">ballot</a><br><small>ballot for sb, ballot on sth, cast a ballot, ballot for sb/sth — 投票支持某人/某事, ballot on sth — 就某事进行投票</small></td><td id="toc-8-ban"><b>8.</b> <a href="#8-ban">ban</a><br><small>ban smoking, ban a book/film, ban the use of sth, impose a ban, ban sb from sth/doing sth — 禁止某人做某事, ban sth from sth — 将某物从某处禁止</small></td></tr><tr><td id="toc-9-band"><b>9.</b> <a href="#9-band">band</a><br><small>band together, band together against, band together to do sth, band together against sb/sth — 联合起来反对某人/某事, band together into sth — 联合组成……</small></td><td id="toc-10-bandage"><b>10.</b> <a href="#10-bandage">bandage</a><br><small>bandage a wound, bandage an injury, bandage sb's arm/leg/head, bandage sth up — 包扎好某处</small></td></tr><tr><td id="toc-11-bang"><b>11.</b> <a href="#11-bang">bang</a><br><small>bang the door, bang on the table, bang into sth, bang on/at sth — 猛敲某物, bang into sb/sth — 撞到某人/某物</small></td><td id="toc-12-bank"><b>12.</b> <a href="#12-bank">bank</a><br><small>bank money, bank on sb/sth, bank with a bank, bank on sb/sth — 指望/依赖某人/某事, bank with sth — 在某银行有账户</small></td></tr><tr><td id="toc-13-bankrupt"><b>13.</b> <a href="#13-bankrupt">bankrupt</a><br><small>bankrupt a company, bankrupt oneself, virtually bankrupt, be bankrupted by sth — 因某事而破产</small></td><td id="toc-14-bar"><b>14.</b> <a href="#14-bar">bar</a><br><small>bar the door, bar sb from sth, bar entry, bar sb from sth/doing sth — 禁止某人做某事</small></td></tr><tr><td id="toc-15-barbecue"><b>15.</b> <a href="#15-barbecue">barbecue</a><br><small>barbecue meat/chicken/fish, barbecue in the yard, barbecue party, barbecue sth for sb — 为某人烧烤某物, barbecue sth on sth — 在某物上烧烤</small></td><td id="toc-16-bare"><b>16.</b> <a href="#16-bare">bare</a><br><small>bare one's soul/heart, bare one's teeth, bare the truth, bare sth to sb — 向某人袒露某事</small></td></tr><tr><td id="toc-17-bargain"><b>17.</b> <a href="#17-bargain">bargain</a><br><small>bargain with sb, bargain over/for sth, bargain hard, bargain with sb over/for sth — 就某事与某人讨价还价, bargain for/on sth — 预料到某事（常用于否定）</small></td><td id="toc-18-barge"><b>18.</b> <a href="#18-barge">barge</a><br><small>barge in, barge into a room, barge through, barge into sb/sth — 撞上某人/某物；闯入, barge in on sb/sth — 打断某人/闯入某处</small></td></tr><tr><td id="toc-19-bark"><b>19.</b> <a href="#19-bark">bark</a><br><small>bark at sb, bark out orders, bark up the wrong tree, bark at sb/sth — 对某人/某物吠叫；对某人厉声说话, bark out sth — 厉声说出某事</small></td><td id="toc-20-base"><b>20.</b> <a href="#20-base">base</a><br><small>base sth on/upon sth, be based in, evidence-based, base sth on/upon sth — 以某物为某物的基础, be based in — 以……为基地/总部在</small></td></tr><tr><td id="toc-21-bat"><b>21.</b> <a href="#21-bat">bat</a><br><small>bat the ball, bat one's eyelashes, bat for a team, bat against sb — 与某人（投手）对阵, bat for sb — 为某人击球</small></td><td id="toc-22-bathe"><b>22.</b> <a href="#22-bathe">bathe</a><br><small>bathe a wound, bathe in the sun, bathe in light, bathe sth in/with sth — 用某物清洗；使某物沐浴在……中, bathe in sth — 在……中沐浴/沉浸</small></td></tr><tr><td id="toc-23-batter"><b>23.</b> <a href="#23-batter">batter</a><br><small>batter sb/sth, batter down the door, battered by storms, batter at/on/against sth — 猛击某物, batter sb into sth — 迫使某人做某事</small></td><td id="toc-24-battle"><b>24.</b> <a href="#24-battle">battle</a><br><small>battle against/with sb/sth, battle for sth, battle an illness/disease, battle with/against sb/sth — 与某人/某物斗争, battle for sth — 为某物而战, battle over sth — 就某事争执</small></td></tr><tr><td id="toc-25-be"><b>25.</b> <a href="#25-be">be</a><br><small>be about to, be able to, be going to, be + adj., there be, be at sth — 在某处, be in sth — 在……里；处于……状态, be on sth — 在……上；正在进行</small></td><td id="toc-26-beam"><b>26.</b> <a href="#26-beam">beam</a><br><small>beam at sb, beam with joy/pride, beam a signal/message, beam at sb — 对某人微笑, beam with sth — 因某事而面露喜色, beam sth to sb/sth — 向某人/某物发射某物</small></td></tr><tr><td id="toc-27-bear"><b>27.</b> <a href="#27-bear">bear</a><br><small>bear responsibility, bear the cost, bear fruit, bear in mind, bear with sb, bear on/upon sth — 与某事有关, bear with sb/sth — 容忍某人/某事, bear sth out — 证实某事</small></td><td id="toc-28-beat"><b>28.</b> <a href="#28-beat">beat</a><br><small>beat a record, beat the competition, beat eggs, beat the drum, beat sb up, beat sb at sth — 在某事上打败某人, beat on/against sth — 拍打某物, beat sb to sth — 抢先某人做某事</small></td></tr><tr><td id="toc-29-beautify"><b>29.</b> <a href="#29-beautify">beautify</a><br><small>beautify the city, beautify a garden, beautify oneself, beautify sth with sth — 用某物美化某物</small></td><td id="toc-30-beckon"><b>30.</b> <a href="#30-beckon">beckon</a><br><small>beckon sb over, beckon to sb, beckon sb forward, beckon to sb — 向某人招手示意, beckon sb into/to sth — 招手示意某人进入/去某处</small></td></tr><tr><td id="toc-31-become"><b>31.</b> <a href="#31-become">become</a><br><small>become + adj., become of sb/sth, become a habit, become of sb/sth — 某人/某物发生/遭遇（常与 what/whoever 连用）</small></td><td id="toc-32-bed"><b>32.</b> <a href="#32-bed">bed</a><br><small>bed down, bed sb down, bed plants out, bed down in/on sth — 在某处睡觉/安顿, bed sth in sth — 将某物嵌入某物</small></td></tr><tr><td id="toc-33-beg"><b>33.</b> <a href="#33-beg">beg</a><br><small>beg for sth, beg sb to do sth, beg forgiveness, beg the question, beg for sth — 乞求某物, beg of sb — 请求某人</small></td><td id="toc-34-begin"><b>34.</b> <a href="#34-begin">begin</a><br><small>begin to do sth, begin doing sth, begin with sth, to begin with, begin with sth — 从某事开始, begin by doing sth — 以做某事开始</small></td></tr><tr><td id="toc-35-behave"><b>35.</b> <a href="#35-behave">behave</a><br><small>behave well/badly, behave oneself, behave like sb/sth, behave towards/to sb — 对待某人（的方式）, behave like sb/sth — 表现得像某人/某物</small></td><td id="toc-36-believe"><b>36.</b> <a href="#36-believe">believe</a><br><small>believe in sb/sth, believe it or not, believe so, make believe, believe in sb/sth — 相信某人/某事；信任</small></td></tr><tr><td id="toc-37-belong"><b>37.</b> <a href="#37-belong">belong</a><br><small>belong to sb/sth, belong in/on/under, belong together, belong to sb/sth — 属于某人/某物, belong in/on/under sth — 应放在某处</small></td><td id="toc-38-bend"><b>38.</b> <a href="#38-bend">bend</a><br><small>bend down/over/forward, bend the rules, bend sb's ear, bend to pressure, bend over sth — 弯腰于某物之上, bend to sth — 屈服于某事, bend sth into sth — 把某物弯成某形状</small></td></tr><tr><td id="toc-39-benefit"><b>39.</b> <a href="#39-benefit">benefit</a><br><small>benefit from sth, benefit greatly/enormously, mutual benefit, benefit from/by sth — 从某事中受益</small></td><td id="toc-40-beset"><b>40.</b> <a href="#40-beset">beset</a><br><small>beset by problems/difficulties, beset with doubts, beset on all sides, beset by/with sth — 被某事困扰；充满某物</small></td></tr><tr><td id="toc-41-besiege"><b>41.</b> <a href="#41-besiege">besiege</a><br><small>besiege a city/fortress, besiege sb with questions, besieged by fans, besiege sb with sth — 用某物（问题/请求等）纠缠某人, be besieged by sb — 被某人包围/围困</small></td><td id="toc-42-bet"><b>42.</b> <a href="#42-bet">bet</a><br><small>bet on sth, bet sb sth, you bet, I bet, bet on sth — 在某事上下注, bet against sb/sth — 赌某人/某事不会成功</small></td></tr><tr><td id="toc-43-betray"><b>43.</b> <a href="#43-betray">betray</a><br><small>betray sb's trust, betray a secret, betray one's feelings/emotions, feel betrayed, betray sb to sb — 向某人出卖某人, betray sth to sb — 向某人泄露某事</small></td><td id="toc-44-better"><b>44.</b> <a href="#44-better">better</a><br><small>better oneself, better the situation, better a record, better sb/sth in sth — 在某方面超过某人/某物</small></td></tr><tr><td id="toc-45-beware"><b>45.</b> <a href="#45-beware">beware</a><br><small>beware of sth/sb, beware of doing sth, beware the ..., beware of sth/sb — 当心某物/某人, beware of doing sth — 注意不要做某事</small></td><td id="toc-46-bewilder"><b>46.</b> <a href="#46-bewilder">bewilder</a><br><small>bewilder sb, be bewildered by/at sth, completely/totally bewildered, be bewildered by/at sth — 被某事弄糊涂</small></td></tr><tr><td id="toc-47-bias"><b>47.</b> <a href="#47-bias">bias</a><br><small>bias sb/sth, bias the results, bias against/toward, be biased, bias sb against/toward sb/sth — 使某人对某人/某物有偏见/偏向</small></td><td id="toc-48-bid"><b>48.</b> <a href="#48-bid">bid</a><br><small>bid on a project, bid for a contract, bid farewell, bid someone welcome, bid defiance, bid adieu, highest bidder, bid against someone, bid up the price, bid aggressively, successful bid, bid on eBay, competitive bidding, bid on + item (auction), bid for + contract/project, bid against + competitor, bid up + price</small></td></tr><tr><td id="toc-49-bill"><b>49.</b> <a href="#49-bill">bill</a><br><small>bill someone for, bill at a rate, bill monthly, bill the client, bill the customer, billable hours, over-bill, bill a service, bill as a cost, bill separately, bill in arrears, bill for + service/item, bill at + price/rate, bill as + role/description</small></td><td id="toc-50-bin"><b>50.</b> <a href="#50-bin">bin</a><br><small>bin the rubbish, bin unwanted items, bin the idea, bin the whole thing, bin the document, bin the draft, bin the plan, bin immediately, bin without hesitation, bin the application, bin the evidence, bin in + container, bin off + plan/event (UK slang)</small></td></tr><tr><td id="toc-51-bind"><b>51.</b> <a href="#51-bind">bind</a><br><small>bind together, bind up a wound, bind the contract, bind hands, bind tightly, bind with rope, bind by law, bind in solidarity, bind the pages, bind fast, bind securely, bind the agreement, legally binding, bind with + material/tool, bind to + object/person, bind by + rule/agreement, bind in + volume (publishing)</small></td><td id="toc-52-bite"><b>52.</b> <a href="#52-bite">bite</a><br><small>bite into, bite off, bite down, bite hard, bite the dust, bite the bullet, bite one's tongue, bite one's lips, bite the hand that feeds, bite the apple, bite back, bite deeply, bite-sized, bite into + object, bite off + piece, bite at + something, bite through + material</small></td></tr><tr><td id="toc-53-blackmail"><b>53.</b> <a href="#53-blackmail">blackmail</a><br><small>blackmail someone into, blackmail for money, attempt to blackmail, try to blackmail, blackmail a person, blackmail a company, blackmail with threats, blackmail using evidence, blackmail over an affair, emotional blackmail, blackmail letter, blackmail scheme, blackmail into + doing something, blackmail for + money/favors, blackmail over + subject</small></td><td id="toc-54-blame"><b>54.</b> <a href="#54-blame">blame</a><br><small>blame for, blame on, blame unfairly, blame entirely, blame partly, blame the victim, blame oneself, blame the system, blame the weather, take the blame, shift the blame, assign blame, blame for + wrongdoing, blame on + person/thing</small></td></tr><tr><td id="toc-55-blank"><b>55.</b> <a href="#55-blank">blank</a><br><small>blank out, blank a person, blank completely, blank entirely, blank the screen, blank the memory, blank the opponent, blank the question, blank the test, go blank, draw a blank, blank stare, blank out + memory/screen, blank on + topic (informal)</small></td><td id="toc-56-blanket"><b>56.</b> <a href="#56-blanket">blanket</a><br><small>blanket the area, blanket the city, blanket with snow, blanket with fog, blanket the market, blanket coverage, blanket policy, blanket statement, blanket ban, blanket the region, blanket the sky, blanket completely, blanket with + substance, blanket across + area</small></td></tr><tr><td id="toc-57-blast"><b>57.</b> <a href="#57-blast">blast</a><br><small>blast through, blast away, blast off, blast a hole, blast music, blast the competition, blast someone for, blast into space, blast the building, blast the speaker, blast the opposition, full blast, blast into + space/debris, blast from + weapon/speaker, blast for + reason</small></td><td id="toc-58-blaze"><b>58.</b> <a href="#58-blaze">blaze</a><br><small>blaze a trail, blaze through, blaze with fire, blaze brightly, blaze up, blaze away, blaze down, blaze across, blaze in the sky, blaze the path, eyes blazing, blaze a route, blaze through + place/task, blaze across + surface/sky, blaze with + emotion/color</small></td></tr><tr><td id="toc-59-bleach"><b>59.</b> <a href="#59-bleach">bleach</a><br><small>bleach white, bleach out, bleach the stain, bleach hair, bleach clothes, bleach with chlorine, bleach in the sun, bleach the fabric, bleach the wood, bleach thoroughly, bleach the teeth, bleach the paper, bleach from + surface, bleach out of + material, bleach to + color</small></td><td id="toc-60-bleed"><b>60.</b> <a href="#60-bleed">bleed</a><br><small>bleed profusely, bleed heavily, bleed from a wound, bleed to death, bleed the brakes, bleed the system, bleed dry, bleed cash, bleed the company, bleed resources, nose bleeds, bleed internally, bleed from + body part, bleed into + area, bleed for + cause/person, bleed out + substance</small></td></tr><tr><td id="toc-61-blend"><b>61.</b> <a href="#61-blend">blend</a><br><small>blend together, blend in, blend with, blend into, blend seamlessly, blend thoroughly, blend the ingredients, blend colors, blend flavors, blend cultures, blend styles, blend the mixture, blend with + substance/color, blend into + environment/background, blend together + items</small></td><td id="toc-62-bless"><b>62.</b> <a href="#62-bless">bless</a><br><small>bless someone, bless the food, bless the house, bless with children, bless with talent, bless with good fortune, bless from above, bless the marriage, bless the nation, bless the couple, bless your heart, count one's blessings, bless with + gift/quality, bless by + authority/God</small></td></tr><tr><td id="toc-63-blind"><b>63.</b> <a href="#63-blind">blind</a><br><small>blind with light, blind by tears, blind to the truth, blind by love, blind the driver, blind the enemy, blind with rage, blind temporarily, blind permanently, blind the witness, blind someone with, blinded by ambition, blind to + reality/faults, blind by + emotion/light, blind with + substance</small></td><td id="toc-64-blink"><b>64.</b> <a href="#64-blink">blink</a><br><small>blink rapidly, blink once, blink several times, blink back tears, blink in surprise, blink in the light, blink at, blink the indicator, blink the headlights, blink the cursor, blink away, without blinking, blink at + person/thing, blink in + light/surprise, blink away + tears/moisture, blink from + intensity/source</small></td></tr><tr><td id="toc-65-block"><b>65.</b> <a href="#65-block">block</a><br><small>block the way, block the road, block the view, block access, block a shot, block a payment, block a user, block a website, block the passage, block traffic, block progress, block completely, block the entrance, block from + doing something, block off + area, block out + light/sound, block up + pipe/channel</small></td><td id="toc-66-bloom"><b>66.</b> <a href="#66-bloom">bloom</a><br><small>bloom in spring, bloom beautifully, bloom early, bloom late, bloom wildly, bloom with color, bloom on the vine, bloom all summer, bloom again, bloom annually, bloom in abundance, begin to bloom, start to bloom, bloom into + state/person, bloom in + season, bloom with + flowers/color</small></td></tr><tr><td id="toc-67-blossom"><b>67.</b> <a href="#67-blossom">blossom</a><br><small>blossom into, blossom out, blossom in spring, blossom fully, blossom beautifully, blossom on the tree, blossom after rain, blossom with age, blossom as an artist, blossom into friendship, blossom in the sun, begin to blossom, blossom into + person/relationship, blossom with + flowers/quality, blossom from + source</small></td><td id="toc-68-blow"><b>68.</b> <a href="#68-blow">blow</a><br><small>blow up, blow out, blow over, blow off, blow away, blow down, blow the candle, blow the whistle, blow a fuse, blow your nose, blow a bubble, blow the trumpet, blow a kiss, blow the deadline, blow a tire, blow off + surface/event, blow out + candle/flame, blow up + building/balloon, blow over + object/person, blow through + place/money, blow from + direction</small></td></tr><tr><td id="toc-69-bluff"><b>69.</b> <a href="#69-bluff">bluff</a><br><small>bluff your way, bluff through, bluff it out, call a bluff, bluff the opponent, bluff convincingly, bluff successfully, bluff at poker, bluff a win, bluff a rival, see through a bluff, bluff into + action, bluff out of + situation, bluff about + ability/claim</small></td><td id="toc-70-blunder"><b>70.</b> <a href="#70-blunder">blunder</a><br><small>blunder into, blunder through, blunder badly, blunder again, blunder the question, blunder an opportunity, blunder a speech, blunder the interview, blunder in the dark, blunder about, blunder around, blunder into a trap, blunder into + situation/place, blunder through + task/speech, blunder upon + discovery</small></td></tr><tr><td id="toc-71-blunt"><b>71.</b> <a href="#71-blunt">blunt</a><br><small>blunt the edge, blunt a knife, blunt the blade, blunt the scissors, blunt the impact, blunt the effect, blunt the pain, blunt criticism, blunt the attack, blunt ambition, blunt enthusiasm, blunt progress, blunt by + overuse/force, blunt with + use/time</small></td><td id="toc-72-blur"><b>72.</b> <a href="#72-blur">blur</a><br><small>blur the line, blur the boundary, blur the distinction, blur the vision, blur the image, blur the photograph, blur the memory, blur together, blur into, blur with tears, blur with speed, blur completely, blur into + something, blur with + emotion/liquid, blur from + motion/tears</small></td></tr><tr><td id="toc-73-blush"><b>73.</b> <a href="#73-blush">blush</a><br><small>blush deeply, blush easily, blush with embarrassment, blush with shame, blush at the compliment, blush at the remark, blush bright red, blush furiously, blush visibly, blush like a schoolgirl, make someone blush, cause to blush, blush at + remark/compliment, blush with + emotion, blush from + cause</small></td><td id="toc-74-board"><b>74.</b> <a href="#74-board">board</a><br><small>board a plane, board a ship, board a train, board the bus, board the flight, board up, board with a family, board the windows, board the door, board the house, boarding pass, boarding school, board in + city, board with + family, board at + school, board up + building/window</small></td></tr><tr><td id="toc-75-boast"><b>75.</b> <a href="#75-boast">boast</a><br><small>boast about, boast of, boast proudly, boast openly, boast constantly, boast that, boast the best, boast a collection, boast a record, boast facilities, boast a view, boast an achievement, boast about + achievement/possession, boast of + quality/success, boast to + person</small></td><td id="toc-76-boil"><b>76.</b> <a href="#76-boil">boil</a><br><small>boil water, boil an egg, boil potatoes, boil rice, boil down to, boil over, boil away, boil up, boil the kettle, boil the pot, boil vigorously, boil gently, bring to a boil, boil for + time, boil down to + essence/issue, boil over + container/situation, boil in + liquid</small></td></tr><tr><td id="toc-77-bolster"><b>77.</b> <a href="#77-bolster">bolster</a><br><small>bolster support, bolster confidence, bolster the economy, bolster morale, bolster defenses, bolster the argument, bolster the case, bolster the claim, bolster evidence, bolster a theory, bolster the system, bolster security, bolster with + evidence/support, bolster against + threat/criticism</small></td><td id="toc-78-bolt"><b>78.</b> <a href="#78-bolt">bolt</a><br><small>bolt the door, bolt the window, bolt the gate, bolt down, bolt from, bolt upright, bolt in fear, bolt the horse, bolt the room, bolt the frame, bolt out, make a bolt for, bolt from + place, bolt through + area, bolt onto + surface, bolt down + food</small></td></tr><tr><td id="toc-79-bomb"><b>79.</b> <a href="#79-bomb">bomb</a><br><small>bomb the city, bomb the target, bomb a test, bomb an exam, bomb the performance, bomb through traffic, bomb down the road, bomb the enemy, bomb the building, bomb civilians, bomb repeatedly, carpet bomb, bomb from + aircraft/base, bomb into + submission/surrender, bomb out of + competition, bomb along + road</small></td><td id="toc-80-bond"><b>80.</b> <a href="#80-bond">bond</a><br><small>bond with someone, bond together, bond over, bond emotionally, bond socially, bond the materials, bond the surfaces, bond strongly, bond firmly, bond the family, develop a bond, form a bond, bond with + person/animal, bond over + interest/experience, bond to + surface/material</small></td></tr><tr><td id="toc-81-book"><b>81.</b> <a href="#81-book">book</a><br><small>book a ticket, book a room, book a flight, book a table, book a hotel, book a tour, book online, book in advance, book early, book a session, book a performer, book someone for, be booked for, book for + event/time, book into + hotel, book on + flight/course, book through + agent/website</small></td><td id="toc-82-boom"><b>82.</b> <a href="#82-boom">boom</a><br><small>boom out, boom through, boom across, boom in the distance, the economy booms, the industry booms, the market booms, boom years, boom and bust, population boom, baby boom, boom in sales, booming voice, boom from + source, boom across + area, boom with + sound/activity, boom in + sector/region</small></td></tr><tr><td id="toc-83-boost"><b>83.</b> <a href="#83-boost">boost</a><br><small>boost sales, boost the economy, boost confidence, boost morale, boost performance, boost production, boost energy, boost the signal, boost the engine, boost a career, boost the immune system, boost revenue, boost efficiency, boost by + amount/percentage, boost with + method/measure, boost to + new level</small></td><td id="toc-84-border"><b>84.</b> <a href="#84-border">border</a><br><small>border the country, border the city, border the property, border the road, border the river, border on rudeness, border on absurdity, border the garden, border the path, border with flowers, border a dress, border the photograph, border on + place/state, border with + country/region</small></td></tr><tr><td id="toc-85-bore"><b>85.</b> <a href="#85-bore">bore</a><br><small>bore a hole, bore through, bore into, bore the audience, bore someone to death, bore with details, bore easily, bore the class, bore the reader, bore everyone, bore a tunnel, bore a well, bore through + material, bore into + surface, bore with + story/detail, bore to + effect/death</small></td><td id="toc-86-borrow"><b>86.</b> <a href="#86-borrow">borrow</a><br><small>borrow money, borrow a book, borrow a car, borrow from a friend, borrow from a bank, borrow an idea, borrow a phrase, borrow heavily, borrow freely, borrow against property, borrow short-term, borrow long-term, borrow from + person/institution, borrow against + asset/collateral, borrow for + purpose</small></td></tr><tr><td id="toc-87-boss"><b>87.</b> <a href="#87-boss">boss</a><br><small>boss around, boss about, boss people, boss the team, boss the operation, boss the project, boss the kitchen, boss the office, boss the staff, boss the crew, boss arrogantly, boss constantly, boss around + place/situation, boss about + place/situation</small></td><td id="toc-88-bother"><b>88.</b> <a href="#88-bother">bother</a><br><small>bother someone, bother about, bother with, bother to do, not bother, bother much, bother constantly, bother the neighbors, bother the manager, bother yourself, sorry to bother, don't bother, bother about + concern/issue, bother with + task/person, bother to + infinitive</small></td></tr><tr><td id="toc-89-bottle"><b>89.</b> <a href="#89-bottle">bottle</a><br><small>bottle up, bottle the wine, bottle the beer, bottle water, bottle the sauce, bottle the fruit, bottle emotions, bottle anger, bottle feelings, bottle resentment, bottle the product, bottle it (slang), bottle up + emotion, bottle in + container, bottle for + storage/time</small></td><td id="toc-90-bounce"><b>90.</b> <a href="#90-bounce">bounce</a><br><small>bounce back, bounce off, bounce up and down, bounce the ball, bounce the check, bounce an idea, bounce high, bounce the baby, bounce into the room, bounce along, bounce across, bounce repeatedly, bounce off + surface, bounce back + from state, bounce into + place, bounce on + surface/spring</small></td></tr><tr><td id="toc-91-bound"><b>91.</b> <a href="#91-bound">bound</a><br><small>bound across, bound over, bound up, bound forward, bound into the room, bound along the path, bound up the stairs, bound with energy, be bounded by, bound the territory, bound the area, bound the field, bound across + space, bound into + place, bound by + boundary/limit, bound with + energy/joy</small></td><td id="toc-92-bow"><b>92.</b> <a href="#92-bow">bow</a><br><small>bow down, bow to, bow before, bow out, bow the head, bow deeply, bow low, bow politely, bow gracefully, bow in respect, bow in submission, bow under pressure, bow to + person/pressure, bow before + authority, bow out of + competition/event, bow under + weight/pressure</small></td></tr><tr><td id="toc-93-bowl"><b>93.</b> <a href="#93-bowl">bowl</a><br><small>bowl a ball, bowl a strike, bowl a spare, bowl a game, bowl the batter, bowl a maiden over (cricket), bowl along, bowl over, bowl down, bowl the pins, bowl in a league, bowl a perfect game, bowl over + pin/person, bowl along + road/path, bowl down + object, bowl in + competition</small></td><td id="toc-94-box"><b>94.</b> <a href="#94-box">box</a><br><small>box up, box in, box the items, box the gift, box the goods, box the opponent, box professionally, box at the gym, box for a living, box someone's ears, box clever, box the compass, box in + space/situation, box with + opponent, box into + corner, box up + items for storage</small></td></tr><tr><td id="toc-95-boycott"><b>95.</b> <a href="#95-boycott">boycott</a><br><small>boycott a product, boycott a company, boycott an event, boycott a country, boycott classes, boycott the election, boycott goods, call for a boycott, organize a boycott, impose a boycott, lift a boycott, economic boycott, consumer boycott, trade boycott, boycott + over/for [reason], boycott + in protest against [something]</small></td><td id="toc-96-brace"><b>96.</b> <a href="#96-brace">brace</a><br><small>brace yourself, brace for impact, brace against the wind, brace a structure, brace the roof, brace one's legs, brace one's shoulders, brace the economy, brace the market, brace the walls, brace for a crisis, brace for bad news, brace a beam, steel-braced, brace for [something], brace against [something], brace with [material], brace on [something]</small></td></tr><tr><td id="toc-97-bracket"><b>97.</b> <a href="#97-bracket">bracket</a><br><small>bracket together, bracket by income, bracket by age, tax bracket, income bracket, age bracket, price bracket, tournament bracket, bracket a word, bracket a phrase, bracket the entries, be bracketed as, fall into a bracket, upper bracket, lower bracket, bracket + with [something/someone], bracket + as [something]</small></td><td id="toc-98-brag"><b>98.</b> <a href="#98-brag">brag</a><br><small>brag about, love to brag, nothing to brag about, brag openly, brag endlessly, brag shamelessly, brag constantly, have bragging rights, brag of one's achievements, brag of one's wealth, brag to friends, brag on social media, big brag, humble brag, brag about [something], brag of [something], brag to [someone]</small></td></tr><tr><td id="toc-99-brake"><b>99.</b> <a href="#99-brake">brake</a><br><small>brake hard, brake suddenly, brake sharply, brake gently, slam on the brakes, apply the brakes, hit the brakes, release the brakes, brake pedal, brake system, brake failure, brake lights, anti-lock brakes, brake to a stop, emergency brake, brake for [something], brake to [a stop/a halt]</small></td><td id="toc-100-branch"><b>100.</b> <a href="#100-branch">branch</a><br><small>branch out, branch off, branch away from, branch out into new markets, branch out into new fields, branch out on one's own, branch of a river, branch of a road, branch of a company, branch of knowledge, branch of government, branch network, local branch, overseas branch, branch off from [something], branch out into [something]</small></td></tr><tr><td id="toc-101-brand"><b>101.</b> <a href="#101-brand">brand</a><br><small>brand a product, brand a company, brand oneself, brand an image, brand identity, brand awareness, brand loyalty, brand recognition, brand ambassador, brand strategy, brand extension, brand manager, brand value, brand as a luxury, brand as a traitor, brand + as [something], brand + with [a mark/a label]</small></td><td id="toc-102-breach"><b>102.</b> <a href="#102-breach">breach</a><br><small>breach a contract, breach an agreement, breach security, breach a wall, breach a dam, breach a barrier, breach protocol, breach confidentiality, breach a code, breach a defense, breach a rule, breach the peace, breach of trust, breach of duty, data breach, breach + through [something], breach + in [something]</small></td></tr><tr><td id="toc-103-break"><b>103.</b> <a href="#103-break">break</a><br><small>break a record, break a promise, break a law, break a habit, break the ice, break the news, break the silence, break a leg, break ground, break a code, break a tie, break a window, break a bone, break the surface, break loose, break into [something], break out of [something], break through [something], break down into [something], break with [something/someone], break in on [something], break off from [something]</small></td><td id="toc-104-breathe"><b>104.</b> <a href="#104-breathe">breathe</a><br><small>breathe deeply, breathe heavily, breathe in, breathe out, breathe air, breathe oxygen, breathe fire, breathe a sigh of relief, breathe life into, breathe new life, breathe freely, breathe easily, breathe through the nose, barely breathe, hard to breathe, breathe in [something], breathe through [something], breathe with [difficulty/relief]</small></td></tr><tr><td id="toc-105-breed"><b>105.</b> <a href="#105-breed">breed</a><br><small>breed animals, breed dogs, breed horses, breed cattle, breed plants, breed resistance, breed contempt, breed success, breed violence, breed disease, breed bacteria, breed suspicion, selectively breed, pure breed, cross breed, breed + in [environment], breed + for [trait/purpose]</small></td><td id="toc-106-brew"><b>106.</b> <a href="#106-brew">brew</a><br><small>brew beer, brew coffee, brew tea, brew a pot, home brew, brew a storm, brew trouble, brew a plan, brew a plot, brew a scheme, let something brew, freshly brewed, brew house, brew master, brew + for [someone], brew + from [ingredient]</small></td></tr><tr><td id="toc-107-bribe"><b>107.</b> <a href="#107-bribe">bribe</a><br><small>bribe a judge, bribe an official, bribe a witness, bribe a politician, bribe a guard, bribe one's way, bribe voters, accept a bribe, offer a bribe, take a bribe, pay a bribe, demand a bribe, anti-bribery, bribery scandal, bribery charges, bribe + into [doing something], bribe + with [something]</small></td><td id="toc-108-bridge"><b>108.</b> <a href="#108-bridge">bridge</a><br><small>bridge the gap, bridge the divide, bridge differences, bridge cultures, bridge worlds, bridge the distance, bridge the chasm, bridge the generation gap, bridge the digital divide, bridge communication, bridge understanding, bridge the gulf, bridge the separation, bridge + between [two things], bridge + with [something]</small></td></tr><tr><td id="toc-109-brief"><b>109.</b> <a href="#109-brief">brief</a><br><small>brief a team, brief a client, brief a lawyer, brief the president, brief the media, brief soldiers, brief staff, brief on the situation, brief about changes, be fully briefed, keep someone briefed, legal brief, briefing session, briefing document, pre-flight briefing, brief + on [something], brief + about [something]</small></td><td id="toc-110-brighten"><b>110.</b> <a href="#110-brighten">brighten</a><br><small>brighten up, brighten a room, brighten the sky, brighten one's day, brighten one's mood, brighten one's face, brighten one's eyes, brighten the atmosphere, brighten the future, brighten one's spirits, brighten the outlook, brighten the corner, brighten with joy, brighten with color, brighten naturally, brighten + with [something], brighten + up [something/someone]</small></td></tr><tr><td id="toc-111-bring"><b>111.</b> <a href="#111-bring">bring</a><br><small>bring someone, bring something, bring good news, bring bad news, bring joy, bring happiness, bring trouble, bring change, bring results, bring success, bring peace, bring war, bring an end, bring to mind, bring to light, bring + to [someone/somewhere], bring + from [somewhere], bring + with [someone], bring + up [a topic], bring + about [something], bring + out [something], bring + in [something], bring + down [something/someone]</small></td><td id="toc-112-broadcast"><b>112.</b> <a href="#112-broadcast">broadcast</a><br><small>broadcast a program, broadcast a show, broadcast news, broadcast live, broadcast a game, broadcast a speech, broadcast a message, broadcast an announcement, broadcast on TV, broadcast on radio, broadcast online, broadcast worldwide, satellite broadcast, live broadcast, broadcast station, broadcast + to [audience/place], broadcast + on [medium/channel]</small></td></tr><tr><td id="toc-113-broaden"><b>113.</b> <a href="#113-broaden">broaden</a><br><small>broaden one's horizons, broaden one's mind, broaden one's perspective, broaden one's experience, broaden one's knowledge, broaden one's outlook, broaden one's understanding, broaden one's view, broaden the scope, broaden the range, broaden the appeal, broaden the base, broaden participation, broaden access, broaden a road, broaden + into [something], broaden + from [something] to [something]</small></td><td id="toc-114-broker"><b>114.</b> <a href="#114-broker">broker</a><br><small>broker a deal, broker an agreement, broker a peace, broker a ceasefire, broker a settlement, broker a truce, broker a compromise, broker a contract, broker a merger, broker a treaty, broker a transaction, broker a solution, broker talks, broker negotiations, broker a meeting, broker + between [parties], broker + with [someone]</small></td></tr><tr><td id="toc-115-brood"><b>115.</b> <a href="#115-brood">brood</a><br><small>brood over, brood about, brood on, brood silently, brood alone, brood constantly, brood endlessly, brood in silence, brood in one's room, brood over a problem, brood over a loss, brood over a mistake, brood over the past, brood hen, brood eggs, brood over [something], brood about [something], brood on [something]</small></td><td id="toc-116-browse"><b>116.</b> <a href="#116-browse">browse</a><br><small>browse the internet, browse a website, browse online, browse the web, browse a store, browse a catalog, browse a magazine, browse a book, browse through, browse around, browse casually, browse aimlessly, browse for information, browse for gifts, browse securely, browse through [something], browse for [something]</small></td></tr><tr><td id="toc-117-bruise"><b>117.</b> <a href="#117-bruise">bruise</a><br><small>bruise easily, bruise one's arm, bruise one's leg, bruise one's face, bruise one's ego, bruise one's pride, bruise feelings, bruised fruit, bruised skin, bruised tissue, badly bruised, deeply bruised, emotionally bruised, fresh bruise, dark bruise, bruise + on [body part], bruise + from [something]</small></td><td id="toc-118-brush"><b>118.</b> <a href="#118-brush">brush</a><br><small>brush one's teeth, brush one's hair, brush one's coat, brush the floor, brush away, brush off, brush aside, brush past, brush against, brush up on, brush with death, brush stroke, brush fire, brush away tears, brush off criticism, brush against [something/someone], brush off [something/someone], brush past [someone], brush over [something], brush with [something]</small></td></tr><tr><td id="toc-119-bubble"><b>119.</b> <a href="#119-bubble">bubble</a><br><small>bubble up, bubble over, bubble away, bubble with excitement, bubble with enthusiasm, bubble with joy, bubble with anger, bubble with ideas, bubble to the surface, bubble in the pot, soap bubble, air bubble, gas bubble, bubble bath, bubble gum, bubble with [emotion], bubble up from/through [something], bubble over with [something]</small></td><td id="toc-120-buck"><b>120.</b> <a href="#120-buck">buck</a><br><small>buck the trend, buck the system, buck authority, buck convention, buck tradition, buck the odds, buck expectations, buck the market, buck up, buck off, buck wildly, buck hard, try to buck, buck and kick, buck against, buck + against [something], buck + up [someone]</small></td></tr><tr><td id="toc-121-buckle"><b>121.</b> <a href="#121-buckle">buckle</a><br><small>buckle up, buckle a belt, buckle a strap, buckle a shoe, buckle one's seatbelt, buckle under pressure, buckle under stress, buckle under the weight, buckle under strain, buckle under the load, knees buckle, legs buckle, bridge buckle, pipe buckle, buckle down, buckle under [something], buckle down to [something]</small></td><td id="toc-122-bud"><b>122.</b> <a href="#122-bud">bud</a><br><small>bud in spring, bud early, bud late, begin to bud, start to bud, trees budding, flowers budding, buds appear, bud opening, newly budded, budding artist, budding romance, budding talent, budding relationship, budding entrepreneur, bud into [something]</small></td></tr><tr><td id="toc-123-budget"><b>123.</b> <a href="#123-budget">budget</a><br><small>budget money, budget time, budget resources, budget carefully, budget wisely, budget tightly, budget for a trip, budget for a project, budget for emergencies, budget one's income, budget one's expenses, annual budget, monthly budget, tight budget, budget deficit, budget for [something], budget + at [amount]</small></td><td id="toc-124-buffer"><b>124.</b> <a href="#124-buffer">buffer</a><br><small>buffer the impact, buffer the blow, buffer the effect, buffer against loss, buffer against shock, buffer zone, buffer solution, buffer capacity, buffer state, buffer stock, buffer data, buffer memory, buffer size, provide a buffer, act as a buffer, buffer + against [something], buffer + from [something]</small></td></tr><tr><td id="toc-125-buffet"><b>125.</b> <a href="#125-buffet">buffet</a><br><small>buffeted by the wind, buffeted by storms, buffeted by waves, buffeted by fate, buffeted by criticism, buffeted by misfortune, buffeted by the economy, buffeted by hardship, buffeted about, buffeted around, wind-buffeted, storm-buffeted, wave-buffeted, buffeted coast, buffeted region, buffet + by [something], buffet + against [something]</small></td><td id="toc-126-bug"><b>126.</b> <a href="#126-bug">bug</a><br><small>bug someone, bug me, bug the room, bug the phone, bug the office, bug the conversation, stop bugging me, really bug, kind of bug, bug detector, bugging device, plant a bug, sweep for bugs, spy bug, audio bug, bug + about [something]</small></td></tr><tr><td id="toc-127-build"><b>127.</b> <a href="#127-build">build</a><br><small>build a house, build a bridge, build a road, build a wall, build a career, build a relationship, build trust, build confidence, build a team, build a business, build an empire, build on success, build upon, build up, build from scratch, build on/upon [something], build + into [something], build + around [something], build + up [something], build + out of [material]</small></td><td id="toc-128-bully"><b>128.</b> <a href="#128-bully">bully</a><br><small>bully someone, bully a classmate, bully a coworker, bully the weak, bully into submission, bullied at school, bullied online, cyber bully, bully victim, anti-bullying, bullying behavior, bullied mercilessly, bully relentlessly, physical bullying, verbal bullying, bully + into [doing something]</small></td></tr><tr><td id="toc-129-bump"><b>129.</b> <a href="#129-bump">bump</a><br><small>bump one's head, bump one's elbow, bump into someone, bump into something, bump against, bump along, bump up, bump off, bump in the road, speed bump, bump start, bump gently, bump hard, bump into [someone/something], bump against [something], bump + up [something], bump + off [something], bump + along [something]</small></td><td id="toc-130-bunch"><b>130.</b> <a href="#130-bunch">bunch</a><br><small>bunch together, bunch up, bunch around, bunch of flowers, bunch of grapes, bunch of keys, bunch of bananas, bunch people together, bunch up the cloth, bunch in a corner, bunch tightly, bunch loosely, bunch nervously, bunch in groups, clothes bunch, bunch + together, bunch + around [something/someone]</small></td></tr><tr><td id="toc-131-bundle"><b>131.</b> <a href="#131-bundle">bundle</a><br><small>bundle up, bundle together, bundle off, bundle out, bundle into, bundle of clothes, bundle of sticks, bundle of cash, bundle of nerves, software bundle, product bundle, bundle of joy, bundle tightly, bundle carefully, bundle quickly, bundle + into [something], bundle + off to [somewhere], bundle + up in [something], bundle + with [something]</small></td><td id="toc-132-burden"><b>132.</b> <a href="#132-burden">burden</a><br><small>burden someone, burden with debt, burden with responsibility, burden with guilt, burden with worry, burden with taxes, burden with work, burden the economy, burden the system, burden the environment, heavily burdened, financially burdened, emotionally burdened, unfairly burdened, burden of proof, burden + with [something], burden + by [something]</small></td></tr><tr><td id="toc-133-burn"><b>133.</b> <a href="#133-burn">burn</a><br><small>burn down, burn up, burn out, burn off, burn calories, burn energy, burn fuel, burn fat, burn bridges, burn one's bridges, burn the midnight oil, burn with curiosity, burn with anger, burn with passion, burn to the ground, burn + down [something], burn + through [something], burn + with [emotion], burn + to [ash/death], burn + out of [something]</small></td><td id="toc-134-burst"><b>134.</b> <a href="#134-burst">burst</a><br><small>burst into tears, burst into laughter, burst into flames, burst out laughing, burst out crying, burst open, burst through, burst in, burst with pride, burst with joy, burst with excitement, burst a balloon, burst a pipe, burst a dam, burst at the seams, burst into [something], burst out of [something], burst through [something], burst with [emotion], burst in on [someone/something]</small></td></tr><tr><td id="toc-135-bury"><b>135.</b> <a href="#135-bury">bury</a><br><small>bury a body, bury the dead, bury treasure, bury bones, bury the hatchet, bury one's face, bury one's head, bury one's feelings, bury one's past, bury secrets, bury evidence, bury memories, bury differences, buried alive, buried deep, bury + in [something/place], bury + under [something], bury + beneath [something]</small></td><td id="toc-136-bust"><b>136.</b> <a href="#136-bust">bust</a><br><small>bust a window, bust a lock, bust a pipe, bust a balloon, bust open, bust up, bust out, bust into, drug bust, police bust, bust a criminal, bust a gang, bust a myth, bust a move, boom or bust, bust + out of [somewhere], bust + into [somewhere], bust + up [something/someone], bust + for [crime]</small></td></tr><tr><td id="toc-137-butcher"><b>137.</b> <a href="#137-butcher">butcher</a><br><small>butcher meat, butcher a cow, butcher a pig, butcher a chicken, butcher a speech, butcher a song, butcher a play, butcher a language, butcher the job, butcher the performance, butcher an innocent, butcher shop, butcher knife, butcher block, butcher paper, butcher + for [purpose/meat]</small></td><td id="toc-138-butt"><b>138.</b> <a href="#138-butt">butt</a><br><small>butt heads, butt in, butt out, butt against, goat butts, ram butts, bull butts, butt someone, butt into conversation, butt into someone's business, stop butting in, butt roughly, butt playfully, butt stubbornly, head butt, butt + into [something/someone], butt + against [something], butt + in on [something]</small></td></tr><tr><td id="toc-139-butter"><b>139.</b> <a href="#139-butter">butter</a><br><small>butter bread, butter toast, butter a pan, butter a dish, butter generously, butter lightly, butter both sides, butter up, butter someone up, butter up the boss, butter up the teacher, melted butter, browned butter, butter knife, butter dish, butter + with [something], butter + up [someone]</small></td><td id="toc-140-button"><b>140.</b> <a href="#140-button">button</a><br><small>button a shirt, button a coat, button up, button down, button one's lip, button it, button the collar, button the cuffs, button carefully, button incorrectly, button all the way, button tightly, button loosely, button front, button fly, button + up [something], button + into [something]</small></td></tr><tr><td id="toc-141-buy"><b>141.</b> <a href="#141-buy">buy</a><br><small>buy a house, buy a car, buy food, buy clothes, buy online, buy in bulk, buy on credit, buy on impulse, buy on sale, buy time, buy peace, buy freedom, buy off, buy out, buy into, buy + from [someone/somewhere], buy + for [price/amount], buy + with [payment method], buy + off [someone], buy + into [something], buy + out [someone], buy + up [something]</small></td><td id="toc-142-buzz"><b>142.</b> <a href="#142-buzz">buzz</a><br><small>buzz around, buzz with activity, buzz with excitement, buzz with rumors, buzz with energy, buzz with ideas, buzz in, buzz off, buzz about, bees buzz, phone buzzes, alarm buzzes, buzzer buzzes, buzz happily, buzz loudly, buzz + with [activity/emotion], buzz + around [place], buzz + about [something], buzz + in/into [place]</small></td></tr><tr><td id="toc-143-bypass"><b>143.</b> <a href="#143-bypass">bypass</a><br><small>bypass a city, bypass a town, bypass traffic, bypass an obstacle, bypass a problem, bypass security, bypass a rule, bypass a regulation, bypass a procedure, bypass a step, bypass authority, bypass the system, bypass surgery, heart bypass, bypass road, bypass + through [something], bypass + around [something]</small></td><td></td></tr></table>
 
 ### 1. back <a id="1-back"></a>
 
@@ -85,7 +85,7 @@ code, pre { font-size: 16px !important; }
 - 她决定在最后一刻退出协议。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-1-back)
 
 ---
 
@@ -148,7 +148,7 @@ code, pre { font-size: 16px !important; }
 - 科学家们对这种神秘信号的来源仍然感到困惑。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-2-baffle)
 
 ---
 
@@ -215,7 +215,7 @@ code, pre { font-size: 16px !important; }
 - 他最后一刻放了我们鸽子，我们只好取消了行程。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-3-bail)
 
 ---
 
@@ -278,7 +278,7 @@ code, pre { font-size: 16px !important; }
 - 骗子试图诱骗老人透露其银行账户信息。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-4-bait)
 
 ---
 
@@ -345,7 +345,7 @@ code, pre { font-size: 16px !important; }
 - 让黏土在窑中至少烘烤两小时。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-5-bake)
 
 ---
 
@@ -414,7 +414,7 @@ code, pre { font-size: 16px !important; }
 - 那位体操运动员以惊人的优雅姿态在平衡木上保持平衡。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-6-balance)
 
 ---
 
@@ -481,7 +481,7 @@ code, pre { font-size: 16px !important; }
 - 工人们将在即将到来的选举中投票选出新的代表。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-7-ballot)
 
 ---
 
@@ -550,7 +550,7 @@ code, pre { font-size: 16px !important; }
 - 政府禁止这种化学品在农业中使用。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-8-ban)
 
 ---
 
@@ -617,7 +617,7 @@ code, pre { font-size: 16px !important; }
 - 工人们联合组成工会以保护自己的权益。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-9-band)
 
 ---
 
@@ -680,7 +680,7 @@ code, pre { font-size: 16px !important; }
 - 他用一块干净的布把伤口包扎起来。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-10-bandage)
 
 ---
 
@@ -747,7 +747,7 @@ code, pre { font-size: 16px !important; }
 - 她没看路，撞到了路灯柱上。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-11-bang)
 
 ---
 
@@ -814,7 +814,7 @@ code, pre { font-size: 16px !important; }
 - 别指望一定能得到这份工作——竞争很激烈。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-12-bank)
 
 ---
 
@@ -877,7 +877,7 @@ code, pre { font-size: 16px !important; }
 - 这个家庭因巨额医疗费用而破产。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-13-bankrupt)
 
 ---
 
@@ -940,7 +940,7 @@ code, pre { font-size: 16px !important; }
 - 法院禁止他与受害者接触。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-14-bar)
 
 ---
 
@@ -1007,7 +1007,7 @@ code, pre { font-size: 16px !important; }
 - 这条鱼是在木炭上的露天烤架上烤的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-15-barbecue)
 
 ---
 
@@ -1070,7 +1070,7 @@ code, pre { font-size: 16px !important; }
 - 他终于向她表露了真实情感。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-16-bare)
 
 ---
 
@@ -1137,7 +1137,7 @@ code, pre { font-size: 16px !important; }
 - 恶劣的天气超出了我们的预料。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-17-bargain)
 
 ---
 
@@ -1204,7 +1204,7 @@ code, pre { font-size: 16px !important; }
 - 抗议者闯入了会议厅。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-18-barge)
 
 ---
 
@@ -1271,7 +1271,7 @@ code, pre { font-size: 16px !important; }
 - 他向助手厉声下达指示。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-19-bark)
 
 ---
 
@@ -1338,7 +1338,7 @@ code, pre { font-size: 16px !important; }
 - 这家公司总部位于上海。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-20-base)
 
 ---
 
@@ -1405,7 +1405,7 @@ code, pre { font-size: 16px !important; }
 - 他为当地棒球俱乐部击球。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-21-bat)
 
 ---
 
@@ -1472,7 +1472,7 @@ code, pre { font-size: 16px !important; }
 - 房间里沐浴着柔和的烛光。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-22-bathe)
 
 ---
 
@@ -1539,7 +1539,7 @@ code, pre { font-size: 16px !important; }
 - 绑匪逼迫他说出保险柜密码。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-23-batter)
 
 ---
 
@@ -1610,7 +1610,7 @@ code, pre { font-size: 16px !important; }
 - 这支队伍在决赛中争夺每一分。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-24-battle)
 
 ---
 
@@ -1687,7 +1687,7 @@ code, pre { font-size: 16px !important; }
 - 会议在周一下午举行。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-25-be)
 
 ---
 
@@ -1758,7 +1758,7 @@ code, pre { font-size: 16px !important; }
 - 该广播电台向全国听众发射信号。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-26-beam)
 
 ---
 
@@ -1835,7 +1835,7 @@ code, pre { font-size: 16px !important; }
 - 统计数据证实了多年来许多人的猜测。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-27-bear)
 
 ---
 
@@ -1910,7 +1910,7 @@ code, pre { font-size: 16px !important; }
 - 我想告诉她这个消息，但有人抢先了一步。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-28-beat)
 
 ---
 
@@ -1973,7 +1973,7 @@ code, pre { font-size: 16px !important; }
 - 社区志愿者用新油漆和新长椅美化了公园。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-29-beautify)
 
 ---
 
@@ -2040,7 +2040,7 @@ code, pre { font-size: 16px !important; }
 - 充满异域风情的海滩年复一年地吸引着游客前往该岛。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-30-beckon)
 
 ---
 
@@ -2103,7 +2103,7 @@ code, pre { font-size: 16px !important; }
 - 你以前一起旅行的老朋友后来怎么样了？
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-31-become)
 
 ---
 
@@ -2170,7 +2170,7 @@ code, pre { font-size: 16px !important; }
 - 管道被铺设在碎石层中。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-32-bed)
 
 ---
 
@@ -2239,7 +2239,7 @@ code, pre { font-size: 16px !important; }
 - 他恳求她再多待一会儿。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-33-beg)
 
 ---
 
@@ -2308,7 +2308,7 @@ code, pre { font-size: 16px !important; }
 - 她首先概述了该项目的主要目标。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-34-begin)
 
 ---
 
@@ -2375,7 +2375,7 @@ code, pre { font-size: 16px !important; }
 - 当他不如意时，表现得像个孩子。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-35-behave)
 
 ---
 
@@ -2440,7 +2440,7 @@ code, pre { font-size: 16px !important; }
 - 你相信有鬼吗？
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-36-believe)
 
 ---
 
@@ -2507,7 +2507,7 @@ code, pre { font-size: 16px !important; }
 - 那些盘子应该放在厨房的碗柜里。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-37-belong)
 
 ---
 
@@ -2580,7 +2580,7 @@ code, pre { font-size: 16px !important; }
 - 他把铁丝弯成了一个完美的圆形。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-38-bend)
 
 ---
 
@@ -2643,7 +2643,7 @@ code, pre { font-size: 16px !important; }
 - 学生们从奖学金项目中受益匪浅。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-39-benefit)
 
 ---
 
@@ -2706,7 +2706,7 @@ code, pre { font-size: 16px !important; }
 - 这次探险在每一个阶段都面临着重重挑战。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-40-beset)
 
 ---
 
@@ -2773,7 +2773,7 @@ code, pre { font-size: 16px !important; }
 - 整个上午求助热线电话不断。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-41-besiege)
 
 ---
 
@@ -2842,7 +2842,7 @@ code, pre { font-size: 16px !important; }
 - 与基本面如此强劲的公司对赌是有风险的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-42-bet)
 
 ---
 
@@ -2911,7 +2911,7 @@ code, pre { font-size: 16px !important; }
 - 她拒绝向任何人泄露藏身之处的位置。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-43-betray)
 
 ---
 
@@ -2974,7 +2974,7 @@ code, pre { font-size: 16px !important; }
 - 最新型号在速度和效率上都超过了前代产品。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-44-better)
 
 ---
 
@@ -3041,7 +3041,7 @@ code, pre { font-size: 16px !important; }
 - 注意不要在未仔细阅读的情况下签署任何合同。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-45-beware)
 
 ---
 
@@ -3104,7 +3104,7 @@ code, pre { font-size: 16px !important; }
 - 游客们被混乱的路牌弄得晕头转向。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-46-bewilder)
 
 ---
 
@@ -3169,7 +3169,7 @@ code, pre { font-size: 16px !important; }
 - 先前的经验可能会使一个人倾向于某种特定的解决方案。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-47-bias)
 
 ---
 ### 48. bid <a id="48-bid"></a>
@@ -3266,7 +3266,7 @@ code, pre { font-size: 16px !important; }
 - 投机者在公告前试图推高股价。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-48-bid)
 
 ---
 ### 49. bill <a id="49-bill"></a>
@@ -3359,7 +3359,7 @@ code, pre { font-size: 16px !important; }
 - 该服务按每小时20美元收费。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-49-bill)
 
 ---
 ### 50. bin <a id="50-bin"></a>
@@ -3448,7 +3448,7 @@ code, pre { font-size: 16px !important; }
 - 她在最后一刻取消了派对。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-50-bin)
 
 ---
 ### 51. bind <a id="51-bind"></a>
@@ -3549,7 +3549,7 @@ code, pre { font-size: 16px !important; }
 - 这本书用精美的摩洛哥皮革装订。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-51-bind)
 
 ---
 ### 52. bite <a id="52-bite"></a>
@@ -3650,7 +3650,7 @@ code, pre { font-size: 16px !important; }
 - 老鼠咬穿了塑料容器。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-52-bite)
 
 ---
 ### 53. blackmail <a id="53-blackmail"></a>
@@ -3745,7 +3745,7 @@ code, pre { font-size: 16px !important; }
 - 这起丑闻涉及利用其商业交易来敲诈CEO。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-53-blackmail)
 
 ---
 ### 54. blame <a id="54-blame"></a>
@@ -3836,7 +3836,7 @@ code, pre { font-size: 16px !important; }
 - 他把表现不佳归咎于睡眠不足。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-54-blame)
 
 ---
 ### 55. blank <a id="55-blank"></a>
@@ -3927,7 +3927,7 @@ code, pre { font-size: 16px !important; }
 - 面试时我完全想不起答案。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-55-blank)
 
 ---
 ### 56. blanket <a id="56-blanket"></a>
@@ -4018,7 +4018,7 @@ code, pre { font-size: 16px !important; }
 - 新政策贯彻到了所有部门。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-56-blanket)
 
 ---
 ### 57. blast <a id="57-blast"></a>
@@ -4113,7 +4113,7 @@ code, pre { font-size: 16px !important; }
 - 参议员抨击反对派阻挠法案通过。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-57-blast)
 
 ---
 ### 58. blaze <a id="58-blaze"></a>
@@ -4208,7 +4208,7 @@ code, pre { font-size: 16px !important; }
 - 受到侮辱后她的脸上显出狂怒。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-58-blaze)
 
 ---
 ### 59. bleach <a id="59-bleach"></a>
@@ -4303,7 +4303,7 @@ code, pre { font-size: 16px !important; }
 - 她把头发漂成了淡金色。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-59-bleach)
 
 ---
 ### 60. bleed <a id="60-bleed"></a>
@@ -4402,7 +4402,7 @@ code, pre { font-size: 16px !important; }
 - 机械师放掉了管道中的空气。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-60-bleed)
 
 ---
 ### 61. blend <a id="61-blend"></a>
@@ -4497,7 +4497,7 @@ code, pre { font-size: 16px !important; }
 - 将黄油和糖搅拌至顺滑。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-61-blend)
 
 ---
 ### 62. bless <a id="62-bless"></a>
@@ -4588,7 +4588,7 @@ code, pre { font-size: 16px !important; }
 - 这座新教堂由主教祝圣。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-62-bless)
 
 ---
 ### 63. blind <a id="63-blind"></a>
@@ -4683,7 +4683,7 @@ code, pre { font-size: 16px !important; }
 - 囚犯被化学喷雾喷瞎了眼睛。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-63-blind)
 
 ---
 ### 64. blink <a id="64-blink"></a>
@@ -4783,7 +4783,7 @@ code, pre { font-size: 16px !important; }
 - 烟熏得我不停眨眼。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-64-blink)
 
 ---
 ### 65. block <a id="65-block"></a>
@@ -4884,7 +4884,7 @@ code, pre { font-size: 16px !important; }
 - 下水道被树叶堵住了。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-65-block)
 
 ---
 ### 66. bloom <a id="66-bloom"></a>
@@ -4981,7 +4981,7 @@ code, pre { font-size: 16px !important; }
 - 六月的草地上开满了野花。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-66-bloom)
 
 ---
 ### 67. blossom <a id="67-blossom"></a>
@@ -5076,7 +5076,7 @@ code, pre { font-size: 16px !important; }
 - 她的自信源于早期的成功。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-67-blossom)
 
 ---
 ### 68. blow <a id="68-blow"></a>
@@ -5189,7 +5189,7 @@ code, pre { font-size: 16px !important; }
 - 沙漠里吹来了尘土。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-68-blow)
 
 ---
 ### 69. bluff <a id="69-bluff"></a>
@@ -5282,7 +5282,7 @@ code, pre { font-size: 16px !important; }
 - 他们夸大吹嘘竞争对手的兴趣。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-69-bluff)
 
 ---
 ### 70. blunder <a id="70-blunder"></a>
@@ -5377,7 +5377,7 @@ code, pre { font-size: 16px !important; }
 - 团队在测试另一个假设时意外找到了解决方案。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-70-blunder)
 
 ---
 ### 71. blunt <a id="71-blunt"></a>
@@ -5468,7 +5468,7 @@ code, pre { font-size: 16px !important; }
 - 刀片因频繁使用而变钝。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-71-blunt)
 
 ---
 ### 72. blur <a id="72-blur"></a>
@@ -5563,7 +5563,7 @@ code, pre { font-size: 16px !important; }
 - 这个标志因多年风吹日晒而模糊不清。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-72-blur)
 
 ---
 ### 73. blush <a id="73-blush"></a>
@@ -5658,7 +5658,7 @@ code, pre { font-size: 16px !important; }
 - 突如其来的关注使她的脸颊泛红。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-73-blush)
 
 ---
 ### 74. board <a id="74-board"></a>
@@ -5757,7 +5757,7 @@ code, pre { font-size: 16px !important; }
 - 骚乱后商店的窗户被木板封住了。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-74-board)
 
 ---
 ### 75. boast <a id="75-boast"></a>
@@ -5852,7 +5852,7 @@ code, pre { font-size: 16px !important; }
 - 他向朋友吹嘘自己赢了比赛。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-75-boast)
 
 ---
 ### 76. boil <a id="76-boil"></a>
@@ -5954,7 +5954,7 @@ code, pre { font-size: 16px !important; }
 - 将鸡肉放在水和香草的混合物中煮。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-76-boil)
 
 ---
 ### 77. bolster <a id="77-bolster"></a>
@@ -6045,7 +6045,7 @@ code, pre { font-size: 16px !important; }
 - 海堤被加固以抵御风暴潮。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-77-bolster)
 
 ---
 ### 78. bolt <a id="78-bolt"></a>
@@ -6145,7 +6145,7 @@ code, pre { font-size: 16px !important; }
 - 他五分钟内狼吞虎咽吃完了午饭。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-78-bolt)
 
 ---
 ### 79. bomb <a id="79-bomb"></a>
@@ -6244,7 +6244,7 @@ code, pre { font-size: 16px !important; }
 - 他以最高时速沿着海岸公路飞驰。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-79-bomb)
 
 ---
 ### 80. bond <a id="80-bond"></a>
@@ -6340,7 +6340,7 @@ code, pre { font-size: 16px !important; }
 - 这种胶水能牢固地粘在大多数表面上。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-80-bond)
 
 ---
 
@@ -6443,7 +6443,7 @@ code, pre { font-size: 16px !important; }
 - 票是通过一家在线旅行社预订的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-81-book)
 
 ---
 ### 82. boom <a id="82-boom"></a>
@@ -6545,7 +6545,7 @@ code, pre { font-size: 16px !important; }
 - 沿海地区的旅游业蓬勃发展。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-82-boom)
 
 ---
 ### 83. boost <a id="83-boost"></a>
@@ -6642,7 +6642,7 @@ code, pre { font-size: 16px !important; }
 - 补贴将公司利润推到了历史新高。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-83-boost)
 
 ---
 ### 84. border <a id="84-border"></a>
@@ -6734,7 +6734,7 @@ code, pre { font-size: 16px !important; }
 - 该国沿莱茵河与法国接壤。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-84-border)
 
 ---
 ### 85. bore <a id="85-bore"></a>
@@ -6834,7 +6834,7 @@ code, pre { font-size: 16px !important; }
 - 讲座让学生们无聊得睡着了。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-85-bore)
 
 ---
 ### 86. borrow <a id="86-borrow"></a>
@@ -6930,7 +6930,7 @@ code, pre { font-size: 16px !important; }
 - 他们借钱支付房子的首付。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-86-borrow)
 
 ---
 ### 87. boss <a id="87-boss"></a>
@@ -7021,7 +7021,7 @@ code, pre { font-size: 16px !important; }
 - 他在操场上指挥孩子们。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-87-boss)
 
 ---
 ### 88. bother <a id="88-bother"></a>
@@ -7116,7 +7116,7 @@ code, pre { font-size: 16px !important; }
 - 他懒得打电话通知我们。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-88-bother)
 
 ---
 ### 89. bottle <a id="89-bottle"></a>
@@ -7211,7 +7211,7 @@ code, pre { font-size: 16px !important; }
 - 葡萄酒在出售前至少装瓶六个月。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-89-bottle)
 
 ---
 ### 90. bounce <a id="90-bounce"></a>
@@ -7311,7 +7311,7 @@ code, pre { font-size: 16px !important; }
 - 他笑容满面地跳进了会议室。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-90-bounce)
 
 ---
 ### 91. bound <a id="91-bound"></a>
@@ -7411,7 +7411,7 @@ code, pre { font-size: 16px !important; }
 - 听到这个消息，他的心因喜悦而雀跃。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-91-bound)
 
 ---
 ### 92. bow <a id="92-bow"></a>
@@ -7512,7 +7512,7 @@ code, pre { font-size: 16px !important; }
 - 旧桥在重载下弯曲了。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-92-bow)
 
 ---
 ### 93. bowl <a id="93-bowl"></a>
@@ -7612,7 +7612,7 @@ code, pre { font-size: 16px !important; }
 - 他每周末在当地联赛中打保龄球。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-93-bowl)
 
 ---
 ### 94. box <a id="94-box"></a>
@@ -7712,7 +7712,7 @@ code, pre { font-size: 16px !important; }
 - 把书装箱放到阁楼里去。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-94-box)
 
 ---
 ### 95. boycott <a id="95-boycott"></a>
@@ -7807,7 +7807,7 @@ code, pre { font-size: 16px !important; }
 - 他们抵制该公司产品以抗议其环境记录。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-95-boycott)
 
 ---
 
@@ -7911,7 +7911,7 @@ code, pre { font-size: 16px !important; }
 - 他用背顶住门不让它打开。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-96-brace)
 
 ---
 
@@ -8009,7 +8009,7 @@ code, pre { font-size: 16px !important; }
 - 尽管有艺术价值，这部电影仍被归类为商业失败之作。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-97-bracket)
 
 ---
 
@@ -8110,7 +8110,7 @@ code, pre { font-size: 16px !important; }
 - 她向同事吹嘘自己的海外旅行。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-98-brag)
 
 ---
 
@@ -8208,7 +8208,7 @@ code, pre { font-size: 16px !important; }
 - 他在红绿灯前平稳地将车刹停。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-99-brake)
 
 ---
 
@@ -8304,7 +8304,7 @@ code, pre { font-size: 16px !important; }
 - 这家初创公司在硬件领域取得初步成功后，拓展进入了软件开发领域。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-100-branch)
 
 ---
 
@@ -8403,7 +8403,7 @@ code, pre { font-size: 16px !important; }
 - 每件设备上都印有公司的标志。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-101-brand)
 
 ---
 
@@ -8502,7 +8502,7 @@ code, pre { font-size: 16px !important; }
 - 检查中发现管道存在严重裂缝。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-102-breach)
 
 ---
 
@@ -8617,7 +8617,7 @@ code, pre { font-size: 16px !important; }
 - 她中断谈话去接电话。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-103-break)
 
 ---
 
@@ -8720,7 +8720,7 @@ code, pre { font-size: 16px !important; }
 - 吸入蒸汽以疏通鼻腔。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-104-breathe)
 
 ---
 
@@ -8818,7 +8818,7 @@ code, pre { font-size: 16px !important; }
 - 这些马是为了速度和耐力而培育的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-105-breed)
 
 ---
 
@@ -8915,7 +8915,7 @@ code, pre { font-size: 16px !important; }
 - 这种麦芽酒是根据世代相传的传统配方酿造的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-106-brew)
 
 ---
 
@@ -9014,7 +9014,7 @@ code, pre { font-size: 16px !important; }
 - 他们用一瓶昂贵的威士忌贿赂了保安。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-107-bribe)
 
 ---
 
@@ -9108,7 +9108,7 @@ code, pre { font-size: 16px !important; }
 - 她用耐心和尊重弥合了文化差异。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-108-bridge)
 
 ---
 
@@ -9207,7 +9207,7 @@ code, pre { font-size: 16px !important; }
 - 飞行员在起飞前获知了天气情况。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-109-brief)
 
 ---
 
@@ -9305,7 +9305,7 @@ code, pre { font-size: 16px !important; }
 - 一层新油漆让老房子焕然一新。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-110-brighten)
 
 ---
 
@@ -9422,7 +9422,7 @@ code, pre { font-size: 16px !important; }
 - 该公司推出了软件的新版本。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-111-bring)
 
 ---
 
@@ -9521,7 +9521,7 @@ code, pre { font-size: 16px !important; }
 - 比赛将在电视和互联网上同步播出。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-112-broadcast)
 
 ---
 
@@ -9620,7 +9620,7 @@ code, pre { font-size: 16px !important; }
 - 该课程从本地工作坊扩展成了全国性的培训项目。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-113-broaden)
 
 ---
 
@@ -9719,7 +9719,7 @@ code, pre { font-size: 16px !important; }
 - 他们与邻国达成了资源共享协议。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-114-broker)
 
 ---
 
@@ -9822,7 +9822,7 @@ code, pre { font-size: 16px !important; }
 - 老人沉思着年轻时的错误。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-115-brood)
 
 ---
 
@@ -9921,7 +9921,7 @@ code, pre { font-size: 16px !important; }
 - 她在几家精品店浏览选购婚纱。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-116-browse)
 
 ---
 
@@ -10020,7 +10020,7 @@ code, pre { font-size: 16px !important; }
 - 桃子因包装太紧而被压伤。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-117-bruise)
 
 ---
 
@@ -10131,7 +10131,7 @@ code, pre { font-size: 16px !important; }
 - 她用抹布把桌上的面包屑扫掉。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-118-brush)
 
 ---
 
@@ -10234,7 +10234,7 @@ code, pre { font-size: 16px !important; }
 - 演唱会开始前，人群充满了期待，情绪高涨。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-119-bubble)
 
 ---
 
@@ -10333,7 +10333,7 @@ code, pre { font-size: 16px !important; }
 - 振作起来！情况很快就会好转的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-120-buck)
 
 ---
 
@@ -10432,7 +10432,7 @@ code, pre { font-size: 16px !important; }
 - 是时候认真工作完成项目了。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-121-buckle)
 
 ---
 
@@ -10527,7 +10527,7 @@ code, pre { font-size: 16px !important; }
 - 这家小初创公司在五年内发展成了一家成功的公司。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-122-bud)
 
 ---
 
@@ -10626,7 +10626,7 @@ code, pre { font-size: 16px !important; }
 - 该项目的预算约为200万美元。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-123-budget)
 
 ---
 
@@ -10725,7 +10725,7 @@ code, pre { font-size: 16px !important; }
 - 隔音材料使房间免受外界噪音干扰。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-124-buffer)
 
 ---
 
@@ -10824,7 +10824,7 @@ code, pre { font-size: 16px !important; }
 - 海浪拍打着岩石海岸。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-125-buffet)
 
 ---
 
@@ -10918,7 +10918,7 @@ code, pre { font-size: 16px !important; }
 - 这种情况让我烦恼的是缺乏沟通。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-126-bug)
 
 ---
 
@@ -11029,7 +11029,7 @@ code, pre { font-size: 16px !important; }
 - 这个遮蔽所是用回收材料建造的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-127-build)
 
 ---
 
@@ -11124,7 +11124,7 @@ code, pre { font-size: 16px !important; }
 - 他们逼他签署了那份不公平的合同。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-128-bully)
 
 ---
 
@@ -11227,7 +11227,7 @@ code, pre { font-size: 16px !important; }
 - 他们决定将价格提高10%。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-129-bump)
 
 ---
 
@@ -11326,7 +11326,7 @@ code, pre { font-size: 16px !important; }
 - 人们围聚在街头艺人周围。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-130-bunch)
 
 ---
 
@@ -11433,7 +11433,7 @@ code, pre { font-size: 16px !important; }
 - 这款智能手机附赠一副免费耳机。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-131-bundle)
 
 ---
 
@@ -11532,7 +11532,7 @@ code, pre { font-size: 16px !important; }
 - 医疗保健系统因人口老龄化而负担沉重。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-132-burden)
 
 ---
 
@@ -11641,7 +11641,7 @@ code, pre { font-size: 16px !important; }
 - 蜡烛完全烧尽了。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-133-burn)
 
 ---
 
@@ -11752,7 +11752,7 @@ code, pre { font-size: 16px !important; }
 - 他连门都没敲就闯进了会议室。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-134-burst)
 
 ---
 
@@ -11855,7 +11855,7 @@ code, pre { font-size: 16px !important; }
 - 遗骸被埋在小教堂的地板之下。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-135-bury)
 
 ---
 
@@ -11962,7 +11962,7 @@ code, pre { font-size: 16px !important; }
 - 他因持有非法毒品而被捕。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-136-bust)
 
 ---
 
@@ -12057,7 +12057,7 @@ code, pre { font-size: 16px !important; }
 - 这些牛被宰杀以获取肉和皮。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-137-butcher)
 
 ---
 
@@ -12158,7 +12158,7 @@ code, pre { font-size: 16px !important; }
 - 他打断了他们的私人谈话。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-138-butt)
 
 ---
 
@@ -12256,7 +12256,7 @@ code, pre { font-size: 16px !important; }
 - 别再试图用恭维来讨好我了。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-139-butter)
 
 ---
 
@@ -12354,7 +12354,7 @@ code, pre { font-size: 16px !important; }
 - 她把自己穿进了一条时髦的裙子并扣好。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-140-button)
 
 ---
 
@@ -12474,7 +12474,7 @@ code, pre { font-size: 16px !important; }
 - 投机者买光了所有可用的土地。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-141-buy)
 
 ---
 
@@ -12581,7 +12581,7 @@ code, pre { font-size: 16px !important; }
 - 她用蜂鸣器给我开了门让我进去。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-142-buzz)
 
 ---
 
@@ -12680,7 +12680,7 @@ code, pre { font-size: 16px !important; }
 - 卡车司机绕过了被淹的区域。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-143-bypass)
 
 ---
 

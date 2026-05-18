@@ -19,80 +19,80 @@ code, pre { font-size: 16px !important; }
 ## 📖 Table of Contents
 
 <table>
-<tr><td><b>1.</b> <a href="#1-abandon">abandon</a><br><small>abandon hope, abandon ship, abandon a plan/project, abandon one's post, completely abandon, abandon one's family, abandon a search, abandon oneself to despair, abandon sth to sb, abandon sb to sth, abandon sth for sth, abandon hope of, abandon in favor of</small></td><td><b>2.</b> <a href="#2-abide">abide</a><br><small>can't abide sb/sth, abide the consequences, abide by the rules, abide by the law, abide by a decision, abide by the contract, abide by the terms, strictly abide by, abide by the agreement, abide by the court's ruling</small></td></tr>
-<tr><td><b>3.</b> <a href="#3-abolish">abolish</a><br><small>abolish slavery, abolish the death penalty, abolish a law, abolish a system, abolish tariffs, abolish discrimination, abolish a policy, completely abolish, abolish the monarchy, abolish restrictions, abolish sth by law, abolish sth through legislation, abolish sth in favor of, abolish across the board</small></td><td><b>4.</b> <a href="#4-abort">abort</a><br><small>abort a mission, abort a pregnancy, abort a program/process, abort a takeoff, abort a plan, abort a launch, abort a flight, abort an operation, automatically abort, abort an experiment, abort due to, abort in progress, abort at launch, abort for safety reasons</small></td></tr>
-<tr><td><b>5.</b> <a href="#5-absorb">absorb</a><br><small>absorb knowledge/information, absorb heat/light/moisture, absorb the impact/shock, absorb costs/losses, absorb nutrients, absorb a lesson, absorb water, be absorbed in thought, be absorbed into, absorb sth into sth, absorb sth from sth, absorb through sth, absorb in sth</small></td><td><b>6.</b> <a href="#6-abstract">abstract</a><br><small>abstract a concept, abstract the main points, abstract information, abstract principles, abstract relevant features, abstract data from, abstract from reality, abstract metal from ore, be abstracted from context, abstract sth from sth, abstract away from, abstract into categories, abstract beyond</small></td></tr>
-<tr><td><b>7.</b> <a href="#7-abuse">abuse</a><br><small>abuse power/authority, abuse alcohol/drugs, child abuse, verbally/physically abuse, abuse one's position, abuse the system, abuse a privilege, systematically abuse, substance abuse, abuse a trust, abuse of power, abuse of trust, abuse of authority, abuse through neglect</small></td><td><b>8.</b> <a href="#8-accelerate">accelerate</a><br><small>accelerate growth, accelerate development, accelerate change, accelerate a process, accelerate innovation, accelerate progress, significantly accelerate, accelerate reform, accelerate production, accelerate the pace of, accelerate toward sth, accelerate at a rate, accelerate beyond, accelerate from zero to, accelerate into</small></td></tr>
-<tr><td><b>9.</b> <a href="#9-accept">accept</a><br><small>accept an invitation, accept responsibility, accept the fact that, accept an offer, accept a challenge, accept the consequences, accept criticism, willingly accept, accept a proposal, accept terms and conditions, accept sth from sb, accept sb into sth, accept as true, accept in principle, accept with pleasure</small></td><td><b>10.</b> <a href="#10-acclaim">acclaim</a><br><small>critical acclaim, universal acclaim, public acclaim, international acclaim, widespread acclaim, receive acclaim, earn acclaim, be acclaimed as, win acclaim for, be acclaimed by, acclaim sb/sth as sth, acclaim for achievement, acclaim by critics, acclaim throughout the world</small></td></tr>
-<tr><td><b>11.</b> <a href="#11-accommodate">accommodate</a><br><small>accommodate guests, accommodate someone's needs, accommodate changes, accommodate a request, accommodate differences, accommodate a growing population, accommodate a schedule, comfortably accommodate, accommodate diversity, accommodate sb with, accommodate sb with sth, accommodate to sth, accommodate in sth, accommodate for differences, accommodate by doing</small></td><td><b>12.</b> <a href="#12-accompany">accompany</a><br><small>accompany a letter, accompany the text, accompany a singer, always accompany, accompany the development, accompany sb to, be accompanied by, accompany on the piano, accompany a meal with wine, accompany a speech with gestures, accompany sb to sth, accompany sb on sth, accompany by sth, accompany with sth, accompany through sth</small></td></tr>
-<tr><td><b>13.</b> <a href="#13-accomplish">accomplish</a><br><small>accomplish a goal, accomplish a task, accomplish a mission, accomplish one's objective, accomplish great things, accomplish a purpose, accomplish a feat, successfully accomplish, accomplish nothing, accomplish more</small></td><td><b>14.</b> <a href="#14-accord">accord</a><br><small>accord sb permission, be accorded respect, accord sb a right, accord recognition, accord with, in accordance with, of one's own accord, accord status to, fully accord with, accord importance to, accord with sth, accord sth to sb, accord sb sth, accord in meaning, accord by tradition</small></td></tr>
-<tr><td><b>15.</b> <a href="#15-account">account</a><br><small>account oneself happy/fortunate, account sth a success, account for, account for (percentage), be accounted as, account for the difference, account for the delay, account for roughly/approximately, account in full, be accounted for, account for sth, account to sb, account as sth, account with a bank</small></td><td><b>16.</b> <a href="#16-accumulate">accumulate</a><br><small>accumulate wealth/fortunes, accumulate knowledge, accumulate evidence, accumulate debt, accumulate experience, accumulate data, accumulate points, rapidly accumulate, accumulate capital, accumulate over time, accumulate in sth, accumulate through experience, accumulate from sources, accumulate within a system</small></td></tr>
-<tr><td><b>17.</b> <a href="#17-accuse">accuse</a><br><small>falsely accuse, publicly accuse, wrongly accuse, accuse each other, accuse sb of lying, accuse sb of theft, accuse sb of negligence, accuse sb of murder, accuse sb of fraud, accuse sb of corruption, accuse sb of sth, accuse sb before the court, accuse in public</small></td><td><b>18.</b> <a href="#18-accustom">accustom</a><br><small>quickly become accustomed, be accustomed to sth, become accustomed to doing, accustom oneself to, get accustomed to, grow accustomed to, be accustomed to the idea, become accustomed to the climate, accustom sb to, well accustomed to, accustom sb to sth, be accustomed to sth, become accustomed to, accustom by practice</small></td></tr>
-<tr><td><b>19.</b> <a href="#19-ache">ache</a><br><small>make sb's heart ache, muscles ache, ache badly, feet ache, still ache, ache all over, ache for sb/sth, ache with fatigue, ache with pain, ache to do sth, ache with pain/fatigue, ache from exercise, ache in one's muscles</small></td><td><b>20.</b> <a href="#20-achieve">achieve</a><br><small>achieve success, achieve a goal, achieve one's dreams, achieve results, achieve balance, achieve an objective, achieve a breakthrough, achieve excellence, achieve one's potential, achieve a high score, achieve through hard work, achieve in spite of, achieve by means of, achieve with ease</small></td></tr>
-<tr><td><b>21.</b> <a href="#21-acknowledge">acknowledge</a><br><small>acknowledge a problem, acknowledge one's mistake, acknowledge contributions, acknowledge the need, acknowledge defeat, openly acknowledge, acknowledge a fact, acknowledge the importance, acknowledge receipt of, widely acknowledged as, acknowledge sb as sth, acknowledge sb for sth, acknowledge by the public, acknowledge with gratitude, acknowledge in a speech</small></td><td><b>22.</b> <a href="#22-acquaint">acquaint</a><br><small>get acquainted, thoroughly acquaint, be well acquainted, become personally acquainted, first acquaint, be acquainted with, become acquainted with, acquaint oneself with, acquaint sb with the facts, acquaint the reader with, acquaint sb with sth, be acquainted with sb/sth, become acquainted with, acquaint through mutual friends</small></td></tr>
-<tr><td><b>23.</b> <a href="#23-acquire">acquire</a><br><small>acquire knowledge, acquire a skill, acquire a language, acquire a company, acquire a reputation, acquire wealth, acquire property, gradually acquire, acquire experience, acquire a taste for, acquire sth from sb, acquire through purchase, acquire by inheritance, acquire over time, acquire in bulk</small></td><td><b>24.</b> <a href="#24-act">act</a><br><small>act immediately, act accordingly, act responsibly, act on/upon, act as, act like, act out, act up, act in accordance with, act as a catalyst, act on/upon sth, act as sth, act for sb, act against one's will, act with caution</small></td></tr>
-<tr><td><b>25.</b> <a href="#25-activate">activate</a><br><small>activate an account, activate a device, activate a mechanism, activate a response, activate the alarm, activate a system, activate a feature, activate a switch, automatically activate, activate an option, activate by sth, activate through a process, activate in response to, activate at a temperature, activate with a button</small></td><td><b>26.</b> <a href="#26-adapt">adapt</a><br><small>adapt a method, adapt accordingly, quickly adapt, adapt a strategy, adapt to change, adapt oneself to, adapt for the screen, adapt to the environment, adapt to circumstances, adapt to new conditions, adapt to sth, adapt for sth, adapt from sth, adapt sth to sth, adapt according to</small></td></tr>
-<tr><td><b>27.</b> <a href="#27-add">add</a><br><small>add value, add together, add to, add up, add fuel to the fire, add insult to injury, add A to B, add weight to, add to the confusion, add in, add to sth, add sth to sth, add in sth, add onto sth, add up to</small></td><td><b>28.</b> <a href="#28-addict">addict</a><br><small>a drug addict, addiction treatment, add together, get addicted, a gambling addict, treat addiction, be addicted to drugs/alcohol, be addicted to gaming, become addicted to, add A to B, add weight to, add to the confusion, add in, be addicted to gambling, be addicted to social media, be addicted to sth, become addicted to, addict oneself to, addicted from a young age</small></td></tr>
-<tr><td><b>29.</b> <a href="#29-address">address</a><br><small>address a problem/issue, address a meeting/crowd, address concerns, address the root cause, address a question, directly address, address a topic, address a letter to, address sb as, address the needs of, address sth to sb, address sb as sth, address a letter to, address in public, address by name</small></td><td><b>30.</b> <a href="#30-adhere">adhere</a><br><small>firmly adhere, adhere to the rules, adhere to a principle, adhere to a schedule, adhere to guidelines, adhere to a surface, strictly adhere to, adhere to a standard, adhere to a policy, adhere to the terms, adhere to sth, adhere strictly to, adhere closely to, adhere with glue</small></td></tr>
-<tr><td><b>31.</b> <a href="#31-adjust">adjust</a><br><small>adjust accordingly, finely adjust, adjust the settings, adjust one's attitude, adjust a plan, adjust the price, easily adjust, adjust a schedule, adjust to, adjust to new circumstances, adjust to sth, adjust for sth, adjust according to, adjust in response to, adjust by doing</small></td><td><b>32.</b> <a href="#32-administer">administer</a><br><small>administer a test/exam, administer medicine/drugs, administer justice, administer a program, administer first aid, administer a company, administer the law, administer a fund, administer treatment, administer an oath, administer to sb, administer sth to sb, administer as a treatment, administer by injection, administer under supervision</small></td></tr>
-<tr><td><b>33.</b> <a href="#33-administrate">administrate</a><br><small>administrate a department, administrate a database, administrate the system, administrate funds, administrate operations, administrate a project, administrate a network, administrate resources, administrate a program, administrate effectively, administrate for an organization, administrate across departments, administrate through a system, administrate with efficiency</small></td><td><b>34.</b> <a href="#34-admire">admire</a><br><small>admire the view, greatly/deeply admire, admire one's work, admire the courage, admire the beauty, truly admire, admire a performance, publicly admire, admire someone for something, admire from afar, admire sb for sth, admire from a distance, admire as a role model, admire for one's courage</small></td></tr>
-<tr><td><b>35.</b> <a href="#35-admit">admit</a><br><small>admit defeat, admit a mistake, admit guilt, admit liability, admit wrongdoing, openly admit, admit a patient, admit someone to the hospital, admit into a school, admit to a crime, admit to sth, admit sb to/into sth, admit as a member, admit with regret, admit into evidence</small></td><td><b>36.</b> <a href="#36-adopt">adopt</a><br><small>adopt a child, adopt a policy/strategy, adopt a new approach, adopt a resolution, adopt technology, adopt a method, adopt measures, adopt an attitude, widely adopt, adopt a practice, adopt sth as sth, adopt by consensus, adopt into a family, adopt from a shelter, adopt across the industry</small></td></tr>
-<tr><td><b>37.</b> <a href="#37-adore">adore</a><br><small>absolutely adore, adore someone/something, adore doing something, adore the way..., adore children, truly adore, adore animals, simply adore, adored by fans, be adored for, adore by fans, adore for one's talent, adore from childhood, adore above all</small></td><td><b>38.</b> <a href="#38-advance">advance</a><br><small>advance a career, advance a proposal, advance one's knowledge, advance an argument, advance a theory, advance rapidly, advance one's interests, advance in technology, in advance, advance the cause of, advance in sth, advance on/toward sth, advance to the next stage, advance beyond expectations, advance through the ranks</small></td></tr>
-<tr><td><b>39.</b> <a href="#39-advertise">advertise</a><br><small>advertise a product/service, advertise online, heavily advertise, advertise a job, advertise widely, advertise an event, advertise for staff, advertise on TV, advertise through media, advertise in newspapers, advertise for sb, advertise sth as sth, advertise to sb, advertise on TV/in newspapers</small></td><td><b>40.</b> <a href="#40-advise">advise</a><br><small>strongly advise, advise caution, advise the government, advise clients, legally advise, advise accordingly, advise someone to do something, advise against, advise on/about, advise a course of action, advise sb of sth, advise sb on/about sth, advise against sth, advise in favor of, advise with caution</small></td></tr>
-<tr><td><b>41.</b> <a href="#41-advocate">advocate</a><br><small>advocate change/reform, strongly advocate, advocate doing something, advocate a policy, openly advocate, actively advocate, advocate for, advocate on behalf of, advocate the use of, advocate for the rights of, advocate for sth, advocate as a solution, advocate in public, advocate with conviction</small></td><td><b>42.</b> <a href="#42-affect">affect</a><br><small>affect the outcome, affect people's lives, adversely/negatively affect, directly affect, affect one's health, affect the decision, affect performance, significantly affect, affect behavior, affect the quality of, affect in a way, affect by sth, affect across the board, affect to varying degrees, affect through indirect means</small></td></tr>
-<tr><td><b>43.</b> <a href="#43-affiliate">affiliate</a><br><small>affiliate a department, affiliate members, affiliate an organization, be directly affiliated, affiliate a school, closely affiliated, affiliate a program, be affiliated with, affiliate oneself with, affiliate to/with a network, be affiliated with/to sth, affiliate oneself with, affiliate as a member, affiliate under an organization</small></td><td><b>44.</b> <a href="#44-affirm">affirm</a><br><small>affirm one's commitment, affirm a decision, affirm the importance, affirm that..., affirm one's faith, affirm one's identity, affirm a ruling, publicly affirm, affirm the value, affirm the need, affirm before the court, affirm by vote, affirm in a statement, affirm with confidence</small></td></tr>
-<tr><td><b>45.</b> <a href="#45-affix">affix</a><br><small>affix a stamp, affix a signature, affix a label, affix a seal, affix a sticker, affix a photo, securely affix, affix a value, affix one's name, affix to the wall, affix sth to sth, affix with glue/tape, affix onto a surface, affix by means of</small></td><td><b>46.</b> <a href="#46-afford">afford</a><br><small>can/cannot afford, afford the cost, well afford, afford an opportunity, afford the time, afford the expense, barely afford, afford protection, afford a glimpse, afford to do something, afford to sb, afford by the government, afford through scholarships, afford at a reasonable price, afford in cash</small></td></tr>
-<tr><td><b>47.</b> <a href="#47-age">age</a><br><small>age well/badly, age gracefully, aged cheese/wine, age rapidly, age prematurely, age a population, age naturally, age-related, show signs of aging, be aged in barrels, age into sth, age with grace, age in barrels, age over time, age beyond recognition</small></td><td><b>48.</b> <a href="#48-aggravate">aggravate</a><br><small>aggravate a problem, aggravate an injury, aggravate the situation, aggravate symptoms, aggravate tensions, aggravate a crisis, greatly aggravate, aggravate a condition, aggravate inequality, be aggravated by, aggravate by stress, aggravate through neglect, aggravate beyond repair, aggravate over time</small></td></tr>
-<tr><td><b>49.</b> <a href="#49-aggregate">aggregate</a><br><small>aggregate data, aggregate results, aggregate information, aggregate demand/supply, aggregate scores, aggregate statistics, aggregate content, aggregate sources, aggregate findings, aggregate across, aggregate into sth, aggregate across groups, aggregate by category, aggregate from multiple sources, aggregate over time</small></td><td><b>50.</b> <a href="#50-agitate">agitate</a><br><small>become agitated, agitate a solution, agitate the public, agitate a liquid, easily agitated, agitate the masses, agitate vigorously, agitate for change, agitate against something, agitate for reform, agitate for/against sth, agitate about sth, agitate among the masses, agitate through social media, agitate into action</small></td></tr>
-<tr><td><b>51.</b> <a href="#51-agree">agree</a><br><small>fully/strongly agree, agree that, agree to do sth, mutually agree, agree to differ/disagree, agree with sb, agree to sth, agree on/upon sth, agree about sth, agree in principle</small></td><td><b>52.</b> <a href="#52-aid">aid</a><br><small>aid recovery, aid a process, aid someone in need, aid the development of, aid and abet, financial aid, greatly aid, aid in (doing) sth, aid with sth, aid sb in sth, aid in sth, aid through sth</small></td></tr>
-<tr><td><b>53.</b> <a href="#53-ail">ail</a><br><small>what ails sb/sth, ailing economy/industry, ailing health, ailing patient, continue to ail, ailing company, ailing relationship, what ails the system, ail from sth, be ailing with sth, ail with sth</small></td><td><b>54.</b> <a href="#54-aim">aim</a><br><small>aim to do sth, aim high, aim a weapon, aim carefully, aim at sth, aim for sth, be aimed at doing sth, aim at achieving, aim for perfection</small></td></tr>
-<tr><td><b>55.</b> <a href="#55-air">air</a><br><small>air a program/show, air one's views/grievances, air a room, air laundry, air a complaint, air publicly, be aired live, air on TV, air out, air sth in public, air on a network</small></td><td><b>56.</b> <a href="#56-alarm">alarm</a><br><small>alarm sb, alarm the public, alarm bells ring, alarm system, sound the alarm, raise the alarm, false alarm, alarmed expression, be alarmed at sth, be alarmed by sth, be alarmed about sth</small></td></tr>
-<tr><td><b>57.</b> <a href="#57-alert">alert</a><br><small>alert the authorities, alert the public, alert emergency services, be on the alert, alert system, automatically alert, alert sb to sth, alert sb about sth, alert in advance, alert via email/text, alert sb of sth</small></td><td><b>58.</b> <a href="#58-alienate">alienate</a><br><small>feel alienated, alienate friends/family, alienate voters/supporters, socially alienated, alienate the public, alienate potential customers, become alienated, mutually alienated, alienate sb from sth, alienate sb from sb, be alienated from, alienate by sth</small></td></tr>
-<tr><td><b>59.</b> <a href="#59-align">align</a><br><small>align text/objects, align goals/strategies, align interests, align values, align perfectly, align properly, remain aligned, align with sth, align oneself with sb/sth, align sth with sth, align against sb/sth, align sth to sth</small></td><td><b>60.</b> <a href="#60-allege">allege</a><br><small>allege that, be alleged to, allege wrongdoing, allege fraud, allegedly, allege misconduct, allege conspiracy, falsely allege, it is alleged that, (allege typically uses that-clauses and object complements rather than prepositional patterns), allege sth against sb, allege sth about sb/sth</small></td></tr>
-<tr><td><b>61.</b> <a href="#61-alleviate">alleviate</a><br><small>alleviate poverty, alleviate pain / suffering, alleviate symptoms, alleviate concerns / fears, alleviate the burden, alleviate stress, alleviate the problem, alleviate congestion, greatly alleviate, alleviate sb of sth, alleviate by doing sth, alleviate through sth</small></td><td><b>62.</b> <a href="#62-allocate">allocate</a><br><small>allocate resources / funds / budget, allocate tasks / duties / responsibilities, allocate shares, allocate memory, allocate space, allocate efficiently, allocate according to need, allocate proportionally, allocate sth to sb, allocate time for sth, allocate for sth, allocate among/between, allocate to sth</small></td></tr>
-<tr><td><b>63.</b> <a href="#63-allot">allot</a><br><small>allot time / money / space, allot a portion / share, allot seats / tickets, allot a budget, allot resources, allot equally, allot by lottery, allot a quota, allot sth to sb, be allotted to sb, allot for sth, allot to sth</small></td><td><b>64.</b> <a href="#64-allow">allow</a><br><small>allow sb to do sth, allow sth (e.g., allow access, allow entry), allow that (concede), not allow / be not allowed, allow access, legally allowed, allow for sth, allow time for, allow room for, allow sb into sth, allow of sth</small></td></tr>
-<tr><td><b>65.</b> <a href="#65-alloy">alloy</a><br><small>alloyed steel / metal, alloy of (two metals), lightweight alloy, alloy composition, alloy wheel, high-strength alloy, alloying element, alloy production, alloy with sth, be alloyed with, alloy sth with sth</small></td><td><b>66.</b> <a href="#66-allude">allude</a><br><small>allude in passing, frequently alluded to, never allude to, allude in a speech, allude to sth/sb, allude indirectly to, allude to the possibility, allude to a fact, allude to one's past</small></td></tr>
-<tr><td><b>67.</b> <a href="#67-allure">allure</a><br><small>allure of sth, sexual allure, the allure of fame / money / the unknown, alluring smile / offer, alluring prospect, alluring fragrance, resist the allure, alluring voice, be allured by, allure sb into sth, allure sb from sth, allure sb to sth</small></td><td><b>68.</b> <a href="#68-ally">ally</a><br><small>allied forces / nations, close ally / staunch ally, political / military ally, remain allied, traditional ally, strategically allied, ally with sb, ally oneself with/to sb, ally against a common enemy, ally sb to sb/sth, be allied with/to</small></td></tr>
-<tr><td><b>69.</b> <a href="#69-alter">alter</a><br><small>alter the course of, alter one's appearance, alter a plan / decision / policy, alter clothes / a garment, alter the outcome, alter significantly, alter behavior, permanently alter, alter one's lifestyle, alter from sth to sth, alter in sth, alter for the better/worse, alter by sth, alter into sth</small></td><td><b>70.</b> <a href="#70-alternate">alternate</a><br><small>alternate days / weeks / years, alternate current (AC), alternate routes, alternate regularly, alternate shifts, alternate positions, alternate between X and Y, alternate with sth, alternate between work and rest, alternate in doing sth, alternate from sth to sth</small></td></tr>
-<tr><td><b>71.</b> <a href="#71-amass">amass</a><br><small>amass a fortune / wealth, amass knowledge / information, amass a collection, amass power / influence, amass evidence, amass data, amass resources, quickly amass, amass from sth, amass through sth, amass over time, amass by doing sth</small></td><td><b>72.</b> <a href="#72-amaze">amaze</a><br><small>amaze sb, it amazes me that..., truly amaze, amazing achievement / talent / beauty, never cease to amaze, be amazed to find, amaze the world, simply amazing, be amazed at sth, be amazed by sth, be amazed with sth, be amazed at how</small></td></tr>
-<tr><td><b>73.</b> <a href="#73-amend">amend</a><br><small>amend the law / constitution / rule, amend a document / contract / agreement, amend one's ways / behavior (formal), propose an amendment, amended version, amend a statement, amend accordingly, be subject to amendment, amend to sth, amend by consensus, amend through sth, amend in accordance with, amend from sth to sth</small></td><td><b>74.</b> <a href="#74-amplify">amplify</a><br><small>amplify sound / signal / voice, amplify a point / argument / statement, amplify the impact / effect, amplify concerns / fears, amplify DNA, amplify the message, greatly amplify, amplify the meaning, amplify the noise, amplify through sth, amplify by sth, amplify on/upon sth, amplify with sth, amplify into sth</small></td></tr>
-<tr><td><b>75.</b> <a href="#75-amuse">amuse</a><br><small>amuse sb, amuse oneself, keep sb amused, find it amusing that, amuse the crowd, greatly amused, amuse guests, mildly amused, be amused at sth, be amused by sth, amuse sb with sth, be amused with sth, amuse sb by doing sth</small></td><td><b>76.</b> <a href="#76-analyze">analyze</a><br><small>analyze data / results / information, analyze the situation / problem, analyze a text / poem / work, carefully / thoroughly analyze, analyze the cause, analyze statistically, analyze and evaluate, analyze in depth / detail, analyze from multiple angles, analyze for sth, analyze by sth, analyze through sth</small></td></tr>
-<tr><td><b>77.</b> <a href="#77-anchor">anchor</a><br><small>anchor a ship / boat, anchor a news program / show, anchor in place, anchor the team, anchor the economy, securely anchored, anchor point, be anchored to sth, be anchored in sth, anchor one's hope on sth, anchor in sth, anchor sth to sth</small></td><td><b>78.</b> <a href="#78-anger">anger</a><br><small>anger sb, express / control / suppress one's anger, anger management, in a fit of anger, anger easily, public anger, anger the public, provoke one's anger, be angered by sth, be angered at sth, be angered over sth, anger sb with sth</small></td></tr>
-<tr><td><b>79.</b> <a href="#79-animate">animate</a><br><small>animate a film / character, animated discussion / debate / conversation, computer-animated / hand-animated, animate the conversation, animated expression, animate and engage, real-time animated, be animated by sth, be animated with sth, animate sb with sth, animate by a spirit of</small></td><td><b>80.</b> <a href="#80-annex">annex</a><br><small>annex territory / land / a region, annex a document (as attachment), building annex / school annex, illegal annexation, formally annexed, attempted annexation, annex resources, be annexed to sth, annex by force, annex sth to sth, annex from sth, annex into sth</small></td></tr>
-<tr><td><b>81.</b> <a href="#81-announce">announce</a><br><small>announce a plan / decision / result, announce the launch / arrival / opening, publicly / officially announce, it is with great pleasure that we announce, announce one's intention / engagement / resignation, announce a breakthrough, announce candidacy, formally announce, announce the winner, announce to sb, announce sth as sth, announce in advance, announce on sth, announce at a press conference</small></td><td><b>82.</b> <a href="#82-annoy">annoy</a><br><small>annoy sb, find it annoying, annoy the hell out of (informal), annoying habit / noise / person, slightly annoyed, visibly annoyed, annoying delay, easily annoyed, be annoyed with sb, be annoyed at sth, be annoyed by sth, be annoyed about sth, annoy sb with sth</small></td></tr>
-<tr><td><b>83.</b> <a href="#83-answer">answer</a><br><small>answer a question / the phone / the door, answer back (talk back rudely), answer the call (respond to a summons), answer in writing, answer directly, answer with confidence, refuse to answer, answer to sb (be accountable), answer for sth (take responsibility), answer with sth, answer in sth, answer by doing sth, answer to sth (respond to)</small></td><td><b>84.</b> <a href="#84-anticipate">anticipate</a><br><small>anticipate a problem / need / change, anticipate demand / growth, eagerly / fully anticipate, anticipate the worst, anticipate doing sth, anticipate a question, anticipate results, correctly anticipate, anticipate with excitement, anticipate sth with sth, anticipate by doing sth, anticipate from sth</small></td></tr>
-<tr><td><b>85.</b> <a href="#85-apologize">apologize</a><br><small>sincerely / publicly / formally apologize, apologize profusely, I apologize (for...), apologize unreservedly, humbly apologize, apologize to sb, apologize for sth / doing sth, apologize in advance, apologize on behalf of sb, apologize to sb for sth</small></td><td><b>86.</b> <a href="#86-appal">appal</a><br><small>appalling behavior / conditions / treatment, it appalls me that, appalling lack of sth, appalling crime, morally appalled, rightly appalled, appalling weather, be appalled at sth, be appalled by sth, be appalled to find, absolutely / utterly appalled</small></td></tr>
-<tr><td><b>87.</b> <a href="#87-appeal">appeal</a><br><small>have / hold an appeal for, make an appeal, appeal directly, universal appeal, appeal to sb, appeal for help / support / donations, appeal against a decision, appeal a decision, appeal strongly to, appeal on the grounds of, appeal to sb for sth</small></td><td><b>88.</b> <a href="#88-appear">appear</a><br><small>appear to be, it appears that, appear suddenly, appear likely to, appear on the surface, appear in sth, appear on sth, appear at sth, appear in court, appear as sth, appear before the court, appear in public, appear to sb</small></td></tr>
-<tr><td><b>89.</b> <a href="#89-appease">appease</a><br><small>appease sb (especially critics / protesters / the public), appease one's hunger / thirst / curiosity, policy of appeasement, appease the gods, attempt / try to appease, appease critics, appease anger, difficult to appease, appease one's conscience, appease sb with sth, appease sb by doing sth, appease through sth</small></td><td><b>90.</b> <a href="#90-applaud">applaud</a><br><small>applaud a performance / effort / decision, applaud loudly / enthusiastically / warmly, applaud the initiative / move, universally applauded, applaud the courage, applaud wildly, widely applauded, applaud the success, applaud sb for sth, should be applauded for, applaud sb for doing sth, applaud with enthusiasm</small></td></tr>
-<tr><td><b>91.</b> <a href="#91-apply">apply</a><br><small>apply theory/pressure/knowledge, apply oneself to sth, apply the law, apply in practice, apply equally, apply for a job/visa/loan, apply to a university/company, apply for permission, apply for membership, apply to sb/sth, apply sth to sth, apply to do sth</small></td><td><b>92.</b> <a href="#92-appoint">appoint</a><br><small>appoint a committee/board, appoint a time/place, appoint a successor, appoint an agent, officially appoint, appoint sb as director/manager, appoint sb to a post/position, be appointed by the president/board, appoint a date for sth, appoint sb to do sth, appoint sb as sth</small></td></tr>
-<tr><td><b>93.</b> <a href="#93-appraise">appraise</a><br><small>appraise the value/worth of sth, appraise a property/asset, appraise an employee's performance, get sth appraised, critically appraise, appraise the situation, appraise the damage, professionally appraised, appraise sth at sth, appraise for sth, be appraised by sb, appraise sth as sth</small></td><td><b>94.</b> <a href="#94-appreciate">appreciate</a><br><small>appreciate the importance/significance/value, appreciate sb's help/support/efforts, deeply / highly appreciate, I would appreciate it if..., sincerely appreciate, fully appreciate, appreciate art/music, appreciate the difference, appreciate in value, appreciate sb for sth, appreciate sth as sth, appreciate sth for sth</small></td></tr>
-<tr><td><b>95.</b> <a href="#95-approach">approach</a><br><small>approach a problem/task/issue, approach a deadline/target, approach cautiously / directly, approach the speed of, approach perfection, approach the subject, approach systematically, approach sb about sth, approach with caution/care, approach sb with a question/offer, approach to sb/about sth, approach from a perspective</small></td><td><b>96.</b> <a href="#96-appropriate">appropriate</a><br><small>appropriate funds/money/resources, appropriate sb's ideas/work, appropriate property/land, culturally appropriate, appropriate illegally, appropriate public funds, government-appropriated, be appropriated for a purpose, appropriate for personal use, appropriate for sth, appropriate from sth, appropriate sth for oneself</small></td></tr>
-<tr><td><b>97.</b> <a href="#97-approve">approve</a><br><small>approve a plan/proposal/budget, approve a request/application, approve a measure, approve a bill, approve unanimously, formally approve, approve of sb's behavior/decision, be approved by the board/committee/government, approve in principle, approve of sb, approve sth for sb</small></td><td><b>98.</b> <a href="#98-approximate">approximate</a><br><small>approximate the cost/value/size, approximate the number, approximate the age, roughly approximate, closely approximate, a close approximation of, approximate to the truth/reality, be approximated by, approximate to sth, approximate at sth, approximate by doing sth</small></td></tr>
-<tr><td><b>99.</b> <a href="#99-arbitrate">arbitrate</a><br><small>arbitrate a dispute/conflict, submit to arbitration, binding arbitration, arbitration clause, arbitrate fairly/impartially, agree to arbitrate, international arbitration, arbitrate between parties/sides, arbitrate in a case/matter, arbitrate for sb, arbitrate among sb, arbitrate on sth</small></td><td><b>100.</b> <a href="#100-arch">arch</a><br><small>arch one's back/eyebrows, an arched doorway/bridge/window, highly arched, arch gracefully, arch the neck, deeply arched, arch over sth, arch through the air, arch above sth, arch from sth to sth, arch toward sth</small></td></tr>
-<tr><td><b>101.</b> <a href="#101-archive">archive</a><br><small>archive documents/records/files, archive data/information, archive emails, digital archive, properly archive, archive old files, permanently archive, archive for preservation/reference, archive sth for future use, archive in a database, archive in sth, archive for sth</small></td><td><b>102.</b> <a href="#102-argue">argue</a><br><small>argue that..., argue a case/point, argue forcefully, argue convincingly/persuasively, argue vehemently/hotly, argue with someone about/over something, argue for/against a position, argue in favor of, argue over/about sth, argue against, argue sb into/out of sth</small></td></tr>
-<tr><td><b>103.</b> <a href="#103-arise">arise</a><br><small>a problem/issue/question arises, should the need arise / if the need arises, complications/difficulties arise, arise unexpectedly/suddenly, opportunity arises, arise naturally, conflict/dispute arises, questions/doubts arise, arise from/out of, arise as a result of, arise in sth</small></td><td><b>104.</b> <a href="#104-arm">arm</a><br><small>arm the soldiers/troops, armed forces/police, arm a bomb/missile/alarm system, arm heavily/lightly, remain armed, armed conflict/struggle, arm oneself with something, be armed with knowledge/information/facts, arm with weapons/tools, arm oneself against, arm against sb/sth</small></td></tr>
-<tr><td><b>105.</b> <a href="#105-arouse">arouse</a><br><small>arouse suspicion/interest/curiosity, arouse emotions/feelings/passion, arouse anger/resentment/opposition, arouse public attention/concern, arouse public/social concern, arouse debate/controversy, strongly/greatly arouse, arouse awareness/consciousness, arouse someone from sleep, arouse sb from sleep/thought, arouse in sb</small></td><td><b>106.</b> <a href="#106-arrange">arrange</a><br><small>arrange a meeting/appointment/event, arrange flowers/furniture/books, arrange transportation/accommodation, arrange neatly/beautifully, arrange in advance, arrange carefully/properly, arrange for someone to do something, arrange in order/alphabetically/by category, arrange sth for sb, arrange by date/size/category, arrange with sb, arrange sth in/into sth</small></td></tr>
-<tr><td><b>107.</b> <a href="#107-array">array</a><br><small>an array of (noun usage; common), array troops/forces, array data/elements, beautifully/impressively arrayed, carefully arrayed, array forces/resources, be arrayed against, arrayed in/with, array in rows/columns, array on shelves/display, array in sth, array against sb/sth</small></td><td><b>108.</b> <a href="#108-arrest">arrest</a><br><small>arrest the development/progress/spread, arrest one's attention/notice, be under arrest, arrest warrant, arrest immediately/quickly, arrest the decline/rise, place/put under arrest, wrongfully/falsely arrest, arrest someone for a crime, arrest on suspicion/charges, arrest sb on charges of</small></td></tr>
-<tr><td><b>109.</b> <a href="#109-arrive">arrive</a><br><small>arrive home/here/there, arrive on time / early / late, arrive safely / safely arrived, arrive early/late/punctually, arrive safely/soundly, arrive unannounced/unexpectedly, newly arrived, arrive at/in a place, arrive at a decision/conclusion/compromise, arrive by plane/train/car, arrive from sth, arrive on sth</small></td><td><b>110.</b> <a href="#110-articulate">articulate</a><br><small>articulate one's thoughts/ideas/feelings, articulate a vision/goal/strategy, clearly articulate / well articulated, articulate words/speech, articulate clearly/effectively, articulate one's position, articulate a plan/strategy, well/poorly articulated, articulate with (anatomy/mechanics), articulate in speech/writing, articulate to sb</small></td></tr>
-<tr><td><b>111.</b> <a href="#111-ascend">ascend</a><br><small>ascend a mountain/peak/stairs, ascending order (opposite of descending), ascend rapidly/slowly/steadily, ascend quickly/slowly, ascend gradually/steeply, ascend the ladder/ranks, ascend the throne, ascend to power/the throne, ascend to heaven (religious context), ascend to the top/summit, ascend from sth</small></td><td><b>112.</b> <a href="#112-ascertain">ascertain</a><br><small>ascertain the truth/facts/cause, ascertain whether/if..., ascertain the identity/location/nature, difficult to ascertain, ascertain accurately/exactly, ascertain the cause/reason, be difficult to ascertain, be possible to ascertain, ascertain through investigation/research, ascertain by investigation/testing, ascertain by/through sth, ascertain from sth</small></td></tr>
-<tr><td><b>113.</b> <a href="#113-ascribe">ascribe</a><br><small>ascribe correctly/incorrectly, commonly/widely ascribed, primarily/mainly ascribe, ascribe to a cause/source, be ascribed to someone, ascribe meaning/significance/value to, ascribe motives/intentions to, commonly/widely ascribed to, ascribe to fate/luck/chance</small></td><td><b>114.</b> <a href="#114-ask">ask</a><br><small>ask a question, ask someone out (on a date), ask around (inquire among various people), ask politely/rudely, ask repeatedly/again, ask sb's opinion/advice, ask for help/advice/permission, ask after someone (inquire about health), ask about sb/sth, ask for directions/help/permission, ask sb about sth, ask sth of sb</small></td></tr>
-<tr><td><b>115.</b> <a href="#115-aspire">aspire</a><br><small>aspiring artist/writer/professional, high aspirations / personal aspirations, constantly/always aspire, earnestly/passionately aspire, highly/greatly aspire, aspire to greatness/excellence/success, aspire to be/become something, aspire to a position/career, aspire to leadership/management, aspire after fame/wealth</small></td><td><b>116.</b> <a href="#116-assassinate">assassinate</a><br><small>assassinate a leader/president/politician, attempt to assassinate, political assassination, assassination attempt/plot, plan/plot to assassinate, brutally/cold-bloodedly assassinate, order to assassinate, be assassinated by, assassinate for political reasons, assassinate by sb</small></td></tr>
-<tr><td><b>117.</b> <a href="#117-assault">assault</a><br><small>assault someone physically/verbally, assault a person/officer, sexual assault, assault a problem/task/challenge (figurative), assault brutally/savagely, assault and battery, verbally/physically assault, assault the senses, assault with a deadly weapon, assault with a weapon, assault sb with sth</small></td><td><b>118.</b> <a href="#118-assemble">assemble</a><br><small>assemble people/the crowd/the team, assemble furniture/a device/a product, assemble evidence/data/information, assemble quickly/easily, assemble a team/staff, assemble parts/components, assemble evidence/data, assemble in/at a place, assemble for a meeting/purpose, assemble in groups/crowds, assemble from sth</small></td></tr>
-<tr><td><b>119.</b> <a href="#119-assert">assert</a><br><small>assert that..., assert oneself, assert authority/control/independence, assert a right/claim, confidently assert / boldly assert, assert strongly/forcefully, assert repeatedly/constantly, assert dominance/superiority, assert one's innocence/rights, assert control/power, assert to sb</small></td><td><b>120.</b> <a href="#120-assess">assess</a><br><small>assess the situation/risk/damage, assess someone's performance/ability/skills, assess the impact/effectiveness/value, assess a property/tax/fine, critically assess / carefully assess, assess accurately/objectively, assess fairly/properly, assess the extent/degree/level, regularly/periodically assess, assess for suitability/quality, assess for sth, assess at sth</small></td></tr>
-<tr><td><b>121.</b> <a href="#121-assign">assign</a><br><small>assign a task / responsibility / role, assign homework / assignment, assign randomly/evenly, assign blame/responsibility, assign a number/letter/code, assign specifically/directly, assign value / weight / importance (to), assign sb. to a position / department, be assigned to do sth., assign to a project/team, assign to sb, assign as sth</small></td><td><b>122.</b> <a href="#122-assimilate">assimilate</a><br><small>assimilate knowledge / information, assimilate nutrients / food, assimilate new ideas, assimilate fully/completely, assimilate quickly/slowly, assimilate new technology, assimilate foreign customs/ideas, assimilate into a culture / society, assimilate with the local population, assimilate into the mainstream, assimilate to sth</small></td></tr>
-<tr><td><b>123.</b> <a href="#123-assist">assist</a><br><small>assist customers / patients / users, assist directly/indirectly, assist willingly/gladly, assist sb's recovery/development, assist sb. with / in (doing) sth., assist in the development / implementation of, assist with the investigation / research, assist at an event / ceremony, assist in the process/effort, assist with tasks/duties</small></td><td><b>124.</b> <a href="#124-associate">associate</a><br><small>closely / strongly associate, associate member / professor / director, commonly/frequently associate, positively/negatively associate, freely/openly associate, be closely/intimately associated, associate A with B, associate with sb., associate oneself with, associate with a group/organization</small></td></tr>
-<tr><td><b>125.</b> <a href="#125-assume">assume</a><br><small>assume responsibility / control / command, assume the role / position / title of, assume that..., assume an expression / appearance / form, assume liability / ownership, assume incorrectly/wrongly, assume automatically/instinctively, assume the worst/the best, be commonly/generally assumed, assume office/duties, assume in sb</small></td><td><b>126.</b> <a href="#126-assure">assure</a><br><small>rest assured (that)..., assure quality / success / safety, I can assure you..., assure firmly/confidently, assure personally/repeatedly, assure customers/clients, assure full cooperation/support, assure sb. that..., assure sb. of sth., be assured of success/safety</small></td></tr>
-<tr><td><b>127.</b> <a href="#127-astonish">astonish</a><br><small>be astonished to find/see/learn, it astonishes sb. that..., utterly / quite / simply astonished, absolutely/truly astonish, never cease to astonish, astonish everyone/all, quite/thoroughly astonished, astonish sb. with/by sth., be astonished at/by</small></td><td><b>128.</b> <a href="#128-attach">attach</a><br><small>attach a file / document, attach conditions / strings (to an agreement), attach securely/firmly, attach a label/tag/signature, attached please find, be directly/indirectly attached, attach A to B, attach importance / significance / value to, be attached to sb./sth. (emotionally), attach to an email/document</small></td></tr>
-<tr><td><b>129.</b> <a href="#129-attack">attack</a><br><small>attack sb./sth. (physically or verbally), attack a problem / task (figurative), heart attack / cyber attack / terrorist attack, attack fiercely/savagely, attack verbally/physically, attack suddenly/unexpectedly, attack the enemy/opponent, attack a problem/difficulty, attack sb for sth, attack with sth</small></td><td><b>130.</b> <a href="#130-attain">attain</a><br><small>attain a goal / objective / target, attain a level / status / rank, attain success / mastery / proficiency, attainable goal (adjective form), attain finally/eventually, attain a degree/diploma, attain one's goal/aim, easily/hardly attainable, strive to attain, attain to (formal, intransitive)</small></td></tr>
-<tr><td><b>131.</b> <a href="#131-attempt">attempt</a><br><small>attempt to do sth., attempted murder / robbery / suicide, attempt a record / feat, attempt bravely/daringly, attempt unsuccessfully/vainly, abandon/give up an attempt, a deliberate/conscious attempt, attempt the impossible, make an attempt (to do / at sth.), in a / an attempt to do, attempt at sth</small></td><td><b>132.</b> <a href="#132-attend">attend</a><br><small>attend school / college / university, attend a meeting / conference / lecture, attend a ceremony / funeral / wedding, well-attended (event), attend regularly/faithfully, attend a course/training/seminar, well-attended/poorly-attended, attend church/temple/college, attend to sb./sth. (deal with / take care of), attend to business/matters, attend at sth</small></td></tr>
-<tr><td><b>133.</b> <a href="#133-attract">attract</a><br><small>attract attention / interest / criticism, attract customers / tourists / investors, attract investment / funding, attract talent / top talent, like attracts like / opposites attract, attract strongly/powerfully, attract mainly/primarily, attract attention from, attract people/visitors to, be attracted by/to</small></td><td><b>134.</b> <a href="#134-attribute">attribute</a><br><small>attribute correctly/incorrectly, commonly/widely attribute, largely/mainly attribute, be rightly/wrongly attributed, attribute A to B, be attributed to..., attribute importance / significance to, attribute success / failure to, directly / commonly / widely attributed to, attribute to a factor/reason/cause</small></td></tr>
-<tr><td><b>135.</b> <a href="#135-auction">auction</a><br><small>auction house / auctioneer, online auction / charity auction, auction publicly/privately, auction online/offline, auction sth. off, put sth. up for auction, sell sth. at / by auction, be auctioned for charity, auction by tender/bidding, auction at Sotheby's/eBay, auction to sb</small></td><td><b>136.</b> <a href="#136-audit">audit</a><br><small>audit financial statements / accounts, audit a course / class, internal / external audit, audit trail / log, audit thoroughly/carefully, audit annually/regularly, audit the books/records/accounts, random/surprise audit, external/independent audit, audit for sth</small></td></tr>
-<tr><td><b>137.</b> <a href="#137-augment">augment</a><br><small>augment income / salary / revenue, augment one's knowledge / skills, augmented reality (AR), augment the effect / impact of, augment greatly/significantly, augment further/additionally, augment capacity/efficiency, augment with additional resources, augment by adding/including, augment with supplements/additions, augment with/by sth</small></td><td><b>138.</b> <a href="#138-authorize">authorize</a><br><small>authorize payment / a transaction / a request, be authorized to access / use / operate, authorized personnel / agent / representative, authorize formally/officially, authorize expenditure/spending, properly/legally authorize, authorize access/entry, authorize sb. to do sth., authorize the release / use of, authorize in writing, authorize for sth</small></td></tr>
-<tr><td><b>139.</b> <a href="#139-automate">automate</a><br><small>automate a process / task / system, automate production / manufacturing, automate testing / deployment, fully / partially automated, office automation / home automation, automate completely/fully, gradually/partially automate, using technology to automate, automate routine/tedious tasks, automate the collection/processing of, automate with sth</small></td><td><b>140.</b> <a href="#140-avail">avail</a><br><small>to no avail / without avail / of little avail, be of avail, avail little / nothing, avail fully/readily, be of little/no avail, without avail / to no avail, avail oneself of sth. (formal: use / take advantage of), not avail against, avail oneself of an opportunity, avail of services/resources</small></td></tr>
-<tr><td><b>141.</b> <a href="#141-avenge">avenge</a><br><small>avenge sb.'s death / murder, avenge an insult / a wrong / an injustice, sworn to avenge, avenge the loss / defeat, seek to avenge, avenge a wrong/injustice, determined/sworn to avenge, avenge properly/fully, avenge oneself on sb., avenge the death of, avenge on/upon sb</small></td><td><b>142.</b> <a href="#142-average">average</a><br><small>on average, above / below average, average price / cost / temperature / score, roughly/approximately average, average over time/year, average score/rate, well above/below average, average (out) to / at, average out at/to, average at/to sth</small></td></tr>
-<tr><td><b>143.</b> <a href="#143-avert">avert</a><br><small>avert a disaster / crisis / catastrophe, avert conflict / war / danger, narrowly avert (barely prevent), help to avert, avert successfully/effectively, narrowly/barely avert, take action/measures to avert, avert a crisis/catastrophe, avert one's eyes/gaze/face, avert one's eyes / gaze / attention (from), avert from sth</small></td><td><b>144.</b> <a href="#144-avoid">avoid</a><br><small>avoid doing sth., avoid sb./sth. like the plague, avoid confusion / conflict / embarrassment, avoid a problem / disaster / mistake, avoid detection / capture / scrutiny, deliberately/intentionally avoid, carefully/studiously avoid, avoid unnecessary risk/expense, avoid the issue/question/problem, avoid at all costs, avoid by doing</small></td></tr>
-<tr><td><b>145.</b> <a href="#145-await">await</a><br><small>await the results / outcome / decision, await approval / confirmation / instructions, await sb.'s arrival / return / reply, a surprise / fate / future awaits, eagerly / anxiously await, await patiently/impatiently, await eagerly/calmly, await further notice/developments, await sb's arrival/departure, await a response/reply/decision</small></td><td><b>146.</b> <a href="#146-awake">awake</a><br><small>lie / stay awake, wide awake (fully conscious), awake suddenly/gradually, fully/half awake, stay awake all night, be wide/fully awake, awake from / out of a dream / sleep, awake to sth. (become aware of), awake sb. from / with, awake from a deep sleep/nightmare</small></td></tr>
-<tr><td><b>147.</b> <a href="#147-award">award</a><br><small>award a prize / medal / trophy / scholarship, award a contract / grant / funding, award damages / compensation, win / receive / accept an award, award posthumously, award jointly/shared, be awarded first prize/honors, award-winning, decently/substantially awarded, award sb. sth. / award sth. to sb., award to sb, award for sth</small></td><td><b>148.</b> <a href="#148-amount">amount</a><br><small>a large / small / significant amount of, total amount / full amount, amount roughly/approximately, amount finally/eventually, amount in total/sum, a considerable/substantial amount, amount to sth. (total / be equivalent to), not amount to much / anything, amount to the same thing, amount to nothing/little</small></td></tr>
+<tr><td id="toc-1-abandon"><b>1.</b> <a href="#1-abandon">abandon</a><br><small>abandon hope, abandon ship, abandon a plan/project, abandon one's post, completely abandon, abandon one's family, abandon a search, abandon oneself to despair, abandon sth to sb, abandon sb to sth, abandon sth for sth, abandon hope of, abandon in favor of</small></td><td id="toc-2-abide"><b>2.</b> <a href="#2-abide">abide</a><br><small>can't abide sb/sth, abide the consequences, abide by the rules, abide by the law, abide by a decision, abide by the contract, abide by the terms, strictly abide by, abide by the agreement, abide by the court's ruling</small></td></tr>
+<tr><td id="toc-3-abolish"><b>3.</b> <a href="#3-abolish">abolish</a><br><small>abolish slavery, abolish the death penalty, abolish a law, abolish a system, abolish tariffs, abolish discrimination, abolish a policy, completely abolish, abolish the monarchy, abolish restrictions, abolish sth by law, abolish sth through legislation, abolish sth in favor of, abolish across the board</small></td><td id="toc-4-abort"><b>4.</b> <a href="#4-abort">abort</a><br><small>abort a mission, abort a pregnancy, abort a program/process, abort a takeoff, abort a plan, abort a launch, abort a flight, abort an operation, automatically abort, abort an experiment, abort due to, abort in progress, abort at launch, abort for safety reasons</small></td></tr>
+<tr><td id="toc-5-absorb"><b>5.</b> <a href="#5-absorb">absorb</a><br><small>absorb knowledge/information, absorb heat/light/moisture, absorb the impact/shock, absorb costs/losses, absorb nutrients, absorb a lesson, absorb water, be absorbed in thought, be absorbed into, absorb sth into sth, absorb sth from sth, absorb through sth, absorb in sth</small></td><td id="toc-6-abstract"><b>6.</b> <a href="#6-abstract">abstract</a><br><small>abstract a concept, abstract the main points, abstract information, abstract principles, abstract relevant features, abstract data from, abstract from reality, abstract metal from ore, be abstracted from context, abstract sth from sth, abstract away from, abstract into categories, abstract beyond</small></td></tr>
+<tr><td id="toc-7-abuse"><b>7.</b> <a href="#7-abuse">abuse</a><br><small>abuse power/authority, abuse alcohol/drugs, child abuse, verbally/physically abuse, abuse one's position, abuse the system, abuse a privilege, systematically abuse, substance abuse, abuse a trust, abuse of power, abuse of trust, abuse of authority, abuse through neglect</small></td><td id="toc-8-accelerate"><b>8.</b> <a href="#8-accelerate">accelerate</a><br><small>accelerate growth, accelerate development, accelerate change, accelerate a process, accelerate innovation, accelerate progress, significantly accelerate, accelerate reform, accelerate production, accelerate the pace of, accelerate toward sth, accelerate at a rate, accelerate beyond, accelerate from zero to, accelerate into</small></td></tr>
+<tr><td id="toc-9-accept"><b>9.</b> <a href="#9-accept">accept</a><br><small>accept an invitation, accept responsibility, accept the fact that, accept an offer, accept a challenge, accept the consequences, accept criticism, willingly accept, accept a proposal, accept terms and conditions, accept sth from sb, accept sb into sth, accept as true, accept in principle, accept with pleasure</small></td><td id="toc-10-acclaim"><b>10.</b> <a href="#10-acclaim">acclaim</a><br><small>critical acclaim, universal acclaim, public acclaim, international acclaim, widespread acclaim, receive acclaim, earn acclaim, be acclaimed as, win acclaim for, be acclaimed by, acclaim sb/sth as sth, acclaim for achievement, acclaim by critics, acclaim throughout the world</small></td></tr>
+<tr><td id="toc-11-accommodate"><b>11.</b> <a href="#11-accommodate">accommodate</a><br><small>accommodate guests, accommodate someone's needs, accommodate changes, accommodate a request, accommodate differences, accommodate a growing population, accommodate a schedule, comfortably accommodate, accommodate diversity, accommodate sb with, accommodate sb with sth, accommodate to sth, accommodate in sth, accommodate for differences, accommodate by doing</small></td><td id="toc-12-accompany"><b>12.</b> <a href="#12-accompany">accompany</a><br><small>accompany a letter, accompany the text, accompany a singer, always accompany, accompany the development, accompany sb to, be accompanied by, accompany on the piano, accompany a meal with wine, accompany a speech with gestures, accompany sb to sth, accompany sb on sth, accompany by sth, accompany with sth, accompany through sth</small></td></tr>
+<tr><td id="toc-13-accomplish"><b>13.</b> <a href="#13-accomplish">accomplish</a><br><small>accomplish a goal, accomplish a task, accomplish a mission, accomplish one's objective, accomplish great things, accomplish a purpose, accomplish a feat, successfully accomplish, accomplish nothing, accomplish more</small></td><td id="toc-14-accord"><b>14.</b> <a href="#14-accord">accord</a><br><small>accord sb permission, be accorded respect, accord sb a right, accord recognition, accord with, in accordance with, of one's own accord, accord status to, fully accord with, accord importance to, accord with sth, accord sth to sb, accord sb sth, accord in meaning, accord by tradition</small></td></tr>
+<tr><td id="toc-15-account"><b>15.</b> <a href="#15-account">account</a><br><small>account oneself happy/fortunate, account sth a success, account for, account for (percentage), be accounted as, account for the difference, account for the delay, account for roughly/approximately, account in full, be accounted for, account for sth, account to sb, account as sth, account with a bank</small></td><td id="toc-16-accumulate"><b>16.</b> <a href="#16-accumulate">accumulate</a><br><small>accumulate wealth/fortunes, accumulate knowledge, accumulate evidence, accumulate debt, accumulate experience, accumulate data, accumulate points, rapidly accumulate, accumulate capital, accumulate over time, accumulate in sth, accumulate through experience, accumulate from sources, accumulate within a system</small></td></tr>
+<tr><td id="toc-17-accuse"><b>17.</b> <a href="#17-accuse">accuse</a><br><small>falsely accuse, publicly accuse, wrongly accuse, accuse each other, accuse sb of lying, accuse sb of theft, accuse sb of negligence, accuse sb of murder, accuse sb of fraud, accuse sb of corruption, accuse sb of sth, accuse sb before the court, accuse in public</small></td><td id="toc-18-accustom"><b>18.</b> <a href="#18-accustom">accustom</a><br><small>quickly become accustomed, be accustomed to sth, become accustomed to doing, accustom oneself to, get accustomed to, grow accustomed to, be accustomed to the idea, become accustomed to the climate, accustom sb to, well accustomed to, accustom sb to sth, be accustomed to sth, become accustomed to, accustom by practice</small></td></tr>
+<tr><td id="toc-19-ache"><b>19.</b> <a href="#19-ache">ache</a><br><small>make sb's heart ache, muscles ache, ache badly, feet ache, still ache, ache all over, ache for sb/sth, ache with fatigue, ache with pain, ache to do sth, ache with pain/fatigue, ache from exercise, ache in one's muscles</small></td><td id="toc-20-achieve"><b>20.</b> <a href="#20-achieve">achieve</a><br><small>achieve success, achieve a goal, achieve one's dreams, achieve results, achieve balance, achieve an objective, achieve a breakthrough, achieve excellence, achieve one's potential, achieve a high score, achieve through hard work, achieve in spite of, achieve by means of, achieve with ease</small></td></tr>
+<tr><td id="toc-21-acknowledge"><b>21.</b> <a href="#21-acknowledge">acknowledge</a><br><small>acknowledge a problem, acknowledge one's mistake, acknowledge contributions, acknowledge the need, acknowledge defeat, openly acknowledge, acknowledge a fact, acknowledge the importance, acknowledge receipt of, widely acknowledged as, acknowledge sb as sth, acknowledge sb for sth, acknowledge by the public, acknowledge with gratitude, acknowledge in a speech</small></td><td id="toc-22-acquaint"><b>22.</b> <a href="#22-acquaint">acquaint</a><br><small>get acquainted, thoroughly acquaint, be well acquainted, become personally acquainted, first acquaint, be acquainted with, become acquainted with, acquaint oneself with, acquaint sb with the facts, acquaint the reader with, acquaint sb with sth, be acquainted with sb/sth, become acquainted with, acquaint through mutual friends</small></td></tr>
+<tr><td id="toc-23-acquire"><b>23.</b> <a href="#23-acquire">acquire</a><br><small>acquire knowledge, acquire a skill, acquire a language, acquire a company, acquire a reputation, acquire wealth, acquire property, gradually acquire, acquire experience, acquire a taste for, acquire sth from sb, acquire through purchase, acquire by inheritance, acquire over time, acquire in bulk</small></td><td id="toc-24-act"><b>24.</b> <a href="#24-act">act</a><br><small>act immediately, act accordingly, act responsibly, act on/upon, act as, act like, act out, act up, act in accordance with, act as a catalyst, act on/upon sth, act as sth, act for sb, act against one's will, act with caution</small></td></tr>
+<tr><td id="toc-25-activate"><b>25.</b> <a href="#25-activate">activate</a><br><small>activate an account, activate a device, activate a mechanism, activate a response, activate the alarm, activate a system, activate a feature, activate a switch, automatically activate, activate an option, activate by sth, activate through a process, activate in response to, activate at a temperature, activate with a button</small></td><td id="toc-26-adapt"><b>26.</b> <a href="#26-adapt">adapt</a><br><small>adapt a method, adapt accordingly, quickly adapt, adapt a strategy, adapt to change, adapt oneself to, adapt for the screen, adapt to the environment, adapt to circumstances, adapt to new conditions, adapt to sth, adapt for sth, adapt from sth, adapt sth to sth, adapt according to</small></td></tr>
+<tr><td id="toc-27-add"><b>27.</b> <a href="#27-add">add</a><br><small>add value, add together, add to, add up, add fuel to the fire, add insult to injury, add A to B, add weight to, add to the confusion, add in, add to sth, add sth to sth, add in sth, add onto sth, add up to</small></td><td id="toc-28-addict"><b>28.</b> <a href="#28-addict">addict</a><br><small>a drug addict, addiction treatment, add together, get addicted, a gambling addict, treat addiction, be addicted to drugs/alcohol, be addicted to gaming, become addicted to, add A to B, add weight to, add to the confusion, add in, be addicted to gambling, be addicted to social media, be addicted to sth, become addicted to, addict oneself to, addicted from a young age</small></td></tr>
+<tr><td id="toc-29-address"><b>29.</b> <a href="#29-address">address</a><br><small>address a problem/issue, address a meeting/crowd, address concerns, address the root cause, address a question, directly address, address a topic, address a letter to, address sb as, address the needs of, address sth to sb, address sb as sth, address a letter to, address in public, address by name</small></td><td id="toc-30-adhere"><b>30.</b> <a href="#30-adhere">adhere</a><br><small>firmly adhere, adhere to the rules, adhere to a principle, adhere to a schedule, adhere to guidelines, adhere to a surface, strictly adhere to, adhere to a standard, adhere to a policy, adhere to the terms, adhere to sth, adhere strictly to, adhere closely to, adhere with glue</small></td></tr>
+<tr><td id="toc-31-adjust"><b>31.</b> <a href="#31-adjust">adjust</a><br><small>adjust accordingly, finely adjust, adjust the settings, adjust one's attitude, adjust a plan, adjust the price, easily adjust, adjust a schedule, adjust to, adjust to new circumstances, adjust to sth, adjust for sth, adjust according to, adjust in response to, adjust by doing</small></td><td id="toc-32-administer"><b>32.</b> <a href="#32-administer">administer</a><br><small>administer a test/exam, administer medicine/drugs, administer justice, administer a program, administer first aid, administer a company, administer the law, administer a fund, administer treatment, administer an oath, administer to sb, administer sth to sb, administer as a treatment, administer by injection, administer under supervision</small></td></tr>
+<tr><td id="toc-33-administrate"><b>33.</b> <a href="#33-administrate">administrate</a><br><small>administrate a department, administrate a database, administrate the system, administrate funds, administrate operations, administrate a project, administrate a network, administrate resources, administrate a program, administrate effectively, administrate for an organization, administrate across departments, administrate through a system, administrate with efficiency</small></td><td id="toc-34-admire"><b>34.</b> <a href="#34-admire">admire</a><br><small>admire the view, greatly/deeply admire, admire one's work, admire the courage, admire the beauty, truly admire, admire a performance, publicly admire, admire someone for something, admire from afar, admire sb for sth, admire from a distance, admire as a role model, admire for one's courage</small></td></tr>
+<tr><td id="toc-35-admit"><b>35.</b> <a href="#35-admit">admit</a><br><small>admit defeat, admit a mistake, admit guilt, admit liability, admit wrongdoing, openly admit, admit a patient, admit someone to the hospital, admit into a school, admit to a crime, admit to sth, admit sb to/into sth, admit as a member, admit with regret, admit into evidence</small></td><td id="toc-36-adopt"><b>36.</b> <a href="#36-adopt">adopt</a><br><small>adopt a child, adopt a policy/strategy, adopt a new approach, adopt a resolution, adopt technology, adopt a method, adopt measures, adopt an attitude, widely adopt, adopt a practice, adopt sth as sth, adopt by consensus, adopt into a family, adopt from a shelter, adopt across the industry</small></td></tr>
+<tr><td id="toc-37-adore"><b>37.</b> <a href="#37-adore">adore</a><br><small>absolutely adore, adore someone/something, adore doing something, adore the way..., adore children, truly adore, adore animals, simply adore, adored by fans, be adored for, adore by fans, adore for one's talent, adore from childhood, adore above all</small></td><td id="toc-38-advance"><b>38.</b> <a href="#38-advance">advance</a><br><small>advance a career, advance a proposal, advance one's knowledge, advance an argument, advance a theory, advance rapidly, advance one's interests, advance in technology, in advance, advance the cause of, advance in sth, advance on/toward sth, advance to the next stage, advance beyond expectations, advance through the ranks</small></td></tr>
+<tr><td id="toc-39-advertise"><b>39.</b> <a href="#39-advertise">advertise</a><br><small>advertise a product/service, advertise online, heavily advertise, advertise a job, advertise widely, advertise an event, advertise for staff, advertise on TV, advertise through media, advertise in newspapers, advertise for sb, advertise sth as sth, advertise to sb, advertise on TV/in newspapers</small></td><td id="toc-40-advise"><b>40.</b> <a href="#40-advise">advise</a><br><small>strongly advise, advise caution, advise the government, advise clients, legally advise, advise accordingly, advise someone to do something, advise against, advise on/about, advise a course of action, advise sb of sth, advise sb on/about sth, advise against sth, advise in favor of, advise with caution</small></td></tr>
+<tr><td id="toc-41-advocate"><b>41.</b> <a href="#41-advocate">advocate</a><br><small>advocate change/reform, strongly advocate, advocate doing something, advocate a policy, openly advocate, actively advocate, advocate for, advocate on behalf of, advocate the use of, advocate for the rights of, advocate for sth, advocate as a solution, advocate in public, advocate with conviction</small></td><td id="toc-42-affect"><b>42.</b> <a href="#42-affect">affect</a><br><small>affect the outcome, affect people's lives, adversely/negatively affect, directly affect, affect one's health, affect the decision, affect performance, significantly affect, affect behavior, affect the quality of, affect in a way, affect by sth, affect across the board, affect to varying degrees, affect through indirect means</small></td></tr>
+<tr><td id="toc-43-affiliate"><b>43.</b> <a href="#43-affiliate">affiliate</a><br><small>affiliate a department, affiliate members, affiliate an organization, be directly affiliated, affiliate a school, closely affiliated, affiliate a program, be affiliated with, affiliate oneself with, affiliate to/with a network, be affiliated with/to sth, affiliate oneself with, affiliate as a member, affiliate under an organization</small></td><td id="toc-44-affirm"><b>44.</b> <a href="#44-affirm">affirm</a><br><small>affirm one's commitment, affirm a decision, affirm the importance, affirm that..., affirm one's faith, affirm one's identity, affirm a ruling, publicly affirm, affirm the value, affirm the need, affirm before the court, affirm by vote, affirm in a statement, affirm with confidence</small></td></tr>
+<tr><td id="toc-45-affix"><b>45.</b> <a href="#45-affix">affix</a><br><small>affix a stamp, affix a signature, affix a label, affix a seal, affix a sticker, affix a photo, securely affix, affix a value, affix one's name, affix to the wall, affix sth to sth, affix with glue/tape, affix onto a surface, affix by means of</small></td><td id="toc-46-afford"><b>46.</b> <a href="#46-afford">afford</a><br><small>can/cannot afford, afford the cost, well afford, afford an opportunity, afford the time, afford the expense, barely afford, afford protection, afford a glimpse, afford to do something, afford to sb, afford by the government, afford through scholarships, afford at a reasonable price, afford in cash</small></td></tr>
+<tr><td id="toc-47-age"><b>47.</b> <a href="#47-age">age</a><br><small>age well/badly, age gracefully, aged cheese/wine, age rapidly, age prematurely, age a population, age naturally, age-related, show signs of aging, be aged in barrels, age into sth, age with grace, age in barrels, age over time, age beyond recognition</small></td><td id="toc-48-aggravate"><b>48.</b> <a href="#48-aggravate">aggravate</a><br><small>aggravate a problem, aggravate an injury, aggravate the situation, aggravate symptoms, aggravate tensions, aggravate a crisis, greatly aggravate, aggravate a condition, aggravate inequality, be aggravated by, aggravate by stress, aggravate through neglect, aggravate beyond repair, aggravate over time</small></td></tr>
+<tr><td id="toc-49-aggregate"><b>49.</b> <a href="#49-aggregate">aggregate</a><br><small>aggregate data, aggregate results, aggregate information, aggregate demand/supply, aggregate scores, aggregate statistics, aggregate content, aggregate sources, aggregate findings, aggregate across, aggregate into sth, aggregate across groups, aggregate by category, aggregate from multiple sources, aggregate over time</small></td><td id="toc-50-agitate"><b>50.</b> <a href="#50-agitate">agitate</a><br><small>become agitated, agitate a solution, agitate the public, agitate a liquid, easily agitated, agitate the masses, agitate vigorously, agitate for change, agitate against something, agitate for reform, agitate for/against sth, agitate about sth, agitate among the masses, agitate through social media, agitate into action</small></td></tr>
+<tr><td id="toc-51-agree"><b>51.</b> <a href="#51-agree">agree</a><br><small>fully/strongly agree, agree that, agree to do sth, mutually agree, agree to differ/disagree, agree with sb, agree to sth, agree on/upon sth, agree about sth, agree in principle</small></td><td id="toc-52-aid"><b>52.</b> <a href="#52-aid">aid</a><br><small>aid recovery, aid a process, aid someone in need, aid the development of, aid and abet, financial aid, greatly aid, aid in (doing) sth, aid with sth, aid sb in sth, aid in sth, aid through sth</small></td></tr>
+<tr><td id="toc-53-ail"><b>53.</b> <a href="#53-ail">ail</a><br><small>what ails sb/sth, ailing economy/industry, ailing health, ailing patient, continue to ail, ailing company, ailing relationship, what ails the system, ail from sth, be ailing with sth, ail with sth</small></td><td id="toc-54-aim"><b>54.</b> <a href="#54-aim">aim</a><br><small>aim to do sth, aim high, aim a weapon, aim carefully, aim at sth, aim for sth, be aimed at doing sth, aim at achieving, aim for perfection</small></td></tr>
+<tr><td id="toc-55-air"><b>55.</b> <a href="#55-air">air</a><br><small>air a program/show, air one's views/grievances, air a room, air laundry, air a complaint, air publicly, be aired live, air on TV, air out, air sth in public, air on a network</small></td><td id="toc-56-alarm"><b>56.</b> <a href="#56-alarm">alarm</a><br><small>alarm sb, alarm the public, alarm bells ring, alarm system, sound the alarm, raise the alarm, false alarm, alarmed expression, be alarmed at sth, be alarmed by sth, be alarmed about sth</small></td></tr>
+<tr><td id="toc-57-alert"><b>57.</b> <a href="#57-alert">alert</a><br><small>alert the authorities, alert the public, alert emergency services, be on the alert, alert system, automatically alert, alert sb to sth, alert sb about sth, alert in advance, alert via email/text, alert sb of sth</small></td><td id="toc-58-alienate"><b>58.</b> <a href="#58-alienate">alienate</a><br><small>feel alienated, alienate friends/family, alienate voters/supporters, socially alienated, alienate the public, alienate potential customers, become alienated, mutually alienated, alienate sb from sth, alienate sb from sb, be alienated from, alienate by sth</small></td></tr>
+<tr><td id="toc-59-align"><b>59.</b> <a href="#59-align">align</a><br><small>align text/objects, align goals/strategies, align interests, align values, align perfectly, align properly, remain aligned, align with sth, align oneself with sb/sth, align sth with sth, align against sb/sth, align sth to sth</small></td><td id="toc-60-allege"><b>60.</b> <a href="#60-allege">allege</a><br><small>allege that, be alleged to, allege wrongdoing, allege fraud, allegedly, allege misconduct, allege conspiracy, falsely allege, it is alleged that, (allege typically uses that-clauses and object complements rather than prepositional patterns), allege sth against sb, allege sth about sb/sth</small></td></tr>
+<tr><td id="toc-61-alleviate"><b>61.</b> <a href="#61-alleviate">alleviate</a><br><small>alleviate poverty, alleviate pain / suffering, alleviate symptoms, alleviate concerns / fears, alleviate the burden, alleviate stress, alleviate the problem, alleviate congestion, greatly alleviate, alleviate sb of sth, alleviate by doing sth, alleviate through sth</small></td><td id="toc-62-allocate"><b>62.</b> <a href="#62-allocate">allocate</a><br><small>allocate resources / funds / budget, allocate tasks / duties / responsibilities, allocate shares, allocate memory, allocate space, allocate efficiently, allocate according to need, allocate proportionally, allocate sth to sb, allocate time for sth, allocate for sth, allocate among/between, allocate to sth</small></td></tr>
+<tr><td id="toc-63-allot"><b>63.</b> <a href="#63-allot">allot</a><br><small>allot time / money / space, allot a portion / share, allot seats / tickets, allot a budget, allot resources, allot equally, allot by lottery, allot a quota, allot sth to sb, be allotted to sb, allot for sth, allot to sth</small></td><td id="toc-64-allow"><b>64.</b> <a href="#64-allow">allow</a><br><small>allow sb to do sth, allow sth (e.g., allow access, allow entry), allow that (concede), not allow / be not allowed, allow access, legally allowed, allow for sth, allow time for, allow room for, allow sb into sth, allow of sth</small></td></tr>
+<tr><td id="toc-65-alloy"><b>65.</b> <a href="#65-alloy">alloy</a><br><small>alloyed steel / metal, alloy of (two metals), lightweight alloy, alloy composition, alloy wheel, high-strength alloy, alloying element, alloy production, alloy with sth, be alloyed with, alloy sth with sth</small></td><td id="toc-66-allude"><b>66.</b> <a href="#66-allude">allude</a><br><small>allude in passing, frequently alluded to, never allude to, allude in a speech, allude to sth/sb, allude indirectly to, allude to the possibility, allude to a fact, allude to one's past</small></td></tr>
+<tr><td id="toc-67-allure"><b>67.</b> <a href="#67-allure">allure</a><br><small>allure of sth, sexual allure, the allure of fame / money / the unknown, alluring smile / offer, alluring prospect, alluring fragrance, resist the allure, alluring voice, be allured by, allure sb into sth, allure sb from sth, allure sb to sth</small></td><td id="toc-68-ally"><b>68.</b> <a href="#68-ally">ally</a><br><small>allied forces / nations, close ally / staunch ally, political / military ally, remain allied, traditional ally, strategically allied, ally with sb, ally oneself with/to sb, ally against a common enemy, ally sb to sb/sth, be allied with/to</small></td></tr>
+<tr><td id="toc-69-alter"><b>69.</b> <a href="#69-alter">alter</a><br><small>alter the course of, alter one's appearance, alter a plan / decision / policy, alter clothes / a garment, alter the outcome, alter significantly, alter behavior, permanently alter, alter one's lifestyle, alter from sth to sth, alter in sth, alter for the better/worse, alter by sth, alter into sth</small></td><td id="toc-70-alternate"><b>70.</b> <a href="#70-alternate">alternate</a><br><small>alternate days / weeks / years, alternate current (AC), alternate routes, alternate regularly, alternate shifts, alternate positions, alternate between X and Y, alternate with sth, alternate between work and rest, alternate in doing sth, alternate from sth to sth</small></td></tr>
+<tr><td id="toc-71-amass"><b>71.</b> <a href="#71-amass">amass</a><br><small>amass a fortune / wealth, amass knowledge / information, amass a collection, amass power / influence, amass evidence, amass data, amass resources, quickly amass, amass from sth, amass through sth, amass over time, amass by doing sth</small></td><td id="toc-72-amaze"><b>72.</b> <a href="#72-amaze">amaze</a><br><small>amaze sb, it amazes me that..., truly amaze, amazing achievement / talent / beauty, never cease to amaze, be amazed to find, amaze the world, simply amazing, be amazed at sth, be amazed by sth, be amazed with sth, be amazed at how</small></td></tr>
+<tr><td id="toc-73-amend"><b>73.</b> <a href="#73-amend">amend</a><br><small>amend the law / constitution / rule, amend a document / contract / agreement, amend one's ways / behavior (formal), propose an amendment, amended version, amend a statement, amend accordingly, be subject to amendment, amend to sth, amend by consensus, amend through sth, amend in accordance with, amend from sth to sth</small></td><td id="toc-74-amplify"><b>74.</b> <a href="#74-amplify">amplify</a><br><small>amplify sound / signal / voice, amplify a point / argument / statement, amplify the impact / effect, amplify concerns / fears, amplify DNA, amplify the message, greatly amplify, amplify the meaning, amplify the noise, amplify through sth, amplify by sth, amplify on/upon sth, amplify with sth, amplify into sth</small></td></tr>
+<tr><td id="toc-75-amuse"><b>75.</b> <a href="#75-amuse">amuse</a><br><small>amuse sb, amuse oneself, keep sb amused, find it amusing that, amuse the crowd, greatly amused, amuse guests, mildly amused, be amused at sth, be amused by sth, amuse sb with sth, be amused with sth, amuse sb by doing sth</small></td><td id="toc-76-analyze"><b>76.</b> <a href="#76-analyze">analyze</a><br><small>analyze data / results / information, analyze the situation / problem, analyze a text / poem / work, carefully / thoroughly analyze, analyze the cause, analyze statistically, analyze and evaluate, analyze in depth / detail, analyze from multiple angles, analyze for sth, analyze by sth, analyze through sth</small></td></tr>
+<tr><td id="toc-77-anchor"><b>77.</b> <a href="#77-anchor">anchor</a><br><small>anchor a ship / boat, anchor a news program / show, anchor in place, anchor the team, anchor the economy, securely anchored, anchor point, be anchored to sth, be anchored in sth, anchor one's hope on sth, anchor in sth, anchor sth to sth</small></td><td id="toc-78-anger"><b>78.</b> <a href="#78-anger">anger</a><br><small>anger sb, express / control / suppress one's anger, anger management, in a fit of anger, anger easily, public anger, anger the public, provoke one's anger, be angered by sth, be angered at sth, be angered over sth, anger sb with sth</small></td></tr>
+<tr><td id="toc-79-animate"><b>79.</b> <a href="#79-animate">animate</a><br><small>animate a film / character, animated discussion / debate / conversation, computer-animated / hand-animated, animate the conversation, animated expression, animate and engage, real-time animated, be animated by sth, be animated with sth, animate sb with sth, animate by a spirit of</small></td><td id="toc-80-annex"><b>80.</b> <a href="#80-annex">annex</a><br><small>annex territory / land / a region, annex a document (as attachment), building annex / school annex, illegal annexation, formally annexed, attempted annexation, annex resources, be annexed to sth, annex by force, annex sth to sth, annex from sth, annex into sth</small></td></tr>
+<tr><td id="toc-81-announce"><b>81.</b> <a href="#81-announce">announce</a><br><small>announce a plan / decision / result, announce the launch / arrival / opening, publicly / officially announce, it is with great pleasure that we announce, announce one's intention / engagement / resignation, announce a breakthrough, announce candidacy, formally announce, announce the winner, announce to sb, announce sth as sth, announce in advance, announce on sth, announce at a press conference</small></td><td id="toc-82-annoy"><b>82.</b> <a href="#82-annoy">annoy</a><br><small>annoy sb, find it annoying, annoy the hell out of (informal), annoying habit / noise / person, slightly annoyed, visibly annoyed, annoying delay, easily annoyed, be annoyed with sb, be annoyed at sth, be annoyed by sth, be annoyed about sth, annoy sb with sth</small></td></tr>
+<tr><td id="toc-83-answer"><b>83.</b> <a href="#83-answer">answer</a><br><small>answer a question / the phone / the door, answer back (talk back rudely), answer the call (respond to a summons), answer in writing, answer directly, answer with confidence, refuse to answer, answer to sb (be accountable), answer for sth (take responsibility), answer with sth, answer in sth, answer by doing sth, answer to sth (respond to)</small></td><td id="toc-84-anticipate"><b>84.</b> <a href="#84-anticipate">anticipate</a><br><small>anticipate a problem / need / change, anticipate demand / growth, eagerly / fully anticipate, anticipate the worst, anticipate doing sth, anticipate a question, anticipate results, correctly anticipate, anticipate with excitement, anticipate sth with sth, anticipate by doing sth, anticipate from sth</small></td></tr>
+<tr><td id="toc-85-apologize"><b>85.</b> <a href="#85-apologize">apologize</a><br><small>sincerely / publicly / formally apologize, apologize profusely, I apologize (for...), apologize unreservedly, humbly apologize, apologize to sb, apologize for sth / doing sth, apologize in advance, apologize on behalf of sb, apologize to sb for sth</small></td><td id="toc-86-appal"><b>86.</b> <a href="#86-appal">appal</a><br><small>appalling behavior / conditions / treatment, it appalls me that, appalling lack of sth, appalling crime, morally appalled, rightly appalled, appalling weather, be appalled at sth, be appalled by sth, be appalled to find, absolutely / utterly appalled</small></td></tr>
+<tr><td id="toc-87-appeal"><b>87.</b> <a href="#87-appeal">appeal</a><br><small>have / hold an appeal for, make an appeal, appeal directly, universal appeal, appeal to sb, appeal for help / support / donations, appeal against a decision, appeal a decision, appeal strongly to, appeal on the grounds of, appeal to sb for sth</small></td><td id="toc-88-appear"><b>88.</b> <a href="#88-appear">appear</a><br><small>appear to be, it appears that, appear suddenly, appear likely to, appear on the surface, appear in sth, appear on sth, appear at sth, appear in court, appear as sth, appear before the court, appear in public, appear to sb</small></td></tr>
+<tr><td id="toc-89-appease"><b>89.</b> <a href="#89-appease">appease</a><br><small>appease sb (especially critics / protesters / the public), appease one's hunger / thirst / curiosity, policy of appeasement, appease the gods, attempt / try to appease, appease critics, appease anger, difficult to appease, appease one's conscience, appease sb with sth, appease sb by doing sth, appease through sth</small></td><td id="toc-90-applaud"><b>90.</b> <a href="#90-applaud">applaud</a><br><small>applaud a performance / effort / decision, applaud loudly / enthusiastically / warmly, applaud the initiative / move, universally applauded, applaud the courage, applaud wildly, widely applauded, applaud the success, applaud sb for sth, should be applauded for, applaud sb for doing sth, applaud with enthusiasm</small></td></tr>
+<tr><td id="toc-91-apply"><b>91.</b> <a href="#91-apply">apply</a><br><small>apply theory/pressure/knowledge, apply oneself to sth, apply the law, apply in practice, apply equally, apply for a job/visa/loan, apply to a university/company, apply for permission, apply for membership, apply to sb/sth, apply sth to sth, apply to do sth</small></td><td id="toc-92-appoint"><b>92.</b> <a href="#92-appoint">appoint</a><br><small>appoint a committee/board, appoint a time/place, appoint a successor, appoint an agent, officially appoint, appoint sb as director/manager, appoint sb to a post/position, be appointed by the president/board, appoint a date for sth, appoint sb to do sth, appoint sb as sth</small></td></tr>
+<tr><td id="toc-93-appraise"><b>93.</b> <a href="#93-appraise">appraise</a><br><small>appraise the value/worth of sth, appraise a property/asset, appraise an employee's performance, get sth appraised, critically appraise, appraise the situation, appraise the damage, professionally appraised, appraise sth at sth, appraise for sth, be appraised by sb, appraise sth as sth</small></td><td id="toc-94-appreciate"><b>94.</b> <a href="#94-appreciate">appreciate</a><br><small>appreciate the importance/significance/value, appreciate sb's help/support/efforts, deeply / highly appreciate, I would appreciate it if..., sincerely appreciate, fully appreciate, appreciate art/music, appreciate the difference, appreciate in value, appreciate sb for sth, appreciate sth as sth, appreciate sth for sth</small></td></tr>
+<tr><td id="toc-95-approach"><b>95.</b> <a href="#95-approach">approach</a><br><small>approach a problem/task/issue, approach a deadline/target, approach cautiously / directly, approach the speed of, approach perfection, approach the subject, approach systematically, approach sb about sth, approach with caution/care, approach sb with a question/offer, approach to sb/about sth, approach from a perspective</small></td><td id="toc-96-appropriate"><b>96.</b> <a href="#96-appropriate">appropriate</a><br><small>appropriate funds/money/resources, appropriate sb's ideas/work, appropriate property/land, culturally appropriate, appropriate illegally, appropriate public funds, government-appropriated, be appropriated for a purpose, appropriate for personal use, appropriate for sth, appropriate from sth, appropriate sth for oneself</small></td></tr>
+<tr><td id="toc-97-approve"><b>97.</b> <a href="#97-approve">approve</a><br><small>approve a plan/proposal/budget, approve a request/application, approve a measure, approve a bill, approve unanimously, formally approve, approve of sb's behavior/decision, be approved by the board/committee/government, approve in principle, approve of sb, approve sth for sb</small></td><td id="toc-98-approximate"><b>98.</b> <a href="#98-approximate">approximate</a><br><small>approximate the cost/value/size, approximate the number, approximate the age, roughly approximate, closely approximate, a close approximation of, approximate to the truth/reality, be approximated by, approximate to sth, approximate at sth, approximate by doing sth</small></td></tr>
+<tr><td id="toc-99-arbitrate"><b>99.</b> <a href="#99-arbitrate">arbitrate</a><br><small>arbitrate a dispute/conflict, submit to arbitration, binding arbitration, arbitration clause, arbitrate fairly/impartially, agree to arbitrate, international arbitration, arbitrate between parties/sides, arbitrate in a case/matter, arbitrate for sb, arbitrate among sb, arbitrate on sth</small></td><td id="toc-100-arch"><b>100.</b> <a href="#100-arch">arch</a><br><small>arch one's back/eyebrows, an arched doorway/bridge/window, highly arched, arch gracefully, arch the neck, deeply arched, arch over sth, arch through the air, arch above sth, arch from sth to sth, arch toward sth</small></td></tr>
+<tr><td id="toc-101-archive"><b>101.</b> <a href="#101-archive">archive</a><br><small>archive documents/records/files, archive data/information, archive emails, digital archive, properly archive, archive old files, permanently archive, archive for preservation/reference, archive sth for future use, archive in a database, archive in sth, archive for sth</small></td><td id="toc-102-argue"><b>102.</b> <a href="#102-argue">argue</a><br><small>argue that..., argue a case/point, argue forcefully, argue convincingly/persuasively, argue vehemently/hotly, argue with someone about/over something, argue for/against a position, argue in favor of, argue over/about sth, argue against, argue sb into/out of sth</small></td></tr>
+<tr><td id="toc-103-arise"><b>103.</b> <a href="#103-arise">arise</a><br><small>a problem/issue/question arises, should the need arise / if the need arises, complications/difficulties arise, arise unexpectedly/suddenly, opportunity arises, arise naturally, conflict/dispute arises, questions/doubts arise, arise from/out of, arise as a result of, arise in sth</small></td><td id="toc-104-arm"><b>104.</b> <a href="#104-arm">arm</a><br><small>arm the soldiers/troops, armed forces/police, arm a bomb/missile/alarm system, arm heavily/lightly, remain armed, armed conflict/struggle, arm oneself with something, be armed with knowledge/information/facts, arm with weapons/tools, arm oneself against, arm against sb/sth</small></td></tr>
+<tr><td id="toc-105-arouse"><b>105.</b> <a href="#105-arouse">arouse</a><br><small>arouse suspicion/interest/curiosity, arouse emotions/feelings/passion, arouse anger/resentment/opposition, arouse public attention/concern, arouse public/social concern, arouse debate/controversy, strongly/greatly arouse, arouse awareness/consciousness, arouse someone from sleep, arouse sb from sleep/thought, arouse in sb</small></td><td id="toc-106-arrange"><b>106.</b> <a href="#106-arrange">arrange</a><br><small>arrange a meeting/appointment/event, arrange flowers/furniture/books, arrange transportation/accommodation, arrange neatly/beautifully, arrange in advance, arrange carefully/properly, arrange for someone to do something, arrange in order/alphabetically/by category, arrange sth for sb, arrange by date/size/category, arrange with sb, arrange sth in/into sth</small></td></tr>
+<tr><td id="toc-107-array"><b>107.</b> <a href="#107-array">array</a><br><small>an array of (noun usage; common), array troops/forces, array data/elements, beautifully/impressively arrayed, carefully arrayed, array forces/resources, be arrayed against, arrayed in/with, array in rows/columns, array on shelves/display, array in sth, array against sb/sth</small></td><td id="toc-108-arrest"><b>108.</b> <a href="#108-arrest">arrest</a><br><small>arrest the development/progress/spread, arrest one's attention/notice, be under arrest, arrest warrant, arrest immediately/quickly, arrest the decline/rise, place/put under arrest, wrongfully/falsely arrest, arrest someone for a crime, arrest on suspicion/charges, arrest sb on charges of</small></td></tr>
+<tr><td id="toc-109-arrive"><b>109.</b> <a href="#109-arrive">arrive</a><br><small>arrive home/here/there, arrive on time / early / late, arrive safely / safely arrived, arrive early/late/punctually, arrive safely/soundly, arrive unannounced/unexpectedly, newly arrived, arrive at/in a place, arrive at a decision/conclusion/compromise, arrive by plane/train/car, arrive from sth, arrive on sth</small></td><td id="toc-110-articulate"><b>110.</b> <a href="#110-articulate">articulate</a><br><small>articulate one's thoughts/ideas/feelings, articulate a vision/goal/strategy, clearly articulate / well articulated, articulate words/speech, articulate clearly/effectively, articulate one's position, articulate a plan/strategy, well/poorly articulated, articulate with (anatomy/mechanics), articulate in speech/writing, articulate to sb</small></td></tr>
+<tr><td id="toc-111-ascend"><b>111.</b> <a href="#111-ascend">ascend</a><br><small>ascend a mountain/peak/stairs, ascending order (opposite of descending), ascend rapidly/slowly/steadily, ascend quickly/slowly, ascend gradually/steeply, ascend the ladder/ranks, ascend the throne, ascend to power/the throne, ascend to heaven (religious context), ascend to the top/summit, ascend from sth</small></td><td id="toc-112-ascertain"><b>112.</b> <a href="#112-ascertain">ascertain</a><br><small>ascertain the truth/facts/cause, ascertain whether/if..., ascertain the identity/location/nature, difficult to ascertain, ascertain accurately/exactly, ascertain the cause/reason, be difficult to ascertain, be possible to ascertain, ascertain through investigation/research, ascertain by investigation/testing, ascertain by/through sth, ascertain from sth</small></td></tr>
+<tr><td id="toc-113-ascribe"><b>113.</b> <a href="#113-ascribe">ascribe</a><br><small>ascribe correctly/incorrectly, commonly/widely ascribed, primarily/mainly ascribe, ascribe to a cause/source, be ascribed to someone, ascribe meaning/significance/value to, ascribe motives/intentions to, commonly/widely ascribed to, ascribe to fate/luck/chance</small></td><td id="toc-114-ask"><b>114.</b> <a href="#114-ask">ask</a><br><small>ask a question, ask someone out (on a date), ask around (inquire among various people), ask politely/rudely, ask repeatedly/again, ask sb's opinion/advice, ask for help/advice/permission, ask after someone (inquire about health), ask about sb/sth, ask for directions/help/permission, ask sb about sth, ask sth of sb</small></td></tr>
+<tr><td id="toc-115-aspire"><b>115.</b> <a href="#115-aspire">aspire</a><br><small>aspiring artist/writer/professional, high aspirations / personal aspirations, constantly/always aspire, earnestly/passionately aspire, highly/greatly aspire, aspire to greatness/excellence/success, aspire to be/become something, aspire to a position/career, aspire to leadership/management, aspire after fame/wealth</small></td><td id="toc-116-assassinate"><b>116.</b> <a href="#116-assassinate">assassinate</a><br><small>assassinate a leader/president/politician, attempt to assassinate, political assassination, assassination attempt/plot, plan/plot to assassinate, brutally/cold-bloodedly assassinate, order to assassinate, be assassinated by, assassinate for political reasons, assassinate by sb</small></td></tr>
+<tr><td id="toc-117-assault"><b>117.</b> <a href="#117-assault">assault</a><br><small>assault someone physically/verbally, assault a person/officer, sexual assault, assault a problem/task/challenge (figurative), assault brutally/savagely, assault and battery, verbally/physically assault, assault the senses, assault with a deadly weapon, assault with a weapon, assault sb with sth</small></td><td id="toc-118-assemble"><b>118.</b> <a href="#118-assemble">assemble</a><br><small>assemble people/the crowd/the team, assemble furniture/a device/a product, assemble evidence/data/information, assemble quickly/easily, assemble a team/staff, assemble parts/components, assemble evidence/data, assemble in/at a place, assemble for a meeting/purpose, assemble in groups/crowds, assemble from sth</small></td></tr>
+<tr><td id="toc-119-assert"><b>119.</b> <a href="#119-assert">assert</a><br><small>assert that..., assert oneself, assert authority/control/independence, assert a right/claim, confidently assert / boldly assert, assert strongly/forcefully, assert repeatedly/constantly, assert dominance/superiority, assert one's innocence/rights, assert control/power, assert to sb</small></td><td id="toc-120-assess"><b>120.</b> <a href="#120-assess">assess</a><br><small>assess the situation/risk/damage, assess someone's performance/ability/skills, assess the impact/effectiveness/value, assess a property/tax/fine, critically assess / carefully assess, assess accurately/objectively, assess fairly/properly, assess the extent/degree/level, regularly/periodically assess, assess for suitability/quality, assess for sth, assess at sth</small></td></tr>
+<tr><td id="toc-121-assign"><b>121.</b> <a href="#121-assign">assign</a><br><small>assign a task / responsibility / role, assign homework / assignment, assign randomly/evenly, assign blame/responsibility, assign a number/letter/code, assign specifically/directly, assign value / weight / importance (to), assign sb. to a position / department, be assigned to do sth., assign to a project/team, assign to sb, assign as sth</small></td><td id="toc-122-assimilate"><b>122.</b> <a href="#122-assimilate">assimilate</a><br><small>assimilate knowledge / information, assimilate nutrients / food, assimilate new ideas, assimilate fully/completely, assimilate quickly/slowly, assimilate new technology, assimilate foreign customs/ideas, assimilate into a culture / society, assimilate with the local population, assimilate into the mainstream, assimilate to sth</small></td></tr>
+<tr><td id="toc-123-assist"><b>123.</b> <a href="#123-assist">assist</a><br><small>assist customers / patients / users, assist directly/indirectly, assist willingly/gladly, assist sb's recovery/development, assist sb. with / in (doing) sth., assist in the development / implementation of, assist with the investigation / research, assist at an event / ceremony, assist in the process/effort, assist with tasks/duties</small></td><td id="toc-124-associate"><b>124.</b> <a href="#124-associate">associate</a><br><small>closely / strongly associate, associate member / professor / director, commonly/frequently associate, positively/negatively associate, freely/openly associate, be closely/intimately associated, associate A with B, associate with sb., associate oneself with, associate with a group/organization</small></td></tr>
+<tr><td id="toc-125-assume"><b>125.</b> <a href="#125-assume">assume</a><br><small>assume responsibility / control / command, assume the role / position / title of, assume that..., assume an expression / appearance / form, assume liability / ownership, assume incorrectly/wrongly, assume automatically/instinctively, assume the worst/the best, be commonly/generally assumed, assume office/duties, assume in sb</small></td><td id="toc-126-assure"><b>126.</b> <a href="#126-assure">assure</a><br><small>rest assured (that)..., assure quality / success / safety, I can assure you..., assure firmly/confidently, assure personally/repeatedly, assure customers/clients, assure full cooperation/support, assure sb. that..., assure sb. of sth., be assured of success/safety</small></td></tr>
+<tr><td id="toc-127-astonish"><b>127.</b> <a href="#127-astonish">astonish</a><br><small>be astonished to find/see/learn, it astonishes sb. that..., utterly / quite / simply astonished, absolutely/truly astonish, never cease to astonish, astonish everyone/all, quite/thoroughly astonished, astonish sb. with/by sth., be astonished at/by</small></td><td id="toc-128-attach"><b>128.</b> <a href="#128-attach">attach</a><br><small>attach a file / document, attach conditions / strings (to an agreement), attach securely/firmly, attach a label/tag/signature, attached please find, be directly/indirectly attached, attach A to B, attach importance / significance / value to, be attached to sb./sth. (emotionally), attach to an email/document</small></td></tr>
+<tr><td id="toc-129-attack"><b>129.</b> <a href="#129-attack">attack</a><br><small>attack sb./sth. (physically or verbally), attack a problem / task (figurative), heart attack / cyber attack / terrorist attack, attack fiercely/savagely, attack verbally/physically, attack suddenly/unexpectedly, attack the enemy/opponent, attack a problem/difficulty, attack sb for sth, attack with sth</small></td><td id="toc-130-attain"><b>130.</b> <a href="#130-attain">attain</a><br><small>attain a goal / objective / target, attain a level / status / rank, attain success / mastery / proficiency, attainable goal (adjective form), attain finally/eventually, attain a degree/diploma, attain one's goal/aim, easily/hardly attainable, strive to attain, attain to (formal, intransitive)</small></td></tr>
+<tr><td id="toc-131-attempt"><b>131.</b> <a href="#131-attempt">attempt</a><br><small>attempt to do sth., attempted murder / robbery / suicide, attempt a record / feat, attempt bravely/daringly, attempt unsuccessfully/vainly, abandon/give up an attempt, a deliberate/conscious attempt, attempt the impossible, make an attempt (to do / at sth.), in a / an attempt to do, attempt at sth</small></td><td id="toc-132-attend"><b>132.</b> <a href="#132-attend">attend</a><br><small>attend school / college / university, attend a meeting / conference / lecture, attend a ceremony / funeral / wedding, well-attended (event), attend regularly/faithfully, attend a course/training/seminar, well-attended/poorly-attended, attend church/temple/college, attend to sb./sth. (deal with / take care of), attend to business/matters, attend at sth</small></td></tr>
+<tr><td id="toc-133-attract"><b>133.</b> <a href="#133-attract">attract</a><br><small>attract attention / interest / criticism, attract customers / tourists / investors, attract investment / funding, attract talent / top talent, like attracts like / opposites attract, attract strongly/powerfully, attract mainly/primarily, attract attention from, attract people/visitors to, be attracted by/to</small></td><td id="toc-134-attribute"><b>134.</b> <a href="#134-attribute">attribute</a><br><small>attribute correctly/incorrectly, commonly/widely attribute, largely/mainly attribute, be rightly/wrongly attributed, attribute A to B, be attributed to..., attribute importance / significance to, attribute success / failure to, directly / commonly / widely attributed to, attribute to a factor/reason/cause</small></td></tr>
+<tr><td id="toc-135-auction"><b>135.</b> <a href="#135-auction">auction</a><br><small>auction house / auctioneer, online auction / charity auction, auction publicly/privately, auction online/offline, auction sth. off, put sth. up for auction, sell sth. at / by auction, be auctioned for charity, auction by tender/bidding, auction at Sotheby's/eBay, auction to sb</small></td><td id="toc-136-audit"><b>136.</b> <a href="#136-audit">audit</a><br><small>audit financial statements / accounts, audit a course / class, internal / external audit, audit trail / log, audit thoroughly/carefully, audit annually/regularly, audit the books/records/accounts, random/surprise audit, external/independent audit, audit for sth</small></td></tr>
+<tr><td id="toc-137-augment"><b>137.</b> <a href="#137-augment">augment</a><br><small>augment income / salary / revenue, augment one's knowledge / skills, augmented reality (AR), augment the effect / impact of, augment greatly/significantly, augment further/additionally, augment capacity/efficiency, augment with additional resources, augment by adding/including, augment with supplements/additions, augment with/by sth</small></td><td id="toc-138-authorize"><b>138.</b> <a href="#138-authorize">authorize</a><br><small>authorize payment / a transaction / a request, be authorized to access / use / operate, authorized personnel / agent / representative, authorize formally/officially, authorize expenditure/spending, properly/legally authorize, authorize access/entry, authorize sb. to do sth., authorize the release / use of, authorize in writing, authorize for sth</small></td></tr>
+<tr><td id="toc-139-automate"><b>139.</b> <a href="#139-automate">automate</a><br><small>automate a process / task / system, automate production / manufacturing, automate testing / deployment, fully / partially automated, office automation / home automation, automate completely/fully, gradually/partially automate, using technology to automate, automate routine/tedious tasks, automate the collection/processing of, automate with sth</small></td><td id="toc-140-avail"><b>140.</b> <a href="#140-avail">avail</a><br><small>to no avail / without avail / of little avail, be of avail, avail little / nothing, avail fully/readily, be of little/no avail, without avail / to no avail, avail oneself of sth. (formal: use / take advantage of), not avail against, avail oneself of an opportunity, avail of services/resources</small></td></tr>
+<tr><td id="toc-141-avenge"><b>141.</b> <a href="#141-avenge">avenge</a><br><small>avenge sb.'s death / murder, avenge an insult / a wrong / an injustice, sworn to avenge, avenge the loss / defeat, seek to avenge, avenge a wrong/injustice, determined/sworn to avenge, avenge properly/fully, avenge oneself on sb., avenge the death of, avenge on/upon sb</small></td><td id="toc-142-average"><b>142.</b> <a href="#142-average">average</a><br><small>on average, above / below average, average price / cost / temperature / score, roughly/approximately average, average over time/year, average score/rate, well above/below average, average (out) to / at, average out at/to, average at/to sth</small></td></tr>
+<tr><td id="toc-143-avert"><b>143.</b> <a href="#143-avert">avert</a><br><small>avert a disaster / crisis / catastrophe, avert conflict / war / danger, narrowly avert (barely prevent), help to avert, avert successfully/effectively, narrowly/barely avert, take action/measures to avert, avert a crisis/catastrophe, avert one's eyes/gaze/face, avert one's eyes / gaze / attention (from), avert from sth</small></td><td id="toc-144-avoid"><b>144.</b> <a href="#144-avoid">avoid</a><br><small>avoid doing sth., avoid sb./sth. like the plague, avoid confusion / conflict / embarrassment, avoid a problem / disaster / mistake, avoid detection / capture / scrutiny, deliberately/intentionally avoid, carefully/studiously avoid, avoid unnecessary risk/expense, avoid the issue/question/problem, avoid at all costs, avoid by doing</small></td></tr>
+<tr><td id="toc-145-await"><b>145.</b> <a href="#145-await">await</a><br><small>await the results / outcome / decision, await approval / confirmation / instructions, await sb.'s arrival / return / reply, a surprise / fate / future awaits, eagerly / anxiously await, await patiently/impatiently, await eagerly/calmly, await further notice/developments, await sb's arrival/departure, await a response/reply/decision</small></td><td id="toc-146-awake"><b>146.</b> <a href="#146-awake">awake</a><br><small>lie / stay awake, wide awake (fully conscious), awake suddenly/gradually, fully/half awake, stay awake all night, be wide/fully awake, awake from / out of a dream / sleep, awake to sth. (become aware of), awake sb. from / with, awake from a deep sleep/nightmare</small></td></tr>
+<tr><td id="toc-147-award"><b>147.</b> <a href="#147-award">award</a><br><small>award a prize / medal / trophy / scholarship, award a contract / grant / funding, award damages / compensation, win / receive / accept an award, award posthumously, award jointly/shared, be awarded first prize/honors, award-winning, decently/substantially awarded, award sb. sth. / award sth. to sb., award to sb, award for sth</small></td><td id="toc-148-amount"><b>148.</b> <a href="#148-amount">amount</a><br><small>a large / small / significant amount of, total amount / full amount, amount roughly/approximately, amount finally/eventually, amount in total/sum, a considerable/substantial amount, amount to sth. (total / be equivalent to), not amount to much / anything, amount to the same thing, amount to nothing/little</small></td></tr>
 </table>
 <h2>Verb Details</h2>
 
@@ -192,7 +192,7 @@ code, pre { font-size: 16px !important; }
 - 村民们逃往高地时，把牲畜遗弃给了洪水。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-1-abandon)
 ---
 
 ### 2. abide <a id="2-abide"></a>
@@ -289,7 +289,7 @@ code, pre { font-size: 16px !important; }
 - 两国承诺遵守关于气候变化减排目标的协议。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-2-abide)
 ---
 
 ### 3. abolish <a id="3-abolish"></a>
@@ -386,7 +386,7 @@ code, pre { font-size: 16px !important; }
 - 政府全面取消了进口关税以刺激国际贸易。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-3-abolish)
 ---
 
 ### 4. abort <a id="4-abort"></a>
@@ -482,7 +482,7 @@ code, pre { font-size: 16px !important; }
 - 当遥测数据显示异常读数时，航天局不得不在发射时中止火箭发射。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-4-abort)
 ---
 
 ### 5. absorb <a id="5-absorb"></a>
@@ -580,7 +580,7 @@ code, pre { font-size: 16px !important; }
 - 植物的根通过高效的毛细系统从周围的土壤中吸收水分和矿物质。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-5-absorb)
 ---
 
 ### 6. abstract <a id="6-abstract"></a>
@@ -683,7 +683,7 @@ code, pre { font-size: 16px !important; }
 - 分析师能够使用先进算法从庞大的数据集中提取有意义的模式。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-6-abstract)
 ---
 
 ### 7. abuse <a id="7-abuse"></a>
@@ -780,7 +780,7 @@ code, pre { font-size: 16px !important; }
 - 该检查员因向当地企业索贿而被判滥用职权罪。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-7-abuse)
 ---
 
 ### 8. accelerate <a id="8-accelerate"></a>
@@ -883,7 +883,7 @@ code, pre { font-size: 16px !important; }
 - 航天器一旦冲出大气层，将加速进入轨道。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-8-accelerate)
 ---
 
 ### 9. accept <a id="9-accept"></a>
@@ -984,7 +984,7 @@ code, pre { font-size: 16px !important; }
 - 我们非常高兴地接受您的盛情邀请。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-9-accept)
 ---
 
 ### 10. acclaim <a id="10-acclaim"></a>
@@ -1087,7 +1087,7 @@ code, pre { font-size: 16px !important; }
 - 这位导演的最新影片因其创新的叙事和视觉效果受到评论家的赞誉。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-10-acclaim)
 ---
 
 ### 11. accommodate <a id="11-accommodate"></a>
@@ -1190,7 +1190,7 @@ code, pre { font-size: 16px !important; }
 - 新员工在最初几周必须适应公司的企业文化和工作环境。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-11-accommodate)
 ---
 
 ### 12. accompany <a id="12-accompany"></a>
@@ -1301,7 +1301,7 @@ code, pre { font-size: 16px !important; }
 - 正式晚宴伴有弦乐四重奏现场演奏的古典音乐。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-12-accompany)
 ---
 
 ### 13. accomplish <a id="13-accomplish"></a>
@@ -1390,7 +1390,7 @@ code, pre { font-size: 16px !important; }
 - 她通过整个学期保持严格的学习计划实现了学术目标。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-13-accomplish)
 ---
 
 ### 14. accord <a id="14-accord"></a>
@@ -1503,7 +1503,7 @@ code, pre { font-size: 16px !important; }
 - 社区给予长辈在地方决策中极大的尊重和权威。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-14-accord)
 ---
 
 ### 15. account <a id="15-account"></a>
@@ -1615,7 +1615,7 @@ code, pre { font-size: 16px !important; }
 - 该公司在一家大型国际银行开设了账户以方便海外交易。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-15-account)
 ---
 
 ### 16. accumulate <a id="16-accumulate"></a>
@@ -1714,7 +1714,7 @@ code, pre { font-size: 16px !important; }
 - 在多年接触污染的空气和水后，有害毒素可在体内积累。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-16-accumulate)
 ---
 
 ### 17. accuse <a id="17-accuse"></a>
@@ -1819,7 +1819,7 @@ code, pre { font-size: 16px !important; }
 - 几位投资者在失去毕生积蓄后指控该财务顾问欺诈。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-17-accuse)
 ---
 
 ### 18. accustom <a id="18-accustom"></a>
@@ -1934,7 +1934,7 @@ code, pre { font-size: 16px !important; }
 - 这位钢琴家通过反复练习困难的段落使她的手指适应了这首复杂的曲子。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-18-accustom)
 ---
 
 ### 19. ache <a id="19-ache"></a>
@@ -2036,7 +2036,7 @@ code, pre { font-size: 16px !important; }
 - 攀登山路最后一个陡峭路段时，他能感到肌肉隐隐作痛。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-19-ache)
 ---
 
 ### 20. achieve <a id="20-achieve"></a>
@@ -2133,7 +2133,7 @@ code, pre { font-size: 16px !important; }
 - 这位才华横溢的音乐家在非常年轻时就轻松获得了国际认可。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-20-achieve)
 ---
 
 ### 21. acknowledge <a id="21-acknowledge"></a>
@@ -2239,7 +2239,7 @@ code, pre { font-size: 16px !important; }
 - 国际医学界公认史密斯博士为传染病领域的权威专家。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-21-acknowledge)
 ---
 
 ### 22. acquaint <a id="22-acquaint"></a>
@@ -2346,7 +2346,7 @@ code, pre { font-size: 16px !important; }
 - 我们第一次是通过共同朋友在一次同事举办的晚宴上认识的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-22-acquaint)
 ---
 
 ### 23. acquire <a id="23-acquire"></a>
@@ -2449,7 +2449,7 @@ code, pre { font-size: 16px !important; }
 - 这位年轻音乐家从维也纳的一位退休收藏家那里获得了他的珍贵小提琴。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-23-acquire)
 ---
 
 ### 24. act <a id="24-act"></a>
@@ -2564,7 +2564,7 @@ code, pre { font-size: 16px !important; }
 - 委员会决定根据环境咨询委员会的建议采取行动。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-24-act)
 ---
 
 ### 25. activate <a id="25-activate"></a>
@@ -2665,7 +2665,7 @@ code, pre { font-size: 16px !important; }
 - 你可以用主入口旁边的按钮激活紧急警报。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-25-activate)
 ---
 
 ### 26. adapt <a id="26-adapt"></a>
@@ -2779,7 +2779,7 @@ code, pre { font-size: 16px !important; }
 - 这部小说被改编成一部十集的电视迷你剧。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-26-adapt)
 ---
 
 ### 27. add <a id="27-add"></a>
@@ -2896,7 +2896,7 @@ code, pre { font-size: 16px !important; }
 - 请边搅拌混合物边将牛奶逐渐加入面粉中。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-27-add)
 ---
 
 ### 28. addict <a id="28-addict"></a>
@@ -3021,7 +3021,7 @@ code, pre { font-size: 16px !important; }
 - 许多从社交场合开始吸烟的人可能很快对尼古丁上瘾。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-28-addict)
 ---
 
 ### 29. address <a id="29-address"></a>
@@ -3129,7 +3129,7 @@ code, pre { font-size: 16px !important; }
 - 部长向年轻学生们发表了讲话，鼓励他们追求梦想。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-29-address)
 ---
 
 ### 30. adhere <a id="30-adhere"></a>
@@ -3245,7 +3245,7 @@ code, pre { font-size: 16px !important; }
 - 装饰条可以用胶水黏附在木架边缘。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-30-adhere)
 ---
 
 ### 31. adjust <a id="31-adjust"></a>
@@ -3350,7 +3350,7 @@ code, pre { font-size: 16px !important; }
 - 难民在外国定居时常常难以适应全新的环境。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-31-adjust)
 ---
 
 ### 32. administer <a id="32-administer"></a>
@@ -3450,7 +3450,7 @@ code, pre { font-size: 16px !important; }
 - 这种实验性药物必须始终在有执照的医生的监督下施用。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-32-administer)
 ---
 
 ### 33. administrate <a id="33-administrate"></a>
@@ -3546,7 +3546,7 @@ code, pre { font-size: 16px !important; }
 - 网络管理员可以通过集中的安全系统管理用户访问权限。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-33-administrate)
 ---
 
 ### 34. admire <a id="34-admire"></a>
@@ -3646,7 +3646,7 @@ code, pre { font-size: 16px !important; }
 - 我一直钦佩祖父在处理困难情况时的智慧和耐心。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-34-admire)
 ---
 
 ### 35. admit <a id="35-admit"></a>
@@ -3753,7 +3753,7 @@ code, pre { font-size: 16px !important; }
 - 这所著名的大学每年只录取最优秀的学生进入其医学项目。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-35-admit)
 ---
 
 ### 36. adopt <a id="36-adopt"></a>
@@ -3853,7 +3853,7 @@ code, pre { font-size: 16px !important; }
 - 这种新的制造技术因其高效和成本效益而在整个行业得到广泛采用。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-36-adopt)
 ---
 
 ### 37. adore <a id="37-adore"></a>
@@ -3954,7 +3954,7 @@ code, pre { font-size: 16px !important; }
 - 全世界的观众都因这位年轻钢琴家非凡的音乐才华而崇拜她。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-37-adore)
 ---
 
 ### 38. advance <a id="38-advance"></a>
@@ -4060,7 +4060,7 @@ code, pre { font-size: 16px !important; }
 - 这位年轻科学家在可再生能源储存系统的研究上取得了显著进展。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-38-advance)
 ---
 
 ### 39. advertise <a id="39-advertise"></a>
@@ -4165,7 +4165,7 @@ code, pre { font-size: 16px !important; }
 - 该公司使用定向社交媒体广告向25至35岁的年轻专业人士宣传其产品。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-39-advertise)
 ---
 
 ### 40. advise <a id="40-advise"></a>
@@ -4274,7 +4274,7 @@ code, pre { font-size: 16px !important; }
 - 这位专家受邀就降低建筑能耗的最佳策略提供建议。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-40-advise)
 ---
 
 ### 41. advocate <a id="41-advocate"></a>
@@ -4379,7 +4379,7 @@ code, pre { font-size: 16px !important; }
 - 许多知名环境科学家强烈提倡使用可再生能源来应对气候变化。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-41-advocate)
 ---
 
 ### 42. affect <a id="42-affect"></a>
@@ -4481,7 +4481,7 @@ code, pre { font-size: 16px !important; }
 - 新实施的税收政策将影响小企业的方式可能会迫使其中许多永久关闭。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-42-affect)
 ---
 
 ### 43. affiliate <a id="43-affiliate"></a>
@@ -4584,7 +4584,7 @@ code, pre { font-size: 16px !important; }
 - 几位知名政界人士选择加入新的进步运动。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-43-affiliate)
 ---
 
 ### 44. affirm <a id="44-affirm"></a>
@@ -4681,7 +4681,7 @@ code, pre { font-size: 16px !important; }
 - CEO充满信心地确认公司能够实现季度目标。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-44-affirm)
 ---
 
 ### 45. affix <a id="45-affix"></a>
@@ -4780,7 +4780,7 @@ code, pre { font-size: 16px !important; }
 - 请将新的公司标牌固定在大门外的墙上。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-45-affix)
 ---
 
 ### 46. afford <a id="46-afford"></a>
@@ -4883,7 +4883,7 @@ code, pre { font-size: 16px !important; }
 - 随着学费不断上涨，许多低收入家庭的学生没有大量经济援助根本无法负担上大学的费用。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-46-afford)
 ---
 
 ### 47. age <a id="47-age"></a>
@@ -4988,7 +4988,7 @@ code, pre { font-size: 16px !important; }
 - 在她漫长的职业生涯中，这位女演员逐渐成长为一位成熟且备受尊敬的表演者。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-47-age)
 ---
 
 ### 48. aggravate <a id="48-aggravate"></a>
@@ -5086,7 +5086,7 @@ code, pre { font-size: 16px !important; }
 - 老师的不耐烦因学生在课堂上不停地说话而加剧。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-48-aggravate)
 ---
 
 ### 49. aggregate <a id="49-aggregate"></a>
@@ -5188,7 +5188,7 @@ code, pre { font-size: 16px !important; }
 - 该软件可以汇总所有区域办事处的销售数据以生成全面的月度报告。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-49-aggregate)
 ---
 
 ### 50. agitate <a id="50-agitate"></a>
@@ -5294,7 +5294,7 @@ code, pre { font-size: 16px !important; }
 - 学生运动开始鼓动改革过时的教育体制。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-50-agitate)
 ---
 
 ### 51. agree <a id="51-agree"></a>
@@ -5385,7 +5385,7 @@ code, pre { font-size: 16px !important; }
 - 董事会原则上批准了合并，有待进一步审查。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-51-agree)
 ---
 
 ### 52. aid <a id="52-aid"></a>
@@ -5480,7 +5480,7 @@ code, pre { font-size: 16px !important; }
 - 经济改革通过市场自由化促进了复苏。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-52-aid)
 ---
 
 ### 53. ail <a id="53-ail"></a>
@@ -5569,7 +5569,7 @@ code, pre { font-size: 16px !important; }
 - 整个公共交通系统深受长期资金不足和维护不善的困扰。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-53-ail)
 ---
 
 ### 54. aim <a id="54-aim"></a>
@@ -5657,7 +5657,7 @@ code, pre { font-size: 16px !important; }
 - 这个奢侈品牌在其手工产品的每个细节上都追求完美。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-54-aim)
 ---
 
 ### 55. air <a id="55-air"></a>
@@ -5747,7 +5747,7 @@ code, pre { font-size: 16px !important; }
 - 这档热门脱口秀在工作日晚间通过全国电视网播出。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-55-air)
 ---
 
 ### 56. alarm <a id="56-alarm"></a>
@@ -5836,7 +5836,7 @@ code, pre { font-size: 16px !important; }
 - 许多家长对热门电子游戏中的暴力内容感到担忧。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-56-alarm)
 ---
 
 ### 57. alert <a id="57-alert"></a>
@@ -5929,7 +5929,7 @@ code, pre { font-size: 16px !important; }
 - 经理通知了团队项目日程即将发生的变化。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-57-alert)
 ---
 
 ### 58. alienate <a id="58-alienate"></a>
@@ -6022,7 +6022,7 @@ code, pre { font-size: 16px !important; }
 - 严格的政策因限制顾客选择而疏远了大量客户。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-58-alienate)
 ---
 
 ### 59. align <a id="59-align"></a>
@@ -6116,7 +6116,7 @@ code, pre { font-size: 16px !important; }
 - 新课程经过精心设计以与国家教育标准保持一致。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-59-align)
 ---
 
 ### 60. allege <a id="60-allege"></a>
@@ -6204,7 +6204,7 @@ code, pre { font-size: 16px !important; }
 - 该报告声称了一些关于该公司安全实践令人不安的事实。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-60-allege)
 ---
 
 ### 61. alleviate <a id="61-alleviate"></a>
@@ -6295,7 +6295,7 @@ code, pre { font-size: 16px !important; }
 - 公司通过关于重组计划的透明沟通缓解了员工的担忧。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-61-alleviate)
 ---
 
 ### 62. allocate <a id="62-allocate"></a>
@@ -6392,7 +6392,7 @@ code, pre { font-size: 16px !important; }
 - 额外的资源被分配给了最急需的部门。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-62-allocate)
 ---
 
 ### 63. allot <a id="63-allot"></a>
@@ -6484,7 +6484,7 @@ code, pre { font-size: 16px !important; }
 - 政府资助的很大一部分被分配给了社区健康项目。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-63-allot)
 ---
 
 ### 64. allow <a id="64-allow"></a>
@@ -6576,7 +6576,7 @@ code, pre { font-size: 16px !important; }
 - 严格的规定在任何情况下都不容许例外。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-64-allow)
 ---
 
 ### 65. alloy <a id="65-alloy"></a>
@@ -6665,7 +6665,7 @@ code, pre { font-size: 16px !important; }
 - 不锈钢与铬和镍熔合以增强其耐腐蚀性。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-65-alloy)
 ---
 
 ### 66. allude <a id="66-allude"></a>
@@ -6754,7 +6754,7 @@ code, pre { font-size: 16px !important; }
 - 在她的演讲中，教授提及了一位其著作影响了她的研究的著名哲学家。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-66-allude)
 ---
 
 ### 67. allure <a id="67-allure"></a>
@@ -6847,7 +6847,7 @@ code, pre { font-size: 16px !important; }
 - 这家独家度假村将富裕游客吸引到了其 pristine 的私人海滩。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-67-allure)
 ---
 
 ### 68. ally <a id="68-ally"></a>
@@ -6940,7 +6940,7 @@ code, pre { font-size: 16px !important; }
 - 该非营利组织与几个国际卫生机构关系密切。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-68-ally)
 ---
 
 ### 69. alter <a id="69-alter"></a>
@@ -7039,7 +7039,7 @@ code, pre { font-size: 16px !important; }
 - 旧厂房大厅被改造成了一个现代化的开放式办公空间。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-69-alter)
 ---
 
 ### 70. alternate <a id="70-alternate"></a>
@@ -7131,7 +7131,7 @@ code, pre { font-size: 16px !important; }
 - 当地气候从炎热潮湿的夏季交替到寒冷干燥的冬季。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-70-alternate)
 ---
 
 ### 71. amass <a id="71-amass"></a>
@@ -7224,7 +7224,7 @@ code, pre { font-size: 16px !important; }
 - 这位政治领导人在任职期间通过腐败的商业交易积累了巨额财富。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-71-amass)
 ---
 
 ### 72. amaze <a id="72-amaze"></a>
@@ -7317,7 +7317,7 @@ code, pre { font-size: 16px !important; }
 - 植物学家们对稀有植物物种在如此恶劣条件下生存的方式感到惊奇。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-72-amaze)
 ---
 
 ### 73. amend <a id="73-amend"></a>
@@ -7414,7 +7414,7 @@ code, pre { font-size: 16px !important; }
 - 差旅政策从严格的禁止远程办公规定修改为了灵活的混合办公模式。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-73-amend)
 ---
 
 
@@ -7514,7 +7514,7 @@ code, pre { font-size: 16px !important; }
 - 起初的小分歧迅速扩大成为两个部门之间的重大冲突。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-74-amplify)
 ---
 
 
@@ -7613,7 +7613,7 @@ code, pre { font-size: 16px !important; }
 - 主人通过讲述他环球旅行中的趣事逗乐了客人。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-75-amuse)
 ---
 
 
@@ -7709,7 +7709,7 @@ code, pre { font-size: 16px !important; }
 - 团队通过一系列全面的诊断测试分析了患者的症状。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-76-analyze)
 ---
 
 
@@ -7805,7 +7805,7 @@ code, pre { font-size: 16px !important; }
 - 帐篷用沉重的金属桩牢牢固定在地上以抵御强风。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-77-anchor)
 ---
 
 
@@ -7899,7 +7899,7 @@ code, pre { font-size: 16px !important; }
 - 经理因年终奖分配不公而激怒了全体职员。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-78-anger)
 ---
 
 
@@ -7991,7 +7991,7 @@ code, pre { font-size: 16px !important; }
 - 这个社区项目在合作与互助的精神驱动下充满活力。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-79-animate)
 ---
 
 
@@ -8087,7 +8087,7 @@ code, pre { font-size: 16px !important; }
 - 新被征服的省份逐渐被并入了帝国的行政和法律体系。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-80-annex)
 ---
 
 
@@ -8187,7 +8187,7 @@ code, pre { font-size: 16px !important; }
 - 获奖者将在下周五的新闻发布会上公布。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-81-announce)
 ---
 
 
@@ -8285,7 +8285,7 @@ code, pre { font-size: 16px !important; }
 - 弟弟在公路旅行中用没完没了的傻问题烦扰他的姐姐。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-82-annoy)
 ---
 
 
@@ -8385,7 +8385,7 @@ code, pre { font-size: 16px !important; }
 - 政府必须回应公众日益强烈的加强环境保护的诉求。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-83-answer)
 ---
 
 
@@ -8479,7 +8479,7 @@ code, pre { font-size: 16px !important; }
 - 学生们怀着极大的兴奋期待着暑假的到来。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-84-anticipate)
 ---
 
 
@@ -8571,7 +8571,7 @@ code, pre { font-size: 16px !important; }
 - 政府因救灾延误向受灾居民正式道歉。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-85-apologize)
 ---
 
 
@@ -8663,7 +8663,7 @@ code, pre { font-size: 16px !important; }
 - 国际社会对战俘所遭受的非人道待遇感到极度震惊。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-86-appal)
 ---
 
 
@@ -8761,7 +8761,7 @@ code, pre { font-size: 16px !important; }
 - 环保组织呼吁政府对工业排放实施更严格的规定。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-87-appeal)
 ---
 
 
@@ -8864,7 +8864,7 @@ code, pre { font-size: 16px !important; }
 - 这个复杂问题的解决方案在经验丰富的工程师看来相当简单。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-88-appear)
 ---
 
 
@@ -8956,7 +8956,7 @@ code, pre { font-size: 16px !important; }
 - 政府试图通过一系列社会福利改革来平息公众的不满。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-89-appease)
 ---
 
 
@@ -9050,7 +9050,7 @@ code, pre { font-size: 16px !important; }
 - 在感人的表演结束时，全场观众报以真诚而热烈的掌声。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-90-applaud)
 ---
 
 
@@ -9150,7 +9150,7 @@ code, pre { font-size: 16px !important; }
 - 他于2023年申请在当地大学学习环境工程。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-91-apply)
 ---
 
 
@@ -9246,7 +9246,7 @@ code, pre { font-size: 16px !important; }
 - 董事会决定任命她为公司的首席财务官。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-92-appoint)
 ---
 
 
@@ -9340,7 +9340,7 @@ code, pre { font-size: 16px !important; }
 - 专业鉴定师将这辆 vintage 跑车估价超过二十万美元。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-93-appraise)
 ---
 
 
@@ -9434,7 +9434,7 @@ code, pre { font-size: 16px !important; }
 - 她欣赏古典音乐是因为其情感深度和结构复杂性。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-94-appreciate)
 ---
 
 
@@ -9530,7 +9530,7 @@ code, pre { font-size: 16px !important; }
 - 应该从科学的角度而不是情感的角度来处理这个环境问题。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-95-approach)
 ---
 
 
@@ -9626,7 +9626,7 @@ code, pre { font-size: 16px !important; }
 - 国家预算的很大一部分被拨用于教育和医疗目的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-96-appropriate)
 ---
 
 
@@ -9720,7 +9720,7 @@ code, pre { font-size: 16px !important; }
 - 委员会为可再生能源研究项目批准了一项特别拨款。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-97-approve)
 ---
 
 
@@ -9814,7 +9814,7 @@ code, pre { font-size: 16px !important; }
 - 证人对事件的描述只是接近真相，但遗漏了几个关键细节。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-98-approximate)
 ---
 
 
@@ -9908,7 +9908,7 @@ code, pre { font-size: 16px !important; }
 - 一位独立的国际专家受邀就复杂的贸易纠纷进行仲裁。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-99-arbitrate)
 ---
 
 
@@ -10002,7 +10002,7 @@ code, pre { font-size: 16px !important; }
 - 古老的罗马高架水渠雄伟地向城市呈拱形延伸，从远处的泉眼引水而来。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-100-arch)
 ---
 
 
@@ -10097,7 +10097,7 @@ code, pre { font-size: 16px !important; }
 - 国家图书馆归档所有报纸以供保存和历史参考。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-101-archive)
 ---
 
 
@@ -10192,7 +10192,7 @@ code, pre { font-size: 16px !important; }
 - 这位参议员主张新教育法案，强调其对该国经济竞争力的长期益处。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-102-argue)
 ---
 
 
@@ -10282,7 +10282,7 @@ code, pre { font-size: 16px !important; }
 - 由于贸易协定中的条款含糊不清，出现了许多法律纠纷。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-103-arise)
 ---
 
 
@@ -10376,7 +10376,7 @@ code, pre { font-size: 16px !important; }
 - 辩论前，她用最新的研究数据和统计证据武装了自己。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-104-arm)
 ---
 
 
@@ -10465,7 +10465,7 @@ code, pre { font-size: 16px !important; }
 - 电话持续不断的铃声 finally 把她从午后的沉睡中唤醒。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-105-arouse)
 ---
 
 
@@ -10563,7 +10563,7 @@ code, pre { font-size: 16px !important; }
 - 酒店安排了一辆出租车清晨到机场接客人。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-106-arrange)
 ---
 
 
@@ -10661,7 +10661,7 @@ code, pre { font-size: 16px !important; }
 - 叛军沿争议地区边界列阵对抗政府军。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-107-array)
 ---
 
 
@@ -10751,7 +10751,7 @@ code, pre { font-size: 16px !important; }
 - 警方在收集到足够证据后以武装抢劫罪逮捕了嫌疑人。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-108-arrest)
 ---
 
 
@@ -10847,7 +10847,7 @@ code, pre { font-size: 16px !important; }
 - 大多数会议参与者乘坐高铁抵达以减少碳足迹。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-109-arrive)
 ---
 
 
@@ -10936,7 +10936,7 @@ code, pre { font-size: 16px !important; }
 - 在人体骨骼系统中，股骨与髋骨连接构成髋关节。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-110-articulate)
 ---
 
 
@@ -11027,7 +11027,7 @@ code, pre { font-size: 16px !important; }
 - 坚定的登山者在极端条件下经过数周的艰苦攀登终于登上了顶峰。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-111-ascend)
 ---
 
 
@@ -11118,7 +11118,7 @@ code, pre { font-size: 16px !important; }
 - 事件的真相通过彻底公正的调查得以查明。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-112-ascertain)
 ---
 
 
@@ -11208,7 +11208,7 @@ code, pre { font-size: 16px !important; }
 - 历史学家将古代文明的衰落归因于气候变化和外部入侵的 combination。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-113-ascribe)
 ---
 
 
@@ -11305,7 +11305,7 @@ code, pre { font-size: 16px !important; }
 - 如果你对程序不确定，请毫不犹豫地向主管寻求帮助。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-114-ask)
 ---
 
 
@@ -11397,7 +11397,7 @@ code, pre { font-size: 16px !important; }
 - 这位年轻音乐家始终追求每场演出的卓越表现。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-115-aspire)
 ---
 
 
@@ -11483,7 +11483,7 @@ code, pre { font-size: 16px !important; }
 - 首相在一次 public 集会上被一名 lone 枪手暗杀。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-116-assassinate)
 ---
 
 
@@ -11573,7 +11573,7 @@ code, pre { font-size: 16px !important; }
 - 袭击者在 violent 抢劫后被指控使用致命武器攻击。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-117-assault)
 ---
 
 
@@ -11665,7 +11665,7 @@ code, pre { font-size: 16px !important; }
 - 这件独特的家具是用回收的木托盘和金属零件组装而成的。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-118-assemble)
 ---
 
 
@@ -11750,7 +11750,7 @@ code, pre { font-size: 16px !important; }
 - 证人在法庭上坚定地声称他在犯罪现场看到了被告。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-119-assert)
 ---
 
 
@@ -11843,7 +11843,7 @@ code, pre { font-size: 16px !important; }
 - 所有求职者在被邀请面试前都会经过 suitability 的仔细评估。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-120-assess)
 ---
 
 
@@ -11941,7 +11941,7 @@ code, pre { font-size: 16px !important; }
 - 最困难的任务被分配给了研究团队中最有经验的成员。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-121-assign)
 ---
 
 
@@ -12033,7 +12033,7 @@ code, pre { font-size: 16px !important; }
 - 新来者需要时间才能完全融入 foreign 文化并理解其社会规范。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-122-assimilate)
 ---
 
 
@@ -12127,7 +12127,7 @@ code, pre { font-size: 16px !important; }
 - 助教协助教授批改论文和准备课堂材料。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-123-assist)
 ---
 
 
@@ -12218,7 +12218,7 @@ code, pre { font-size: 16px !important; }
 - 大多数人将绿色与自然、健康和环保意识联系起来。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-124-associate)
 ---
 
 
@@ -12305,7 +12305,7 @@ code, pre { font-size: 16px !important; }
 - 这位经验丰富的老师在引入微积分概念之前，认为她的学生已经扎实掌握了基础代数。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-125-assume)
 ---
 
 
@@ -12394,7 +12394,7 @@ code, pre { font-size: 16px !important; }
 - 项目经理向利益相关者保证，这个雄心勃勃的建筑项目将在约定的预算和时间范围内交付。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-126-assure)
 ---
 
 
@@ -12478,7 +12478,7 @@ code, pre { font-size: 16px !important; }
 - 研究团队对他们临床试验数据分析得出的完全意想不到的结果感到惊讶。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-127-astonish)
 ---
 
 
@@ -12567,7 +12567,7 @@ code, pre { font-size: 16px !important; }
 - 请将填写好的申请表附在邮件中发送给招生办公室。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-128-attach)
 ---
 
 
@@ -12653,7 +12653,7 @@ code, pre { font-size: 16px !important; }
 - 几位参议员抨击了新法案，认为它可能增加国家债务并加重纳税人负担。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-129-attack)
 ---
 
 
@@ -12737,7 +12737,7 @@ code, pre { font-size: 16px !important; }
 - 纵观历史，很少有哲学家达到亚里士多德对西方思想所产生的持久影响力水平。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-130-attain)
 ---
 
 
@@ -12827,7 +12827,7 @@ code, pre { font-size: 16px !important; }
 - 登山者勇敢地尝试在天气恶化的情况下登顶。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-131-attempt)
 ---
 
 
@@ -12917,7 +12917,7 @@ code, pre { font-size: 16px !important; }
 - 急诊室医生立即处理了车祸中受重伤的患者。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-132-attend)
 ---
 
 
@@ -13006,7 +13006,7 @@ code, pre { font-size: 16px !important; }
 - 这个拥有壮丽自然景观和多样野生动植物的新国家公园在第一年就吸引了来自世界各地的数百万游客。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-133-attract)
 ---
 
 
@@ -13101,7 +13101,7 @@ code, pre { font-size: 16px !important; }
 - 报告将近期的经济增长归因于对技术和创新的增加投资。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-134-attribute)
 ---
 
 
@@ -13199,7 +13199,7 @@ code, pre { font-size: 16px !important; }
 - 这批 rare 的 antique 家具收藏在纽约佳士得被交付拍卖。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-135-auction)
 ---
 
 
@@ -13283,7 +13283,7 @@ code, pre { font-size: 16px !important; }
 - 这家独立会计师事务所受雇审计这家跨国公司的国际税务合规情况。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-136-audit)
 ---
 
 
@@ -13375,7 +13375,7 @@ code, pre { font-size: 16px !important; }
 - 学校决定用额外的在线学习资源和数字工具来丰富其教学项目。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-137-augment)
 ---
 
 
@@ -13467,7 +13467,7 @@ code, pre { font-size: 16px !important; }
 - 经理授权采购部门与潜在供应商进行谈判。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-138-authorize)
 ---
 
 
@@ -13555,7 +13555,7 @@ code, pre { font-size: 16px !important; }
 - 这款新软件可以自动化处理海量数据集，显著减少数据分析所需的时间。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-139-automate)
 ---
 
 
@@ -13645,7 +13645,7 @@ code, pre { font-size: 16px !important; }
 - 强烈鼓励学生利用校园内丰富的图书馆和研究设施。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-140-avail)
 ---
 
 
@@ -13734,7 +13734,7 @@ code, pre { font-size: 16px !important; }
 - 在这部经典小说中，英雄发誓要向那些背叛他家族的人复仇。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-141-avenge)
 ---
 
 
@@ -13822,7 +13822,7 @@ code, pre { font-size: 16px !important; }
 - 该地区的 daily 温度全年平均约为25摄氏度。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-142-average)
 ---
 
 
@@ -13909,7 +13909,7 @@ code, pre { font-size: 16px !important; }
 - 政府试图通过宣布受欢迎的新福利计划来转移公众对日益严重的经济危机的注意力。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-143-avert)
 ---
 
 
@@ -13998,7 +13998,7 @@ code, pre { font-size: 16px !important; }
 - 这家建筑公司通过精心规划复杂项目的每个阶段，成功避免了重大的经济损失。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-144-avoid)
 ---
 
 
@@ -14078,7 +14078,7 @@ code, pre { font-size: 16px !important; }
 - 长途徒步结束时，热腾腾的饭菜和舒适的床在等着我们。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-145-await)
 ---
 
 
@@ -14168,7 +14168,7 @@ code, pre { font-size: 16px !important; }
 - 患者在复杂的外科手术后慢慢从沉睡中醒来。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-146-awake)
 ---
 
 
@@ -14261,7 +14261,7 @@ code, pre { font-size: 16px !important; }
 - 委员会决定将这项著名的奖学金授予最符合条件的候选人。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-147-award)
 ---
 
 
@@ -14352,7 +14352,7 @@ code, pre { font-size: 16px !important; }
 - 救灾基金的捐款总额超过一百万美元。
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-148-amount)
 ---
 
 ---

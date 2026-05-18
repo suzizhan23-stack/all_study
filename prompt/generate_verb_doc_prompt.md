@@ -36,7 +36,7 @@ code, pre { font-size: 16px !important; }
 ## 📖 Table of Contents
 
 <table>
-<tr><td><b>1.</b> <a href="#1-verb">verb</a><br><small>colloc1, colloc2, colloc3, colloc4, colloc5...</small></td><td><b>2.</b> <a href="#2-verb">verb</a><br><small>colloc1, colloc2, colloc3, colloc4, colloc5...</small></td></tr>
+<tr><td id="toc-1-verb"><b>1.</b> <a href="#1-verb">verb</a><br><small>colloc1, colloc2, colloc3, colloc4, colloc5...</small></td><td id="toc-2-verb"><b>2.</b> <a href="#2-verb">verb</a><br><small>colloc1, colloc2, colloc3, colloc4, colloc5...</small></td></tr>
 （每行 2 个动词，2 列）
 </table>
 
@@ -121,7 +121,7 @@ code, pre { font-size: 16px !important; }
 （与 EN Example Sentences 一一对应，数量完全一致）
 </details>
 
-[↑ Back to Top](#top)
+[↑ Back to Top](#toc-N-verb)
 
 ---
 ```
@@ -227,8 +227,10 @@ code, pre { font-size: 16px !important; }
 ### 锚点与跳转
 - 每个动词标题：`### N. verb <a id="N-verb"></a>`
 - 页面顶部锚点：`<div id="top"></div>`
-- 每条动词末尾：`[↑ Back to Top](#top)` 独占一行，前面有空行
-- `[↑ Back to Top](#top)` 后紧跟 `---` 分隔，`---` 前后均有空行
+- 目录中每个 `<td>` 添加 `id="toc-N-verb"`，如 `<td id="toc-1-abandon">`
+- 每条动词末尾：`[↑ Back to Top](#toc-N-verb)` 独占一行，前面有空行（跳转到目录中该词所在行）
+- `[↑ Back to Top](#toc-N-verb)` 后紧跟 `---` 分隔，`---` 前后均有空行
+- 文档末尾页脚保留 `[↑ Back to Top](#top)` 指向文档顶部
 - 目录链接：`(#N-verb)` 与 `id="N-verb"` 完全匹配
 
 ### 中英文分离规则总表
@@ -252,6 +254,7 @@ echo "动词条目: $(grep -cE '^### [0-9]+\.' file.md)"
 echo "TOC: $(grep -c '## 📖 Table of Contents' file.md)"
 echo "Verb Details: $(grep -c '<h2>Verb Details</h2>' file.md)"
 echo "Back to Top: $(grep -c '↑ Back to Top' file.md)"
+echo "TOC IDs: $(grep -c 'id="toc-' file.md)"
 
 # 中英文分离完整性
 echo "EN 搭配: $(grep -c 'General Collocations (English)' file.md)"
@@ -273,7 +276,8 @@ echo "CN 例句: $(grep -c '📖 例句翻译' file.md)"
 | 动词条目数 | = 该字母动词总数 |
 | `## 📖 Table of Contents` | = 1 |
 | `<h2>Verb Details</h2>` | = 1 |
-| `↑ Back to Top` | = 动词数 + 1 |
+| `↑ Back to Top` | = 动词数 + 1（含页脚 `#top` 链接） |
+| 目录 TOC 的 `id="toc-N-verb"` | = 动词数 |
 | `General Collocations (English)` | = 动词数 |
 | `<summary><b>General Collocations (中文)</b></summary>` | = 动词数 |
 | `Preposition Patterns (English)` | = 动词数 |
@@ -285,6 +289,7 @@ echo "CN 例句: $(grep -c '📖 例句翻译' file.md)"
 | 例句 EN/CN 条目数 | 相等 |
 | Preposition Patterns 条目 = 介词搭配例句 | 完全一致 |
 | TOC 链接 `#N-verb` = 锚点 `id="N-verb"` | 全部匹配 |
+| TOC `<td id="toc-N-verb">` 与 `Back to Top` 中的 `#toc-N-verb` | 全部匹配 |
 
 ---
 
@@ -294,7 +299,8 @@ echo "CN 例句: $(grep -c '📖 例句翻译' file.md)"
 |------|------|------|
 | `**文字**` 显示为文字（不是粗体） | 在 `<summary>` 等 HTML 标签内使用 markdown | 改用 `<b>文字</b>` |
 | `**标题**` 显示为文字（不是粗体） | HTML 标签后缺少空行就接 markdown | 在 `</details>` 和 `**标题**` 之间加空行 |
-| `[↑ Back to Top](#top)` 不是链接 | 代码写成了 `[↑ Back to Top](#top)` 但缺少 `[` 或 `]` | 确保格式为 `[↑ Back to Top](#top)` |
+| `[↑ Back to Top](#toc-N-verb)` 不是链接 | 代码写成了 `[↑ Back to Top](#toc-N-verb)` 但缺少 `[` 或 `]` | 确保格式正确 |
+| Back to Top 跳到了文档顶部而非目录 | 使用了 `#top` 而非 `#toc-N-verb` | 动词末尾使用 `[↑ Back to Top](#toc-N-verb)`，只有文档页脚用 `#top` |
 | 中文字体没有变小 | 页级 CSS 用 `!important` 覆盖了内联样式 | 内联样式也要加 `!important` |
 | 中文折叠块没有折叠 | `<details>` 漏写了 `open` 属性，或 `open` 写成了 `<details open>` | CN 块用 `<details>`（无 open），EN 块用 `<details open>` |
 
@@ -327,7 +333,7 @@ echo "CN 例句: $(grep -c '📖 例句翻译' file.md)"
 *Document generated for study purposes. Example sentences are adapted from authentic sources for educational use.*
 
 [↑ Back to Top](#top)
-```
+```（注意：文档末尾的页脚链接保留 `#top`，动词末尾使用 `#toc-N-verb`）
 
 ---
 
