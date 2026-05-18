@@ -357,7 +357,151 @@ git remote set-url origin git@github-new:user/repo.git
 
 ---
 
-## 六、提交信息规范（Conventional Commits）
+## 六、Push 超时与网络排查
+
+`git push` 超时（timeout）通常不是 Git 本身的问题，而是本地网络无法连通 GitHub 服务器。按顺序排查：
+
+### 6.1 快速定位问题
+
+```bash
+# ① 检查是否能连通 GitHub
+ping github.com
+
+# ② 检查 Git 远程地址用的是 HTTPS 还是 SSH
+git remote -v
+# 输出示例：
+# origin  https://github.com/user/repo.git (fetch)    ← HTTPS
+# origin  git@github.com:user/repo.git (push)          ← SSH
+
+# ③ 测试 SSH 连通性（仅 SSH 协议）
+ssh -T git@github.com
+# 成功 → Hi 用户名! You've successfully authenticated...
+# 失败 → ssh: connect to host github.com port 22: Connection timed out
+```
+
+| 现象 | 可能原因 | 下一步 |
+|------|---------|--------|
+| `ping` 不通 | DNS 污染 / 墙 | 换 DNS 或开代理 |
+| `ping` 通但 `git push` 超时 | HTTPS 被干扰 | 换 SSH，或配代理 |
+| `ssh -T` 连接超时（端口 22） | SSH 端口被墙 | 换 HTTPS + 代理，或用 SSH 的 443 端口 |
+| `ssh -T` 显示 `Permission denied` | SSH Key 没配好 | 检查公钥是否添加到 GitHub |
+
+### 6.2 DNS 问题
+
+```bash
+# 查看当前 DNS 解析
+nslookup github.com
+
+# Windows：修改 DNS 为公共 DNS
+# 设置 → 网络和 Internet → 更改适配器选项 → 右键网卡 → 属性 → IPv4 → 使用以下 DNS
+# 首选 1.1.1.1（Cloudflare）或 8.8.8.8（Google）
+```
+
+### 6.3 代理配置
+
+**场景 A：系统级代理（Clash / V2Ray / 机场）：**
+
+```bash
+# 查看 Git 是否已配代理
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+# 设置代理（地址和端口按实际代理软件填写）
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+
+# 取消代理
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+**常见代理端口：**
+
+| 软件 | 默认 HTTP 端口 |
+|------|---------------|
+| Clash / Clash Meta | 7890 |
+| V2RayN | 10809 |
+| Sing-box | 7890 |
+| Shadowsocks | 1080（SOCKS5） |
+
+如果代理软件只开了 SOCKS5，Git 需要额外配置：
+
+```bash
+git config --global http.proxy socks5://127.0.0.1:1080
+git config --global https.proxy socks5://127.0.0.1:1080
+```
+
+**场景 B：只想当前命令走代理（不全局配置）：**
+
+```bash
+# Linux / macOS
+ALL_PROXY=socks5://127.0.0.1:1080 git push
+
+# Windows PowerShell
+$env:ALL_PROXY="socks5://127.0.0.1:1080"; git push
+```
+
+**场景 C：IDE（IntelliJ IDEA / WebStorm 等）配置代理：**
+
+```
+File → Settings → Appearance & Behavior → System Settings → HTTP Proxy
+选择 "Manual proxy configuration" → 填入代理地址和端口
+Git 操作会走 IDE 的代理设置
+```
+
+### 6.4 更换协议
+
+如果一种协议不通，切到另一种试试：
+
+```bash
+# HTTPS → SSH
+git remote set-url origin git@github.com:user/repo.git
+
+# SSH → HTTPS
+git remote set-url origin https://github.com/user/repo.git
+```
+
+**SSH 使用 443 端口**（适用于 22 端口被封的环境）：
+
+编辑 `~/.ssh/config`：
+
+```
+Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git
+```
+
+验证：`ssh -T git@github.com`
+
+### 6.5 换源（Gitee 镜像）
+
+国内用户可以配置 Gitee 镜像加速 clone，但 **push 仍然建议用 GitHub 原地址**：
+
+```bash
+# clone 加速（仅下载）
+git clone https://github.com/user/repo.git
+# 改回源地址以便 push
+git remote set-url origin https://github.com/user/repo.git
+```
+
+### 6.6 WSL 特殊问题
+
+Windows WSL 里访问 Windows 主机的代理：
+
+```bash
+# WSL 2 中 localhost 指向 WSL 自己，需用 Windows 主机 IP
+# Windows IP 通常在 /etc/resolv.conf 能看到
+cat /etc/resolv.conf | grep nameserver | awk '{print $2}'
+# 输出示例：172.25.112.1
+
+# 或直接用宿主机的 hostname
+git config --global http.proxy http://$(hostname).local:7890
+```
+
+---
+
+## 七、提交信息规范（Conventional Commits）
 
 ```bash
 <type>: <简短描述>
@@ -381,7 +525,7 @@ refactor: extract validation logic into composable
 
 ---
 
-## 七、.gitignore 模板
+## 八、.gitignore 模板
 
 ```gitignore
 # 依赖
