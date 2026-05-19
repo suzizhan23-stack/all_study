@@ -125,6 +125,26 @@ li { padding: 8px; margin: 4px; background: #f0f0f0; border-radius: 4px; }
 </style>
 ```
 
+**为什么这里用 `ref()`？**
+
+`ref` 是 Vue 3 的**响应式容器**。普通变量赋值不会触发视图更新：
+
+```ts
+let title = '我的第一个 Vue 页面'
+title = '新标题'        // Vue 不知道 title 变了，页面不会变
+```
+
+而 `ref()` 包裹后，Vue 会追踪这个值的变化——改了 `.value`，模板自动重新渲染：
+
+```ts
+const title = ref('我的第一个 Vue 页面')
+title.value = '新标题'  // 页面自动更新
+```
+
+模板里不需要写 `.value`，Vue 自动解包，所以直接写 `{{ title }}` 就行。
+
+`ref` 可以包任何类型：`ref(0)` 数字、`ref('')` 字符串、`ref(false)` 布尔、`ref([])` 数组、`ref({})` 对象。
+
 **② 配置路由 `src/router/index.ts`**：
 
 ```typescript
@@ -736,103 +756,103 @@ const html = '<strong>加粗</strong><script>alert("xss")</script>'
 
 #### 2.1.4 `v-bind` / `:` — 属性绑定
 
-绑定 HTML 属性到动态值。这是 Vue 模板里**最常用**的指令：
+把 JavaScript 变量的值设置到 HTML 属性上。`v-bind` 是完整写法，`:` 是简写：
 
 ```vue
 <script setup lang="ts">
-const url = 'https://vuejs.org'
-const isDisabled = ref(true)
-const id = 'main-title'
-const attrName = 'href'
-const attrValue = '/about'
-const dynamicKey = 'data-id'
-const dynamicValue = '123'
+const url = ref('https://vuejs.org')
 </script>
 
 <template>
-  <!-- 标准绑定 -->
-  <a :href="url">链接</a>
-
-  <!-- 布尔属性：存在与否取决于值的真假 -->
-  <button :disabled="isDisabled">提交</button>
-  <!-- isDisabled 为 true → <button disabled> -->
-  <!-- isDisabled 为 false → <button>（属性被移除） -->
-
-  <!-- 同名简写（Vue 3.4+） -->
-  <div :id></div>
-  <!-- 等价于 :id="id" -->
-
-  <!-- 动态属性名 -->
-  <div :[dynamicKey]="dynamicValue"></div>
-  <!-- 当 dynamicKey = 'data-id' 时，渲染为 <div data-id="123"> -->
-
-  <!-- 绑定对象（一次性展开多个属性） -->
-  <a v-bind="{ href: url, target: '_blank', rel: 'noopener' }">
-  <!-- 注意这里必须用 v-bind 而非简写 :，因为简写只接受单个属性 -->
+  <a v-bind:href="url">完整写法</a>
+  <a :href="url">简写（99% 情况用这个）</a>
+  <!-- 最终都是 <a href="https://vuejs.org"> -->
 </template>
 ```
 
-**`v-bind` 的特殊处理：**
+##### 值的处理规则
 
-| 属性类型 | 行为 |
-|---------|------|
-| `string` / `number` | 直接设置为属性值 |
-| `boolean` | `true` → 添加属性；`false` → 移除属性 |
-| `null` / `undefined` | 移除该属性 |
-| `class` / `style` | **特殊处理**（见下方详解） |
+| 值类型 | 结果 |
+|--------|------|
+| `:href="'https://x.com'"` | 直接设 `href="https://x.com"` |
+| `:disabled="true"` | 加属性：`<button disabled>` |
+| `:disabled="false"` | 移除属性：`<button>` |
+| `:title="null"` | 移除 `title` 属性 |
+| `:title="undefined"` | 移除 `title` 属性 |
 
-**`class` 绑定的三种形式：**
+##### 三种小技巧
+
+**① 同名简写（Vue 3.4+）**
+
+```vue
+<div :id></div>     <!-- 等价于 :id="id" -->
+```
+
+前提是 script 里有个变量叫 `id`，属性名和变量名一样才能省。
+
+**② 动态属性名**
 
 ```vue
 <script setup lang="ts">
-const isActive = ref(true)
-const hasError = ref(false)
-const theme = ref('dark')
-const activeClass = 'highlight'
-const errorClass = 'text-danger'
+const whichAttr = ref('href')
+const whichVal = ref('/about')
 </script>
 
 <template>
-  <!-- ① 对象语法：键是类名，值是布尔条件 -->
-  <div :class="{ active: isActive, 'text-danger': hasError }"></div>
-
-  <!-- ② 数组语法：元素是类名字符串或对象 -->
-  <div :class="[activeClass, theme === 'dark' ? 'dark-theme' : 'light-theme']"></div>
-  <div :class="[isActive ? 'active' : '', 'base']"></div>
-
-  <!-- ③ 数组内嵌套对象 -->
-  <div :class="[{ active: isActive }, errorClass]"></div>
+  <a :[whichAttr]="whichVal">链接</a>
+  <!-- whichAttr = 'href' 时 → <a href="/about"> -->
+  <!-- whichAttr = 'title' 时 → <a title="/about"> -->
 </template>
 ```
 
-`class` 绑定的关键行为：Vue **不会覆盖**元素上已有的静态 `class`，而是**合并**：
+方括号 `[]` 表示属性名来自变量——你几乎用不到，但知道 Vue 能做到就行。
+
+**③ 对象展开（一次绑多个）**
 
 ```vue
-<div class="base" :class="{ active: true }">
-<!-- 最终渲染：<div class="base active"> -->
+<a v-bind="{ href: url, target: '_blank', rel: 'noopener' }">
+<!-- 展开为 <a href="..." target="_blank" rel="noopener"> -->
 ```
 
-**`style` 绑定的两种形式：**
+注意这里必须用 `v-bind` 不能用 `:`，因为 `:` 后面只能跟一个属性名。
+
+##### `:class` — 动态 CSS 类
+
+三种写法，按场景选：
+
+| 写法 | 适用场景 | 示例 |
+|------|----------|------|
+| `:class="{ active: isActive }"` | 按条件开关类 | `{ 'text-danger': hasError }` |
+| `:class="['base', activeClass]"` | 多个类名拼凑 | `['btn', type === 'primary' ? 'btn-primary' : 'btn-default']` |
+| `:class="[{ active: isActive }, 'static']"` | 条件+固定混合 | `[{ active: isActive }, 'base']` |
+
+关键行为：**Vue 不会覆盖静态 `class`，而是合并**：
+
+```vue
+<div class="base" :class="{ active: isActive }">
+<!-- isActive=true → <div class="base active"> -->
+<!-- isActive=false → <div class="base"> -->
+```
+
+##### `:style` — 动态内联样式
 
 ```vue
 <script setup lang="ts">
 const color = ref('red')
 const fontSize = ref(16)
-const baseStyle = { backgroundColor: '#f0f0f0', padding: '10px' }
-const activeStyle = { color: 'green', fontWeight: 'bold' }
 </script>
 
 <template>
-  <!-- ① 对象语法：CSS 属性名用 camelCase 或 kebab-case（加引号） -->
+  <!-- 对象：camelCase（推荐）或引号 kebab-case -->
   <div :style="{ color, fontSize: fontSize + 'px' }"></div>
-  <div :style="{ 'font-size': '14px', 'background-color': '#fff' }"></div>
+  <div :style="{ 'background-color': '#fff' }"></div>
 
-  <!-- ② 数组语法：合并多个样式对象 -->
+  <!-- 数组：合并多个样式对象 -->
   <div :style="[baseStyle, activeStyle]"></div>
-
-  <!-- ③ 自动加前缀：Vue 会自动检测并添加浏览器前缀（-webkit- 等） -->
 </template>
 ```
+
+Vue 会自动给需要前缀的属性加 `-webkit-`、`-moz-` 等浏览器前缀。
 
 #### 2.1.5 一次性渲染 `v-once`
 
@@ -1426,195 +1446,102 @@ function onUserClick(userId: string, source: string) {
 
 ### 2.5 双向绑定 — `v-model`
 
-`v-model` 是 Vue 双向绑定的核心指令——数据变视图更新，用户输入数据也变。本质是 `:value` + `@input` 的语法糖。
+`v-model` = 把数据显示到表单 + 用户修改时自动更新数据。本质是 `:value` + `@input` 的语法糖。
 
-#### 2.5.1 各种表单控件的用法
+`ref('')` 是 Vue 的响应式容器——用 `ref` 包起来的变量，改了值才会触发模板更新。`ref('')` 初始值是空字符串，`ref(false)` 初始值是 `false`。模板里直接写变量名，不需要 `.value`。
+
+##### 三个最常用的
 
 ```vue
 <script setup lang="ts">
 const name = ref('')
-const gender = ref('')
 const agree = ref(false)
 const city = ref('')
-const skills = ref<string[]>([])
-const intro = ref('')
-const fontSize = ref(16)
-const birthday = ref('')
-const color = ref('#42b883')
-const volume = ref(50)
 </script>
 
 <template>
-  <!-- 文本输入框 -->
+  <!-- 文本输入：string ↔ input -->
   <input v-model="name" placeholder="姓名">
 
-  <!-- 多行文本域（注意：textareas 不要用 innerHTML，只能用 v-model） -->
-  <textarea v-model="intro" placeholder="简介" rows="3"></textarea>
-
-  <!-- 单选框：同一 gender 变量，不同 value -->
-  <label><input type="radio" v-model="gender" value="male"> 男</label>
-  <label><input type="radio" v-model="gender" value="female"> 女</label>
-
-  <!-- 复选框：单个 → boolean -->
+  <!-- 复选框：boolean ↔ checked -->
   <label><input type="checkbox" v-model="agree"> 同意协议</label>
 
-  <!-- 复选框：多个同组 → string[]（值由 value 属性决定） -->
-  <label><input type="checkbox" v-model="skills" value="vue"> Vue</label>
-  <label><input type="checkbox" v-model="skills" value="ts"> TypeScript</label>
-  <label><input type="checkbox" v-model="skills" value="pinia"> Pinia</label>
-
-  <!-- 单选下拉 -->
+  <!-- 下拉选择：string ↔ selected -->
   <select v-model="city">
     <option value="">请选择</option>
     <option value="beijing">北京</option>
     <option value="shanghai">上海</option>
   </select>
-
-  <!-- 多选下拉（按住 Ctrl 多选） -->
-  <select v-model="skills" multiple>
-    <option value="vue">Vue</option>
-    <option value="ts">TypeScript</option>
-    <option value="pinia">Pinia</option>
-  </select>
-
-  <!-- 日期/时间 -->
-  <input type="date" v-model="birthday">
-  <input type="datetime-local" v-model="birthday">
-  <input type="time" v-model="birthday">
-
-  <!-- 颜色选择器 -->
-  <input type="color" v-model="color">
-
-  <!-- 滑块 -->
-  <input type="range" v-model="volume" min="0" max="100">
-  <span>{{ volume }}</span>
 </template>
 ```
 
-#### 2.5.2 值绑定对照表
+##### 其他控件速查
 
-| 输入类型 | `v-model` 绑定的类型 | 说明 |
-|---------|-------------------|------|
+| 控件 | 绑定的值类型 | 说明 |
+|------|------------|------|
 | `<input type="text">` / `<textarea>` | `string` | 最常用 |
-| `<input type="checkbox">` 单个 | `boolean` | 选中/未选中 |
-| `<input type="checkbox">` 同组多个 | `string[]` | 每个 value 在数组里 |
-| `<input type="radio">` 同组 | `string` | 选中的那个 value |
-| `<select>` 单选 | `string` | 选中的 option 的 value |
-| `<select multiple>` | `string[]` | 所有选中 value 的数组 |
-| `<input type="number">` | `string` | ⚠️ 默认是 string，见下方修饰符 |
+| `<input type="checkbox">` 单个 | `boolean` | `true` = 选中 |
+| `<input type="checkbox">` 同组多个 | `string[]` | 每组需要不同 `value` |
+| `<input type="radio">` 同组 | `string` | 值是选中的 `value` |
+| `<select>` 单选 | `string` | 选中的 option value |
+| `<select multiple>` | `string[]` | 按住 Ctrl 多选 |
+| `<input type="number">` | `string` | ⚠️ 默认给 string，用 `.number` 转数字 |
 | `<input type="date">` | `string` | 格式 `YYYY-MM-DD` |
 | `<input type="color">` | `string` | 格式 `#rrggbb` |
-| `<input type="range">` | `string` | 需要用 `.number` 转数字 |
+| `<input type="range">` | `string` | 建议加 `.number` |
 
-#### 2.5.3 `v-model` 修饰符
+```vue
+<!-- 多个复选框用同组变量，每个必须给 value -->
+<template>
+  <label><input type="checkbox" v-model="skills" value="vue"> Vue</label>
+  <label><input type="checkbox" v-model="skills" value="ts"> TS</label>
+</template>
+<!-- skills = ['vue', 'ts'] -->
+```
+
+##### 三种修饰符
 
 ```vue
 <template>
-  <!-- .trim：自动去掉首尾空格 -->
-  <input v-model.trim="username">
-
-  <!-- .number：自动转数字（输入非数字会被丢弃） -->
-  <input v-model.number="age" type="number">
-  <!-- 注意：即使 type="number"，原始 v-model 给的也是 string -->
-
-  <!-- .lazy：改为在 change 事件时同步（失焦后，而非每次输入） -->
-  <input v-model.lazy="searchQuery">
-  <!-- 默认是 input 事件 → 每次按键都更新；.lazy → 失焦才更新 -->
+  <input v-model.trim="username">       <!-- 去首尾空格 -->
+  <input v-model.number="age">          <!-- 转数字 -->
+  <input v-model.lazy="searchQuery">    <!-- 失焦才更新，不每按一次都更新 -->
 </template>
 ```
 
-| 修饰符 | 作用 | 适用场景 |
-|--------|------|---------|
-| `.trim` | 自动 `str.trim()` | 表单提交前的用户输入 |
-| `.number` | 自动 `parseFloat(val)` | 年龄、金额等数字输入 |
-| `.lazy` | `@change` 而非 `@input` | 搜索框（避免频繁搜索） |
+##### 组件上的 `v-model`
 
-#### 2.5.4 非表单元素的双向绑定
-
-对于自定义值展示、第三方非表单组件，可以用 `v-model` 的底层机制：
+`v-model` 在组件上 = `:modelValue` + `@update:modelValue`：
 
 ```vue
-<script setup lang="ts">
-// contenteditable 示例（没有原生 v-model 支持的元素）
-const html = ref('<p>编辑我</p>')
-function onInput(e: Event) {
-  html.value = (e.target as HTMLElement).innerHTML
-}
-</script>
-
-<template>
-  <!-- 手动实现双向绑定：:text + @input 是 v-model 的本质 -->
-  <div
-    contenteditable
-    :text-content="html"
-    @input="onInput"
-  ></div>
-</template>
-```
-
-#### 2.5.5 组件上的 `v-model`
-
-`v-model` 在组件上是 `:modelValue` + `@update:modelValue` 的语法糖：
-
-```vue
-<!-- 父组件使用 -->
+<!-- 父组件 -->
 <MyInput v-model="name" />
 <!-- 等价于 -->
 <MyInput :modelValue="name" @update:modelValue="name = $event" />
 
-<!-- 多个 v-model（Vue 3.3+） -->
-<MyForm
-  v-model:name="name"
-  v-model:email="email"
-  v-model:agree="agree"
-/>
-<!-- 等价于 -->
-<MyForm
-  :name="name" @update:name="name = $event"
-  :email="email" @update:email="email = $event"
-  :agree="agree" @update:agree="agree = $event"
-/>
+<!-- 子组件 MyInput.vue -->
+<script setup lang="ts">
+const props = defineProps<{ modelValue: string }>()
+const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+</script>
 
-<!-- v-model 修饰符也是可传递的 -->
-<MyInput v-model.trim="name" />
+<template>
+  <input :value="modelValue" @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)">
+</template>
 ```
 
-**子组件实现：**
+需要多个绑定？用 `v-model:xxx`（Vue 3.3+）：
 
 ```vue
-<!-- MyInput.vue -->
-<script setup lang="ts">
-const props = defineProps<{ modelValue: string; modelModifiers?: { trim?: boolean } }>()
-const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+<MyForm v-model:name="name" v-model:email="email" />
+<!-- 子组件接收 name + email props，触发 update:name + update:email -->
+```
 
-function onInput(e: Event) {
-  const target = e.target as HTMLInputElement
-  let val: string = target.value
-  if (props.modelModifiers?.trim) val = val.trim()
-  emit('update:modelValue', val)
-}
-</script>
+修饰符传给子组件时，通过 `modelModifiers` prop 接收：
 
-<template>
-  <input :value="modelValue" @input="onInput">
-</template>
-
-<!-- 多个 v-model 的子组件实现 -->
-<!-- MyForm.vue -->
-<script setup lang="ts">
-defineProps<{ name: string; email: string; agree: boolean }>()
-const emit = defineEmits<{
-  'update:name': [v: string]
-  'update:email': [v: string]
-  'update:agree': [v: boolean]
-}>()
-</script>
-
-<template>
-  <input :value="name" @input="emit('update:name', $event.target.value)">
-  <input :value="email" @input="emit('update:email', $event.target.value)">
-  <input type="checkbox" :checked="agree" @change="emit('update:agree', $event.target.checked)">
-</template>
+```vue
+<MyInput v-model.trim="name" />
+<!-- 子组件收到 props.modelModifiers = { trim: true } -->
 ```
 
 ### 2.6 计算属性 vs 方法 vs 侦听器
@@ -1852,145 +1779,113 @@ watch(page, async (newPage) => {
 
 ### 2.7 组件基础
 
-组件是 Vue 的核心抽象——把 UI 拆成独立、可复用的块，每个块封装自己的 HTML、逻辑和样式。
+组件是把 UI 拆成独立可复用的块，每个 `.vue` 文件就是一个组件。
 
-#### 2.7.1 组件定义（子组件）
-
-每个 `.vue` 文件就是一个组件，由三部分构成：`<script setup>`、`<template>`、`<style>`：
+#### 2.7.1 最小组件
 
 ```vue
-<!-- ✅ 一个好的组件 = 清晰的 Props 契约 + 明确的事件 + 灵活的插槽 -->
-<!-- UserCard.vue -->
+<!-- MyButton.vue — 最简单的组件 -->
 <script setup lang="ts">
-interface User {
-  id: number
-  name: string
-  email?: string
-  avatar?: string
-}
-
-// ── 1. Props 定义（父 → 子）──
-const props = defineProps<{
-  user: User
-  showEmail?: boolean
-  variant?: 'compact' | 'full'
-}>()
-
-// 带默认值的写法（解构时给默认值）
-const props2 = withDefaults(defineProps<{
-  title?: string
-  count?: number
-}>(), {
-  title: '默认标题',
-  count: 0,
-})
-
-// ── 2. Emits 定义（子 → 父）──
-const emit = defineEmits<{
-  click: [id: number]
-  delete: [id: number]
-  'update:avatar': [url: string]
-}>()
-
-function handleClick() {
-  emit('click', props.user.id)
-}
-
-// ── 3. 暴露给父组件的方法（通过 ref 访问）──
-function resetFocus() { /* ... */ }
-function validate() { /* ... */ }
-defineExpose({ resetFocus, validate })
+// 这里写逻辑
 </script>
 
 <template>
-  <div class="user-card" :class="variant" @click="handleClick">
-    <img :src="user.avatar ?? '/default.png'" :alt="user.name">
-    <h3>{{ user.name }}</h3>
-    <p v-if="showEmail">{{ user.email }}</p>
-    <button @click.stop="emit('delete', user.id)">删除</button>
-
-    <!-- ── 4. 插槽（父组件传入内容）── -->
-    <!-- 默认插槽 -->
+  <button class="my-btn">
     <slot />
-    <!-- 具名插槽 + 作用域插槽（向下传递数据给父组件的插槽模板） -->
-    <slot name="footer" :user="user" />
-  </div>
+  </button>
 </template>
 
 <style scoped>
-.user-card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; }
-.user-card.compact { padding: 8px; font-size: 12px; }
+.my-btn { padding: 8px 16px; }
 </style>
 ```
 
-#### 2.7.2 父组件使用
+父组件引入即可使用：
 
 ```vue
 <script setup lang="ts">
-import UserCard from './UserCard.vue'
-import { ref } from 'vue'
-
-const userCardRef = ref<InstanceType<typeof UserCard> | null>(null)
-
-function onDeleteUser(id: number) {
-  console.log('删除用户:', id)
-}
-
-// 通过 ref 调用子组件暴露的方法
-function handleReset() {
-  userCardRef.value?.resetFocus()
-}
+import MyButton from './MyButton.vue'
 </script>
 
 <template>
-  <!-- 基本用法 -->
-  <UserCard
-    v-for="user in users"
-    :key="user.id"
-    :user="user"
-    :show-email="true"
-    variant="compact"
-    @click="onClickUser"
-    @delete="onDeleteUser"
-  >
-    <!-- 默认插槽内容 -->
-    <p>额外描述信息</p>
-
-    <!-- 具名插槽 #footer -->
-    <template #footer="{ user }">
-      <span>最后登录: {{ user.lastLogin }}</span>
-    </template>
-  </UserCard>
-
-  <!-- 通过 ref 获取子组件实例 -->
-  <UserCard ref="userCardRef" :user="someUser" />
+  <MyButton>点击</MyButton>
 </template>
 ```
 
-#### 2.7.3 Props 核心规则
+一个组件可以做的事情：
 
-**单向数据流：** 父组件更新 props 会流向子组件，**子组件绝不能修改 props**：
+| 能力 | 方向 | 用在哪 |
+|------|------|--------|
+| `defineProps` | 父 → 子 | 接收数据 |
+| `defineEmits` | 子 → 父 | 通知事件 |
+| `defineExpose` | 父获取子实例 | 调用子组件方法 |
+| `<slot>` | 父嵌入内容 | 自定义渲染 |
+
+##### 这几个东西到底是什么？用比喻理解
+
+把组件想象成一个**外卖商家**：
+
+- **`defineProps` = 接单窗口**。顾客（父组件）把订单信息（数据）递进来，商家收到后照着做。组件不能改这个订单，只能读。
+- **`defineEmits` = 按铃通知**。商家做好饭了，按个铃告诉顾客"做好了"（触发事件）。顾客可以决定怎么响应这个铃声。
+- **`defineExpose` = 后厨窗口**。正常情况下顾客只能通过前台点单，但有些特殊情况顾客想直接对后厨喊话——这个窗口就是给父组件直接调用子组件内部方法的。
+- **`<slot>` = 自选加料区**。商家提供一个空位，让顾客自己往里加料"加份蛋、加份肉肠"（传入模板内容）。
+
+用代码对应：
+
+```vue
+<template>
+  <!-- 顾客使用商家 -->
+  <Restaurant
+    :order="myOrder"            <!-- defineProps：递订单 -->
+    @ready="onReady"            <!-- defineEmits：等铃响 -->
+    ref="restaurantRef"         <!-- defineExpose：开小窗 -->
+  >
+    <ExtraBacon />              <!-- slot：加料 -->
+  </Restaurant>
+</template>
+```
+
+##### 这些 `defineXxx` 为什么不需要 import？
+
+`defineProps`、`defineEmits`、`defineExpose`、`withDefaults` 是 Vue 3 `<script setup>` 的**编译器宏**——Vue 在编译阶段自动识别并处理它们，不需要手动 `import`。你在 `script setup` 里可以直接用，像是全局函数一样。`ref`、`computed` 这些不是宏，需要 `import { ref } from 'vue'`。
+
+#### 2.7.2 Props — 父传子
+
+```vue
+<!-- Child.vue -->
+<script setup lang="ts">
+defineProps<{
+  name: string
+  age?: number
+}>()
+</script>
+
+<template>
+  <p>{{ name }}，{{ age ?? '未知' }} 岁</p>
+</template>
+```
+
+```vue
+<!-- 父组件 -->
+<Child name="张三" :age="25" />
+```
+
+**带默认值：**
 
 ```vue
 <script setup lang="ts">
-const props = defineProps<{ count: number }>()
-
-// ❌ 禁止：修改 props
-props.count++
-
-// ✅ 正确：基于 props 派生本地值
-const localCount = ref(props.count)
-
-// ✅ 正确：用 computed 派生
-const doubleCount = computed(() => props.count * 2)
-
-// ✅ 正确：通过 emit 通知父组件修改
-const emit = defineEmits<{ 'update:count': [v: number] }>()
-function increment() { emit('update:count', props.count + 1) }
+withDefaults(defineProps<{
+  name: string
+  count?: number
+  items?: string[]
+}>(), {
+  count: 0,
+  items: () => [],
+})
 </script>
 ```
 
-**Props 命名：** 在模板中用 kebab-case，在子组件中用 camelCase：
+**Props 命名规则：** 模板（父）用 kebab-case，子组件接收用 camelCase：
 
 ```vue
 <!-- 父组件传递 -->
@@ -2002,114 +1897,242 @@ defineProps<{ userName: string; showEmail: boolean }>()
 </script>
 ```
 
-#### 2.7.4 Slot 三种形式
-
-| 形式 | 语法 | 用途 |
-|------|------|------|
-| 默认插槽 | `<slot />` | 插入任意内容 |
-| 具名插槽 | `<slot name="footer" />` | 多个插入位置 |
-| 作用域插槽 | `<slot name="item" :data="item" />` | 子传数据给父的插槽模板 |
+**单向数据流：** 子组件不能修改 props，只能读：
 
 ```vue
-<!-- 子组件 DataTable.vue：三种插槽同时使用 -->
-<template>
-  <table>
-    <thead>
-      <slot name="header" :columns="columns" />
-    </thead>
-    <tbody>
-      <tr v-for="row in rows" :key="row.id">
-        <slot name="row" :row="row" :index="rowIndex" />
-      </tr>
-    </tbody>
-    <tfoot>
-      <slot name="footer" :total="rows.length" />
-    </tfoot>
-  </table>
-</template>
+<script setup lang="ts">
+const props = defineProps<{ count: number }>()
 
-<!-- 父组件使用 -->
-<DataTable :rows="data">
-  <template #header="{ columns }">
-    <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
-  </template>
+// ❌ 禁止：直接改
+props.count++
 
-  <template #row="{ row, index }">
-    <td>{{ index + 1 }}</td>
-    <td>{{ row.name }}</td>
-  </template>
+// ✅ 派生本地值
+const localCount = ref(props.count)
 
-  <template #footer="{ total }">
-    <td colspan="2">共 {{ total }} 条</td>
-  </template>
-</DataTable>
+// ✅ 用 computed
+const double = computed(() => props.count * 2)
+
+// ✅ 通知父组件改
+const emit = defineEmits<{ 'update:count': [v: number] }>()
+function add() { emit('update:count', props.count + 1) }
+</script>
 ```
 
-#### 2.7.5 动态组件 `<component :is>`
+#### 2.7.3 Emits — 子传父
 
-在多个组件间动态切换，不需要 v-if/else 手动控制：
+```vue
+<!-- Child.vue -->
+<script setup lang="ts">
+const emit = defineEmits<{
+  close: []
+  submit: [value: string]
+  'update:name': [v: string]
+}>()
+
+function onClose() { emit('close') }
+function onSubmit(v: string) { emit('submit', v) }
+</script>
+
+<template>
+  <button @click="onClose">关闭</button>
+</template>
+```
+
+```vue
+<!-- 父组件监听 -->
+<Child @close="show = false" @submit="handleSubmit" />
+```
+
+#### 2.7.4 Slot — 父嵌入内容
+
+| 形式 | 子组件 | 父组件使用 |
+|------|--------|-----------|
+| 默认插槽 | `<slot />` | `<Child>内容</Child>` |
+| 具名插槽 | `<slot name="footer" />` | `<template #footer>内容</template>` |
+| 作用域插槽 | `<slot :item="item" />` | `<template #default="{ item }">` |
+
+```vue
+<!-- Modal.vue -->
+<template>
+  <div class="modal">
+    <slot name="header" />
+    <slot />     <!-- 默认插槽：主体内容 -->
+    <slot name="footer" />
+  </div>
+</template>
+```
+
+```vue
+<!-- 父组件 -->
+<Modal>
+  <template #header>
+    <h2>标题</h2>
+  </template>
+
+  <p>这是主体内容</p>
+
+  <template #footer>
+    <button>确定</button>
+  </template>
+</Modal>
+```
+
+作用域插槽：子组件向父组件暴露数据，父组件决定渲染方式：
+
+```vue
+<!-- List.vue — 把数据交给父组件渲染 -->
+<script setup lang="ts">
+const items = ref(['A', 'B', 'C'])
+</script>
+
+<template>
+  <ul>
+    <li v-for="(item, index) in items" :key="index">
+      <slot :item="item" :index="index" />
+    </li>
+  </ul>
+</template>
+```
+
+```vue
+<!-- 父组件决定每项的渲染 -->
+<List>
+  <template #default="{ item, index }">
+    <span>{{ index + 1 }}. {{ item }}</span>
+  </template>
+</List>
+```
+
+#### 2.7.5 defineExpose — 父调子方法
+
+子组件默认不对外暴露任何方法，需要用 `defineExpose` 手动暴露：
+
+```vue
+<!-- Input.vue -->
+<script setup lang="ts">
+function focus() { /* ... */ }
+function validate(): boolean { return true }
+defineExpose({ focus, validate })
+</script>
+```
+
+```vue
+<!-- 父组件通过 ref 调用 -->
+<script setup lang="ts">
+const inputRef = ref<InstanceType<typeof Input> | null>(null)
+function onFocus() { inputRef.value?.focus() }
+</script>
+
+<template>
+  <Input ref="inputRef" />
+  <button @click="onFocus">聚焦输入框</button>
+</template>
+```
+
+#### 2.7.6 动态组件
+
+在多个组件间切换，无需 v-if/else：
 
 ```vue
 <script setup lang="ts">
 import TabA from './TabA.vue'
 import TabB from './TabB.vue'
-import TabC from './TabC.vue'
-
-const currentTab = ref('TabA')
-
-// Vue 组件对象 或 已注册的组件名
-const tabMap: Record<string, any> = { TabA, TabB, TabC }
+const current = ref('A')
 </script>
 
 <template>
-  <button v-for="tab in ['TabA', 'TabB', 'TabC']" :key="tab"
-    @click="currentTab = tab"
-    :class="{ active: currentTab === tab }"
-  >{{ tab }}</button>
+  <button @click="current = 'A'">Tab A</button>
+  <button @click="current = 'B'">Tab B</button>
 
-  <!-- component :is 自动渲染对应组件 -->
-  <component :is="tabMap[currentTab]" />
-
-  <!-- 也可以直接传导入的组件对象 -->
-  <component :is="currentTab === 'A' ? TabA : TabB" />
+  <component :is="current === 'A' ? TabA : TabB" />
 </template>
 ```
 
-#### 2.7.6 KeepAlive — 缓存组件状态
+`<component :is>` 的值可以是组件对象（如上）或注册的组件名。
 
-动态切换时默认会销毁/重建组件，用 `<KeepAlive>` 保持组件状态：
+#### 2.7.7 KeepAlive — 缓存切换的组件
+
+动态组件默认切走就销毁，切回来重新创建。`<KeepAlive>` 可保持状态：
 
 ```vue
 <template>
   <KeepAlive>
     <component :is="currentTab" />
   </KeepAlive>
-  <!-- 切换到 TabB 再切回 TabA，TabA 的滚动位置/输入内容不变 -->
-
-  <!-- 选择性缓存 -->
-  <KeepAlive :include="['TabA', 'TabC']">
-    <component :is="currentTab" />
-  </KeepAlive>
-
-  <!-- 最大缓存数量 -->
-  <KeepAlive :max="5">
-    <component :is="currentTab" />
-  </KeepAlive>
+  <!-- 切到 TabB 再切回来，TabA 的输入内容/滚动位置还在 -->
 </template>
 ```
 
-KeepAlive 的钩子：
+**控制缓存：**
+
+```vue
+<KeepAlive :include="['TabA', 'TabC']">     <!-- 只缓存这些 -->
+<KeepAlive :exclude="['TabB']">             <!-- 不缓存这些 -->
+<KeepAlive :max="5">                        <!-- 最多缓存 5 个 -->
+```
+
+**缓存钩子：**
 
 ```vue
 <script setup lang="ts">
 import { onActivated, onDeactivated } from 'vue'
 
-// 组件被 KeepAlive 缓存后重新激活时触发
 onActivated(() => {
-  console.log('组件被激活（从缓存中恢复）')
+  // 组件从缓存中恢复时触发
+  fetchData()
 })
 
-// 组件被缓存时触发（不是销毁）
+onDeactivated(() => {
+  // 组件被缓存时触发（不是销毁）
+  saveScrollPosition()
+})
+</script>
+```
+
+#### 2.7.8 完整示例
+
+把上述知识点串起来：
+
+```vue
+<!-- UserCard.vue -->
+<script setup lang="ts">
+interface User { id: number; name: string; email?: string }
+
+const props = withDefaults(defineProps<{
+  user: User
+  variant?: 'compact' | 'full'
+}>(), { variant: 'full' })
+
+const emit = defineEmits<{
+  click: [id: number]
+  delete: [id: number]
+}>()
+
+function focus() { /* ... */ }
+defineExpose({ focus })
+</script>
+
+<template>
+  <div class="user-card" :class="variant" @click="emit('click', user.id)">
+    <h3>{{ user.name }}</h3>
+    <p v-if="user.email">{{ user.email }}</p>
+    <slot name="actions" :user="user" />
+  </div>
+</template>
+```
+
+```vue
+<!-- 父组件 -->
+<UserCard
+  v-for="user in users" :key="user.id"
+  :user="user" variant="compact"
+  @delete="onDelete"
+>
+  <template #actions="{ user }">
+    <button @click.stop="onEdit(user)">编辑</button>
+  </template>
+</UserCard>
+
 onDeactivated(() => {
   console.log('组件被缓存（进入 KeepAlive）')
 })
