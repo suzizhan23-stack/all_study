@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "cambridge-dict": {
+      "type": "local",
+      "command": ["node.exe", "C:\\Program Files\\nodejs\\node_global\\node_modules\\mcp-server-dictionary\\build\\index.js"]
+    },
+    "pdf-reader": {
+      "type": "local",
+      "command": ["/mnt/c/Users/ttzz/AppData/Local/Programs/Python/Python310/Scripts/pdf-mcp.exe"]
+    }
+  }
+}
