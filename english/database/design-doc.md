@@ -124,6 +124,14 @@
   │  │  badges → user_badges                                               │   │
   │  │  learning_plans → user_plans                                        │   │
   │  └─────────────────────────────────────────────────────────────────────┘   │
+  │                                                                              │
+  │  ┌─────────── 单词本域 ────────────────────────────────────────────────┐   │
+  │  │  word_books ── word_book_entries ── words                              │   │
+  │  │  study_strategies ←── users.default_strategy_id                      │   │
+  │  │  user_word_book_progress ── users + word_books + strategies          │   │
+  │  │  daily_plan_items ── 按策略从单词本生成每日学习列表                   │   │
+  │  │  user_daily_plan_entries ── 用户自由添加单词到每日计划               │   │
+  │  └─────────────────────────────────────────────────────────────────────┘   │
   └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -163,8 +171,14 @@
 | 28 | 游戏化 | `user_badges` | ★ 用户徽章 |
 | 29 | 计划 | `learning_plans` | ★ 学习计划模板 |
 | 30 | 计划 | `user_plans` | ★ 用户学习计划 |
+| 31 | 单词本 | `word_books` | ★ 单词本（四级/六级/考研等） |
+| 32 | 单词本 | `word_book_entries` | ★ 单词本词条 |
+| 33 | 单词本 | `study_strategies` | ★ 学习策略定义 |
+| 34 | 单词本 | `user_word_book_progress` | ★ 用户单词本进度 |
+| 35 | 单词本 | `daily_plan_items` | ★ 每日计划词条 |
+| 36 | 单词本 | `user_daily_plan_entries` | ★ 用户自由添加的每日计划条目 |
 
-**总计：30 表 | 3 核心 + 9 词汇 + 7 个性化 + 5 行为 + 3 游戏化 + 3 计划**  
+**总计：36 表 | 3 核心 + 9 词汇 + 7 个性化 + 5 行为 + 3 游戏化 + 3 计划 + 6 单词本**  
 （★ = v7 新增）
 
 ---
@@ -187,6 +201,7 @@
 │ role           │ ENUM(...)        │ DEFAULT     │ 角色                   │
 │ permission_lvl │ TINYINT          │ DEFAULT 1   │ 1/5/9 权限级别         │
 │ is_active      │ TINYINT(1)       │ DEFAULT 1   │ 是否激活               │
+│ default_strategy │ CHAR(36)       │ FK          │ → study_strategies.id ★ │
 │ last_login_at  │ DATETIME         │ NULL        │ 最后登录               │
 │ created_at     │ DATETIME         │ DEFAULT     │ 注册时间               │
 │ updated_at     │ DATETIME         │ ON UPDATE   │ 更新时间               │
@@ -390,6 +405,152 @@ learning_plans (模板)              user_plans (用户参与)
 用途: 跨设备同步阅读位置、统计阅读量、推荐相关文章
 ```
 
+### 4.11 word_books — 单词本表
+
+```
+┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
+│ 字段             │ 类型             │ 约束        │ 说明                   │
+├──────────────────┼──────────────────┼────────────┼────────────────────────┤
+│ id               │ CHAR(36)         │ PK          │ UUID                  │
+│ name             │ VARCHAR(200)     │ NOT NULL    │ 单词本名称             │
+│ description      │ TEXT             │ NULL        │ 描述                   │
+│ difficulty_level │ VARCHAR(50)      │ NULL        │ 难度等级               │
+│ word_count       │ INT              │ DEFAULT 0   │ 词汇总量               │
+│ is_active        │ BOOLEAN          │ DEFAULT 1   │ 是否启用               │
+│ sort_order       │ INT              │ DEFAULT 0   │ 排序                   │
+│ created_at       │ DATETIME         │ DEFAULT     │ 创建时间               │
+│ updated_at       │ DATETIME         │ ON UPDATE   │ 修改时间               │
+└──────────────────┴──────────────────┴────────────┴────────────────────────┘
+```
+
+### 4.12 word_book_entries — 单词本词条表
+
+```
+┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
+│ 字段             │ 类型             │ 约束        │ 说明                   │
+├──────────────────┼──────────────────┼────────────┼────────────────────────┤
+│ word_book_id     │ CHAR(36)         │ PK          │ → word_books.id        │
+│ word_id          │ CHAR(36)         │ PK          │ → words.id             │
+│ sort_order       │ INT              │ DEFAULT 0   │ 排序位置               │
+│ created_at       │ DATETIME         │ DEFAULT     │ 创建时间               │
+└──────────────────┴──────────────────┴────────────┴────────────────────────┘
+```
+
+### 4.13 study_strategies — 学习策略表
+
+```
+┌──────────────────┬────────────────────────────────────┬────────────┬──────────┐
+│ 字段             │ 类型                               │ 约束        │ 说明     │
+├──────────────────┼────────────────────────────────────┼────────────┼──────────┤
+│ id               │ CHAR(36)                           │ PK          │ UUID    │
+│ name             │ VARCHAR(100)                       │ NOT NULL    │ 策略名称 │
+│ description      │ VARCHAR(500)                       │ NULL        │ 描述     │
+│ type             │ ENUM(random,alphabetical,           │ NOT NULL    │ 策略类型 │
+│                  │      pos_alphabetical,pos_random,   │             │          │
+│                  │      difficulty_asc,difficulty_desc)│             │          │
+│ config           │ JSON                               │ NULL        │ 额外参数 │
+│ sort_order       │ INT                                │ DEFAULT 0   │ 排序     │
+│ created_at       │ DATETIME                           │ DEFAULT     │ 创建时间 │
+└──────────────────┴────────────────────────────────────┴────────────┴──────────┘
+
+策略类型说明:
+  random             — 完全随机选取
+  alphabetical       — 按首字母 A→Z 顺序
+  pos_alphabetical   — 选定词性后按字母顺序
+  pos_random         — 选定词性后随机
+  difficulty_asc     — 从简单到困难
+  difficulty_desc    — 从困难到简单
+```
+
+### 4.14 user_word_book_progress — 用户单词本进度表
+
+```
+┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
+│ 字段             │ 类型             │ 约束        │ 说明                   │
+├──────────────────┼──────────────────┼────────────┼────────────────────────┤
+│ id               │ CHAR(36)         │ PK          │ UUID                  │
+│ user_id          │ CHAR(36)         │ FK          │ 用户                   │
+│ word_book_id     │ CHAR(36)         │ FK          │ 单词本                 │
+│ strategy_id      │ CHAR(36)         │ FK          │ 学习策略               │
+│ daily_count      │ INT              │ DEFAULT 10  │ 每日学习词数           │
+│ current_position │ INT              │ DEFAULT 0   │ 进度位置               │
+│ is_completed     │ BOOLEAN          │ DEFAULT 0   │ 是否完成               │
+│ started_at       │ DATETIME         │ DEFAULT     │ 开始时间               │
+│ completed_at     │ DATETIME         │ NULL        │ 完成时间               │
+│ created_at       │ DATETIME         │ DEFAULT     │ 创建时间               │
+│ updated_at       │ DATETIME         │ ON UPDATE   │ 修改时间               │
+└──────────────────┴──────────────────┴────────────┴────────────────────────┘
+唯一约束: (user_id, word_book_id)
+```
+
+### 4.15 daily_plan_items — 每日计划词条表
+
+```
+┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
+│ 字段             │ 类型             │ 约束        │ 说明                   │
+├──────────────────┼──────────────────┼────────────┼────────────────────────┤
+│ id               │ CHAR(36)         │ PK          │ UUID                  │
+│ user_id          │ CHAR(36)         │ FK          │ 用户                   │
+│ word_book_id     │ CHAR(36)         │ FK          │ 单词本                 │
+│ plan_date        │ DATE             │ NOT NULL    │ 计划日期               │
+│ word_id          │ CHAR(36)         │ FK          │ 单词                   │
+│ sort_order       │ INT              │ DEFAULT 0   │ 当日排序               │
+│ is_completed     │ BOOLEAN          │ DEFAULT 0   │ 是否已完成             │
+│ completed_at     │ DATETIME         │ NULL        │ 完成时间               │
+│ created_at       │ DATETIME         │ DEFAULT     │ 创建时间               │
+└──────────────────┴──────────────────┴────────────┴────────────────────────┘
+```
+
+### 4.16 user_daily_plan_entries — 用户每日计划条目表
+
+```
+┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
+│ 字段             │ 类型             │ 约束        │ 说明                   │
+├──────────────────┼──────────────────┼────────────┼────────────────────────┤
+│ id               │ CHAR(36)         │ PK          │ UUID                  │
+│ user_id          │ CHAR(36)         │ FK          │ 用户                   │
+│ plan_date        │ DATE             │ NOT NULL    │ 计划日期               │
+│ word_id          │ CHAR(36)         │ FK          │ 单词                   │
+│ sort_order       │ INT              │ DEFAULT 0   │ 当日排序               │
+│ is_completed     │ BOOLEAN          │ DEFAULT 0   │ 是否已完成             │
+│ completed_at     │ DATETIME         │ NULL        │ 完成时间               │
+│ created_at       │ DATETIME         │ DEFAULT     │ 创建时间               │
+└──────────────────┴──────────────────┴────────────┴────────────────────────┘
+用途: 用户自由添加单词到某日计划，不依赖系统生成的单词本策略
+区别: daily_plan_items 由策略自动生成，此表为用户手动添加
+```
+
+### 4.17 每日计划生成算法
+
+```
+每天凌晨 00:00 执行:
+
+FOR EACH user_word_book_progress WHERE is_completed = 0:
+
+  1. 获取用户的 word_book_id, strategy_id, daily_count, current_position
+  2. 从 word_book_entries 中取词:
+     CASE strategy.type
+       WHEN 'random'            → ORDER BY RAND() LIMIT daily_count
+       WHEN 'alphabetical'      → ORDER BY sort_order ASC
+                                  LIMIT daily_count OFFSET current_position
+       WHEN 'pos_alphabetical'  → WHERE w.pos LIKE :pos_pattern
+                                  ORDER BY w.first_letter, w.word
+                                  LIMIT daily_count
+       WHEN 'pos_random'        → WHERE w.pos LIKE :pos_pattern
+                                  ORDER BY RAND()
+                                  LIMIT daily_count
+       WHEN 'difficulty_asc'    → JOIN words w ON w.id = e.word_id
+                                  ORDER BY w.difficulty ASC
+                                  LIMIT daily_count
+       WHEN 'difficulty_desc'   → JOIN words w ON w.id = e.word_id
+                                  ORDER BY w.difficulty DESC
+                                  LIMIT daily_count
+     END CASE
+
+  3. INSERT INTO daily_plan_items (user_id, word_book_id, plan_date, word_id, ...)
+  4. UPDATE user_word_book_progress SET current_position = current_position + daily_count
+```
+
 ---
 
 ## 5. 关系矩阵
@@ -510,6 +671,8 @@ ORDER BY sort_freq DESC;
 | **自适应** | `daily_recommendations` | 基于错题/间隔推荐 |
 | **阅读** | `reading_progress` | 跨设备同步阅读位置 |
 | **计划** | `learning_plans` + `user_plans` | 目标导向的学习路径 |
+| **默认策略** | `users.default_strategy_id` → `study_strategies` | 用户个人默认学习策略 |
+| **单词本** | `word_books` + `study_strategies` + `daily_plan_items` + `user_daily_plan_entries` | 选词本+策略+每日生成+用户手动添加 |
 
 ---
 

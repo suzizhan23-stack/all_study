@@ -121,7 +121,7 @@
     </div>
 
     <div class="detail-footer" style="margin-top:20px">
-      <router-link to="/learn" class="btn btn-success">🎴 开始学习这个词</router-link>
+      <router-link to="/review" class="btn btn-success">🎴 开始学习这个词</router-link>
       <button class="btn">❌ 报错</button>
       <button class="btn">👍 有用</button>
     </div>

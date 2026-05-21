@@ -30,7 +30,7 @@
       <div class="wrong-head">
         <strong class="wrong-word">{{ w.word }}</strong>
         <span class="badge badge-red">错 {{ w.count }} 次</span>
-        <router-link :to="`/learn`" class="btn btn-sm btn-primary">巩固复习</router-link>
+        <router-link :to="`/review`" class="btn btn-sm btn-primary">巩固复习</router-link>
       </div>
       <div v-for="log in w.logs" :key="log.time" class="wrong-log">
         <span class="badge" :class="log.type === '拼写' ? 'badge-gray' : 'badge-blue'">{{ log.type }}</span>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="card" style="margin-top:16px;text-align:center;padding:20px">
-      <router-link to="/learn" class="btn btn-primary">一键复习全部错题</router-link>
+      <router-link to="/review" class="btn btn-primary">一键复习全部错题</router-link>
     </div>
   </div>
 </template>

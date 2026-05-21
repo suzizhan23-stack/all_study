@@ -7,7 +7,9 @@
           <input v-model="searchQuery" class="input" placeholder="搜索单词..." @keyup.enter="doSearch" />
         </div>
         <nav class="header-nav">
+          <router-link to="/word-books" class="nav-link">单词本</router-link>
           <router-link to="/learn" class="nav-link">学习</router-link>
+          <router-link to="/review" class="nav-link">复习</router-link>
           <router-link to="/reading" class="nav-link">阅读</router-link>
           <router-link to="/favorites" class="nav-link">收藏</router-link>
           <router-link to="/wrong-answers" class="nav-link">错题</router-link>

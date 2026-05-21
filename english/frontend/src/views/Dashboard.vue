@@ -41,7 +41,7 @@
     </div>
 
     <div class="quick-grid" style="margin-top:20px">
-      <router-link to="/learn" class="card quick-card">
+      <router-link to="/review" class="card quick-card">
         <div class="quick-icon">🎴</div>
         <div class="quick-label">继续学习</div>
         <div class="quick-sub">{{ dueCount }} 个词待复习</div>
@@ -82,7 +82,7 @@ const recommendations = ref([
 ])
 
 function startReview(item) {
-  router.push('/learn')
+  router.push(item.action === '学习' ? '/learn' : '/review')
 }
 </script>
 

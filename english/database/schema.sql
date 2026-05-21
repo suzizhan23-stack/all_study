@@ -1,7 +1,7 @@
 -- ============================================================
--- 英语单词知识库 — 一键建库 v7
--- 30 表 | UUID 主键 | 全表 created_at/updated_at
--- 新增：用户偏好/学习日志/错题本/笔记/标签/游戏化/推荐/阅读
+-- 英语单词知识库 — 一键建库 v8
+-- 36 表 | UUID 主键 | 全表 created_at/updated_at
+-- 新增：default_strategy_id, user_daily_plan_entries
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS word_learning
@@ -12,6 +12,12 @@ USE word_learning;
 -- ============================================================
 -- 清理（按依赖顺序，叶子先删）
 -- ============================================================
+DROP TABLE IF EXISTS user_daily_plan_entries;
+DROP TABLE IF EXISTS daily_plan_items;
+DROP TABLE IF EXISTS user_word_book_progress;
+DROP TABLE IF EXISTS word_book_entries;
+DROP TABLE IF EXISTS word_books;
+DROP TABLE IF EXISTS study_strategies;
 DROP TABLE IF EXISTS user_badges;
 DROP TABLE IF EXISTS user_entity_tags;
 DROP TABLE IF EXISTS user_plans;
@@ -57,13 +63,15 @@ CREATE TABLE users (
     role            ENUM('admin','editor','user') NOT NULL DEFAULT 'user' COMMENT '角色',
     permission_level TINYINT        NOT NULL DEFAULT 1 COMMENT '权限级别 1=普通 5=编辑 9=管理员',
     is_active       TINYINT(1)      NOT NULL DEFAULT 1 COMMENT '是否激活',
+    default_strategy_id CHAR(36)     NULL     COMMENT '→ study_strategies.id，用户默认学习策略',
     last_login_at   DATETIME        NULL     COMMENT '最后登录',
     created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY uk_username (username),
     UNIQUE KEY uk_email (email),
     INDEX idx_role (role),
-    INDEX idx_permission (permission_level)
+    INDEX idx_permission (permission_level),
+    INDEX idx_default_strategy (default_strategy_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 -- ============================================================
@@ -565,6 +573,109 @@ CREATE TABLE user_plans (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户学习计划表（用户参与的计划）';
 
 -- ============================================================
+-- 31. 单词本表
+-- ============================================================
+CREATE TABLE word_books (
+    id              CHAR(36)        NOT NULL PRIMARY KEY COMMENT 'UUID 主键',
+    name            VARCHAR(200)    NOT NULL COMMENT '单词本名称（如 四级单词、考研单词）',
+    description     TEXT            NULL     COMMENT '描述',
+    difficulty_level VARCHAR(50)    NULL     COMMENT '难度等级（CET-4/CET-6/考研/GRE等）',
+    word_count      INT             NOT NULL DEFAULT 0 COMMENT '词汇总量',
+    is_active       TINYINT(1)      NOT NULL DEFAULT 1 COMMENT '是否启用',
+    sort_order      INT             NOT NULL DEFAULT 0 COMMENT '排序',
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_active (is_active),
+    INDEX idx_sort (sort_order),
+    INDEX idx_level (difficulty_level)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='单词本表（四级/六级/考研等词库集合）';
+
+-- ============================================================
+-- 32. 单词本词条表
+-- ============================================================
+CREATE TABLE word_book_entries (
+    word_book_id    CHAR(36)        NOT NULL COMMENT '→ word_books.id',
+    word_id         CHAR(36)        NOT NULL COMMENT '→ words.id',
+    sort_order      INT             NOT NULL DEFAULT 0 COMMENT '排序位置（用于字母序等顺序策略）',
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (word_book_id, word_id),
+    INDEX idx_word (word_id),
+    INDEX idx_order (word_book_id, sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='单词本词条表（单词与单词本的多对多关联）';
+
+-- ============================================================
+-- 33. 学习策略表
+-- ============================================================
+CREATE TABLE study_strategies (
+    id              CHAR(36)        NOT NULL PRIMARY KEY COMMENT 'UUID 主键',
+    name            VARCHAR(100)    NOT NULL COMMENT '策略名称',
+    description     VARCHAR(500)    NULL     COMMENT '描述',
+    type            ENUM('random','alphabetical','pos_alphabetical','pos_random','difficulty_asc','difficulty_desc') NOT NULL COMMENT '策略类型',
+    config          JSON            NULL     COMMENT '额外配置参数',
+    sort_order      INT             NOT NULL DEFAULT 0 COMMENT '排序',
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_sort (sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学习策略表（定义从单词本取词的策略）';
+
+-- ============================================================
+-- 34. 用户单词本学习进度表
+-- ============================================================
+CREATE TABLE user_word_book_progress (
+    id              CHAR(36)        NOT NULL PRIMARY KEY COMMENT 'UUID 主键',
+    user_id         CHAR(36)        NOT NULL COMMENT '→ users.id',
+    word_book_id    CHAR(36)        NOT NULL COMMENT '→ word_books.id',
+    strategy_id     CHAR(36)        NOT NULL COMMENT '→ study_strategies.id',
+    daily_count     INT             NOT NULL DEFAULT 10 COMMENT '每日学习词数',
+    current_position INT            NOT NULL DEFAULT 0 COMMENT '当前进度位置（已学到第几个词）',
+    is_completed    TINYINT(1)      NOT NULL DEFAULT 0 COMMENT '是否完成',
+    started_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '开始时间',
+    completed_at    DATETIME        NULL     COMMENT '完成时间',
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_user_book (user_id, word_book_id),
+    INDEX idx_user (user_id),
+    INDEX idx_book (word_book_id),
+    INDEX idx_strategy (strategy_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户单词本学习进度表（用户选择单词本+策略后的进度）';
+
+-- ============================================================
+-- 35. 每日计划词条表
+-- ============================================================
+CREATE TABLE daily_plan_items (
+    id              CHAR(36)        NOT NULL PRIMARY KEY COMMENT 'UUID 主键',
+    user_id         CHAR(36)        NOT NULL COMMENT '→ users.id',
+    word_book_id    CHAR(36)        NOT NULL COMMENT '→ word_books.id',
+    plan_date       DATE            NOT NULL COMMENT '计划日期',
+    word_id         CHAR(36)        NOT NULL COMMENT '→ words.id',
+    sort_order      INT             NOT NULL DEFAULT 0 COMMENT '当日排序',
+    is_completed    TINYINT(1)      NOT NULL DEFAULT 0 COMMENT '是否已完成学习',
+    completed_at    DATETIME        NULL     COMMENT '完成时间',
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_user_date (user_id, plan_date),
+    INDEX idx_user_book_date (user_id, word_book_id, plan_date),
+    INDEX idx_word (word_id),
+    INDEX idx_date (plan_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='每日计划词条表（按策略从单词本生成每日学习列表）';
+
+-- ============================================================
+-- 36. 用户每日计划条目表（自由添加，不依赖单词本）
+-- ============================================================
+CREATE TABLE user_daily_plan_entries (
+    id              CHAR(36)        NOT NULL PRIMARY KEY COMMENT 'UUID 主键',
+    user_id         CHAR(36)        NOT NULL COMMENT '→ users.id',
+    plan_date       DATE            NOT NULL COMMENT '计划日期',
+    word_id         CHAR(36)        NOT NULL COMMENT '→ words.id',
+    sort_order      INT             NOT NULL DEFAULT 0 COMMENT '当日排序',
+    is_completed    TINYINT(1)      NOT NULL DEFAULT 0 COMMENT '是否已完成学习',
+    completed_at    DATETIME        NULL     COMMENT '完成时间',
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_user_date (user_id, plan_date),
+    INDEX idx_user_date_word (user_id, plan_date, word_id),
+    INDEX idx_word (word_id),
+    INDEX idx_date (plan_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户每日计划条目表（用户从单词本自由添加单词到某日计划，不依赖系统生成策略）';
+
+-- ============================================================
 -- words 索引
 -- ============================================================
 ALTER TABLE words ADD INDEX idx_letter (first_letter);
@@ -584,9 +695,9 @@ ALTER TABLE words ADD INDEX idx_frequency (frequency) COMMENT '频率筛选';
 -- ============================================================
 
 -- 用户
-INSERT INTO users (id, username, password_hash, nickname, role, permission_level, avatar_url, bio)
-VALUES ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'admin', '$2y$10$placeholder', '管理员', 'admin', 9, NULL, '系统管理员'),
-       ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'demo',  '$2y$10$placeholder', '演示用户', 'user', 1, NULL, '英语学习者');
+INSERT INTO users (id, username, password_hash, nickname, role, permission_level, avatar_url, bio, default_strategy_id)
+VALUES ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'admin', '$2y$10$placeholder', '管理员', 'admin', 9, NULL, '系统管理员', NULL),
+       ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'demo',  '$2y$10$placeholder', '演示用户', 'user', 1, NULL, '英语学习者', 'c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01');
 
 -- 用户统计
 INSERT INTO user_stats (id, user_id, xp, level, streak_days) VALUES
@@ -728,3 +839,44 @@ VALUES ('adeebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'CET-4 30天冲刺', '针对四�
 INSERT INTO user_plans (id, user_id, plan_id, current_day) VALUES
 ('aeeebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12',
  'adeebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 3);
+
+-- ============================================================
+-- 示例数据：单词本 & 策略
+-- ============================================================
+
+-- 单词本
+INSERT INTO word_books (id, name, description, difficulty_level, word_count, sort_order) VALUES
+('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', '四级单词', '大学英语四级核心词汇', 'CET-4', 2500, 0),
+('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', '六级单词', '大学英语六级核心词汇', 'CET-6', 3000, 1),
+('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', '考研单词', '考研英语核心词汇', '考研', 3500, 2);
+
+-- 单词本词条（abandon 加入四级和考研单词本）
+INSERT INTO word_book_entries (word_book_id, word_id, sort_order) VALUES
+('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 1),
+('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 1);
+
+-- 学习策略
+INSERT INTO study_strategies (id, name, description, type, sort_order) VALUES
+('c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', '完全随机', '从单词本中完全随机选取', 'random', 0),
+('c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', '字母顺序', '按照首字母 A→Z 顺序选取', 'alphabetical', 1),
+('c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', '按词性+字母序', '选定词性后按字母顺序选取', 'pos_alphabetical', 2),
+('c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', '按词性+随机', '选定词性后随机选取', 'pos_random', 3),
+('c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', '难度递增', '从简单到困难顺序选取', 'difficulty_asc', 4),
+('c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a06', '难度递减', '从困难到简单顺序选取', 'difficulty_desc', 5);
+
+-- 用户单词本进度（demo 用户在四级单词本中用随机策略，每日10词）
+INSERT INTO user_word_book_progress (id, user_id, word_book_id, strategy_id, daily_count, current_position) VALUES
+('d1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12',
+ 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'c1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 10, 12);
+
+-- 今日计划词条
+INSERT INTO daily_plan_items (id, user_id, word_book_id, plan_date, word_id, sort_order) VALUES
+('e1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12',
+ 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', CURDATE(), 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 1);
+
+-- 用户自由添加的每日计划条目
+INSERT INTO user_daily_plan_entries (id, user_id, plan_date, word_id, sort_order) VALUES
+('f1eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12',
+ CURDATE(), 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 1),
+('f1eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12',
+ CURDATE(), 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 2);

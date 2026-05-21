@@ -1,0 +1,69 @@
+package com.wordlearning.controller;
+
+import com.wordlearning.dto.request.FrequencyRequest;
+import com.wordlearning.dto.request.NoteRequest;
+import com.wordlearning.dto.response.ApiResponse;
+import com.wordlearning.dto.response.WordDetailResponse;
+import com.wordlearning.service.WordService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/words")
+@RequiredArgsConstructor
+public class WordController {
+
+    private final WordService wordService;
+
+    @GetMapping("/{id}")
+    public ApiResponse<WordDetailResponse> getWordDetail(@PathVariable String id) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ApiResponse.success(wordService.getWordDetail(userId, id));
+    }
+
+    @PutMapping("/{id}/frequency")
+    public ApiResponse<Void> setFrequency(@PathVariable String id, @Valid @RequestBody FrequencyRequest body) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        wordService.setFrequency(userId, id, body.getFrequency());
+        return ApiResponse.success();
+    }
+
+    @PutMapping("/{id}/note")
+    public ApiResponse<Void> saveNote(@PathVariable String id, @Valid @RequestBody NoteRequest req) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        wordService.saveNote(userId, id, req);
+        return ApiResponse.success();
+    }
+
+    @PostMapping("/{id}/tags")
+    public ApiResponse<Void> addTag(@PathVariable String id, @RequestBody Map<String, Object> body) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        wordService.addTag(userId, id, (String) body.get("tagId"));
+        return ApiResponse.success();
+    }
+
+    @DeleteMapping("/{id}/tags/{tagId}")
+    public ApiResponse<Void> removeTag(@PathVariable String id, @PathVariable String tagId) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        wordService.removeTag(userId, id, tagId);
+        return ApiResponse.success();
+    }
+
+    @PutMapping("/{id}/rating")
+    public ApiResponse<Void> rateWord(@PathVariable String id, @RequestBody Map<String, Object> body) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        wordService.rateWord(userId, id, (int) body.get("rating"));
+        return ApiResponse.success();
+    }
+}
