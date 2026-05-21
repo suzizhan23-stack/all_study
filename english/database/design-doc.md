@@ -1,8 +1,8 @@
-# 英语单词知识库 — 数据库设计文档 v6
+# 英语单词知识库 — 数据库设计文档 v7
 
 > 系统名称：English Word Learning System  
 > 数据库：word_learning  
-> 版本：v6  
+> 版本：v7 — 30 表完整版  
 > 字符集：utf8mb4 / utf8mb4_unicode_ci  
 > 引擎：InnoDB  
 > 主键策略：UUID (CHAR(36))
@@ -18,219 +18,65 @@
 5. [关系矩阵](#5-关系矩阵)
 6. [频率体系设计](#6-频率体系设计)
 7. [收藏夹体系设计](#7-收藏夹体系设计)
-8. [用户权限模型](#8-用户权限模型)
+8. [用户体系全景](#8-用户体系全景)
 9. [间隔重复 (SM-2) 说明](#9-间隔重复-sm-2-说明)
 10. [索引策略](#10-索引策略)
 11. [数据流图](#11-数据流图)
-12. [变更日志 v5→v6](#12-变更日志-v5v6)
+12. [变更日志 v6→v7](#12-变更日志-v6v7)
 
 ---
 
 ## 1. ER 图 (ASCII)
 
-### 1.1 全局实体关系
-
 ```
-  ┌──────────────────────────────────────────────────────────────────────────┐
-  │                           word_learning  ER 图                           │
-  │                                                                          │
-  │    ┌───────────┐    ┌──────────────┐    ┌────────────┐                  │
-  │    │  words    │───<│ definitions  │    │ word_tags  │                  │
-  │    │  (主)     │    └──────────────┘    └────────────┘                  │
-  │    └────┬──────┘                              ▲                         │
-  │         │                                     │                         │
-  │         │──────────────┐                      │                         │
-  │         │              │                      │                         │
-  │         ▼              ▼                      │                         │
-  │    ┌───────────┐  ┌───────────┐    ┌──────────┴─────────┐              │
-  │    │examples   │  │usage_     │    │  word_relations    │              │
-  │    │           │  │notes      │    │  (自引用多对多)     │              │
-  │    └─────┬─────┘  └───────────┘    └────────────────────┘              │
-  │          │                                                              │
-  │          │ (article_id)           ┌──────────────┐                     │
-  │          └────────────► articles  │ word_forms   │                     │
-  │                               │   └──────────────┘                     │
-  │                               │   ┌──────────────┐                     │
-  │                               │   │ word_variants │                    │
-  │                               │   └──────────────┘                     │
-  │                               ▼                                        │
-  │    ┌───────────┐    ┌──────────────┐    ┌────────────┐                 │
-  │    │colloca-   │    │prep_patterns │    │  ...others │                 │
-  │    │tions      │    │              │    └────────────┘                 │
-  │    └───────────┘    └──────────────┘                                   │
-  │                                                                          │
-  │    ┌──────────────────────────────────────────────────────────────┐     │
-  │    │                    用户体系                                    │     │
-  │    │  ┌─────────┐     ┌──────────────┐     ┌──────────────────┐  │     │
-  │    │  │  users  │────<│user_frequencies│    │ favorite_folders │  │     │
-  │    │  └─────────┘     └──────────────┘     └────────┬─────────┘  │     │
-  │    │                                                   │           │     │
-  │    │                                                ┌──▼────────┐ │     │
-  │    │                                                │ favorites │ │     │
-  │    │                                                └───────────┘ │     │
-  │    └──────────────────────────────────────────────────────────────┘     │
-  └──────────────────────────────────────────────────────────────────────────┘
-
-  图例: ──── 1:1    ───< 1:N    >──< M:N
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                           word_learning v7  ER 图                                  │
+  │                                                                                    │
+  │  ┌──────────────────────────── 核心词汇域 ──────────────────────────────────────┐ │
+  │  │                                                                              │ │
+  │  │    words ──┬── definitions    │  word_relations (自引用 M:N)                  │ │
+  │  │            ├── usage_notes    │  word_tags (系统标签)          word_forms     │ │
+  │  │            ├── collocations   │  word_variants                 examples ──┐   │ │
+  │  │            └── prep_patterns  │                                        │   │ │
+  │  │                                                                        │   │ │
+  │  │                                     ┌──────────────────────────────────┘   │ │
+  │  │                                     ▼                                      │ │
+  │  │                              articles (文章)                                │ │
+  │  └──────────────────────────────────────────────────────────────────────────────┘ │
+  │                                                                                    │
+  │  ┌──────────────────────────── 用户体系 ────────────────────────────────────────┐ │
+  │  │                                                                              │ │
+  │  │    users ──┬── user_settings          (键值对偏好)                            │ │
+  │  │            ├── user_stats             (XP/等级/打卡)                          │ │
+  │  │            ├── user_tags              (自定义标签) ── user_entity_tags ── 实体  │ │
+  │  │            ├── user_notes             (个人笔记 → 多态)                        │ │
+  │  │            ├── search_history         (搜索历史)                              │ │
+  │  │            ├── content_ratings        (评分反馈 → 多态)                        │ │
+  │  │            ├── user_frequencies       (个人频率 → 多态)                        │ │
+  │  │            ├── favorite_folders ── favorites (收藏 → 多态)                     │ │
+  │  │            ├── learning_activities    (每日学习日志)                           │ │
+  │  │            ├── review_log             (答题日志 → words)                      │ │
+  │  │            ├── reading_progress       (阅读进度 → articles)                   │ │
+  │  │            ├── daily_recommendations  (每日推荐 → 多态)                        │ │
+  │  │            ├── user_badges ── badges  (徽章成就)                              │ │
+  │  │            └── user_plans ── learning_plans (学习计划)                         │ │
+  │  └──────────────────────────────────────────────────────────────────────────────┘ │
+  │                                                                                    │
+  │      图例: ──── 1:1    ──┬── 1:N    ── 多态关联                                   │
+  └──────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 1.2 详细 ER 图（纵向展开）
+### 多态关联说明
+
+系统中多处使用 `(entity_type, entity_id)` 模式实现多态关联：
 
 ```
-  ┌══════════════════════════════════════════════════════════════════┐
-  ║                         word_learning v6                         ║
-  ║                    实体-关系 详细图 (ASCII)                       ║
-  ║                   主键: UUID (CHAR(36))                          ║
-  └══════════════════════════════════════════════════════════════════┘
-
-
-  ┌─────────────────────────────────────────────────────────────────┐
-  │  1. 核心词汇域                                                    │
-  │                                                                  │
-  │                          ┌─────────────────┐                     │
-  │                          │      words       │                    │
-  │                          │─────────────────│                    │
-  │                          │PK id (CHAR(36))  │        ──── 标签 │
-  │                          │ word (UNIQUE)    │        │          │
-  │                          │ pos              │        ▼          │
-  │                          │ first_letter     │  ┌──────────────┐│
-  │                          │ phonetic_uk/us   │  │  word_tags   ││
-  │   ┌────────────────      │ meaning_cn       │  │──────────────││
-  │   │                     │ etymology         │  │PK word_id    ││
-  │   │                     │ source            │  │PK tag        ││
-  │   │   │                 │ difficulty        │  └──────────────┘│
-  │   │                     │ frequency(默认)   │                   │
-  │   │   │                 │ stage             │                   │
-  │   │                     │ confidence        │                   │
-  │   │   │                 │ review_count      │                   │
-  │   │                     │ consecutive_..... │                   │
-  │   │   │                 │ ease_factor       │                   │
-  │   │                     │ interval_days     │                   │
-  │   │   │                 │ last_reviewed_at  │                   │
-  │   │                     │ next_review       │                   │
-  │   │   │                 │ created_at        │                   │
-  │   │                     │ updated_at        │                   │
-  │   │   │                 └────────┬────────┘                     │
-  │   │                             │                              │
-  │   │          ┌──────────────────┼──────────────────────┐       │
-  │   │          ▼                  ▼                      ▼       │
-  │   │  ┌──────────────┐  ┌────────────────┐  ┌──────────────────┐│
-  │   │  │ definitions  │  │  usage_notes   │  │  word_relations  ││
-  │   │  │──────────────│  │────────────────│  │──────────────────││
-  │   │  │PK id CHAR(36)│  │PK id CHAR(36)  │  │PK id CHAR(36)    ││
-  │   │  │FK word_id    │  │FK word_id      │  │FK word_id        ││
-  │   │  │ meaning_en   │  │ note_en        │  │FK related_word_id││
-  │   │  │ meaning_cn   │  │ note_cn        │  │ relation_type    ││
-  │   │  │ pos_detail   │  │ sort_order     │  │ created_at       ││
-  │   │  │ sort_order   │  │ created_at     │  │ updated_at       ││
-  │   │  │ created_at   │  │ updated_at     │  └──────────────────┘│
-  │   │  │ updated_at   │  └────────────────┘                       │
-  │   │  └──────────────┘                                           │
-  │   │                                                              │
-  │   │  ┌──────────────┐  ┌────────────────┐  ┌──────────────────┐ │
-  │   │  │ collocations │  │ prep_patterns  │  │    examples      │ │
-  │   │  │──────────────│  │────────────────│  │──────────────────│ │
-  │   │  │PK id CHAR(36)│  │PK id CHAR(36)  │  │PK id CHAR(36)    │ │
-  │   │  │FK word_id    │  │FK word_id      │  │FK word_id        │ │
-  │   │  │ collocation  │  │ pattern        │  │ sentence_en      │ │
-  │   │  │ translation  │  │ translation    │  │ sentence_cn      │ │
-  │   │  │★ frequency   │  │ preposition    │  │ source_type      │ │
-  │   │  │ sort_order   │  │★ frequency     │  │ source_detail    │ │
-  │   │  │ created_at   │  │ created_at     │  │FK article_id──── │ │
-  │   │  │ updated_at   │  │ updated_at     │  │★ frequency       │ │
-  │   │  └──────────────┘  └────────────────┘  │ sort_order       │ │
-  │   │                                        │ created_at       │ │
-  │   │  ┌──────────────┐  ┌────────────────┐  │ updated_at       │ │
-  │   │  │ word_forms   │  │ word_variants  │  └──────────────────┘ │
-  │   │  │──────────────│  │────────────────│                       │
-  │   │  │PK id CHAR(36)│  │PK id CHAR(36)  │        ┌────────────┐ │
-  │   │  │FK word_id    │  │FK word_id      │        │  articles  │ │
-  │   │  │ form_type    │  │ variant        │        │────────────│ │
-  │   │  │ form_value   │  │ region         │        │PK id CHAR. │ │
-  │   │  │ created_at   │  │ created_at     │        │ title      │ │
-  │   │  │ updated_at   │  │ updated_at     │        │ author     │ │
-  │   │  └──────────────┘  └────────────────┘        │ content    │ │
-  │   │                                              │★ frequency │ │
-  │   │                                              │ created_at  │ │
-  │   │                                              │ updated_at  │ │
-  │   │                                              └────────────┘ │
-  │                                                                  │
-  └──────────────────────────────────────────────────────────────────┘
-
-
-  ┌──────────────────────────────────────────────────────────────────┐
-  │  2. 用户域                                                       │
-  │                                                                  │
-  │     ┌──────────────────────────────────────────────────┐        │
-  │     │                     users                         │        │
-  │     │──────────────────────────────────────────────────│        │
-  │     │  PK id CHAR(36)                                   │        │
-  │     │  username (UNIQUE)                                │        │
-  │     │  password_hash                                    │        │
-  │     │  email (UNIQUE)                                   │        │
-  │     │  nickname                                         │        │
-  │     │  role (admin/editor/user)                         │        │
-  │     │  permission_level (1/5/9)                         │        │
-  │     │  is_active                                        │        │
-  │     │  last_login_at                                    │        │
-  │     │  created_at                                       │        │
-  │     │  updated_at                                       │        │
-  │     └──────────┬───────────────────────────────────────┘        │
-  │                │                                                  │
-  │        ┌───────┴────────┐                                         │
-  │        ▼                ▼                                         │
-  │  ┌────────────┐  ┌──────────────┐                                │
-  │  │user_freq   │  │favorite_    │                                 │
-  │  │uencies     │  │folders      │                                 │
-  │  │────────────│  │──────────────│                                │
-  │  │PK id CHAR  │  │PK id CHAR(36)│                               │
-  │  │FK user_id  │  │FK user_id    │                                │
-  │  │entity_type │  │ name         │                                │
-  │  │entity_id   │  │ category     │                                │
-  │  │★ frequency │  │ is_default   │                                │
-  │  │ created_at │  │ sort_order   │                                │
-  │  │ updated_at │  │ created_at   │                                │
-  │  └────────────┘  │ updated_at   │                                │
-  │                   └──────┬───────┘                               │
-  │                          │                                        │
-  │                     ┌────▼───────┐                               │
-  │                     │ favorites  │                               │
-  │                     │────────────│                               │
-  │                     │PK id CHAR  │                               │
-  │                     │FK folder_id│                               │
-  │                     │entity_type │                               │
-  │                     │entity_id   │                               │
-  │                     │note        │                               │
-  │                     │ created_at │                               │
-  │                     │ updated_at │                               │
-  │                     └────────────┘                               │
-  └──────────────────────────────────────────────────────────────────┘
-
-
-  ┌──────────────────────────────────────────────────────────────────┐
-  │  3. 频率体系（逻辑视图）                                           │
-  │                                                                  │
-  │    ┌─────────────┐                                              │
-  │    │ 实体表       │   words / collocations / prep_patterns      │
-  │    │             │   examples / articles                        │
-  │    │ frequency   │  ← 默认频率（系统级）                        │
-  │    └──────┬──────┘                                              │
-  │           │                                                      │
-  │           │ 如果用户设置了个人频率，则覆盖默认                    │
-  │           │                                                      │
-  │    ┌──────▼──────┐                                              │
-  │    │ user_freq   │  (user_id, entity_type, entity_id) CHAR(36) │
-  │    │ uencies     │  frequency ← 个人频率                        │
-  │    └─────────────┘                                              │
-  │                                                                  │
-  │    排序 SQL 模式:                                                │
-  │      SELECT ..., COALESCE(uf.frequency, t.frequency) AS sort_freq│
-  │      FROM ... t                                                  │
-  │      LEFT JOIN user_frequencies uf                               │
-  │        ON uf.entity_type = :type AND uf.entity_id = t.id        │
-  │        AND uf.user_id = :uid                                     │
-  │      ORDER BY sort_freq DESC                                     │
-  └──────────────────────────────────────────────────────────────────┘
+  user_notes           content_ratings       daily_recommendations
+  ───────────          ───────────────       ─────────────────────
+  entity_type ───────┐ entity_type ────────┐ entity_type ────────┐
+  entity_id   ───────┤ entity_id   ────────┤ entity_id   ────────┤
+                     ▼                     ▼                     ▼
+              words / collocations / prep_patterns / examples / articles
 ```
 
 ---
@@ -238,104 +84,94 @@
 ## 2. 架构概览 — 分层图
 
 ```
-  ┌─────────────────────────────────────────────────────────────────┐
-  │                    应用层 (Application)                          │
-  │   ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐ │
-  │   │ 单词学习  │ │ 文章阅读  │ │ 收藏管理  │ │  间隔重复(SM-2)│ │
-  │   └────┬─────┘ └────┬─────┘ └────┬─────┘ └────────┬─────────┘ │
-  └────────┼─────────────┼────────────┼────────────────┼───────────┘
-           │             │            │                │
-  ┌────────▼─────────────▼────────────▼────────────────▼───────────┐
-  │                    服务层 (Service / DAO)                        │
-  │  ┌─────────┐ ┌──────────┐ ┌──────────┐ ┌────────┐ ┌─────────┐ │
-  │  │WordRepo │ │ArticleRepo│ │FavRepo   │ │UserRepo│ │FreqRepo │ │
-  │  └────┬────┘ └────┬─────┘ └────┬─────┘ └───┬────┘ └────┬────┘ │
-  └───────┼───────────┼────────────┼────────────┼───────────┼──────┘
-          │           │            │            │           │
-  ┌───────▼───────────▼────────────▼────────────▼───────────▼──────┐
-  │                    数据层 (Database)                             │
-  │                                                                  │
-  │  ┌──────────────── 核心词汇域 ───────────────────────────────┐  │
-  │  │  words → {definitions, usage_notes, collocations,         │  │
-  │  │           prep_patterns, examples, word_relations,        │  │
-  │  │           word_forms, word_variants, word_tags}           │  │
-  │  │  主键: UUID CHAR(36)，所有外键 UUID 一致                     │  │
-  │  └───────────────────────────────────────────────────────────┘  │
-  │                                                                  │
-  │  ┌──────────────── 文章域 ──────────────────────────────────┐  │
-  │  │  articles ← examples (article_id)                         │  │
-  │  └───────────────────────────────────────────────────────────┘  │
-  │                                                                  │
-  │  ┌──────────────── 用户域 ──────────────────────────────────┐  │
-  │  │  users → user_frequencies → {words, collocations, ...}    │  │
-  │  │  users → favorite_folders → favorites → {任意实体}        │  │
-  │  └───────────────────────────────────────────────────────────┘  │
-  └─────────────────────────────────────────────────────────────────┘
+  ┌─────────────────────────────────────────────────────────────────────────────────┐
+  │                              应用层 (Application)                                 │
+  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐     │
+  │  │ 单词学习  │ │ 文章阅读  │ │ 收藏管理  │ │ 游戏化   │ │ 自适应推荐      │     │
+  │  └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘ └────────┬─────────┘     │
+  └───────┼────────────┼────────────┼────────────┼────────────────┼───────────────┘
+          │            │            │            │                │
+  ┌───────▼────────────▼────────────▼────────────▼────────────────▼───────────────┐
+  │                          服务层 (Service / DAO)                                 │
+  │  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌────────┐ │
+  │  │Word  │ │Article│ │Fav   │ │User  │ │Freq  │ │Stats │ │Plan  │ │Note    │ │
+  │  │Repo  │ │Repo  │ │Repo  │ │Repo  │ │Repo  │ │Repo  │ │Repo  │ │Repo    │ │
+  │  └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └───┬────┘ │
+  └──────┼────────┼────────┼────────┼────────┼────────┼────────┼─────────┼──────┘
+         │        │        │        │        │        │        │         │
+  ┌──────▼────────▼────────▼────────▼────────▼────────▼────────▼─────────▼──────┐
+  │                             数据层 (Database) 30 表                           │
+  │                                                                              │
+  │  ┌─────────── 核心词汇域 ───────────────────────────────────────────────┐   │
+  │  │  words → {definitions, usage_notes, collocations, prep_patterns,    │   │
+  │  │           examples, word_relations, word_forms, word_variants,      │   │
+  │  │           word_tags}                                                │   │
+  │  │  articles ← examples (article_id)                                   │   │
+  │  └─────────────────────────────────────────────────────────────────────┘   │
+  │                                                                              │
+  │  ┌─────────── 用户个性化域 ─────────────────────────────────────────────┐   │
+  │  │  users → user_settings / user_stats / user_tags / user_notes        │   │
+  │  │       → search_history / content_ratings / user_frequencies         │   │
+  │  └─────────────────────────────────────────────────────────────────────┘   │
+  │                                                                              │
+  │  ┌─────────── 学习行为域 ───────────────────────────────────────────────┐   │
+  │  │  users → learning_activities (日汇总) / review_log (每道题)          │   │
+  │  │       → reading_progress (阅读) / daily_recommendations (推荐)      │   │
+  │  └─────────────────────────────────────────────────────────────────────┘   │
+  │                                                                              │
+  │  ┌─────────── 收藏 & 计划 & 游戏化 ─────────────────────────────────────┐   │
+  │  │  favorite_folders → favorites (多态)                                 │   │
+  │  │  badges → user_badges                                               │   │
+  │  │  learning_plans → user_plans                                        │   │
+  │  └─────────────────────────────────────────────────────────────────────┘   │
+  └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
 ## 3. 表清单
 
-| # | 表名 | 类型 | 主键 | 说明 |
-|---|---|---|---|---|
-| 1 | `users` | 主表 | UUID | 账号+权限 |
-| 2 | `words` | 主表 | UUID | 单词主表，含 SM-2 |
-| 3 | `definitions` | 从表 | UUID | 一词多义 |
-| 4 | `usage_notes` | 从表 | UUID | 用法说明 |
-| 5 | `collocations` | 从表 | UUID | 固定搭配，**有频率** |
-| 6 | `prep_patterns` | 从表 | UUID | 介词搭配，**有频率** |
-| 7 | `examples` | 从表 | UUID | 例句，可关联文章，**有频率** |
-| 8 | `word_relations` | 从表 | UUID | 同/反义词网络 |
-| 9 | `word_tags` | 从表 | (UUID,tag) | 标签多对多 |
-| 10 | `word_forms` | 从表 | UUID | 时态/复数/比较级 |
-| 11 | `word_variants` | 从表 | UUID | 美式/英式拼写 |
-| 12 | `articles` | 主表 | UUID | 英文文章，**有频率** |
-| 13 | `user_frequencies` | 辅助表 | UUID | 个人频率覆盖 |
-| 14 | `favorite_folders` | 主表 | UUID | 收藏夹分类 |
-| 15 | `favorites` | 从表 | UUID | 收藏条目（多态） |
+| # | 域 | 表名 | 说明 |
+|---|---|---|---|
+| 1 | 核心 | `users` | 用户（头像/简介） |
+| 2 | 核心 | `words` | 单词主表（SM-2） |
+| 3 | 核心 | `articles` | 英文文章 |
+| 4 | 词汇 | `definitions` | 释义 |
+| 5 | 词汇 | `usage_notes` | 用法说明 |
+| 6 | 词汇 | `collocations` | 固定搭配 |
+| 7 | 词汇 | `prep_patterns` | 介词搭配 |
+| 8 | 词汇 | `examples` | 例句 |
+| 9 | 词汇 | `word_relations` | 词关系网络 |
+| 10 | 词汇 | `word_tags` | 系统标签 |
+| 11 | 词汇 | `word_forms` | 单词变形 |
+| 12 | 词汇 | `word_variants` | 拼写变体 |
+| 13 | 个性化 | `user_settings` | ★ 用户偏好（键值对） |
+| 14 | 个性化 | `user_tags` | ★ 自定义标签 |
+| 15 | 个性化 | `user_entity_tags` | ★ 标签-实体关联 |
+| 16 | 个性化 | `user_notes` | ★ 个人笔记 |
+| 17 | 个性化 | `user_frequencies` | 个人频率 |
+| 18 | 个性化 | `favorite_folders` | 收藏夹 |
+| 19 | 个性化 | `favorites` | 收藏条目 |
+| 20 | 个性化 | `content_ratings` | ★ 内容评分/反馈 |
+| 21 | 行为 | `learning_activities` | ★ 学习活动日志（日汇总） |
+| 22 | 行为 | `review_log` | ★ 答题日志（每道题） |
+| 23 | 行为 | `search_history` | ★ 搜索历史 |
+| 24 | 行为 | `reading_progress` | ★ 阅读进度 |
+| 25 | 行为 | `daily_recommendations` | ★ 每日推荐 |
+| 26 | 游戏化 | `user_stats` | ★ 统计（XP/等级/打卡） |
+| 27 | 游戏化 | `badges` | ★ 徽章定义 |
+| 28 | 游戏化 | `user_badges` | ★ 用户徽章 |
+| 29 | 计划 | `learning_plans` | ★ 学习计划模板 |
+| 30 | 计划 | `user_plans` | ★ 用户学习计划 |
 
-**总计：15 表 | 全部 UUID 主键 | 全部含 created_at/updated_at**
+**总计：30 表 | 3 核心 + 9 词汇 + 7 个性化 + 5 行为 + 3 游戏化 + 3 计划**  
+（★ = v7 新增）
 
 ---
 
 ## 4. 核心实体详解
 
-### 4.1 words — 单词主表
-
-```
-┌────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段           │ 类型             │ 约束        │ 说明                   │
-├────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id             │ CHAR(36)         │ PK          │ UUID 主键              │
-│ word           │ VARCHAR(50)      │ NOT NULL    │ 单词（唯一）           │
-│                │                  │ UNIQUE      │                        │
-│ pos            │ VARCHAR(30)      │ NOT NULL    │ 词性                   │
-│ first_letter   │ CHAR(1)          │ NOT NULL    │ 首字母分区             │
-│ phonetic_uk    │ VARCHAR(100)     │ NULL        │ 英式音标               │
-│ phonetic_us    │ VARCHAR(100)     │ NULL        │ 美式音标               │
-│ audio_uk       │ VARCHAR(500)     │ NULL        │ 英式发音 URL           │
-│ audio_us       │ VARCHAR(500)     │ NULL        │ 美式发音 URL           │
-│ meaning_cn     │ VARCHAR(500)     │ NULL        │ 中文摘要（冗余）       │
-│ etymology      │ TEXT             │ NULL        │ 英文词源               │
-│ etymology_cn   │ TEXT             │ NULL        │ 中文词源               │
-│ source         │ VARCHAR(50)      │ NULL        │ 来源词表               │
-│ difficulty     │ TINYINT          │ 0-4         │ 难度                   │
-│ frequency      │ INT              │ 默认 0      │ ★ 系统默认频率         │
-│ stage          │ TINYINT          │ 0-3         │ SM-2 学习阶段          │
-│ confidence     │ TINYINT          │ 0-5         │ 掌握度                 │
-│ review_count   │ INT              │ 默认 0      │ 复习次数               │
-│ consec_correct │ INT              │ 默认 0      │ 连续正确（SM-2）       │
-│ ease_factor    │ DECIMAL(4,2)     │ 1.3-3.0     │ 难度系数               │
-│ interval_days  │ INT              │ 默认 0      │ 间隔天数               │
-│ last_reviewed  │ DATETIME         │ NULL        │ 上次复习               │
-│ next_review    │ DATETIME         │ NULL        │ 下次复习               │
-│ created_at     │ DATETIME         │ DEFAULT     │ ★ 创建时间             │
-│ updated_at     │ DATETIME         │ ON UPDATE   │ ★ 修改时间             │
-└────────────────┴──────────────────┴────────────┴────────────────────────┘
-```
-
-### 4.2 users — 用户表
+### 4.1 users — 用户表
 
 ```
 ┌────────────────┬──────────────────┬────────────┬────────────────────────┐
@@ -346,473 +182,485 @@
 │ password_hash  │ VARCHAR(255)     │ NOT NULL    │ bcrypt 哈希            │
 │ email          │ VARCHAR(200)     │ UNIQUE      │ 邮箱                   │
 │ nickname       │ VARCHAR(100)     │ NULL        │ 昵称                   │
-│ role           │ ENUM(admin,      │ DEFAULT     │ 角色                   │
-│                │      editor,user)│ 'user'      │                        │
-│ permission_    │ TINYINT          │ DEFAULT 1   │ 1=普通 5=编辑 9=管理员 │
-│ level          │                  │             │                        │
+│ avatar_url     │ VARCHAR(500)     │ NULL        │ ★ 头像URL              │
+│ bio            │ TEXT             │ NULL        │ ★ 个人简介              │
+│ role           │ ENUM(...)        │ DEFAULT     │ 角色                   │
+│ permission_lvl │ TINYINT          │ DEFAULT 1   │ 1/5/9 权限级别         │
 │ is_active      │ TINYINT(1)       │ DEFAULT 1   │ 是否激活               │
-│ last_login_at  │ DATETIME         │ NULL        │ 最后登录时间           │
-│ created_at     │ DATETIME         │ DEFAULT     │ ★ 注册时间             │
-│ updated_at     │ DATETIME         │ ON UPDATE   │ ★ 更新时间             │
+│ last_login_at  │ DATETIME         │ NULL        │ 最后登录               │
+│ created_at     │ DATETIME         │ DEFAULT     │ 注册时间               │
+│ updated_at     │ DATETIME         │ ON UPDATE   │ 更新时间               │
 └────────────────┴──────────────────┴────────────┴────────────────────────┘
-
-权限级别对照:
-  ┌─────────┬──────────┬─────────────────────────────────────────┐
-  │ 级别     │ 角色      │ 可执行操作                               │
-  ├─────────┼──────────┼─────────────────────────────────────────┤
-  │ 1       │ user     │ 学习、收藏、设置个人频率                   │
-  │ 5       │ editor   │ 增删改词库/文章内容                        │
-  │ 9       │ admin    │ 管理用户、系统配置                         │
-  └─────────┴──────────┴─────────────────────────────────────────┘
 ```
 
-### 4.3 articles — 文章表
+### 4.2 user_settings — 用户偏好表
 
 ```
 ┌────────────────┬──────────────────┬────────────┬────────────────────────┐
 │ 字段           │ 类型             │ 约束        │ 说明                   │
 ├────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id             │ CHAR(36)         │ PK          │ UUID 主键              │
-│ title          │ VARCHAR(500)     │ NOT NULL    │ 文章标题               │
-│ author         │ VARCHAR(200)     │ NULL        │ 作者                   │
-│ content        │ TEXT             │ NOT NULL    │ 正文                   │
-│ summary        │ TEXT             │ NULL        │ 摘要                   │
-│ source_url     │ VARCHAR(500)     │ NULL        │ 原文链接               │
-│ source_name    │ VARCHAR(200)     │ NULL        │ 来源媒体               │
-│ difficulty     │ TINYINT          │ 0-4         │ 难度                   │
-│ frequency      │ INT              │ 默认 0      │ ★ 系统默认频率         │
-│ word_count     │ INT              │ NULL        │ 单词数                 │
-│ language_level │ VARCHAR(20)      │ NULL        │ 语言等级               │
-│ created_at     │ DATETIME         │ DEFAULT     │ ★ 入库时间             │
-│ updated_at     │ DATETIME         │ ON UPDATE   │ ★ 最后修改             │
+│ id             │ CHAR(36)         │ PK          │ UUID                  │
+│ user_id        │ CHAR(36)         │ FK          │ 用户                   │
+│ setting_key    │ VARCHAR(50)      │ NOT NULL    │ 键                     │
+│ setting_value  │ TEXT             │ NOT NULL    │ 值                     │
+│ created_at     │ DATETIME         │ DEFAULT     │ 创建时间               │
+│ updated_at     │ DATETIME         │ ON UPDATE   │ 修改时间               │
+└────────────────┴──────────────────┴────────────┴────────────────────────┘
+唯一约束: (user_id, setting_key)
+```
+
+支持设置键说明：
+
+| setting_key | 值示例 | 说明 |
+|---|---|---|
+| `daily_word_goal` | `20` | 每日学习目标词数 |
+| `learning_mode` | `card`/`choice`/`spelling`/`listening` | 学习模式偏好 |
+| `pronunciation` | `uk`/`us` | 发音偏好 |
+| `theme` | `light`/`dark` | 主题 |
+| `font_size` | `14`/`16`/`18` | 字号 |
+| `auto_play_audio` | `true`/`false` | 自动播放发音 |
+| `reminder_time` | `08:00` | 复习提醒时间 |
+| `new_words_per_day` | `10` | 每日新词上限 |
+| `ui_language` | `zh`/`en` | 界面语言 |
+
+### 4.3 user_stats — 用户统计/游戏化表
+
+```
+┌─────────────────────┬──────────────────┬────────────┬────────────────────────┐
+│ 字段                │ 类型             │ 约束        │ 说明                   │
+├─────────────────────┼──────────────────┼────────────┼────────────────────────┤
+│ id                  │ CHAR(36)         │ PK          │ UUID                  │
+│ user_id             │ CHAR(36)         │ FK, UNIQUE  │ 用户                   │
+│ xp                  │ INT              │ DEFAULT 0   │ 经验值                 │
+│ level               │ INT              │ DEFAULT 1   │ 等级                   │
+│ streak_days         │ INT              │ DEFAULT 0   │ 当前连续打卡天数       │
+│ longest_streak      │ INT              │ DEFAULT 0   │ 最长连续打卡           │
+│ total_words_learned │ INT              │ DEFAULT 0   │ 累计学习新词数         │
+│ total_reviews       │ INT              │ DEFAULT 0   │ 累计复习次数           │
+│ total_time_spent_sec│ INT              │ DEFAULT 0   │ 累计学习时长           │
+│ is_public           │ TINYINT(1)       │ DEFAULT 0   │ 是否公开排行榜         │
+│ created_at          │ DATETIME         │ DEFAULT     │ 创建时间               │
+│ updated_at          │ DATETIME         │ ON UPDATE   │ 修改时间               │
+└─────────────────────┴──────────────────┴────────────┴────────────────────────┘
+```
+
+### 4.4 learning_activities — 学习活动日志表
+
+```
+┌────────────────┬──────────────────┬────────────┬────────────────────────────────┐
+│ 字段           │ 类型             │ 约束        │ 说明                           │
+├────────────────┼──────────────────┼────────────┼────────────────────────────────┤
+│ id             │ CHAR(36)         │ PK          │ UUID                          │
+│ user_id        │ CHAR(36)         │ FK          │ 用户                           │
+│ activity_date  │ DATE             │ NOT NULL    │ 活动日期                       │
+│ words_studied  │ INT              │ DEFAULT 0   │ 学习新词数                     │
+│ reviews_done   │ INT              │ DEFAULT 0   │ 复习次数                       │
+│ time_spent_sec │ INT              │ DEFAULT 0   │ 学习时长（秒）                 │
+│ correct_count  │ INT              │ DEFAULT 0   │ 答对次数                       │
+│ wrong_count    │ INT              │ DEFAULT 0   │ 答错次数                       │
+│ created_at     │ DATETIME         │ DEFAULT     │ 创建时间                       │
+│ updated_at     │ DATETIME         │ ON UPDATE   │ 修改时间                       │
+└────────────────┴──────────────────┴────────────┴────────────────────────────────┘
+唯一约束: (user_id, activity_date)  — 一天一条汇总
+
+用途: 连续打卡统计、学习曲线图、每日进度、排行榜积分
+```
+
+### 4.5 review_log — 答题日志表
+
+```
+┌─────────────────┬────────────────────┬────────────┬────────────────────────────┐
+│ 字段            │ 类型               │ 约束        │ 说明                       │
+├─────────────────┼────────────────────┼────────────┼────────────────────────────┤
+│ id              │ CHAR(36)           │ PK          │ UUID                      │
+│ user_id         │ CHAR(36)           │ FK          │ 用户                       │
+│ word_id         │ CHAR(36)           │ FK          │ 单词                       │
+│ quiz_type       │ ENUM(meaning,      │ NOT NULL    │ 题型                       │
+│                 │      spelling,     │             │                            │
+│                 │      listening,    │             │                            │
+│                 │      usage,        │             │                            │
+│                 │      sentence)     │             │                            │
+│ is_correct      │ BOOLEAN            │ NOT NULL    │ 是否答对                   │
+│ response_time_ms│ INT                │ NULL        │ 响应时间(毫秒)             │
+│ wrong_answer    │ TEXT               │ NULL        │ 答了什么错                 │
+│ reviewed_at     │ DATETIME           │ DEFAULT     │ 答题时间                   │
+└─────────────────┴────────────────────┴────────────┴────────────────────────────┘
+
+用途:
+  - 易错词分析: 哪些词总是答错
+  - 薄弱题型分析: 拼写差还是听力差
+  - 自适应推送: 针对薄弱题型加强练习
+  - 学习效率: 响应时间变化曲线
+```
+
+### 4.6 user_notes — 用户笔记表
+
+```
+┌────────────────┬──────────────────┬────────────┬────────────────────────┐
+│ 字段           │ 类型             │ 约束        │ 说明                   │
+├────────────────┼──────────────────┼────────────┼────────────────────────┤
+│ id             │ CHAR(36)         │ PK          │ UUID                  │
+│ user_id        │ CHAR(36)         │ FK          │ 用户                   │
+│ entity_type    │ VARCHAR(50)      │ NOT NULL    │ 多态类型               │
+│ entity_id      │ CHAR(36)         │ NOT NULL    │ 实体 UUID              │
+│ content        │ TEXT             │ NOT NULL    │ 笔记内容               │
+│ is_private     │ BOOLEAN          │ DEFAULT 1   │ 是否私密               │
+│ created_at     │ DATETIME         │ DEFAULT     │ 创建时间               │
+│ updated_at     │ DATETIME         │ ON UPDATE   │ 修改时间               │
 └────────────────┴──────────────────┴────────────┴────────────────────────┘
 ```
 
-### 4.4 favorite_folders — 收藏夹表
+### 4.7 user_tags & user_entity_tags — 用户标签系统
 
 ```
-┌────────────────┬──────────────────────────┬────────────┬────────────────┐
-│ 字段           │ 类型                     │ 约束        │ 说明           │
-├────────────────┼──────────────────────────┼────────────┼────────────────┤
-│ id             │ CHAR(36)                 │ PK          │ UUID 主键      │
-│ user_id        │ CHAR(36)                 │ FK          │ 所属用户       │
-│ name           │ VARCHAR(100)             │ NOT NULL    │ 收藏夹名称     │
-│ category       │ ENUM(word,example,       │ DEFAULT     │ 收藏类别       │
-│                │      phrase,article,other)│ 'other'    │                │
-│ is_default     │ TINYINT(1)               │ 默认 0      │ 系统默认夹     │
-│ sort_order     │ INT                      │ 默认 0      │ 排序序号       │
-│ created_at     │ DATETIME                 │ DEFAULT     │ ★ 创建时间     │
-│ updated_at     │ DATETIME                 │ ON UPDATE   │ ★ 更新时间     │
-└────────────────┴──────────────────────────┴────────────┴────────────────┘
+user_tags                          user_entity_tags
+┌──────────────────────┐           ┌──────────────────────────────┐
+│ id CHAR(36)     PK   │           │ user_id    CHAR(36)     PK   │
+│ user_id CHAR(36) FK  │──1:N──    │ tag_id     CHAR(36)     PK   │
+│ tag VARCHAR(30)      │           │ entity_type VARCHAR(50) PK   │
+│ color VARCHAR(7)     │           │ entity_id  CHAR(36)     PK   │
+│ created_at           │           │ created_at                   │
+└──────────────────────┘           └──────────────────────────────┘
 
-类别 -- 实体类型对应关系:
-  word    ──→ words
-  example ──→ examples
-  phrase  ──→ collocations + prep_patterns
-  article ──→ articles
-  other   ──→ 任意（预留）
-
-默认收藏夹（注册时自动创建）:
-  "稍后复习" → category=word, is_default=1
+示例: 用户自定义 "写作词汇(#FF5733)" "口语词汇(#33FF57)" "考试必备(#3357FF)"
+      然后对任意单词打上这些标签，形成个人分类体系
 ```
 
-### 4.5 favorites — 收藏条目表
+### 4.8 badges & user_badges — 徽章系统
 
 ```
-┌────────────────┬──────────────────────────────┬────────────┬────────────┐
-│ 字段           │ 类型                         │ 约束        │ 说明       │
-├────────────────┼──────────────────────────────┼────────────┼────────────┤
-│ id             │ CHAR(36)                     │ PK          │ UUID 主键  │
-│ folder_id      │ CHAR(36)                     │ FK          │ 所属收藏夹 │
-│ entity_type    │ ENUM(word,collocation,       │ NOT NULL    │ 多态类型   │
-│                │      prep_pattern,example,   │             │            │
-│                │      article)                │             │            │
-│ entity_id      │ CHAR(36)                     │ NOT NULL    │ 实体 UUID  │
-│ note           │ TEXT                         │ NULL        │ 备注       │
-│ created_at     │ DATETIME                     │ DEFAULT     │ ★ 收藏时间 │
-│ updated_at     │ DATETIME                     │ ON UPDATE   │ ★ 更新时间 │
-└────────────────┴──────────────────────────────┴────────────┴────────────┘
+badges                            user_badges
+┌──────────────────────┐         ┌──────────────────────────┐
+│ id CHAR(36)     PK   │         │ user_id CHAR(36)    PK   │
+│ name VARCHAR(100)    │──1:N──  │ badge_id CHAR(36)   PK   │
+│ icon VARCHAR(200)    │         │ earned_at DATETIME       │
+│ description          │         └──────────────────────────┘
+│ criteria JSON        │
+│ sort_order INT       │
+│ created_at           │
+└──────────────────────┘
 
-唯一约束: (folder_id, entity_type, entity_id) —— 同一夹子内不重复
+criteria 示例:
+  {"type":"streak",      "days":7}
+  {"type":"words_learned","count":100}
+  {"type":"accuracy",    "rate":0.9}
+  {"type":"level",       "level":10}
+  {"type":"first_lesson"}
 ```
 
-### 4.6 user_frequencies — 个人频率表
+### 4.9 learning_plans & user_plans — 学习计划系统
 
 ```
-┌────────────────┬──────────────────────────────┬────────────┬────────────────┐
-│ 字段           │ 类型                         │ 约束        │ 说明           │
-├────────────────┼──────────────────────────────┼────────────┼────────────────┤
-│ id             │ CHAR(36)                     │ PK          │ UUID 主键      │
-│ user_id        │ CHAR(36)                     │ FK          │ 用户           │
-│ entity_type    │ ENUM(word,collocation,       │ NOT NULL    │ 实体类型       │
-│                │      prep_pattern,example,   │             │                │
-│                │      article)                │             │                │
-│ entity_id      │ CHAR(36)                     │ NOT NULL    │ 实体 UUID      │
-│ frequency      │ INT                          │ 默认 0      │ ★ 个人频率     │
-│ created_at     │ DATETIME                     │ DEFAULT     │ ★ 创建时间     │
-│ updated_at     │ DATETIME                     │ ON UPDATE   │ ★ 更新时间     │
-└────────────────┴──────────────────────────────┴────────────┴────────────────┘
+learning_plans (模板)              user_plans (用户参与)
+┌──────────────────────────┐     ┌────────────────────────────────┐
+│ id CHAR(36)         PK   │     │ id CHAR(36)              PK   │
+│ name VARCHAR(200)        │     │ user_id CHAR(36)         FK   │
+│ description TEXT         │──┐  │ plan_id CHAR(36)         FK   │
+│ target_level VARCHAR(50) │  │  │ started_at DATETIME           │
+│ duration_days INT        │  └─ │ completed_at DATETIME NULL    │
+│ daily_word_count INT     │     │ current_day INT DEFAULT 0     │
+│ is_active BOOLEAN        │     │ daily_target INT NULL         │
+│ sort_order INT           │     │ created_at / updated_at       │
+│ created_at / updated_at  │     └────────────────────────────────┘
+└──────────────────────────┘
 
-唯一约束: (user_id, entity_type, entity_id) —— 一用户对一实体只有一个频率
+模板示例:
+  "CET-4 30天冲刺"   → 30天, 每日20词, 目标等级 CET-4
+  "考研词汇 60天"    → 60天, 每日15词, 目标等级 考研
+  "雅思7分词汇"      → 45天, 每日25词, 目标等级 雅思7.0
+```
+
+### 4.10 reading_progress — 阅读进度表
+
+```
+┌────────────────┬──────────────────┬────────────┬────────────────────────────────┐
+│ 字段           │ 类型             │ 约束        │ 说明                           │
+├────────────────┼──────────────────┼────────────┼────────────────────────────────┤
+│ id             │ CHAR(36)         │ PK          │ UUID                          │
+│ user_id        │ CHAR(36)         │ FK          │ 用户                           │
+│ article_id     │ CHAR(36)         │ FK          │ 文章                           │
+│ scroll_position│ INT              │ DEFAULT 0   │ 阅读进度（字符偏移）           │
+│ is_completed   │ BOOLEAN          │ DEFAULT 0   │ 是否读完                       │
+│ words_looked_up│ INT              │ DEFAULT 0   │ 阅读中查词数                   │
+│ last_read_at   │ DATETIME         │ ON UPDATE   │ 最后阅读时间                   │
+│ created_at     │ DATETIME         │ DEFAULT     │ 创建时间                       │
+└────────────────┴──────────────────┴────────────┴────────────────────────────────┘
+唯一约束: (user_id, article_id)
+
+用途: 跨设备同步阅读位置、统计阅读量、推荐相关文章
 ```
 
 ---
 
 ## 5. 关系矩阵
 
-| 父表 | 子表 | 关系 | 外键 | 外键类型 |
-|---|---|---|---|---|
-| `words` | `definitions` | 1:N | `word_id` | CHAR(36) |
-| `words` | `usage_notes` | 1:N | `word_id` | CHAR(36) |
-| `words` | `collocations` | 1:N | `word_id` | CHAR(36) |
-| `words` | `prep_patterns` | 1:N | `word_id` | CHAR(36) |
-| `words` | `examples` | 1:N | `word_id` | CHAR(36) |
-| `words` | `word_relations.word_id` | 1:N | `word_id` | CHAR(36) |
-| `words` | `word_relations.related_word_id` | 1:N | `related_word_id` | CHAR(36) |
-| `words` | `word_tags` | 1:N | `word_id` | CHAR(36) |
-| `words` | `word_forms` | 1:N | `word_id` | CHAR(36) |
-| `words` | `word_variants` | 1:N | `word_id` | CHAR(36) |
-| `articles` | `examples` | 1:N | `article_id` | CHAR(36) |
-| `users` | `favorite_folders` | 1:N | `user_id` | CHAR(36) |
-| `users` | `user_frequencies` | 1:N | `user_id` | CHAR(36) |
-| `favorite_folders` | `favorites` | 1:N | `folder_id` | CHAR(36) |
-| — | `favorites.entity_type` | 多态 | `entity_id` | CHAR(36) |
+### 5.1 词汇域
 
-**所有主键与外键统一使用 CHAR(36) UUID**，保证类型一致。
-多态关联 `(entity_type, entity_id)` 中 entity_id 也是 CHAR(36)，
-与其他表主键类型一致。
+| 父表 | 子表 | 关系 | 外键 |
+|---|---|---|---|
+| `words` | `definitions` | 1:N | `word_id` |
+| `words` | `usage_notes` | 1:N | `word_id` |
+| `words` | `collocations` | 1:N | `word_id` |
+| `words` | `prep_patterns` | 1:N | `word_id` |
+| `words` | `examples` | 1:N | `word_id` |
+| `words` | `word_relations.word_id` | 1:N | `word_id` |
+| `words` | `word_relations.related_word_id` | 1:N | `related_word_id` |
+| `words` | `word_tags` | 1:N | `word_id` |
+| `words` | `word_forms` | 1:N | `word_id` |
+| `words` | `word_variants` | 1:N | `word_id` |
+| `articles` | `examples` | 1:N | `article_id` |
+
+### 5.2 用户域 — 用户直连表
+
+| 父表 | 子表 | 关系 | 外键 | 说明 |
+|---|---|---|---|---|
+| `users` | `user_settings` | 1:N | `user_id` | 偏好设置 |
+| `users` | `user_stats` | 1:1 | `user_id` | 统计/游戏化 |
+| `users` | `user_tags` | 1:N | `user_id` | 自定义标签 |
+| `users` | `user_notes` | 1:N | `user_id` | 个人笔记 |
+| `users` | `search_history` | 1:N | `user_id` | 搜索历史 |
+| `users` | `content_ratings` | 1:N | `user_id` | 评分反馈 |
+| `users` | `user_frequencies` | 1:N | `user_id` | 个人频率 |
+| `users` | `favorite_folders` | 1:N | `user_id` | 收藏夹 |
+| `users` | `learning_activities` | 1:N | `user_id` | 学习日志 |
+| `users` | `review_log` | 1:N | `user_id` | 答题日志 |
+| `users` | `reading_progress` | 1:N | `user_id` | 阅读进度 |
+| `users` | `daily_recommendations` | 1:N | `user_id` | 每日推荐 |
+| `users` | `user_plans` | 1:N | `user_id` | 学习计划 |
+| `users` | `user_badges` | 1:N | `user_id` | 徽章 |
+
+### 5.3 多态关联
+
+| 表 | 多态字段 | 可关联实体 |
+|---|---|---|
+| `user_notes` | `(entity_type, entity_id)` | word / collocation / prep_pattern / example / article |
+| `content_ratings` | `(entity_type, entity_id)` | 同上 |
+| `daily_recommendations` | `(entity_type, entity_id)` | 同上 |
+| `user_entity_tags` | `(entity_type, entity_id)` | 同上（通过 tag_id 间接） |
+| `favorites` | `(entity_type, entity_id)` | word / collocation / prep_pattern / example / article |
+
+### 5.4 其他关系
+
+| 父表 | 子表 | 关系 | 外键 |
+|---|---|---|---|
+| `badges` | `user_badges` | 1:N | `badge_id` |
+| `learning_plans` | `user_plans` | 1:N | `plan_id` |
+| `user_tags` | `user_entity_tags` | 1:N | `tag_id` |
+| `favorite_folders` | `favorites` | 1:N | `folder_id` |
+| `words` | `review_log` | 1:N | `word_id` |
+| `articles` | `reading_progress` | 1:N | `article_id` |
 
 ---
 
 ## 6. 频率体系设计
 
-### 6.1 设计目标
+（同 v6，未变化）
 
-1. **统一频率字段**：所有可排序实体都有 `frequency INT` 作为**系统默认频率**
-2. **个人覆盖**：`user_frequencies` 表允许用户独立设置个人频率
-3. **回退机制**：没有个人频率时，自动使用默认频率
-
-### 6.2 数据模型
-
-```
-实体表                          user_frequencies
-┌────────────────┐            ┌──────────────────────────────┐
-│ words          │            │ user_id CHAR(36)             │
-│  ├ frequency   │            │ entity_type                  │
-│ collocations   │◄──LEFT────│ entity_id CHAR(36)           │
-│  ├ frequency   │    JOIN   │ frequency (个人)              │
-│ prep_patterns  │            └──────────────────────────────┘
-│  ├ frequency   │
-│ examples       │
-│  ├ frequency   │
-│ articles       │
-│  └ frequency   │
-└────────────────┘
-```
-
-### 6.3 查询模式
+实体表有 `frequency INT` 作为系统默认频率，`user_frequencies` 表允许用户覆盖。
 
 ```sql
--- 排序示例：单词列表（UUID 查询）
-SELECT w.*,
-       COALESCE(uf.frequency, w.frequency) AS sort_freq
-FROM words w
+SELECT COALESCE(uf.frequency, t.frequency) AS sort_freq
+FROM words t
 LEFT JOIN user_frequencies uf
-    ON uf.entity_type = 'word'
-   AND uf.entity_id = w.id
-   AND uf.user_id = ?
-ORDER BY sort_freq DESC, w.word ASC;
-
--- 排序示例：搭配列表（按频率降序）
-SELECT c.*,
-       COALESCE(uf.frequency, c.frequency) AS sort_freq
-FROM collocations c
-LEFT JOIN user_frequencies uf
-    ON uf.entity_type = 'collocation'
-   AND uf.entity_id = c.id
-   AND uf.user_id = ?
-ORDER BY sort_freq DESC, c.sort_order ASC;
+  ON uf.entity_type = 'word' AND uf.entity_id = t.id AND uf.user_id = ?
+ORDER BY sort_freq DESC;
 ```
-
-### 6.4 频率语义
-
-| 频率值 | 语义 | 示例 |
-|---|---|---|
-| 0 | 未评/默认 | 新词条 |
-| 1-20 | 低频 | 罕见词汇 |
-| 21-50 | 中低频 | 专业术语 |
-| 51-80 | 中频 | 常用词 |
-| 81-100 | 高频 | 核心词汇 |
 
 ---
 
 ## 7. 收藏夹体系设计
 
-### 7.1 数据结构
-
-```
-users (1) ──── (N) favorite_folders (1) ──── (N) favorites
-
-favorite_folders:
-  - id:        CHAR(36) UUID
-  - name:      "稍后复习" / "阅读精粹" ...
-  - category:  word | example | phrase | article | other
-  - is_default: 每个用户仅一个默认夹
-
-favorites:
-  - entity_type + entity_id (CHAR(36)) -> 多态关联任意实体
-  - note: 用户备注
-```
-
-### 7.2 用户注册流程
-
-```
-用户注册
-  │
-  ├── INSERT INTO users (id, username, password_hash, ...)
-  │     VALUES (UUID(), 'demo', '...', ...)
-  │
-  └── INSERT INTO favorite_folders (id, user_id, name='稍后复习',
-                                    category='word', is_default=1)
-        VALUES (UUID(), @user_id, '稍后复习', 'word', 1)
-```
-
-### 7.3 查询模式
-
-```sql
--- 查询用户的收藏夹树
-SELECT
-    f.id AS folder_id,
-    f.name AS folder_name,
-    f.category,
-    COUNT(fav.id) AS item_count
-FROM favorite_folders f
-LEFT JOIN favorites fav ON fav.folder_id = f.id
-WHERE f.user_id = ?
-GROUP BY f.id, f.name, f.category
-ORDER BY f.sort_order ASC;
-
--- 查询收藏夹内具体内容
-SELECT
-    fav.id AS fav_id,
-    fav.entity_type,
-    fav.entity_id,
-    fav.note,
-    fav.created_at,
-    CASE fav.entity_type
-        WHEN 'word'        THEN w.word
-        WHEN 'collocation' THEN col.collocation
-        WHEN 'prep_pattern' THEN pp.pattern
-        WHEN 'example'     THEN e.sentence_en
-        WHEN 'article'     THEN a.title
-    END AS entity_title
-FROM favorites fav
-LEFT JOIN words          w  ON fav.entity_type='word'        AND fav.entity_id = w.id
-LEFT JOIN collocations   col ON fav.entity_type='collocation' AND fav.entity_id = col.id
-LEFT JOIN prep_patterns  pp  ON fav.entity_type='prep_pattern' AND fav.entity_id = pp.id
-LEFT JOIN examples       e   ON fav.entity_type='example'    AND fav.entity_id = e.id
-LEFT JOIN articles       a   ON fav.entity_type='article'    AND fav.entity_id = a.id
-WHERE fav.folder_id = ?
-ORDER BY fav.created_at DESC;
-```
+（同 v6，增加 `is_public` 字段支持公开分享）
 
 ---
 
-## 8. 用户权限模型
-
-### 8.1 权限矩阵
+## 8. 用户体系全景
 
 ```
-┌─────────────────────┬──────────┬──────────┬──────────┐
-│ 操作                │ user(1)  │ editor(5)│ admin(9) │
-├─────────────────────┼──────────┼──────────┼──────────┤
-│ 查看词库             │ ✅       │ ✅       │ ✅       │
-│ 学习/复习           │ ✅       │ ✅       │ ✅       │
-│ 收藏/取消收藏       │ ✅       │ ✅       │ ✅       │
-│ 设置个人频率         │ ✅       │ ✅       │ ✅       │
-│ 创建自定义收藏夹     │ ✅       │ ✅       │ ✅       │
-│ ─────────────────── │ ─────── │ ─────── │ ─────── │
-│ 新增/编辑单词       │ ❌       │ ✅       │ ✅       │
-│ 新增/编辑文章       │ ❌       │ ✅       │ ✅       │
-│ 批量导入           │ ❌       │ ✅       │ ✅       │
-│ ─────────────────── │ ─────── │ ─────── │ ─────── │
-│ 管理用户            │ ❌       │ ❌       │ ✅       │
-│ 系统配置            │ ❌       │ ❌       │ ✅       │
-│ 删除数据            │ ❌       │ ❌       │ ✅       │
-└─────────────────────┴──────────┴──────────┴──────────┘
+                              ┌──────────────────┐
+                              │     users         │
+                              │  (账号/权限/头像) │
+                              └────────┬─────────┘
+          ┌────────────────────────────┼──────────────────────────────┐
+          │              │             │              │               │
+   ┌──────▼──────┐  ┌────▼────┐  ┌────▼────┐  ┌─────▼──────┐  ┌─────▼──────┐
+   │ 偏好/配置    │  │ 统计/等级 │  │ 个性化   │  │ 学习行为    │  │ 收藏/计划   │
+   │─────────────│  │─────────│  │─────────│  │───────────│  │───────────│
+   │user_settings │  │user_stats│  │user_tags │  │learn_acti │  │fav_folders│
+   │              │  │badges    │  │user_notes│  │review_log │  │favorites  │
+   │              │  │user_badgs│  │cnt_rating│  │searc_hist │  │learn_plans│
+   │              │  │         │  │user_freq │  │read_prog  │  │user_plans │
+   │              │  │         │  │          │  │daily_rec  │  │           │
+   └──────────────┘  └─────────┘  └──────────┘  └───────────┘  └───────────┘
 ```
 
-### 8.2 角色定义
+用户适配能力总结：
 
-```sql
-ENUM('admin', 'editor', 'user')
-
--- 对应 permission_level:
---   'user'   → 1
---   'editor' → 5
---   'admin'  → 9
-```
+| 适配维度 | 支撑表 | 实现方式 |
+|---|---|---|
+| **学习偏好** | `user_settings` | 键值对，支持任意扩展 |
+| **内容排序** | `user_frequencies` | 个人频率覆盖默认频率 |
+| **分类体系** | `user_tags` + `user_entity_tags` | 用户自建标签+颜色标记 |
+| **个人笔记** | `user_notes` | 多态关联任意实体 |
+| **内容评价** | `content_ratings` | 1-5 分 + 反馈文本 |
+| **收藏管理** | `favorite_folders` + `favorites` | 分目录、多类别 |
+| **进度跟踪** | `learning_activities` | 日维度学习汇总 |
+| **薄弱分析** | `review_log` | 逐题记录+错题内容 |
+| **游戏化** | `user_stats` + `badges` + `user_badges` | XP/等级/打卡/徽章 |
+| **自适应** | `daily_recommendations` | 基于错题/间隔推荐 |
+| **阅读** | `reading_progress` | 跨设备同步阅读位置 |
+| **计划** | `learning_plans` + `user_plans` | 目标导向的学习路径 |
 
 ---
 
 ## 9. 间隔重复 (SM-2) 说明
 
-SM-2 (SuperMemo 2) 算法参数集中在 `words` 表：
-
-| 参数 | 字段 | 说明 |
-|---|---|---|
-| 学习阶段 | `stage` | 0=未学 → 1=学习中 → 2=复习中 → 3=已掌握 |
-| 掌握度 | `confidence` | 0-5 自评/测试分数 |
-| 连续正确 | `consecutive_correct` | SM-2 核心：连续答对次数 |
-| 难度系数 | `ease_factor` | 1.3-3.0，答对增加，答错降低，最低 1.3 |
-| 间隔天数 | `interval_days` | 当前复习间隔 |
-
-```
-SM-2 算法伪代码:
-
-function sm2(quality: 0-5):
-    if quality >= 3:                       // 答对
-        consec_correct++
-        if consec_correct == 1:  interval = 1
-        elif consec_correct == 2: interval = 6
-        else:                    interval = round(interval_prev * ease_factor)
-    else:                                  // 答错
-        consec_correct = 0
-        interval = 1
-
-    // 更新难度系数
-    ease_factor = ease_factor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
-    ease_factor = clamp(ease_factor, 1.3, 3.0)
-
-    next_review = now + interval
-```
+（同 v6，未变化）
 
 ---
 
 ## 10. 索引策略
 
-### 10.1 单词表索引
+### 10.1 words 索引
 
 ```
-┌────────────────────────────┬────────────┬──────────────────────────────┐
-│ 索引名                     │ 字段        │ 用途                         │
-├────────────────────────────┼────────────┼──────────────────────────────┤
-│ idx_letter                 │ first_letter│ 字母分区查询                 │
-│ idx_pos                    │ pos         │ 词性筛选                     │
-│ idx_difficulty             │ difficulty  │ 难度筛选                     │
-│ idx_source                 │ source      │ 来源词表筛选                 │
-│ idx_stage                  │ stage       │ 学习阶段筛选                 │
-│ idx_next_review            │ next_review  │ 到期复习查询                 │
-│ idx_created_at             │ created_at  │ 最新入库排序                 │
-│ idx_stage_review           │ stage,next_review │ 复习队列（复合）         │
-│ idx_letter_pos             │ first_letter,pos  │ 字母+词性（复合）         │
-│ idx_confidence             │ confidence  │ 掌握度筛选                   │
-│ idx_frequency              │ frequency   │ 频率排序                     │
-└────────────────────────────┴────────────┴──────────────────────────────┘
+idx_letter          (first_letter)             字母分区
+idx_pos             (pos)                      词性筛选
+idx_difficulty      (difficulty)               难度筛选
+idx_source          (source)                   来源词表
+idx_stage           (stage)                    学习阶段
+idx_next_review     (next_review)              到期复习队列
+idx_created_at      (created_at)               最新入库排序
+idx_stage_review    (stage, next_review)       复习队列复合
+idx_letter_pos      (first_letter, pos)        字母+词性复合
+idx_confidence      (confidence)               掌握度筛选
+idx_frequency       (frequency)                频率排序
 ```
 
-### 10.2 各表索引汇总
+### 10.2 新增表索引
 
-| 表 | 索引字段 | 索引类型 |
+| 表 | 索引字段 | 用途 |
 |---|---|---|
-| `definitions` | `word_id` | B-tree |
-| `usage_notes` | `word_id` | B-tree |
-| `collocations` | `word_id` | B-tree |
-| `prep_patterns` | `word_id`, `preposition` | B-tree |
-| `examples` | `word_id`, `source_type`, `article_id` | B-tree |
-| `word_relations` | `word_id`, `related_word_id`, `relation_type` | B-tree + UNIQUE |
-| `word_tags` | `(word_id,tag)` PK, `tag` | B-tree |
-| `word_forms` | `word_id`, `(word_id,form_type)` UNIQUE | B-tree |
-| `word_variants` | `word_id`, `variant`, `(word_id,variant,region)` UNIQUE | B-tree |
-| `articles` | `difficulty`, `frequency`, `language_level`, `created_at` | B-tree |
-| `user_frequencies` | `user_id`, `(entity_type,entity_id)`, `(user_id,entity_type,entity_id)` UNIQUE | B-tree |
-| `favorite_folders` | `user_id`, `category`, `(user_id,is_default)` | B-tree |
-| `favorites` | `folder_id`, `(entity_type,entity_id)`, `(folder_id,entity_type,entity_id)` UNIQUE | B-tree |
+| `user_settings` | `(user_id, setting_key)` UNIQUE | 用户设置 |
+| `user_stats` | `user_id` UNIQUE, `xp DESC`, `level DESC`, `streak_days DESC` | 排行榜 |
+| `user_tags` | `(user_id, tag)` UNIQUE | 标签唯一 |
+| `user_entity_tags` | `(user_id,tag_id,entity_type,entity_id)` PK, `tag_id`, `(entity_type,entity_id)` | 多态关联 |
+| `user_notes` | `user_id`, `(entity_type,entity_id)`, `(user_id,entity_type,entity_id)` | 多态查询 |
+| `learning_activities` | `(user_id, activity_date)` UNIQUE, `activity_date` | 日汇总、打卡 |
+| `review_log` | `user_id`, `word_id`, `reviewed_at`, `(user_id,word_id)`, `quiz_type` | 错题分析 |
+| `search_history` | `user_id`, `(user_id, searched_at DESC)`, `query(20)` | 搜索联想 |
+| `content_ratings` | `(user_id,entity_type,entity_id)` UNIQUE, `rating` | 评分防重复 |
+| `reading_progress` | `(user_id, article_id)` UNIQUE | 阅读位置 |
+| `daily_recommendations` | `(user_id, recommend_date)`, `(user_id, is_consumed)` | 推荐推送 |
+| `user_plans` | `user_id`, `plan_id`, `(user_id, completed_at)` | 计划进度 |
+| `user_badges` | `(user_id, badge_id)` PK, `badge_id`, `earned_at` | 徽章查询 |
+| `badges` | `sort_order` | 排序 |
 
 ---
 
 ## 11. 数据流图
 
-### 11.1 用户学习流程
+### 11.1 用户学习完整流程
 
 ```
 用户登录
   │
-  ├── [单词学习] ──→ SELECT ... FROM words WHERE next_review <= NOW()
-  │                      ORDER BY next_review ASC LIMIT 20
-  │                   │
-  │                   ├── 答对 → UPDATE ... SET consec_correct+1, ease_factor+
-  │                   │          interval_days = SM2(...), next_review = ...
-  │                   │
-  │                   └── 答错 → UPDATE ... SET consec_correct=0, ease_factor-
-  │                              interval_days=1, next_review = NOW()+1
+  ├── [首页加载]
+  │   ├── user_settings        → 读取偏好（每日目标、学习模式）
+  │   ├── user_stats           → 读取等级/连续打卡天数
+  │   ├── daily_recommendations→ 读取今日推荐
+  │   └── learning_activities(今日) → 今日进度
   │
-  ├── [查看详情] ──→ SELECT ... FROM words
-  │                   LEFT JOIN definitions
-  │                   LEFT JOIN collocations  ORDER BY frequency DESC
-  │                   LEFT JOIN prep_patterns ORDER BY frequency DESC
-  │                   LEFT JOIN examples      ORDER BY frequency DESC
-  │                   WHERE words.id = ?
+  ├── [单词学习/复习]
+  │   ├── words WHERE next_review <= NOW()  → SM-2 到期词
+  │   ├── 答题后:
+  │   │   ├── INSERT review_log  (记录每题)
+  │   │   ├── UPDATE words SM-2 字段
+  │   │   └── UPDATE learning_activities (日汇总+1)
+  │   └── 答错词 → INSERT daily_recommendations (明天再推)
   │
-  ├── [收藏] ──→ INSERT INTO favorites (id, folder_id, entity_type, entity_id)
-  │                VALUES (UUID(), ?, 'word', ?)
+  ├── [查词]
+  │   ├── SELECT words + definitions + collocations + examples
+  │   ├── INSERT search_history
+  │   └── 命中 → 可: 收藏 / 记笔记 / 打分 / 加标签 / 设频率
   │
-  └── [设置频率] ──→ INSERT INTO user_frequencies
-                         (id, user_id, entity_type, entity_id, frequency)
-                      VALUES (UUID(), ?, 'word', ?, 80)
-                      ON DUPLICATE KEY UPDATE frequency = VALUES(frequency)
+  ├── [阅读文章]
+  │   ├── INSERT/UPDATE reading_progress (同步位置)
+  │   └── 点击查词 → words_looked_up +1
+  │
+  └── [日终结算]
+      └── 更新 user_stats (xp += 今日所得, streak 判断, 徽章检查)
 ```
 
-### 11.2 UUID 生成策略
+### 11.2 个性化推荐逻辑
 
 ```
-应用层调用 UUID() 函数或应用代码生成 UUID v4:
+daily_recommendations 生成算法 (每日凌晨执行):
 
-  MySQL:   INSERT INTO words (id, ...) VALUES (UUID(), ...)
-  Python:  import uuid; str(uuid.uuid4())
-  Java:    java.util.UUID.randomUUID().toString()
-  JS:      crypto.randomUUID()
+  1. 复习推荐: 今天有 SM-2 到期未学的词 → reason='间隔复习到期'
+  2. 错题推荐: 近7天答错≥2次的词 → reason='易错词巩固'
+  3. 新词推荐: 今日未达 daily_word_goal → 取难度匹配的未学词
+  4. 弱项推荐: review_log 分析薄弱题型 → reason='听力弱项提升'
 
-所有 INSERT 示例使用显式 UUID 常量仅为演示，
-生产环境应使用 UUID() 函数或应用层生成。
+查询时:
+  SELECT FROM daily_recommendations
+  WHERE user_id=? AND recommend_date=CURDATE() AND is_consumed=FALSE
+  ORDER BY
+    CASE reason
+      WHEN '间隔复习到期' THEN 0
+      WHEN '易错词巩固'   THEN 1
+      WHEN '新词推荐'     THEN 2
+      ELSE 3
+    END
+```
+
+### 11.3 游戏化触发流程
+
+```
+学习事件发生
+  │
+  ├── 本次答对 +10 XP
+  ├── 连续答对3题 +5 bonus XP
+  ├── 完成每日目标 +20 bonus XP
+  │
+  ├── UPDATE user_stats (xp += 奖励, 检查升级)
+  │
+  ├── 每日首次学习:
+  │   ├── UPDATE learning_activities (写入今日记录)
+  │   └── streak_days = 昨天有记录 ? ++ : 1
+  │
+  └── 检查徽章解锁:
+      └── SELECT badges WHERE criteria 满足
+          └── INSERT user_badges (如未获得)
 ```
 
 ---
 
-## 12. 变更日志 v5→v6
+## 12. 变更日志 v6→v7
 
-| 变更类型 | 对象 | 详细说明 |
+| 变更 | 对象 | 说明 |
 |---|---|---|
-| 🔄 修改 | **所有 15 表** | `INT AUTO_INCREMENT PK` → `CHAR(36) PK` (UUID) |
-| 🔄 修改 | **所有外键** | `INT` → `CHAR(36)`，与主键类型一致 |
-| 🔄 修改 | `definitions` | 新增 `created_at`, `updated_at` |
-| 🔄 修改 | `usage_notes` | 新增 `created_at`, `updated_at` |
-| 🔄 修改 | `collocations` | 新增 `created_at`, `updated_at` |
-| 🔄 修改 | `prep_patterns` | 新增 `created_at`, `updated_at` |
-| 🔄 修改 | `examples` | 新增 `created_at`, `updated_at` |
-| 🔄 修改 | `word_relations` | 新增 `created_at`, `updated_at` |
-| 🔄 修改 | `word_forms` | 新增 `created_at`, `updated_at` |
-| 🔄 修改 | `word_variants` | 新增 `updated_at`（已有 `created_at`） |
-| 🔄 修改 | `word_tags` | 新增 `updated_at`（已有 `created_at`） |
-| 🔄 修改 | `favorite_folders` | 新增 `updated_at`（已有 `created_at`） |
-| 🔄 修改 | `favorites` | `added_at` → `created_at`，新增 `updated_at` |
-| 🔄 修改 | `user_frequencies` | 新增 `created_at`（已有 `updated_at`） |
-| 🔄 修改 | `words` | `added_at` → `created_at` |
-| 🔄 修改 | `articles` | `added_at` → `created_at` |
-| 🔄 修改 | `words` 索引 | `idx_added_at` → `idx_created_at` |
-| 🔄 修改 | `articles` 索引 | `idx_added_at` → `idx_created_at` |
-
-**核心原则**：
-- 全部 15 表统一使用 `CHAR(36) UUID` 做主键，**不用 INT**
-- 全部 15 表统一含 `created_at` + `updated_at` 时间审计字段
-- `entity_id` 在多态表（`favorites`、`user_frequencies`）中也是 `CHAR(36)`，与实体表主键一致
+| 🆕 新增 | `user_settings` | 用户偏好（键值对，支持任意设置项） |
+| 🆕 新增 | `user_stats` | 游戏化统计（XP/等级/打卡/排行榜） |
+| 🆕 新增 | `user_tags` | 用户自定义标签（含颜色） |
+| 🆕 新增 | `user_entity_tags` | 标签与任意实体的多对多关联 |
+| 🆕 新增 | `user_notes` | 个人笔记（多态关联） |
+| 🆕 新增 | `learning_activities` | 每日学习活动日志 |
+| 🆕 新增 | `review_log` | 逐题答题日志（错题分析） |
+| 🆕 新增 | `search_history` | 搜索历史 |
+| 🆕 新增 | `content_ratings` | 内容评分/反馈 |
+| 🆕 新增 | `badges` | 徽章定义（JSON 条件） |
+| 🆕 新增 | `user_badges` | 用户获得徽章 |
+| 🆕 新增 | `reading_progress` | 文章阅读进度 |
+| 🆕 新增 | `daily_recommendations` | 每日自适应推荐 |
+| 🆕 新增 | `learning_plans` | 学习计划模板 |
+| 🆕 新增 | `user_plans` | 用户参与的计划 |
+| ✏️ 修改 | `users` | +`avatar_url`, +`bio` |
+| ✏️ 修改 | `favorite_folders` | +`is_public` 支持公开分享 |
+| 📈 总计 | 15 表 → **30 表** | 新增 15 表，翻倍 |
 
 ---
 
-> **文档版本**: v6.0  
-> **最后更新**: 2026-05-21  
-> **设计者**: opencode  
-> **数据库**: MySQL 8.0+ / MariaDB 10.5+  
-> **字符集**: utf8mb4  
-> **存储引擎**: InnoDB  
-> **主键策略**: UUID v4 (CHAR(36))
+> **文档版本**: v7.0 | **最后更新**: 2026-05-21 | **设计者**: opencode  
+> **数据库**: MySQL 8.0+ / MariaDB 10.5+ | **字符集**: utf8mb4 | **引擎**: InnoDB  
+> **主键**: UUID v4 (CHAR(36)) | **总表数**: 30
