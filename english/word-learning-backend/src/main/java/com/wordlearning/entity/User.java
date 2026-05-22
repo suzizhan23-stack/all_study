@@ -3,6 +3,7 @@ package com.wordlearning.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -12,8 +13,11 @@ import java.time.LocalDateTime;
 @Builder
 public class User {
     @Id
-    @Column(length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "uuid", nullable = false, unique = true, length = 36)
+    private String uuid;
 
     @Column(nullable = false, unique = true, length = 50)
     private String username;
@@ -43,8 +47,8 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    @Column(name = "default_strategy_id", length = 36)
-    private String defaultStrategyId;
+    @Column(name = "default_strategy_id")
+    private Long defaultStrategyId;
 
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
@@ -57,6 +61,9 @@ public class User {
 
     @PrePersist
     protected void onCreate() {
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+        }
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }

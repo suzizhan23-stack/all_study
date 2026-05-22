@@ -27,43 +27,43 @@ public class WordController {
     private final WordService wordService;
 
     @GetMapping("/{id}")
-    public ApiResponse<WordDetailResponse> getWordDetail(@PathVariable String id) {
+    public ApiResponse<WordDetailResponse> getWordDetail(@PathVariable String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ApiResponse.success(wordService.getWordDetail(userId, id));
+        return ApiResponse.success(wordService.getWordDetail(userId, uuid));
     }
 
     @PutMapping("/{id}/frequency")
-    public ApiResponse<Void> setFrequency(@PathVariable String id, @Valid @RequestBody FrequencyRequest body) {
+    public ApiResponse<Void> setFrequency(@PathVariable String uuid, @Valid @RequestBody FrequencyRequest body) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        wordService.setFrequency(userId, id, body.getFrequency());
+        wordService.setFrequency(userId, uuid, body.getFrequency());
         return ApiResponse.success();
     }
 
     @PutMapping("/{id}/note")
-    public ApiResponse<Void> saveNote(@PathVariable String id, @Valid @RequestBody NoteRequest req) {
+    public ApiResponse<Void> saveNote(@PathVariable String uuid, @Valid @RequestBody NoteRequest req) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        wordService.saveNote(userId, id, req);
+        wordService.saveNote(userId, uuid, req);
         return ApiResponse.success();
     }
 
     @PostMapping("/{id}/tags")
-    public ApiResponse<Void> addTag(@PathVariable String id, @RequestBody Map<String, Object> body) {
+    public ApiResponse<Void> addTag(@PathVariable String uuid, @RequestBody Map<String, Object> body) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        wordService.addTag(userId, id, (String) body.get("tagId"));
+        wordService.addTag(userId, uuid, (String) body.get("tagId"));
         return ApiResponse.success();
     }
 
     @DeleteMapping("/{id}/tags/{tagId}")
-    public ApiResponse<Void> removeTag(@PathVariable String id, @PathVariable String tagId) {
+    public ApiResponse<Void> removeTag(@PathVariable String uuid, @PathVariable String tagId) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        wordService.removeTag(userId, id, tagId);
+        wordService.removeTag(userId, uuid, tagId);
         return ApiResponse.success();
     }
 
     @PutMapping("/{id}/rating")
-    public ApiResponse<Void> rateWord(@PathVariable String id, @RequestBody Map<String, Object> body) {
+    public ApiResponse<Void> rateWord(@PathVariable String uuid, @RequestBody Map<String, Object> body) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        wordService.rateWord(userId, id, (int) body.get("rating"));
+        wordService.rateWord(userId, uuid, (int) body.get("rating"));
         return ApiResponse.success();
     }
 }

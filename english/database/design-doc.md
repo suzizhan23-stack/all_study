@@ -2,10 +2,10 @@
 
 > 系统名称：English Word Learning System  
 > 数据库：word_learning  
-> 版本：v7 — 30 表完整版  
+> 版本：v8 — 36 表完整版  
 > 字符集：utf8mb4 / utf8mb4_unicode_ci  
 > 引擎：InnoDB  
-> 主键策略：UUID (CHAR(36))
+> 主键策略：INT AUTO_INCREMENT PK + UUID CHAR(36) UNIQUE
 
 ---
 
@@ -23,6 +23,7 @@
 10. [索引策略](#10-索引策略)
 11. [数据流图](#11-数据流图)
 12. [变更日志 v6→v7](#12-变更日志-v6v7)
+13. [变更日志 v7→v8 — 主键策略迁移](#13-变更日志-v7v8--主键策略迁移)
 
 ---
 
@@ -30,7 +31,7 @@
 
 ```
   ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                           word_learning v7  ER 图                                  │
+  │                           word_learning v8  ER 图                                  │
   │                                                                                    │
   │  ┌──────────────────────────── 核心词汇域 ──────────────────────────────────────┐ │
   │  │                                                                              │ │
@@ -189,22 +190,23 @@
 
 ```
 ┌────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段           │ 类型             │ 约束        │ 说明                   │
-├────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id             │ CHAR(36)         │ PK          │ UUID 主键              │
-│ username       │ VARCHAR(50)      │ UNIQUE      │ 用户名                 │
-│ password_hash  │ VARCHAR(255)     │ NOT NULL    │ bcrypt 哈希            │
-│ email          │ VARCHAR(200)     │ UNIQUE      │ 邮箱                   │
-│ nickname       │ VARCHAR(100)     │ NULL        │ 昵称                   │
-│ avatar_url     │ VARCHAR(500)     │ NULL        │ ★ 头像URL              │
-│ bio            │ TEXT             │ NULL        │ ★ 个人简介              │
-│ role           │ ENUM(...)        │ DEFAULT     │ 角色                   │
-│ permission_lvl │ TINYINT          │ DEFAULT 1   │ 1/5/9 权限级别         │
-│ is_active      │ TINYINT(1)       │ DEFAULT 1   │ 是否激活               │
-│ default_strategy │ CHAR(36)       │ FK          │ → study_strategies.id ★ │
-│ last_login_at  │ DATETIME         │ NULL        │ 最后登录               │
-│ created_at     │ DATETIME         │ DEFAULT     │ 注册时间               │
-│ updated_at     │ DATETIME         │ ON UPDATE   │ 更新时间               │
+│ 字段             │ 类型             │ 约束              │ 说明                        │
+├──────────────────┼──────────────────┼──────────────────┼────────────────────────────┤
+│ id               │ INT              │ PK AUTO_INCREMENT │ 自增主键                    │
+│ uuid             │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识 (API 暴露)    │
+│ username         │ VARCHAR(50)      │ UNIQUE            │ 用户名                      │
+│ password_hash    │ VARCHAR(255)     │ NOT NULL          │ bcrypt 哈希                 │
+│ email            │ VARCHAR(200)     │ UNIQUE            │ 邮箱                        │
+│ nickname         │ VARCHAR(100)     │ NULL              │ 昵称                        │
+│ avatar_url       │ VARCHAR(500)     │ NULL              │ ★ 头像URL                   │
+│ bio              │ TEXT             │ NULL              │ ★ 个人简介                   │
+│ role             │ ENUM(...)        │ DEFAULT           │ 角色                        │
+│ permission_lvl   │ TINYINT          │ DEFAULT 1         │ 1/5/9 权限级别              │
+│ is_active        │ TINYINT(1)       │ DEFAULT 1         │ 是否激活                    │
+│ default_strategy │ INT              │ FK                │ → study_strategies.id ★     │
+│ last_login_at    │ DATETIME         │ NULL              │ 最后登录                    │
+│ created_at       │ DATETIME         │ DEFAULT           │ 注册时间                    │
+│ updated_at       │ DATETIME         │ ON UPDATE         │ 更新时间                    │
 └────────────────┴──────────────────┴────────────┴────────────────────────┘
 ```
 
@@ -212,14 +214,15 @@
 
 ```
 ┌────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段           │ 类型             │ 约束        │ 说明                   │
-├────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id             │ CHAR(36)         │ PK          │ UUID                  │
-│ user_id        │ CHAR(36)         │ FK          │ 用户                   │
-│ setting_key    │ VARCHAR(50)      │ NOT NULL    │ 键                     │
-│ setting_value  │ TEXT             │ NOT NULL    │ 值                     │
-│ created_at     │ DATETIME         │ DEFAULT     │ 创建时间               │
-│ updated_at     │ DATETIME         │ ON UPDATE   │ 修改时间               │
+│ 字段           │ 类型             │ 约束              │ 说明                   │
+├────────────────┼──────────────────┼──────────────────┼────────────────────────┤
+│ id             │ INT              │ PK AUTO_INCREMENT │ 自增主键                │
+│ uuid           │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识           │
+│ user_id        │ INT              │ FK                │ 用户                   │
+│ setting_key    │ VARCHAR(50)      │ NOT NULL          │ 键                     │
+│ setting_value  │ TEXT             │ NOT NULL          │ 值                     │
+│ created_at     │ DATETIME         │ DEFAULT           │ 创建时间               │
+│ updated_at     │ DATETIME         │ ON UPDATE         │ 修改时间               │
 └────────────────┴──────────────────┴────────────┴────────────────────────┘
 唯一约束: (user_id, setting_key)
 ```
@@ -242,10 +245,11 @@
 
 ```
 ┌─────────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段                │ 类型             │ 约束        │ 说明                   │
-├─────────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id                  │ CHAR(36)         │ PK          │ UUID                  │
-│ user_id             │ CHAR(36)         │ FK, UNIQUE  │ 用户                   │
+│ 字段                │ 类型             │ 约束              │ 说明                   │
+├─────────────────────┼──────────────────┼──────────────────┼────────────────────────┤
+│ id                  │ INT              │ PK AUTO_INCREMENT │ 自增主键                │
+│ uuid                │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识           │
+│ user_id             │ INT              │ FK, UNIQUE        │ 用户                   │
 │ xp                  │ INT              │ DEFAULT 0   │ 经验值                 │
 │ level               │ INT              │ DEFAULT 1   │ 等级                   │
 │ streak_days         │ INT              │ DEFAULT 0   │ 当前连续打卡天数       │
@@ -263,18 +267,19 @@
 
 ```
 ┌────────────────┬──────────────────┬────────────┬────────────────────────────────┐
-│ 字段           │ 类型             │ 约束        │ 说明                           │
-├────────────────┼──────────────────┼────────────┼────────────────────────────────┤
-│ id             │ CHAR(36)         │ PK          │ UUID                          │
-│ user_id        │ CHAR(36)         │ FK          │ 用户                           │
-│ activity_date  │ DATE             │ NOT NULL    │ 活动日期                       │
-│ words_studied  │ INT              │ DEFAULT 0   │ 学习新词数                     │
-│ reviews_done   │ INT              │ DEFAULT 0   │ 复习次数                       │
-│ time_spent_sec │ INT              │ DEFAULT 0   │ 学习时长（秒）                 │
-│ correct_count  │ INT              │ DEFAULT 0   │ 答对次数                       │
-│ wrong_count    │ INT              │ DEFAULT 0   │ 答错次数                       │
-│ created_at     │ DATETIME         │ DEFAULT     │ 创建时间                       │
-│ updated_at     │ DATETIME         │ ON UPDATE   │ 修改时间                       │
+│ 字段           │ 类型             │ 约束              │ 说明                           │
+├────────────────┼──────────────────┼──────────────────┼────────────────────────────────┤
+│ id             │ INT              │ PK AUTO_INCREMENT │ 自增主键                        │
+│ uuid           │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识                   │
+│ user_id        │ INT              │ FK                │ 用户                           │
+│ activity_date  │ DATE             │ NOT NULL          │ 活动日期                       │
+│ words_studied  │ INT              │ DEFAULT 0         │ 学习新词数                     │
+│ reviews_done   │ INT              │ DEFAULT 0         │ 复习次数                       │
+│ time_spent_sec │ INT              │ DEFAULT 0         │ 学习时长（秒）                 │
+│ correct_count  │ INT              │ DEFAULT 0         │ 答对次数                       │
+│ wrong_count    │ INT              │ DEFAULT 0         │ 答错次数                       │
+│ created_at     │ DATETIME         │ DEFAULT           │ 创建时间                       │
+│ updated_at     │ DATETIME         │ ON UPDATE         │ 修改时间                       │
 └────────────────┴──────────────────┴────────────┴────────────────────────────────┘
 唯一约束: (user_id, activity_date)  — 一天一条汇总
 
@@ -285,12 +290,13 @@
 
 ```
 ┌─────────────────┬────────────────────┬────────────┬────────────────────────────┐
-│ 字段            │ 类型               │ 约束        │ 说明                       │
-├─────────────────┼────────────────────┼────────────┼────────────────────────────┤
-│ id              │ CHAR(36)           │ PK          │ UUID                      │
-│ user_id         │ CHAR(36)           │ FK          │ 用户                       │
-│ word_id         │ CHAR(36)           │ FK          │ 单词                       │
-│ quiz_type       │ ENUM(meaning,      │ NOT NULL    │ 题型                       │
+│ 字段            │ 类型               │ 约束              │ 说明                       │
+├─────────────────┼────────────────────┼──────────────────┼────────────────────────────┤
+│ id              │ INT                │ PK AUTO_INCREMENT │ 自增主键                    │
+│ uuid            │ CHAR(36)           │ UNIQUE NOT NULL   │ UUID 业务标识               │
+│ user_id         │ INT                │ FK                │ 用户                       │
+│ word_id         │ INT                │ FK                │ 单词                       │
+│ quiz_type       │ ENUM(meaning,      │ NOT NULL          │ 题型                       │
 │                 │      spelling,     │             │                            │
 │                 │      listening,    │             │                            │
 │                 │      usage,        │             │                            │
@@ -312,12 +318,13 @@
 
 ```
 ┌────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段           │ 类型             │ 约束        │ 说明                   │
-├────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id             │ CHAR(36)         │ PK          │ UUID                  │
-│ user_id        │ CHAR(36)         │ FK          │ 用户                   │
-│ entity_type    │ VARCHAR(50)      │ NOT NULL    │ 多态类型               │
-│ entity_id      │ CHAR(36)         │ NOT NULL    │ 实体 UUID              │
+│ 字段           │ 类型             │ 约束              │ 说明                   │
+├────────────────┼──────────────────┼──────────────────┼────────────────────────┤
+│ id             │ INT              │ PK AUTO_INCREMENT │ 自增主键                │
+│ uuid           │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识           │
+│ user_id        │ INT              │ FK                │ 用户                   │
+│ entity_type    │ VARCHAR(50)      │ NOT NULL          │ 多态类型               │
+│ entity_id      │ INT              │ NOT NULL          │ 实体 INT ID            │
 │ content        │ TEXT             │ NOT NULL    │ 笔记内容               │
 │ is_private     │ BOOLEAN          │ DEFAULT 1   │ 是否私密               │
 │ created_at     │ DATETIME         │ DEFAULT     │ 创建时间               │
@@ -329,13 +336,16 @@
 
 ```
 user_tags                          user_entity_tags
-┌──────────────────────┐           ┌──────────────────────────────┐
-│ id CHAR(36)     PK   │           │ user_id    CHAR(36)     PK   │
-│ user_id CHAR(36) FK  │──1:N──    │ tag_id     CHAR(36)     PK   │
-│ tag VARCHAR(30)      │           │ entity_type VARCHAR(50) PK   │
-│ color VARCHAR(7)     │           │ entity_id  CHAR(36)     PK   │
-│ created_at           │           │ created_at                   │
-└──────────────────────┘           └──────────────────────────────┘
+┌──────────────────────────┐       ┌──────────────────────────────────┐
+│ id INT            PK AUTO│       │ id INT                   PK AUTO│
+│ uuid CHAR(36)   UNIQUE   │       │ uuid CHAR(36)           UNIQUE   │
+│ user_id INT          FK  │──1:N──│ user_id INT                FK   │
+│ tag VARCHAR(30)          │       │ tag_id INT                 FK   │
+│ color VARCHAR(7)         │       │ entity_type VARCHAR(50) NOT NULL│
+│ created_at               │       │ entity_id INT           NOT NULL│
+└──────────────────────────┘       │ created_at                       │
+                                   └──────────────────────────────────┘
+                                   UNIQUE (user_id, tag_id, entity_type, entity_id)
 
 示例: 用户自定义 "写作词汇(#FF5733)" "口语词汇(#33FF57)" "考试必备(#3357FF)"
       然后对任意单词打上这些标签，形成个人分类体系
@@ -345,15 +355,16 @@ user_tags                          user_entity_tags
 
 ```
 badges                            user_badges
-┌──────────────────────┐         ┌──────────────────────────┐
-│ id CHAR(36)     PK   │         │ user_id CHAR(36)    PK   │
-│ name VARCHAR(100)    │──1:N──  │ badge_id CHAR(36)   PK   │
-│ icon VARCHAR(200)    │         │ earned_at DATETIME       │
-│ description          │         └──────────────────────────┘
-│ criteria JSON        │
-│ sort_order INT       │
-│ created_at           │
-└──────────────────────┘
+┌──────────────────────────┐     ┌──────────────────────────────────┐
+│ id INT            PK AUTO│     │ id INT                   PK AUTO│
+│ uuid CHAR(36)   UNIQUE   │     │ uuid CHAR(36)           UNIQUE   │
+│ name VARCHAR(100)        │──1:N│ user_id INT                FK    │
+│ icon VARCHAR(200)        │     │ badge_id INT               FK    │
+│ description              │     │ earned_at DATETIME               │
+│ criteria JSON            │     └──────────────────────────────────┘
+│ sort_order INT           │     UNIQUE (user_id, badge_id)
+│ created_at               │
+└──────────────────────────┘
 
 criteria 示例:
   {"type":"streak",      "days":7}
@@ -367,17 +378,18 @@ criteria 示例:
 
 ```
 learning_plans (模板)              user_plans (用户参与)
-┌──────────────────────────┐     ┌────────────────────────────────┐
-│ id CHAR(36)         PK   │     │ id CHAR(36)              PK   │
-│ name VARCHAR(200)        │     │ user_id CHAR(36)         FK   │
-│ description TEXT         │──┐  │ plan_id CHAR(36)         FK   │
-│ target_level VARCHAR(50) │  │  │ started_at DATETIME           │
-│ duration_days INT        │  └─ │ completed_at DATETIME NULL    │
-│ daily_word_count INT     │     │ current_day INT DEFAULT 0     │
-│ is_active BOOLEAN        │     │ daily_target INT NULL         │
-│ sort_order INT           │     │ created_at / updated_at       │
-│ created_at / updated_at  │     └────────────────────────────────┘
-└──────────────────────────┘
+┌────────────────────────────┐   ┌──────────────────────────────────┐
+│ id INT            PK AUTO  │   │ id INT                   PK AUTO │
+│ uuid CHAR(36)   UNIQUE     │   │ uuid CHAR(36)           UNIQUE   │
+│ name VARCHAR(200)          │──┐│ user_id INT                FK    │
+│ description TEXT           │  ││ plan_id INT                FK    │
+│ target_level VARCHAR(50)   │  ││ started_at DATETINE              │
+│ duration_days INT          │  └│ completed_at DATETIME NULL       │
+│ daily_word_count INT       │   │ current_day INT DEFAULT 0        │
+│ is_active BOOLEAN          │   │ daily_target INT NULL            │
+│ sort_order INT             │   │ created_at / updated_at          │
+│ created_at / updated_at    │   └──────────────────────────────────┘
+└────────────────────────────┘
 
 模板示例:
   "CET-4 30天冲刺"   → 30天, 每日20词, 目标等级 CET-4
@@ -389,11 +401,12 @@ learning_plans (模板)              user_plans (用户参与)
 
 ```
 ┌────────────────┬──────────────────┬────────────┬────────────────────────────────┐
-│ 字段           │ 类型             │ 约束        │ 说明                           │
-├────────────────┼──────────────────┼────────────┼────────────────────────────────┤
-│ id             │ CHAR(36)         │ PK          │ UUID                          │
-│ user_id        │ CHAR(36)         │ FK          │ 用户                           │
-│ article_id     │ CHAR(36)         │ FK          │ 文章                           │
+│ 字段           │ 类型             │ 约束              │ 说明                           │
+├────────────────┼──────────────────┼──────────────────┼────────────────────────────────┤
+│ id             │ INT              │ PK AUTO_INCREMENT │ 自增主键                        │
+│ uuid           │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识                   │
+│ user_id        │ INT              │ FK                │ 用户                           │
+│ article_id     │ INT              │ FK                │ 文章                           │
 │ scroll_position│ INT              │ DEFAULT 0   │ 阅读进度（字符偏移）           │
 │ is_completed   │ BOOLEAN          │ DEFAULT 0   │ 是否读完                       │
 │ words_looked_up│ INT              │ DEFAULT 0   │ 阅读中查词数                   │
@@ -409,17 +422,18 @@ learning_plans (模板)              user_plans (用户参与)
 
 ```
 ┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段             │ 类型             │ 约束        │ 说明                   │
-├──────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id               │ CHAR(36)         │ PK          │ UUID                  │
-│ name             │ VARCHAR(200)     │ NOT NULL    │ 单词本名称             │
-│ description      │ TEXT             │ NULL        │ 描述                   │
-│ difficulty_level │ VARCHAR(50)      │ NULL        │ 难度等级               │
-│ word_count       │ INT              │ DEFAULT 0   │ 词汇总量               │
-│ is_active        │ BOOLEAN          │ DEFAULT 1   │ 是否启用               │
-│ sort_order       │ INT              │ DEFAULT 0   │ 排序                   │
-│ created_at       │ DATETIME         │ DEFAULT     │ 创建时间               │
-│ updated_at       │ DATETIME         │ ON UPDATE   │ 修改时间               │
+│ 字段             │ 类型             │ 约束              │ 说明                   │
+├──────────────────┼──────────────────┼──────────────────┼────────────────────────┤
+│ id               │ INT              │ PK AUTO_INCREMENT │ 自增主键                │
+│ uuid             │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识           │
+│ name             │ VARCHAR(200)     │ NOT NULL          │ 单词本名称             │
+│ description      │ TEXT             │ NULL              │ 描述                   │
+│ difficulty_level │ VARCHAR(50)      │ NULL              │ 难度等级               │
+│ word_count       │ INT              │ DEFAULT 0         │ 词汇总量               │
+│ is_active        │ BOOLEAN          │ DEFAULT 1         │ 是否启用               │
+│ sort_order       │ INT              │ DEFAULT 0         │ 排序                   │
+│ created_at       │ DATETIME         │ DEFAULT           │ 创建时间               │
+│ updated_at       │ DATETIME         │ ON UPDATE         │ 修改时间               │
 └──────────────────┴──────────────────┴────────────┴────────────────────────┘
 ```
 
@@ -427,12 +441,16 @@ learning_plans (模板)              user_plans (用户参与)
 
 ```
 ┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段             │ 类型             │ 约束        │ 说明                   │
-├──────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ word_book_id     │ CHAR(36)         │ PK          │ → word_books.id        │
-│ word_id          │ CHAR(36)         │ PK          │ → words.id             │
-│ sort_order       │ INT              │ DEFAULT 0   │ 排序位置               │
-│ created_at       │ DATETIME         │ DEFAULT     │ 创建时间               │
+│ 字段             │ 类型             │ 约束                │ 说明                   │
+├──────────────────┼──────────────────┼────────────────────┼────────────────────────┤
+│ id               │ INT              │ PK AUTO_INCREMENT   │ 自增主键                │
+│ uuid             │ CHAR(36)         │ UNIQUE NOT NULL     │ UUID 业务标识           │
+│ word_book_id     │ INT              │ FK, UNIQUE(复合)    │ → word_books.id        │
+│ word_id          │ INT              │ FK, UNIQUE(复合)    │ → words.id             │
+│ sort_order       │ INT              │ DEFAULT 0           │ 排序位置               │
+│ created_at       │ DATETIME         │ DEFAULT             │ 创建时间               │
+└──────────────────┴──────────────────┴────────────────────┴────────────────────────┘
+UNIQUE (word_book_id, word_id)  -- 替代原有复合主键
 └──────────────────┴──────────────────┴────────────┴────────────────────────┘
 ```
 
@@ -440,10 +458,11 @@ learning_plans (模板)              user_plans (用户参与)
 
 ```
 ┌──────────────────┬────────────────────────────────────┬────────────┬──────────┐
-│ 字段             │ 类型                               │ 约束        │ 说明     │
-├──────────────────┼────────────────────────────────────┼────────────┼──────────┤
-│ id               │ CHAR(36)                           │ PK          │ UUID    │
-│ name             │ VARCHAR(100)                       │ NOT NULL    │ 策略名称 │
+│ 字段             │ 类型                               │ 约束              │ 说明     │
+├──────────────────┼────────────────────────────────────┼──────────────────┼──────────┤
+│ id               │ INT                                │ PK AUTO_INCREMENT │ 自增主键  │
+│ uuid             │ CHAR(36)                           │ UNIQUE NOT NULL   │ UUID     │
+│ name             │ VARCHAR(100)                       │ NOT NULL          │ 策略名称 │
 │ description      │ VARCHAR(500)                       │ NULL        │ 描述     │
 │ type             │ ENUM(random,alphabetical,           │ NOT NULL    │ 策略类型 │
 │                  │      pos_alphabetical,pos_random,   │             │          │
@@ -466,12 +485,13 @@ learning_plans (模板)              user_plans (用户参与)
 
 ```
 ┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段             │ 类型             │ 约束        │ 说明                   │
-├──────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id               │ CHAR(36)         │ PK          │ UUID                  │
-│ user_id          │ CHAR(36)         │ FK          │ 用户                   │
-│ word_book_id     │ CHAR(36)         │ FK          │ 单词本                 │
-│ strategy_id      │ CHAR(36)         │ FK          │ 学习策略               │
+│ 字段             │ 类型             │ 约束              │ 说明                   │
+├──────────────────┼──────────────────┼──────────────────┼────────────────────────┤
+│ id               │ INT              │ PK AUTO_INCREMENT │ 自增主键                │
+│ uuid             │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识           │
+│ user_id          │ INT              │ FK                │ 用户                   │
+│ word_book_id     │ INT              │ FK                │ 单词本                 │
+│ strategy_id      │ INT              │ FK                │ 学习策略               │
 │ daily_count      │ INT              │ DEFAULT 10  │ 每日学习词数           │
 │ current_position │ INT              │ DEFAULT 0   │ 进度位置               │
 │ is_completed     │ BOOLEAN          │ DEFAULT 0   │ 是否完成               │
@@ -487,13 +507,14 @@ learning_plans (模板)              user_plans (用户参与)
 
 ```
 ┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段             │ 类型             │ 约束        │ 说明                   │
-├──────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id               │ CHAR(36)         │ PK          │ UUID                  │
-│ user_id          │ CHAR(36)         │ FK          │ 用户                   │
-│ word_book_id     │ CHAR(36)         │ FK          │ 单词本                 │
-│ plan_date        │ DATE             │ NOT NULL    │ 计划日期               │
-│ word_id          │ CHAR(36)         │ FK          │ 单词                   │
+│ 字段             │ 类型             │ 约束              │ 说明                   │
+├──────────────────┼──────────────────┼──────────────────┼────────────────────────┤
+│ id               │ INT              │ PK AUTO_INCREMENT │ 自增主键                │
+│ uuid             │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识           │
+│ user_id          │ INT              │ FK                │ 用户                   │
+│ word_book_id     │ INT              │ FK                │ 单词本                 │
+│ plan_date        │ DATE             │ NOT NULL          │ 计划日期               │
+│ word_id          │ INT              │ FK                │ 单词                   │
 │ sort_order       │ INT              │ DEFAULT 0   │ 当日排序               │
 │ is_completed     │ BOOLEAN          │ DEFAULT 0   │ 是否已完成             │
 │ completed_at     │ DATETIME         │ NULL        │ 完成时间               │
@@ -505,12 +526,13 @@ learning_plans (模板)              user_plans (用户参与)
 
 ```
 ┌──────────────────┬──────────────────┬────────────┬────────────────────────┐
-│ 字段             │ 类型             │ 约束        │ 说明                   │
-├──────────────────┼──────────────────┼────────────┼────────────────────────┤
-│ id               │ CHAR(36)         │ PK          │ UUID                  │
-│ user_id          │ CHAR(36)         │ FK          │ 用户                   │
-│ plan_date        │ DATE             │ NOT NULL    │ 计划日期               │
-│ word_id          │ CHAR(36)         │ FK          │ 单词                   │
+│ 字段             │ 类型             │ 约束              │ 说明                   │
+├──────────────────┼──────────────────┼──────────────────┼────────────────────────┤
+│ id               │ INT              │ PK AUTO_INCREMENT │ 自增主键                │
+│ uuid             │ CHAR(36)         │ UNIQUE NOT NULL   │ UUID 业务标识           │
+│ user_id          │ INT              │ FK                │ 用户                   │
+│ plan_date        │ DATE             │ NOT NULL          │ 计划日期               │
+│ word_id          │ INT              │ FK                │ 单词                   │
 │ sort_order       │ INT              │ DEFAULT 0   │ 当日排序               │
 │ is_completed     │ BOOLEAN          │ DEFAULT 0   │ 是否已完成             │
 │ completed_at     │ DATETIME         │ NULL        │ 完成时间               │
@@ -684,6 +706,8 @@ ORDER BY sort_freq DESC;
 
 ## 10. 索引策略
 
+所有表均包含 `uuid CHAR(36) UNIQUE` 索引，用于 API 层面按 UUID 查找记录，而内部 JOIN 均使用 INT PK，兼顾性能与安全。
+
 ### 10.1 words 索引
 
 ```
@@ -707,7 +731,7 @@ idx_frequency       (frequency)                频率排序
 | `user_settings` | `(user_id, setting_key)` UNIQUE | 用户设置 |
 | `user_stats` | `user_id` UNIQUE, `xp DESC`, `level DESC`, `streak_days DESC` | 排行榜 |
 | `user_tags` | `(user_id, tag)` UNIQUE | 标签唯一 |
-| `user_entity_tags` | `(user_id,tag_id,entity_type,entity_id)` PK, `tag_id`, `(entity_type,entity_id)` | 多态关联 |
+| `user_entity_tags` | `id` PK AUTO, `uuid` UNIQUE, UNIQUE KEY `(user_id,tag_id,entity_type,entity_id)`, `tag_id`, `(entity_type,entity_id)` | 多态关联 |
 | `user_notes` | `user_id`, `(entity_type,entity_id)`, `(user_id,entity_type,entity_id)` | 多态查询 |
 | `learning_activities` | `(user_id, activity_date)` UNIQUE, `activity_date` | 日汇总、打卡 |
 | `review_log` | `user_id`, `word_id`, `reviewed_at`, `(user_id,word_id)`, `quiz_type` | 错题分析 |
@@ -716,7 +740,7 @@ idx_frequency       (frequency)                频率排序
 | `reading_progress` | `(user_id, article_id)` UNIQUE | 阅读位置 |
 | `daily_recommendations` | `(user_id, recommend_date)`, `(user_id, is_consumed)` | 推荐推送 |
 | `user_plans` | `user_id`, `plan_id`, `(user_id, completed_at)` | 计划进度 |
-| `user_badges` | `(user_id, badge_id)` PK, `badge_id`, `earned_at` | 徽章查询 |
+| `user_badges` | `id` PK AUTO, `uuid` UNIQUE, UNIQUE KEY `(user_id, badge_id)`, `badge_id`, `earned_at` | 徽章查询 |
 | `badges` | `sort_order` | 排序 |
 
 ---
@@ -824,6 +848,48 @@ daily_recommendations 生成算法 (每日凌晨执行):
 
 ---
 
-> **文档版本**: v7.0 | **最后更新**: 2026-05-21 | **设计者**: opencode  
+## 13. 变更日志 v7→v8 — 主键策略迁移
+
+| 变更 | 说明 |
+|---|---|
+| 🔄 主键策略 | 所有 36 表从 UUID CHAR(36) PK 迁移为 **INT AUTO_INCREMENT PK** + `uuid CHAR(36) UNIQUE` |
+| 🔄 外键类型 | 所有 FK 列从 CHAR(36) 改为 INT（引用 INT PK） |
+| 🔄 复合主键表 | `word_tags`、`word_book_entries`、`user_badges`、`user_entity_tags` 取消 @IdClass 复合主键，改为 INT AUTO_INCREMENT PK + UNIQUE 约束 |
+| 🔄 Java Entity | `String id` → `Long id`（`@GeneratedValue`）+ `String uuid`（`@PrePersist` 中 `UUID.randomUUID().toString()`） |
+| 🔄 Repository | 主键类型从 `String` 改为 `Long`，新增 `findByUuid(String)` 方法 |
+| 🔄 API 不变 | 所有对外接口仍接受/返回 UUID 字符串，Controller 通过 `findByUuid()` 映射到 INT PK |
+| ➕ 新增 | 所有表新增 `uuid CHAR(36) UNIQUE NOT NULL` 列 |
+| ➖ 移除 | 所有表移除 `id CHAR(36) PK`，替换为 `id INT AUTO_INCREMENT PK` |
+
+### 迁移原理
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  外部 API (UUID 字符串)                                           │
+│      GET /api/words/a1b2c3d4-e5f6-7890-abcd-ef123456789000      │
+│                      │                                          │
+│                      ▼                                          │
+│  Controller 层: @PathVariable String uuid                        │
+│                      │                                          │
+│                      ▼                                          │
+│  Service 层: repo.findByUuid(uuid) → 获取 INT id                 │
+│                      │                                          │
+│                      ▼                                          │
+│  Repository/内部: repo.findById(id) → INT PK JOIN               │
+│                      │                                          │
+│                      ▼                                          │
+│  数据库: INT PK 做 JOIN，UUID 只在查找入口使用                      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**性能收益**:
+- INT(4B) PK 比 CHAR(36)(~36B) 减少 ~88% 索引存储空间
+- B+TREE 深度降低，JOIN 查询更快
+- 自增 PK 写入时页分裂更少
+- UUID 保留，对外 API 不暴露自增 ID，防止爬虫遍历
+
+---
+
+> **文档版本**: v8.0 | **最后更新**: 2026-05-22 | **设计者**: opencode  
 > **数据库**: MySQL 8.0+ / MariaDB 10.5+ | **字符集**: utf8mb4 | **引擎**: InnoDB  
-> **主键**: UUID v4 (CHAR(36)) | **总表数**: 30
+> **主键**: INT AUTO_INCREMENT (PK) + UUID v4 CHAR(36) UNIQUE | **总表数**: 36

@@ -29,6 +29,7 @@ public class AdminService {
     private final ReviewLogRepository reviewLogRepository;
     private final ContentRatingRepository contentRatingRepository;
     private final WordBookEntryRepository wordBookEntryRepository;
+    private final WordBookRepository wordBookRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -97,7 +98,7 @@ public class AdminService {
         List<Map<String, Object>> list = users.stream()
                 .map(u -> {
                     Map<String, Object> map = new LinkedHashMap<>();
-                    map.put("id", u.getId());
+                    map.put("id", u.getUuid());
                     map.put("username", u.getUsername());
                     map.put("nickname", u.getNickname());
                     map.put("email", u.getEmail());
@@ -112,14 +113,13 @@ public class AdminService {
     }
 
     public void toggleUserStatus(String userId, boolean active) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.setActive(active);
         userRepository.save(user);
     }
 
     public Word createWord(Word word) {
-        word.setId(UUID.randomUUID().toString());
         if (word.getWord() != null && !word.getWord().isEmpty()) {
             word.setFirstLetter(String.valueOf(word.getWord().charAt(0)).toUpperCase());
         }
@@ -128,7 +128,7 @@ public class AdminService {
     }
 
     public Word updateWord(String id, Word word) {
-        Word existing = wordRepository.findById(id)
+        Word existing = wordRepository.findByUuid(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Word not found"));
         if (word.getWord() != null) {
             existing.setWord(word.getWord());
@@ -150,29 +150,30 @@ public class AdminService {
     }
 
     public void deleteWord(String id) {
-        Word word = wordRepository.findById(id)
+        Word word = wordRepository.findByUuid(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Word not found"));
+        Long wid = word.getId();
 
         entityManager.createQuery("DELETE FROM ReviewLog rl WHERE rl.wordId = :wordId")
-                .setParameter("wordId", id)
+                .setParameter("wordId", wid)
                 .executeUpdate();
         entityManager.createQuery("DELETE FROM Favorite fv WHERE fv.entityType = 'word' AND fv.entityId = :wordId")
-                .setParameter("wordId", id)
+                .setParameter("wordId", wid)
                 .executeUpdate();
         entityManager.createQuery("DELETE FROM WordBookEntry e WHERE e.wordId = :wordId")
-                .setParameter("wordId", id)
+                .setParameter("wordId", wid)
                 .executeUpdate();
         entityManager.createQuery("DELETE FROM Collocation c WHERE c.wordId = :wordId")
-                .setParameter("wordId", id)
+                .setParameter("wordId", wid)
                 .executeUpdate();
         entityManager.createQuery("DELETE FROM PrepPattern p WHERE p.wordId = :wordId")
-                .setParameter("wordId", id)
+                .setParameter("wordId", wid)
                 .executeUpdate();
         entityManager.createQuery("DELETE FROM DailyPlanItem d WHERE d.wordId = :wordId")
-                .setParameter("wordId", id)
+                .setParameter("wordId", wid)
                 .executeUpdate();
         entityManager.createQuery("DELETE FROM UserDailyPlanEntry e WHERE e.wordId = :wordId")
-                .setParameter("wordId", id)
+                .setParameter("wordId", wid)
                 .executeUpdate();
 
         wordRepository.delete(word);
@@ -180,6 +181,8 @@ public class AdminService {
 
     public void batchImportWords(List<Map<String, Object>> words, String wordBookId) {
         if (words == null || words.isEmpty()) return;
+        WordBook wordBook = wordBookRepository.findByUuid(wordBookId)
+                .orElseThrow(() -> new ResourceNotFoundException("WordBook", wordBookId));
         int sortOrder = 0;
 
         for (Map<String, Object> raw : words) {
@@ -189,7 +192,6 @@ public class AdminService {
             Word existingWord = wordRepository.findByWord(wordText).orElse(null);
             if (existingWord == null) {
                 existingWord = Word.builder()
-                        .id(UUID.randomUUID().toString())
                         .word(wordText)
                         .pos(raw.getOrDefault("pos", "other").toString())
                         .firstLetter(String.valueOf(wordText.charAt(0)).toUpperCase())
@@ -210,12 +212,12 @@ public class AdminService {
 
             long exists = entityManager.createQuery(
                             "SELECT COUNT(e) FROM WordBookEntry e WHERE e.wordBookId = :bookId AND e.wordId = :wId", Long.class)
-                    .setParameter("bookId", wordBookId)
+                    .setParameter("bookId", wordBook.getId())
                     .setParameter("wId", existingWord.getId())
                     .getSingleResult();
             if (exists == 0) {
                 WordBookEntry entry = WordBookEntry.builder()
-                        .wordBookId(wordBookId)
+                        .wordBookId(wordBook.getId())
                         .wordId(existingWord.getId())
                         .sortOrder(sortOrder++)
                         .build();

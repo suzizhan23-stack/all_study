@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface WordVariantRepository extends JpaRepository<WordVariant, String> {
-    List<WordVariant> findByWordId(String wordId);
+public interface WordVariantRepository extends JpaRepository<WordVariant, Long> {
+    List<WordVariant> findByWordId(Long wordId);
+    Optional<WordVariant> findByUuid(String uuid);
 }

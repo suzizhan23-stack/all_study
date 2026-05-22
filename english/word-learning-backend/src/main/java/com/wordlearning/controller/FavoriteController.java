@@ -31,9 +31,9 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> removeFavorite(@PathVariable String id) {
+    public ApiResponse<Void> removeFavorite(@PathVariable String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        favoriteService.removeFavorite(userId, id);
+        favoriteService.removeFavorite(userId, uuid);
         return ApiResponse.success();
     }
 

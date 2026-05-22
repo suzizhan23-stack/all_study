@@ -35,28 +35,28 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<ArticleDetailResponse> getArticleDetail(@PathVariable String id) {
+    public ApiResponse<ArticleDetailResponse> getArticleDetail(@PathVariable String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ApiResponse.success(articleService.getArticleDetail(userId, id));
+        return ApiResponse.success(articleService.getArticleDetail(userId, uuid));
     }
 
     @PutMapping("/{id}/progress")
-    public ApiResponse<Void> saveProgress(@PathVariable String id, @RequestBody ProgressRequest req) {
+    public ApiResponse<Void> saveProgress(@PathVariable String uuid, @RequestBody ProgressRequest req) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        articleService.saveProgress(userId, id, req.getScrollPosition(), req.getReadingTimeSec());
+        articleService.saveProgress(userId, uuid, req.getScrollPosition(), req.getReadingTimeSec());
         return ApiResponse.success();
     }
 
     @PutMapping("/{id}/complete")
-    public ApiResponse<Void> markComplete(@PathVariable String id) {
+    public ApiResponse<Void> markComplete(@PathVariable String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        articleService.markComplete(userId, id);
+        articleService.markComplete(userId, uuid);
         return ApiResponse.success();
     }
 
     @GetMapping("/{id}/lookup")
-    public ApiResponse<Map<String, Object>> lookupWord(@PathVariable String id, @RequestParam String word) {
+    public ApiResponse<Map<String, Object>> lookupWord(@PathVariable String uuid, @RequestParam String word) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ApiResponse.success(articleService.lookupWord(userId, id, word));
+        return ApiResponse.success(articleService.lookupWord(userId, uuid, word));
     }
 }

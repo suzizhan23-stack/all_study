@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class WordService {
 
+    private final UserRepository userRepository;
     private final WordRepository wordRepository;
     private final DefinitionRepository definitionRepository;
     private final CollocationRepository collocationRepository;
@@ -40,13 +40,17 @@ public class WordService {
 
     @Transactional(readOnly = true)
     public WordDetailResponse getWordDetail(String userId, String wordId) {
-        Word word = wordRepository.findById(wordId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(wordId)
                 .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
+        Long uid = user.getId();
+        Long wid = word.getId();
 
         List<WordDetailResponse.DefinitionDTO> definitionDTOs = definitionRepository
-                .findByWordIdOrderBySortOrder(wordId).stream()
+                .findByWordIdOrderBySortOrder(wid).stream()
                 .map(d -> WordDetailResponse.DefinitionDTO.builder()
-                        .id(d.getId())
+                        .id(d.getUuid())
                         .meaningEn(d.getMeaningEn())
                         .meaningCn(d.getMeaningCn())
                         .sortOrder(d.getSortOrder())
@@ -54,9 +58,9 @@ public class WordService {
                 .toList();
 
         List<WordDetailResponse.CollocationDTO> collocationDTOs = collocationRepository
-                .findByWordIdOrderByFrequencyDesc(wordId).stream()
+                .findByWordIdOrderByFrequencyDesc(wid).stream()
                 .map(c -> WordDetailResponse.CollocationDTO.builder()
-                        .id(c.getId())
+                        .id(c.getUuid())
                         .collocation(c.getCollocation())
                         .translation(c.getTranslation())
                         .frequency(c.getFrequency())
@@ -64,9 +68,9 @@ public class WordService {
                 .toList();
 
         List<WordDetailResponse.PrepPatternDTO> prepPatternDTOs = prepPatternRepository
-                .findByWordIdOrderByFrequencyDesc(wordId).stream()
+                .findByWordIdOrderByFrequencyDesc(wid).stream()
                 .map(p -> WordDetailResponse.PrepPatternDTO.builder()
-                        .id(p.getId())
+                        .id(p.getUuid())
                         .pattern(p.getPattern())
                         .translation(p.getTranslation())
                         .preposition(p.getPreposition())
@@ -75,7 +79,7 @@ public class WordService {
                 .toList();
 
         List<WordDetailResponse.ExampleDTO> exampleDTOs = exampleRepository
-                .findByWordIdOrderByFrequencyDesc(wordId).stream()
+                .findByWordIdOrderByFrequencyDesc(wid).stream()
                 .map(e -> {
                     Double avg = entityManager.createQuery(
                             "SELECT AVG(cr.rating) FROM ContentRating cr WHERE cr.entityType = 'example' AND cr.entityId = :entityId",
@@ -88,7 +92,7 @@ public class WordService {
                             .setParameter("entityId", e.getId())
                             .getSingleResult();
                     return WordDetailResponse.ExampleDTO.builder()
-                            .id(e.getId())
+                            .id(e.getUuid())
                             .sentenceEn(e.getSentenceEn())
                             .sentenceCn(e.getSentenceCn())
                             .sourceType(e.getSourceType() != null ? e.getSourceType().name() : null)
@@ -100,16 +104,16 @@ public class WordService {
                 })
                 .toList();
 
-        List<WordRelation> relations = wordRelationRepository.findByWordIdOrRelatedWordId(wordId, wordId);
+        List<WordRelation> relations = wordRelationRepository.findByWordIdOrRelatedWordId(wid, wid);
         List<WordDetailResponse.WordRefDTO> synonyms = new ArrayList<>();
         List<WordDetailResponse.WordRefDTO> antonyms = new ArrayList<>();
         for (WordRelation rel : relations) {
-            String targetId = rel.getWordId().equals(wordId) ? rel.getRelatedWordId() : rel.getWordId();
-            if (targetId.equals(wordId)) continue;
+            Long targetId = rel.getWordId().equals(wid) ? rel.getRelatedWordId() : rel.getWordId();
+            if (targetId.equals(wid)) continue;
             Word targetWord = wordRepository.findById(targetId).orElse(null);
             if (targetWord == null) continue;
             WordDetailResponse.WordRefDTO ref = WordDetailResponse.WordRefDTO.builder()
-                    .wordId(targetId)
+                    .wordId(targetWord.getUuid())
                     .word(targetWord.getWord())
                     .meaningCn(targetWord.getMeaningCn())
                     .build();
@@ -121,24 +125,24 @@ public class WordService {
         }
 
         UserFrequency userFreq = userFrequencyRepository
-                .findByUserIdAndEntityTypeAndEntityId(userId, UserFrequency.EntityType.word, wordId)
+                .findByUserIdAndEntityTypeAndEntityId(uid, UserFrequency.EntityType.word, wid)
                 .orElse(null);
 
         var favOpt = favoriteRepository.findByUserIdAndEntityTypeAndEntityId(
-                userId, Favorite.EntityType.word, wordId);
+                uid, Favorite.EntityType.word, wid);
         List<WordDetailResponse.FavoriteRefDTO> favoriteDTOs = new ArrayList<>();
         favOpt.ifPresent(f -> {
             FavoriteFolder folder = favoriteFolderRepository.findById(f.getFolderId()).orElse(null);
             favoriteDTOs.add(WordDetailResponse.FavoriteRefDTO.builder()
-                    .folderId(f.getFolderId())
+                    .folderId(folder != null ? folder.getUuid() : null)
                     .folderName(folder != null ? folder.getName() : null)
                     .build());
         });
 
-        var userNotes = userNoteRepository.findByUserIdAndEntityTypeAndEntityId(userId, "word", wordId);
+        var userNotes = userNoteRepository.findByUserIdAndEntityTypeAndEntityId(uid, "word", wid);
         WordDetailResponse.NoteDTO noteDTO = userNotes.stream().findFirst()
                 .map(n -> WordDetailResponse.NoteDTO.builder()
-                        .id(n.getId())
+                        .id(n.getUuid())
                         .content(n.getContent())
                         .isPrivate(n.isPrivate())
                         .updatedAt(n.getUpdatedAt() != null ? n.getUpdatedAt().toString() : null)
@@ -146,19 +150,19 @@ public class WordService {
                 .orElse(null);
 
         ContentRating rating = contentRatingRepository
-                .findByUserIdAndEntityTypeAndEntityId(userId, "word", wordId)
+                .findByUserIdAndEntityTypeAndEntityId(uid, "word", wid)
                 .orElse(null);
 
         var userEntityTags = userEntityTagRepository.findAll().stream()
-                .filter(t -> t.getUserId().equals(userId)
+                .filter(t -> t.getUserId().equals(uid)
                         && "word".equals(t.getEntityType())
-                        && t.getEntityId().equals(wordId))
+                        && t.getEntityId().equals(wid))
                 .toList();
         List<WordDetailResponse.TagDTO> tagDTOs = userEntityTags.stream()
                 .map(t -> {
                     UserTag ut = userTagRepository.findById(t.getTagId()).orElse(null);
                     return WordDetailResponse.TagDTO.builder()
-                            .id(t.getTagId())
+                            .id(ut != null ? ut.getUuid() : null)
                             .tag(ut != null ? ut.getTag() : null)
                             .color(ut != null ? ut.getColor() : null)
                             .build();
@@ -166,7 +170,7 @@ public class WordService {
                 .toList();
 
         return WordDetailResponse.builder()
-                .id(word.getId())
+                .id(word.getUuid())
                 .word(word.getWord())
                 .phoneticUk(word.getPhoneticUk())
                 .phoneticUs(word.getPhoneticUs())
@@ -201,15 +205,18 @@ public class WordService {
     }
 
     public void setFrequency(String userId, String wordId, int freq) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
         UserFrequency uf = userFrequencyRepository
-                .findByUserIdAndEntityTypeAndEntityId(userId, UserFrequency.EntityType.word, wordId)
+                .findByUserIdAndEntityTypeAndEntityId(user.getId(), UserFrequency.EntityType.word, word.getId())
                 .orElse(null);
         if (uf == null) {
             uf = UserFrequency.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
+                    .userId(user.getId())
                     .entityType(UserFrequency.EntityType.word)
-                    .entityId(wordId)
+                    .entityId(word.getId())
                     .frequency(freq)
                     .build();
         } else {
@@ -219,14 +226,17 @@ public class WordService {
     }
 
     public void saveNote(String userId, String wordId, NoteRequest req) {
-        var notes = userNoteRepository.findByUserIdAndEntityTypeAndEntityId(userId, "word", wordId);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
+        var notes = userNoteRepository.findByUserIdAndEntityTypeAndEntityId(user.getId(), "word", word.getId());
         UserNote note = notes.stream().findFirst().orElse(null);
         if (note == null) {
             note = UserNote.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
+                    .userId(user.getId())
                     .entityType("word")
-                    .entityId(wordId)
+                    .entityId(word.getId())
                     .content(req.getContent())
                     .isPrivate(req.getIsPrivate() != null ? req.getIsPrivate() : false)
                     .build();
@@ -240,35 +250,50 @@ public class WordService {
     }
 
     public void addTag(String userId, String wordId, String tagId) {
-        UserEntityTag tag = UserEntityTag.builder()
-                .userId(userId)
-                .tagId(tagId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
+        UserTag tag = userTagRepository.findByUuid(tagId)
+                .orElseThrow(() -> new ResourceNotFoundException("UserTag", tagId));
+        UserEntityTag entityTag = UserEntityTag.builder()
+                .userId(user.getId())
+                .tagId(tag.getId())
                 .entityType("word")
-                .entityId(wordId)
+                .entityId(word.getId())
                 .build();
-        entityManager.persist(tag);
+        entityManager.persist(entityTag);
     }
 
     public void removeTag(String userId, String wordId, String tagId) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
+        UserTag tag = userTagRepository.findByUuid(tagId)
+                .orElseThrow(() -> new ResourceNotFoundException("UserTag", tagId));
         entityManager.createQuery(
                 "DELETE FROM UserEntityTag t WHERE t.userId = :userId AND t.tagId = :tagId AND t.entityType = :entityType AND t.entityId = :entityId")
-                .setParameter("userId", userId)
-                .setParameter("tagId", tagId)
+                .setParameter("userId", user.getId())
+                .setParameter("tagId", tag.getId())
                 .setParameter("entityType", "word")
-                .setParameter("entityId", wordId)
+                .setParameter("entityId", word.getId())
                 .executeUpdate();
     }
 
     public void rateWord(String userId, String wordId, int rating) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
         ContentRating cr = contentRatingRepository
-                .findByUserIdAndEntityTypeAndEntityId(userId, "word", wordId)
+                .findByUserIdAndEntityTypeAndEntityId(user.getId(), "word", word.getId())
                 .orElse(null);
         if (cr == null) {
             cr = ContentRating.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
+                    .userId(user.getId())
                     .entityType("word")
-                    .entityId(wordId)
+                    .entityId(word.getId())
                     .rating(rating)
                     .build();
         } else {
@@ -279,13 +304,16 @@ public class WordService {
 
     @Transactional(readOnly = true)
     public List<UserTag> getTags(String userId) {
-        return userTagRepository.findByUserId(userId);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        return userTagRepository.findByUserId(user.getId());
     }
 
     public UserTag createTag(String userId, String tag, String color) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         UserTag ut = UserTag.builder()
-                .id(UUID.randomUUID().toString())
-                .userId(userId)
+                .userId(user.getId())
                 .tag(tag)
                 .color(color)
                 .build();

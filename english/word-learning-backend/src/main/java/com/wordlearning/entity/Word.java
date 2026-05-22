@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "words")
@@ -13,8 +14,11 @@ import java.time.LocalDateTime;
 @Builder
 public class Word {
     @Id
-    @Column(length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "uuid", nullable = false, unique = true, length = 36)
+    private String uuid;
 
     @Column(nullable = false, length = 50)
     private String word;
@@ -87,6 +91,9 @@ public class Word {
 
     @PrePersist
     protected void onCreate() {
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+        }
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }

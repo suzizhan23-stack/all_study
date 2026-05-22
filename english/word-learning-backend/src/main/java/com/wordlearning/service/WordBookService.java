@@ -2,6 +2,7 @@ package com.wordlearning.service;
 
 import com.wordlearning.dto.response.*;
 import com.wordlearning.entity.*;
+import com.wordlearning.exception.ResourceNotFoundException;
 import com.wordlearning.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -19,13 +20,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class WordBookService {
 
+    private final UserRepository userRepository;
     private final WordBookRepository wordBookRepository;
     private final WordBookEntryRepository wordBookEntryRepository;
     private final WordRepository wordRepository;
     private final UserDailyPlanEntryRepository userDailyPlanEntryRepository;
     private final DailyPlanItemRepository dailyPlanItemRepository;
     private final StudyStrategyRepository studyStrategyRepository;
-    private final UserRepository userRepository;
     private final CollocationRepository collocationRepository;
     private final PrepPatternRepository prepPatternRepository;
 
@@ -53,7 +54,7 @@ public class WordBookService {
                             .setParameter("bookId", b.getId())
                             .getSingleResult();
                     return WordBookListResponse.BookItem.builder()
-                            .id(b.getId())
+                            .id(b.getUuid())
                             .name(b.getName())
                             .description(b.getDescription())
                             .difficultyLevel(b.getDifficultyLevel())
@@ -70,14 +71,16 @@ public class WordBookService {
     @Transactional(readOnly = true)
     public WordBookWordsResponse getWordBookWords(String userId, String bookId, String pos, String letter,
                                                    String search, int page, int size) {
-        WordBook book = wordBookRepository.findById(bookId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        WordBook book = wordBookRepository.findByUuid(bookId)
                 .orElseThrow(() -> new RuntimeException("Word book not found"));
 
         StringBuilder jpql = new StringBuilder(
                 "SELECT w FROM Word w WHERE w.id IN (SELECT e.wordId FROM WordBookEntry e WHERE e.wordBookId = :bookId)");
         StringBuilder whereClause = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
-        params.put("bookId", bookId);
+        params.put("bookId", book.getId());
 
         if (pos != null && !pos.isBlank()) {
             List<String> posList = Arrays.stream(pos.split(","))
@@ -117,10 +120,10 @@ public class WordBookService {
 
         List<WordBookWordsResponse.WordPreview> previews = words.stream()
                 .map(w -> {
-                    boolean inPlan = isWordInPlan(userId, w.getId());
-                    boolean completed = isWordCompleted(userId, w.getId());
+                    boolean inPlan = isWordInPlan(user.getId(), w.getId());
+                    boolean completed = isWordCompleted(user.getId(), w.getId());
                     return WordBookWordsResponse.WordPreview.builder()
-                            .id(w.getId())
+                            .id(w.getUuid())
                             .word(w.getWord())
                             .pos(w.getPos())
                             .meaningCn(w.getMeaningCn())
@@ -134,11 +137,11 @@ public class WordBookService {
                 .collect(Collectors.toList());
 
         WordBookWordsResponse.BookRef bookRef = WordBookWordsResponse.BookRef.builder()
-                .id(book.getId())
+                .id(book.getUuid())
                 .name(book.getName())
                 .build();
 
-        List<WordBookWordsResponse.PosCategory> posCategories = getPosCategoriesFromWords(bookId);
+        List<WordBookWordsResponse.PosCategory> posCategories = getPosCategoriesFromWords(book.getId());
 
         WordBookWordsResponse.Filters filters = WordBookWordsResponse.Filters.builder()
                 .posCategories(posCategories)
@@ -153,7 +156,7 @@ public class WordBookService {
                 .build();
     }
 
-    private boolean isWordInPlan(String userId, String wordId) {
+    private boolean isWordInPlan(Long userId, Long wordId) {
         long udCount = entityManager.createQuery(
                         "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.wordId = :wordId", Long.class)
                 .setParameter("userId", userId)
@@ -168,7 +171,7 @@ public class WordBookService {
         return dpCount > 0;
     }
 
-    private boolean isWordCompleted(String userId, String wordId) {
+    private boolean isWordCompleted(Long userId, Long wordId) {
         long udCount = entityManager.createQuery(
                         "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.wordId = :wordId AND e.isCompleted = true", Long.class)
                 .setParameter("userId", userId)
@@ -183,7 +186,7 @@ public class WordBookService {
         return dpCount > 0;
     }
 
-    private List<WordBookWordsResponse.PosCategory> getPosCategoriesFromWords(String bookId) {
+    private List<WordBookWordsResponse.PosCategory> getPosCategoriesFromWords(Long bookId) {
         Map<String, List<String>> categoryMap = new LinkedHashMap<>();
         categoryMap.put("名词", Arrays.asList("n.", "n", "noun"));
         categoryMap.put("动词", Arrays.asList("v.", "v", "verb", "vt.", "vi."));
@@ -261,7 +264,7 @@ public class WordBookService {
         List<StudyStrategy> strategies = studyStrategyRepository.findAll();
         List<StrategyListResponse.StrategyItem> items = strategies.stream()
                 .map(s -> StrategyListResponse.StrategyItem.builder()
-                        .id(s.getId())
+                        .id(s.getUuid())
                         .name(s.getName())
                         .description(s.getDescription())
                         .type(s.getType().name())
@@ -274,14 +277,14 @@ public class WordBookService {
 
     @Transactional(readOnly = true)
     public StrategyListResponse.StrategyItem getUserDefaultStrategy(String userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         if (user.getDefaultStrategyId() == null) return null;
         StudyStrategy strategy = studyStrategyRepository.findById(user.getDefaultStrategyId())
                 .orElse(null);
         if (strategy == null) return null;
         return StrategyListResponse.StrategyItem.builder()
-                .id(strategy.getId())
+                .id(strategy.getUuid())
                 .name(strategy.getName())
                 .description(strategy.getDescription())
                 .type(strategy.getType().name())
@@ -291,21 +294,25 @@ public class WordBookService {
     }
 
     public void setUserDefaultStrategy(String userId, String strategyId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setDefaultStrategyId(strategyId);
+        StudyStrategy strategy = studyStrategyRepository.findByUuid(strategyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Strategy not found"));
+        user.setDefaultStrategyId(strategy.getId());
         userRepository.save(user);
     }
 
     @Transactional(readOnly = true)
     public CollocationResponse getCollocations(String wordId, boolean compact, int limit) {
-        List<Collocation> collocations = collocationRepository.findByWordIdOrderByFrequencyDesc(wordId);
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
+        List<Collocation> collocations = collocationRepository.findByWordIdOrderByFrequencyDesc(word.getId());
         if (limit > 0 && limit < collocations.size()) {
             collocations = collocations.subList(0, limit);
         }
         List<CollocationResponse.CollocationItem> items = collocations.stream()
                 .map(c -> CollocationResponse.CollocationItem.builder()
-                        .id(c.getId())
+                        .id(c.getUuid())
                         .collocation(c.getCollocation())
                         .translation(compact ? null : c.getTranslation())
                         .frequency(c.getFrequency())
@@ -316,13 +323,15 @@ public class WordBookService {
 
     @Transactional(readOnly = true)
     public PrepPatternResponse getPrepPatterns(String wordId, boolean compact, int limit) {
-        List<PrepPattern> patterns = prepPatternRepository.findByWordIdOrderByFrequencyDesc(wordId);
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
+        List<PrepPattern> patterns = prepPatternRepository.findByWordIdOrderByFrequencyDesc(word.getId());
         if (limit > 0 && limit < patterns.size()) {
             patterns = patterns.subList(0, limit);
         }
         List<PrepPatternResponse.PrepItem> items = patterns.stream()
                 .map(p -> PrepPatternResponse.PrepItem.builder()
-                        .id(p.getId())
+                        .id(p.getUuid())
                         .pattern(p.getPattern())
                         .translation(compact ? null : p.getTranslation())
                         .preposition(p.getPreposition())

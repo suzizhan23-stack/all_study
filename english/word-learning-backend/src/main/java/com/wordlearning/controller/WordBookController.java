@@ -28,14 +28,14 @@ public class WordBookController {
     }
 
     @GetMapping("/{id}/words")
-    public ApiResponse<WordBookWordsResponse> getWordBookWords(@PathVariable String id,
+    public ApiResponse<WordBookWordsResponse> getWordBookWords(@PathVariable String uuid,
                                                                 @RequestParam(required = false) String pos,
                                                                 @RequestParam(required = false) String letter,
                                                                 @RequestParam(required = false) String search,
                                                                 @RequestParam(defaultValue = "1") int page,
                                                                 @RequestParam(defaultValue = "30") int size) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ApiResponse.success(wordBookService.getWordBookWords(userId, id, pos, letter, search, page, size));
+        return ApiResponse.success(wordBookService.getWordBookWords(userId, uuid, pos, letter, search, page, size));
     }
 
     @GetMapping("/pos-categories")

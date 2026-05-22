@@ -35,24 +35,24 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserProfileResponse getProfile(String userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        UserStat stat = userStatRepository.findByUserId(userId).orElse(null);
+        UserStat stat = userStatRepository.findByUserId(user.getId()).orElse(null);
 
         long totalReviews = entityManager.createQuery(
                         "SELECT COUNT(rl) FROM ReviewLog rl WHERE rl.userId = :userId", Long.class)
-                .setParameter("userId", userId)
+                .setParameter("userId", user.getId())
                 .getSingleResult();
         long correctReviews = entityManager.createQuery(
                         "SELECT COUNT(rl) FROM ReviewLog rl WHERE rl.userId = :userId AND rl.isCorrect = true", Long.class)
-                .setParameter("userId", userId)
+                .setParameter("userId", user.getId())
                 .getSingleResult();
         double accuracy = totalReviews > 0 ? (double) correctReviews / totalReviews * 100 : 0.0;
 
         int xpNextLevel = calculateXpForNextLevel(stat != null ? stat.getLevel() : 1);
 
         return UserProfileResponse.builder()
-                .id(user.getId())
+                .id(user.getUuid())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
                 .avatarUrl(user.getAvatarUrl())
@@ -78,7 +78,7 @@ public class UserService {
     }
 
     public void updateProfile(String userId, ProfileUpdateRequest req) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if (req.getNickname() != null) user.setNickname(req.getNickname());
         if (req.getBio() != null) user.setBio(req.getBio());
@@ -88,7 +88,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Map<String, String> getSettings(String userId) {
-        List<UserSetting> settings = userSettingRepository.findByUserId(userId);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        List<UserSetting> settings = userSettingRepository.findByUserId(user.getId());
         Map<String, String> result = new LinkedHashMap<>();
         for (UserSetting s : settings) {
             result.put(s.getSettingKey(), s.getSettingValue());
@@ -97,17 +99,18 @@ public class UserService {
     }
 
     public void saveSettings(String userId, Map<String, String> settings) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if (settings == null) return;
         for (Map.Entry<String, String> entry : settings.entrySet()) {
-            UserSetting setting = userSettingRepository.findByUserIdAndSettingKey(userId, entry.getKey())
+            UserSetting setting = userSettingRepository.findByUserIdAndSettingKey(user.getId(), entry.getKey())
                     .orElse(null);
             if (setting != null) {
                 setting.setSettingValue(entry.getValue());
                 userSettingRepository.save(setting);
             } else {
                 UserSetting newSetting = UserSetting.builder()
-                        .id(UUID.randomUUID().toString())
-                        .userId(userId)
+                        .userId(user.getId())
                         .settingKey(entry.getKey())
                         .settingValue(entry.getValue())
                         .build();
@@ -118,10 +121,12 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public ActivityResponse getActivity(String userId, int days) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         LocalDate since = LocalDate.now().minusDays(days);
         List<LearningActivity> activities = entityManager.createQuery(
                         "SELECT la FROM LearningActivity la WHERE la.userId = :userId AND la.activityDate >= :since ORDER BY la.activityDate ASC", LearningActivity.class)
-                .setParameter("userId", userId)
+                .setParameter("userId", user.getId())
                 .setParameter("since", since)
                 .getResultList();
 
@@ -141,23 +146,25 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public BadgeListResponse getBadges(String userId) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         List<Badge> allBadges = badgeRepository.findAllByOrderBySortOrder();
-        List<UserBadge> userBadges = userBadgeRepository.findByUserId(userId);
-        Set<String> earnedBadgeIds = userBadges.stream()
+        List<UserBadge> userBadges = userBadgeRepository.findByUserId(user.getId());
+        Set<Long> earnedBadgeIds = userBadges.stream()
                 .map(UserBadge::getBadgeId)
                 .collect(Collectors.toSet());
 
-        Map<String, LocalDateTime> earnedAtMap = userBadges.stream()
+        Map<Long, LocalDateTime> earnedAtMap = userBadges.stream()
                 .collect(Collectors.toMap(UserBadge::getBadgeId, UserBadge::getEarnedAt));
 
         List<BadgeListResponse.BadgeItem> items = allBadges.stream()
                 .map(b -> BadgeListResponse.BadgeItem.builder()
-                        .id(b.getId())
+                        .id(b.getUuid())
                         .name(b.getName())
                         .icon(b.getIcon())
                         .description(b.getDescription())
                         .isEarned(earnedBadgeIds.contains(b.getId()))
-                        .earnedAt(earnedBadgeIds.contains(b.getId()) && earnedAtMap.get(b.getId()) != null
+                        .earnedAt(earnedBadgeIds.contains(b.getId()) && earnedAtMap.containsKey(b.getId())
                                 ? earnedAtMap.get(b.getId()).toString() : null)
                         .build())
                 .collect(Collectors.toList());
@@ -171,16 +178,19 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Integer getStreak(String userId) {
-        UserStat stat = userStatRepository.findByUserId(userId).orElse(null);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        UserStat stat = userStatRepository.findByUserId(user.getId()).orElse(null);
         return stat != null ? stat.getStreakDays() : 0;
     }
 
     public void updateXP(String userId, int xpGained) {
-        UserStat stat = userStatRepository.findByUserId(userId).orElse(null);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        UserStat stat = userStatRepository.findByUserId(user.getId()).orElse(null);
         if (stat == null) {
             stat = UserStat.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
+                    .userId(user.getId())
                     .xp(xpGained)
                     .level(1)
                     .streakDays(0)

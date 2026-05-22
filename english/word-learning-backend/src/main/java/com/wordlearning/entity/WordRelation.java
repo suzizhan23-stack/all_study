@@ -3,6 +3,7 @@ package com.wordlearning.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "word_relations")
@@ -12,14 +13,17 @@ import java.time.LocalDateTime;
 @Builder
 public class WordRelation {
     @Id
-    @Column(length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "word_id", nullable = false, length = 36)
-    private String wordId;
+    @Column(name = "uuid", nullable = false, unique = true, length = 36)
+    private String uuid;
 
-    @Column(name = "related_word_id", nullable = false, length = 36)
-    private String relatedWordId;
+    @Column(name = "word_id", nullable = false)
+    private Long wordId;
+
+    @Column(name = "related_word_id", nullable = false)
+    private Long relatedWordId;
 
     @Column(name = "relation_type", nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
@@ -37,6 +41,9 @@ public class WordRelation {
 
     @PrePersist
     protected void onCreate() {
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+        }
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }

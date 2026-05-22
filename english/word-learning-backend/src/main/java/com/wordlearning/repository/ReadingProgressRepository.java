@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ReadingProgressRepository extends JpaRepository<ReadingProgress, String> {
-    Optional<ReadingProgress> findByUserIdAndArticleId(String userId, String articleId);
+public interface ReadingProgressRepository extends JpaRepository<ReadingProgress, Long> {
+    Optional<ReadingProgress> findByUserIdAndArticleId(Long userId, Long articleId);
+    Optional<ReadingProgress> findByUuid(String uuid);
 }

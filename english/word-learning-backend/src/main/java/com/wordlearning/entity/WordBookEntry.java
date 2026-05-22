@@ -3,6 +3,7 @@ package com.wordlearning.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "word_book_entries")
@@ -10,15 +11,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@IdClass(WordBookEntryId.class)
 public class WordBookEntry {
     @Id
-    @Column(name = "word_book_id", length = 36)
-    private String wordBookId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Id
-    @Column(name = "word_id", length = 36)
-    private String wordId;
+    @Column(name = "uuid", nullable = false, unique = true, length = 36)
+    private String uuid;
+
+    @Column(name = "word_book_id", nullable = false)
+    private Long wordBookId;
+
+    @Column(name = "word_id", nullable = false)
+    private Long wordId;
 
     @Column(name = "sort_order", nullable = false)
     private int sortOrder;
@@ -28,12 +33,9 @@ public class WordBookEntry {
 
     @PrePersist
     protected void onCreate() {
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+        }
         createdAt = LocalDateTime.now();
     }
-}
-
-@Data
-class WordBookEntryId implements java.io.Serializable {
-    private String wordBookId;
-    private String wordId;
 }

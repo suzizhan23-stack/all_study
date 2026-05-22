@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +40,7 @@ public class AuthService {
             throw BusinessException.conflict("email already exists");
         }
 
-        String userId = UUID.randomUUID().toString();
         User user = User.builder()
-                .id(userId)
                 .username(req.getUsername())
                 .passwordHash(passwordEncoder.encode(req.getPassword()))
                 .email(req.getEmail())
@@ -55,8 +52,7 @@ public class AuthService {
         userRepository.save(user);
 
         UserStat stat = UserStat.builder()
-                .id(UUID.randomUUID().toString())
-                .userId(userId)
+                .userId(user.getId())
                 .xp(0)
                 .level(1)
                 .streakDays(0)
@@ -68,12 +64,12 @@ public class AuthService {
                 .build();
         userStatRepository.save(stat);
 
-        String token = jwtUtil.generateToken(userId, user.getUsername(), user.getRole().name());
+        String token = jwtUtil.generateToken(user.getUuid(), user.getUsername(), user.getRole().name());
         return LoginResponse.builder()
                 .token(token)
                 .expiresIn(expirationMs / 1000)
                 .user(LoginResponse.UserInfo.builder()
-                        .id(userId)
+                        .id(user.getUuid())
                         .username(user.getUsername())
                         .nickname(user.getNickname())
                         .avatarUrl(user.getAvatarUrl())
@@ -98,12 +94,12 @@ public class AuthService {
         UserStat stat = userStatRepository.findByUserId(user.getId())
                 .orElse(null);
 
-        String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole().name());
+        String token = jwtUtil.generateToken(user.getUuid(), user.getUsername(), user.getRole().name());
         return LoginResponse.builder()
                 .token(token)
                 .expiresIn(expirationMs / 1000)
                 .user(LoginResponse.UserInfo.builder()
-                        .id(user.getId())
+                        .id(user.getUuid())
                         .username(user.getUsername())
                         .nickname(user.getNickname())
                         .avatarUrl(user.getAvatarUrl())

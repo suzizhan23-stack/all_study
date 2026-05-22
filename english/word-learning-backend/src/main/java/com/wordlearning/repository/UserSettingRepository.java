@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserSettingRepository extends JpaRepository<UserSetting, String> {
-    List<UserSetting> findByUserId(String userId);
-    Optional<UserSetting> findByUserIdAndSettingKey(String userId, String key);
+public interface UserSettingRepository extends JpaRepository<UserSetting, Long> {
+    List<UserSetting> findByUserId(Long userId);
+    Optional<UserSetting> findByUserIdAndSettingKey(Long userId, String key);
+    Optional<UserSetting> findByUuid(String uuid);
 }

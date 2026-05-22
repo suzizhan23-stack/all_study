@@ -41,16 +41,16 @@ public class FolderController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<Void> updateFolder(@PathVariable String id, @RequestBody FolderRequest req) {
+    public ApiResponse<Void> updateFolder(@PathVariable String uuid, @RequestBody FolderRequest req) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        favoriteService.updateFolder(userId, id, req);
+        favoriteService.updateFolder(userId, uuid, req);
         return ApiResponse.success();
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteFolder(@PathVariable String id) {
+    public ApiResponse<Void> deleteFolder(@PathVariable String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        favoriteService.deleteFolder(userId, id);
+        favoriteService.deleteFolder(userId, uuid);
         return ApiResponse.success();
     }
 
@@ -64,11 +64,11 @@ public class FolderController {
     }
 
     @GetMapping("/{id}/items")
-    public ApiResponse<FolderItemsResponse> getFolderItems(@PathVariable String id,
+    public ApiResponse<FolderItemsResponse> getFolderItems(@PathVariable String uuid,
                                                             @RequestParam(defaultValue = "1") int page,
                                                             @RequestParam(defaultValue = "20") int size,
                                                             @RequestParam(required = false) String sort) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ApiResponse.success(favoriteService.getFolderItems(userId, id, page, size, sort));
+        return ApiResponse.success(favoriteService.getFolderItems(userId, uuid, page, size, sort));
     }
 }

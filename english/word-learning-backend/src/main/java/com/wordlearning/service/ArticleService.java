@@ -21,6 +21,7 @@ import java.util.*;
 @Transactional
 public class ArticleService {
 
+    private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
     private final ReadingProgressRepository readingProgressRepository;
     private final WordRepository wordRepository;
@@ -29,6 +30,8 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public ArticleListResponse getArticles(String userId, Integer difficulty, String source, String status,
                                            int page, int size) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         List<Article> allArticles = articleRepository.findAll();
 
         if (difficulty != null) {
@@ -44,7 +47,7 @@ public class ArticleService {
 
         List<Article> filtered = new ArrayList<>();
         for (Article a : allArticles) {
-            var progress = readingProgressRepository.findByUserIdAndArticleId(userId, a.getId()).orElse(null);
+            var progress = readingProgressRepository.findByUserIdAndArticleId(user.getId(), a.getId()).orElse(null);
             if (status != null && !status.isEmpty()) {
                 switch (status) {
                     case "unread" -> {
@@ -68,7 +71,7 @@ public class ArticleService {
 
         List<ArticleListResponse.ArticleItem> items = pageArticles.stream()
                 .map(a -> {
-                    var progress = readingProgressRepository.findByUserIdAndArticleId(userId, a.getId()).orElse(null);
+                    var progress = readingProgressRepository.findByUserIdAndArticleId(user.getId(), a.getId()).orElse(null);
                     ArticleListResponse.ProgressInfo progressInfo = null;
                     if (progress != null) {
                         progressInfo = ArticleListResponse.ProgressInfo.builder()
@@ -103,10 +106,12 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public ArticleDetailResponse getArticleDetail(String userId, String articleId) {
-        Article article = articleRepository.findById(articleId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Article article = articleRepository.findByUuid(articleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Article", articleId));
 
-        var progress = readingProgressRepository.findByUserIdAndArticleId(userId, articleId).orElse(null);
+        var progress = readingProgressRepository.findByUserIdAndArticleId(user.getId(), article.getId()).orElse(null);
         ArticleListResponse.ProgressInfo progressInfo = null;
         if (progress != null) {
             progressInfo = ArticleListResponse.ProgressInfo.builder()
@@ -118,7 +123,7 @@ public class ArticleService {
         }
 
         return ArticleDetailResponse.builder()
-                .id(article.getId())
+                .id(article.getUuid())
                 .title(article.getTitle())
                 .content(article.getContent())
                 .contentType(null)
@@ -134,14 +139,17 @@ public class ArticleService {
     }
 
     public void saveProgress(String userId, String articleId, int scrollPos, Integer readingTimeSec) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Article article = articleRepository.findByUuid(articleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Article", articleId));
         ReadingProgress progress = readingProgressRepository
-                .findByUserIdAndArticleId(userId, articleId)
+                .findByUserIdAndArticleId(user.getId(), article.getId())
                 .orElse(null);
         if (progress == null) {
             progress = ReadingProgress.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
-                    .articleId(articleId)
+                    .userId(user.getId())
+                    .articleId(article.getId())
                     .scrollPosition(scrollPos)
                     .isCompleted(false)
                     .wordsLookedUp(0)
@@ -155,14 +163,17 @@ public class ArticleService {
     }
 
     public void markComplete(String userId, String articleId) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Article article = articleRepository.findByUuid(articleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Article", articleId));
         ReadingProgress progress = readingProgressRepository
-                .findByUserIdAndArticleId(userId, articleId)
+                .findByUserIdAndArticleId(user.getId(), article.getId())
                 .orElse(null);
         if (progress == null) {
             progress = ReadingProgress.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
-                    .articleId(articleId)
+                    .userId(user.getId())
+                    .articleId(article.getId())
                     .scrollPosition(0)
                     .isCompleted(true)
                     .wordsLookedUp(0)
@@ -174,7 +185,7 @@ public class ArticleService {
         }
         readingProgressRepository.save(progress);
 
-        UserStat stat = userStatRepository.findByUserId(userId).orElse(null);
+        UserStat stat = userStatRepository.findByUserId(user.getId()).orElse(null);
         if (stat != null) {
             stat.setXp(stat.getXp() + 50);
             userStatRepository.save(stat);
@@ -183,10 +194,14 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public Map<String, Object> lookupWord(String userId, String articleId, String wordText) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Article article = articleRepository.findByUuid(articleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Article", articleId));
         Word word = wordRepository.findByWord(wordText).orElse(null);
         Map<String, Object> result = new LinkedHashMap<>();
         if (word != null) {
-            result.put("id", word.getId());
+            result.put("id", word.getUuid());
             result.put("word", word.getWord());
             result.put("meaningCn", word.getMeaningCn());
             result.put("pos", word.getPos());
@@ -198,7 +213,7 @@ public class ArticleService {
         }
 
         ReadingProgress progress = readingProgressRepository
-                .findByUserIdAndArticleId(userId, articleId)
+                .findByUserIdAndArticleId(user.getId(), article.getId())
                 .orElse(null);
         if (progress != null) {
             progress.setWordsLookedUp(progress.getWordsLookedUp() + 1);

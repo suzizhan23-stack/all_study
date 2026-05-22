@@ -4,8 +4,11 @@ import com.wordlearning.dto.response.PageResponse;
 import com.wordlearning.dto.response.SuggestResponse;
 import com.wordlearning.dto.response.WordSearchResponse;
 import com.wordlearning.entity.SearchHistory;
+import com.wordlearning.entity.User;
 import com.wordlearning.entity.Word;
+import com.wordlearning.exception.ResourceNotFoundException;
 import com.wordlearning.repository.SearchHistoryRepository;
+import com.wordlearning.repository.UserRepository;
 import com.wordlearning.repository.WordRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,13 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class SearchService {
 
+    private final UserRepository userRepository;
     private final WordRepository wordRepository;
     private final SearchHistoryRepository searchHistoryRepository;
 
@@ -38,6 +41,8 @@ public class SearchService {
 
     @Transactional(readOnly = true)
     public WordSearchResponse search(String userId, String query, String source, String pos, int page, int size) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         StringBuilder jpql = new StringBuilder(
                 "SELECT w, CASE WHEN f.id IS NOT NULL THEN true ELSE false END FROM Word w ");
         jpql.append("LEFT JOIN Favorite f ON f.entityId = w.id AND f.entityType = 'word' ");
@@ -51,7 +56,7 @@ public class SearchService {
         }
 
         var queryObj = entityManager.createQuery(jpql.toString(), Object[].class);
-        queryObj.setParameter("userId", userId);
+        queryObj.setParameter("userId", user.getId());
         queryObj.setParameter("query", query + "%");
         if (source != null && !source.isEmpty()) {
             queryObj.setParameter("source", source);
@@ -72,7 +77,7 @@ public class SearchService {
                     Word w = (Word) row[0];
                     boolean isCollected = (Boolean) row[1];
                     return WordSearchResponse.SearchResult.builder()
-                            .id(w.getId())
+                            .id(w.getUuid())
                             .word(w.getWord())
                             .phoneticUk(w.getPhoneticUk())
                             .phoneticUs(w.getPhoneticUs())
@@ -93,9 +98,10 @@ public class SearchService {
     }
 
     public void saveHistory(String userId, String query, int resultCount) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         SearchHistory history = SearchHistory.builder()
-                .id(UUID.randomUUID().toString())
-                .userId(userId)
+                .userId(user.getId())
                 .query(query)
                 .resultCount(resultCount)
                 .searchedAt(LocalDateTime.now())
@@ -105,14 +111,18 @@ public class SearchService {
 
     @Transactional(readOnly = true)
     public List<SearchHistory> getHistory(String userId, int limit) {
-        return searchHistoryRepository.findByUserIdOrderBySearchedAtDesc(userId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        return searchHistoryRepository.findByUserIdOrderBySearchedAtDesc(user.getId())
                 .stream()
                 .limit(limit)
                 .toList();
     }
 
     public void clearHistory(String userId) {
-        List<SearchHistory> history = searchHistoryRepository.findByUserIdOrderBySearchedAtDesc(userId);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        List<SearchHistory> history = searchHistoryRepository.findByUserIdOrderBySearchedAtDesc(user.getId());
         searchHistoryRepository.deleteAll(history);
     }
 }

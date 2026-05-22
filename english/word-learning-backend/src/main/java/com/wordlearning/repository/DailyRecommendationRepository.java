@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface DailyRecommendationRepository extends JpaRepository<DailyRecommendation, String> {
-    List<DailyRecommendation> findByUserIdAndRecommendDateAndIsConsumedFalseOrderByReason(String userId, LocalDate date);
+public interface DailyRecommendationRepository extends JpaRepository<DailyRecommendation, Long> {
+    List<DailyRecommendation> findByUserIdAndRecommendDateAndIsConsumedFalseOrderByReason(Long userId, LocalDate date);
+    Optional<DailyRecommendation> findByUuid(String uuid);
 }

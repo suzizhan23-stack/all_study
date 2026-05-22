@@ -3,8 +3,11 @@ package com.wordlearning.service;
 import com.wordlearning.dto.response.PageResponse;
 import com.wordlearning.dto.response.WrongWordResponse;
 import com.wordlearning.entity.ReviewLog;
+import com.wordlearning.entity.User;
 import com.wordlearning.entity.Word;
+import com.wordlearning.exception.ResourceNotFoundException;
 import com.wordlearning.repository.ReviewLogRepository;
+import com.wordlearning.repository.UserRepository;
 import com.wordlearning.repository.WordRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class WrongWordService {
 
+    private final UserRepository userRepository;
     private final ReviewLogRepository reviewLogRepository;
     private final WordRepository wordRepository;
 
@@ -30,6 +34,9 @@ public class WrongWordService {
 
     @Transactional(readOnly = true)
     public WrongWordResponse getWrongWords(String userId, String quizType, int days, int page, int size) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Long uid = user.getId();
         LocalDateTime since = days > 0 ? LocalDateTime.now().minusDays(days) : LocalDateTime.now().minusDays(30);
 
         String countJpql = "SELECT COUNT(DISTINCT rl.wordId) FROM ReviewLog rl WHERE rl.userId = :userId AND rl.isCorrect = false AND rl.reviewedAt >= :since";
@@ -37,7 +44,7 @@ public class WrongWordService {
             countJpql += " AND rl.quizType = :quizType";
         }
         TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class)
-                .setParameter("userId", userId)
+                .setParameter("userId", uid)
                 .setParameter("since", since);
         if (quizType != null && !quizType.isBlank()) {
             countQuery.setParameter("quizType", ReviewLog.QuizType.valueOf(quizType));
@@ -51,7 +58,7 @@ public class WrongWordService {
         jpql += " GROUP BY rl.wordId ORDER BY cnt DESC";
 
         TypedQuery<Object[]> query = entityManager.createQuery(jpql, Object[].class)
-                .setParameter("userId", userId)
+                .setParameter("userId", uid)
                 .setParameter("since", since)
                 .setFirstResult((page - 1) * size)
                 .setMaxResults(size);
@@ -68,7 +75,7 @@ public class WrongWordService {
         Map<String, Integer> typeCountMap = new HashMap<>();
 
         for (Object[] row : results) {
-            String wordId = (String) row[0];
+            Long wordId = (Long) row[0];
             Number cnt = (Number) row[1];
             int wrongCount = cnt.intValue();
 
@@ -76,11 +83,11 @@ public class WrongWordService {
             if (w == null) continue;
 
             List<ReviewLog> logs = reviewLogRepository
-                    .findByUserIdAndWordIdAndIsCorrectFalseOrderByReviewedAtDesc(userId, wordId);
+                    .findByUserIdAndWordIdAndIsCorrectFalseOrderByReviewedAtDesc(uid, wordId);
 
             List<WrongWordResponse.LogEntry> logEntries = logs.stream()
                     .map(l -> WrongWordResponse.LogEntry.builder()
-                            .id(l.getId())
+                            .id(l.getUuid())
                             .quizType(l.getQuizType().name())
                             .wrongAnswer(l.getWrongAnswer())
                             .reviewedAt(l.getReviewedAt() != null ? l.getReviewedAt().toString() : null)
@@ -101,7 +108,7 @@ public class WrongWordService {
             maxWrongCount = Math.max(maxWrongCount, wrongCount);
 
             wordGroups.add(WrongWordResponse.WordGroup.builder()
-                    .wordId(wordId)
+                    .wordId(w.getUuid())
                     .word(w.getWord())
                     .meaningCn(w.getMeaningCn())
                     .wrongCount(wrongCount)
@@ -134,29 +141,32 @@ public class WrongWordService {
     }
 
     public List<String> generateReviewQueue(String userId, int limit, int days) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Long uid = user.getId();
         LocalDateTime since = LocalDateTime.now().minusDays(days);
 
         TypedQuery<Object[]> query = entityManager.createQuery(
                         "SELECT rl.wordId, COUNT(rl) as cnt FROM ReviewLog rl " +
                                 "WHERE rl.userId = :userId AND rl.isCorrect = false AND rl.reviewedAt >= :since " +
                                 "GROUP BY rl.wordId ORDER BY cnt DESC", Object[].class)
-                .setParameter("userId", userId)
+                .setParameter("userId", uid)
                 .setParameter("since", since)
                 .setMaxResults(limit);
 
         List<Object[]> results = query.getResultList();
-        List<String> wordIds = new ArrayList<>();
+        List<String> wordUuids = new ArrayList<>();
 
         for (Object[] row : results) {
-            String wordId = (String) row[0];
+            Long wordId = (Long) row[0];
             Word w = wordRepository.findById(wordId).orElse(null);
             if (w != null) {
                 w.setNextReview(LocalDateTime.now());
                 wordRepository.save(w);
-                wordIds.add(wordId);
+                wordUuids.add(w.getUuid());
             }
         }
 
-        return wordIds;
+        return wordUuids;
     }
 }

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class PlanService {
 
+    private final UserRepository userRepository;
     private final UserPlanRepository userPlanRepository;
     private final LearningPlanRepository learningPlanRepository;
     private final UserDailyPlanEntryRepository userDailyPlanEntryRepository;
@@ -43,7 +44,9 @@ public class PlanService {
 
     @Transactional(readOnly = true)
     public Map<String, Object> getActivePlan(String userId) {
-        List<UserPlan> userPlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(userId);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        List<UserPlan> userPlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(user.getId());
         if (userPlans.isEmpty()) {
             return Collections.emptyMap();
         }
@@ -52,16 +55,16 @@ public class PlanService {
                 .orElse(null);
 
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("id", userPlan.getId());
-        result.put("userId", userPlan.getUserId());
-        result.put("planId", userPlan.getPlanId());
+        result.put("id", userPlan.getUuid());
+        result.put("userId", user.getUuid());
+        result.put("planId", plan != null ? plan.getUuid() : null);
         result.put("currentDay", userPlan.getCurrentDay());
         result.put("startedAt", userPlan.getStartedAt() != null ? userPlan.getStartedAt().toString() : null);
         result.put("completedAt", userPlan.getCompletedAt() != null ? userPlan.getCompletedAt().toString() : null);
 
         if (plan != null) {
             Map<String, Object> planDetail = new LinkedHashMap<>();
-            planDetail.put("id", plan.getId());
+            planDetail.put("id", plan.getUuid());
             planDetail.put("name", plan.getName());
             planDetail.put("description", plan.getDescription());
             planDetail.put("targetLevel", plan.getTargetLevel());
@@ -79,18 +82,19 @@ public class PlanService {
     }
 
     public void joinPlan(String userId, String planId) {
-        List<UserPlan> activePlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(userId);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        List<UserPlan> activePlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(user.getId());
         if (!activePlans.isEmpty()) {
             throw BusinessException.conflict("User already has an active plan");
         }
 
-        LearningPlan plan = learningPlanRepository.findById(planId)
+        LearningPlan plan = learningPlanRepository.findByUuid(planId)
                 .orElseThrow(() -> new ResourceNotFoundException("Plan not found"));
 
         UserPlan userPlan = UserPlan.builder()
-                .id(UUID.randomUUID().toString())
-                .userId(userId)
-                .planId(planId)
+                .userId(user.getId())
+                .planId(plan.getId())
                 .startedAt(LocalDateTime.now())
                 .currentDay(1)
                 .build();
@@ -99,12 +103,14 @@ public class PlanService {
 
     @Transactional(readOnly = true)
     public DailyPlanResponse getDailyWords(String userId, String date) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         LocalDate planDate = LocalDate.parse(date);
 
         List<UserDailyPlanEntry> userEntries = userDailyPlanEntryRepository
-                .findByUserIdAndPlanDateOrderBySortOrder(userId, planDate);
+                .findByUserIdAndPlanDateOrderBySortOrder(user.getId(), planDate);
         List<DailyPlanItem> planItems = dailyPlanItemRepository
-                .findByUserIdAndPlanDateOrderBySortOrder(userId, planDate);
+                .findByUserIdAndPlanDateOrderBySortOrder(user.getId(), planDate);
 
         int total = userEntries.size() + planItems.size();
         int completed = (int) (userEntries.stream().filter(UserDailyPlanEntry::isCompleted).count()
@@ -114,14 +120,14 @@ public class PlanService {
 
         for (UserDailyPlanEntry entry : userEntries) {
             DailyPlanResponse.WordEntry we = buildWordEntry(
-                    entry.getId(), entry.getWordId(), entry.isCompleted(),
+                    entry.getUuid(), entry.getWordId(), entry.isCompleted(),
                     entry.getSortOrder(), "manual", planDate);
             if (we != null) words.add(we);
         }
 
         for (DailyPlanItem item : planItems) {
             DailyPlanResponse.WordEntry we = buildWordEntry(
-                    item.getId(), item.getWordId(), item.isCompleted(),
+                    item.getUuid(), item.getWordId(), item.isCompleted(),
                     item.getSortOrder(), "auto", planDate);
             if (we != null) words.add(we);
         }
@@ -136,7 +142,7 @@ public class PlanService {
                 .build();
     }
 
-    private DailyPlanResponse.WordEntry buildWordEntry(String id, String wordId, boolean completed,
+    private DailyPlanResponse.WordEntry buildWordEntry(String id, Long wordId, boolean completed,
                                                         int sortOrder, String source, LocalDate planDate) {
         Word word = wordRepository.findById(wordId).orElse(null);
         if (word == null) return null;
@@ -161,7 +167,7 @@ public class PlanService {
 
         return DailyPlanResponse.WordEntry.builder()
                 .id(id)
-                .wordId(wordId)
+                .wordId(word.getUuid())
                 .word(word.getWord())
                 .phoneticUk(word.getPhoneticUk())
                 .pos(word.getPos())
@@ -176,6 +182,8 @@ public class PlanService {
 
     @Transactional(readOnly = true)
     public PlanDatesResponse getPlanDates(String userId, int limit) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         String sql = "SELECT DISTINCT plan_date FROM (" +
                 "SELECT plan_date FROM user_daily_plan_entries WHERE user_id = ?1 " +
                 "UNION " +
@@ -184,7 +192,7 @@ public class PlanService {
 
         @SuppressWarnings("unchecked")
         List<Object> dateResults = entityManager.createNativeQuery(sql)
-                .setParameter(1, userId)
+                .setParameter(1, user.getId())
                 .setMaxResults(limit)
                 .getResultList();
 
@@ -198,22 +206,22 @@ public class PlanService {
                     }
                     long udCount = entityManager.createQuery(
                                     "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date", Long.class)
-                            .setParameter("userId", userId)
+                            .setParameter("userId", user.getId())
                             .setParameter("date", ld)
                             .getSingleResult();
                     long dpCount = entityManager.createQuery(
                                     "SELECT COUNT(e) FROM DailyPlanItem e WHERE e.userId = :userId AND e.planDate = :date", Long.class)
-                            .setParameter("userId", userId)
+                            .setParameter("userId", user.getId())
                             .setParameter("date", ld)
                             .getSingleResult();
                     long udCompleted = entityManager.createQuery(
                                     "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date AND e.isCompleted = true", Long.class)
-                            .setParameter("userId", userId)
+                            .setParameter("userId", user.getId())
                             .setParameter("date", ld)
                             .getSingleResult();
                     long dpCompleted = entityManager.createQuery(
                                     "SELECT COUNT(e) FROM DailyPlanItem e WHERE e.userId = :userId AND e.planDate = :date AND e.isCompleted = true", Long.class)
-                            .setParameter("userId", userId)
+                            .setParameter("userId", user.getId())
                             .setParameter("date", ld)
                             .getSingleResult();
 
@@ -229,13 +237,17 @@ public class PlanService {
     }
 
     public void addPlanEntry(String userId, PlanEntryRequest req) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(req.getWordId())
+                .orElseThrow(() -> new ResourceNotFoundException("Word", req.getWordId()));
         LocalDate planDate = LocalDate.parse(req.getPlanDate());
 
         long existing = entityManager.createQuery(
                         "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date AND e.wordId = :wordId", Long.class)
-                .setParameter("userId", userId)
+                .setParameter("userId", user.getId())
                 .setParameter("date", planDate)
-                .setParameter("wordId", req.getWordId())
+                .setParameter("wordId", word.getId())
                 .getSingleResult();
         if (existing > 0) {
             throw BusinessException.conflict("Word already exists in daily plan");
@@ -243,15 +255,14 @@ public class PlanService {
 
         Integer maxSort = entityManager.createQuery(
                         "SELECT MAX(e.sortOrder) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date", Integer.class)
-                .setParameter("userId", userId)
+                .setParameter("userId", user.getId())
                 .setParameter("date", planDate)
                 .getSingleResult();
 
         UserDailyPlanEntry entry = UserDailyPlanEntry.builder()
-                .id(UUID.randomUUID().toString())
-                .userId(userId)
+                .userId(user.getId())
                 .planDate(planDate)
-                .wordId(req.getWordId())
+                .wordId(word.getId())
                 .sortOrder(maxSort != null ? maxSort + 1 : 0)
                 .isCompleted(false)
                 .build();
@@ -259,18 +270,22 @@ public class PlanService {
     }
 
     public void removePlanEntry(String userId, String entryId) {
-        UserDailyPlanEntry entry = userDailyPlanEntryRepository.findById(entryId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        UserDailyPlanEntry entry = userDailyPlanEntryRepository.findByUuid(entryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Plan entry not found"));
-        if (!entry.getUserId().equals(userId)) {
+        if (!entry.getUserId().equals(user.getId())) {
             throw new ResourceNotFoundException("Plan entry not found");
         }
         userDailyPlanEntryRepository.delete(entry);
     }
 
     public void markEntryComplete(String userId, String entryId) {
-        UserDailyPlanEntry entry = userDailyPlanEntryRepository.findById(entryId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        UserDailyPlanEntry entry = userDailyPlanEntryRepository.findByUuid(entryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Plan entry not found"));
-        if (!entry.getUserId().equals(userId)) {
+        if (!entry.getUserId().equals(user.getId())) {
             throw new ResourceNotFoundException("Plan entry not found");
         }
         entry.setCompleted(true);
@@ -279,13 +294,17 @@ public class PlanService {
     }
 
     public int generateDailyPlan(String userId, GeneratePlanRequest req) {
-        StudyStrategy strategy = studyStrategyRepository.findById(req.getStrategyId())
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        StudyStrategy strategy = studyStrategyRepository.findByUuid(req.getStrategyId())
                 .orElseThrow(() -> new ResourceNotFoundException("Strategy not found"));
+        WordBook wordBook = wordBookRepository.findByUuid(req.getWordBookId())
+                .orElseThrow(() -> new ResourceNotFoundException("WordBook not found"));
         LocalDate planDate = LocalDate.parse(req.getDate());
         int count = req.getCount() != null ? req.getCount() : 10;
 
         List<WordBookEntry> entries = wordBookEntryRepository
-                .findByWordBookIdOrderBySortOrder(req.getWordBookId(), Pageable.unpaged());
+                .findByWordBookIdOrderBySortOrder(wordBook.getId(), Pageable.unpaged());
         if (entries.isEmpty()) return 0;
 
         List<Word> words = new ArrayList<>();
@@ -318,16 +337,15 @@ public class PlanService {
         for (Word w : selected) {
             long exists = entityManager.createQuery(
                             "SELECT COUNT(d) FROM DailyPlanItem d WHERE d.userId = :userId AND d.planDate = :date AND d.wordId = :wordId", Long.class)
-                    .setParameter("userId", userId)
+                    .setParameter("userId", user.getId())
                     .setParameter("date", planDate)
                     .setParameter("wordId", w.getId())
                     .getSingleResult();
             if (exists > 0) continue;
 
             DailyPlanItem item = DailyPlanItem.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
-                    .wordBookId(req.getWordBookId())
+                    .userId(user.getId())
+                    .wordBookId(wordBook.getId())
                     .planDate(planDate)
                     .wordId(w.getId())
                     .sortOrder(generated)

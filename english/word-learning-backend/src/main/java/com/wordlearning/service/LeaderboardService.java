@@ -48,14 +48,17 @@ public class LeaderboardService {
 
         Integer myRank = null;
         if (currentUserId != null) {
-            for (LeaderboardResponse.LeaderEntry e : entries) {
-                if (e.getUserId().equals(currentUserId)) {
-                    myRank = e.getRank();
-                    break;
+            User currentUser = userRepository.findByUuid(currentUserId).orElse(null);
+            if (currentUser != null) {
+                for (LeaderboardResponse.LeaderEntry e : entries) {
+                    if (e.getUserId().equals(currentUser.getUuid())) {
+                        myRank = e.getRank();
+                        break;
+                    }
                 }
-            }
-            if (myRank == null) {
-                myRank = getCurrentUserRank(resolvedType, currentUserId);
+                if (myRank == null) {
+                    myRank = getCurrentUserRank(resolvedType, currentUser.getId());
+                }
             }
         }
 
@@ -98,7 +101,7 @@ public class LeaderboardService {
         int rank = 1;
 
         for (Object[] row : results) {
-            String uid = (String) row[0];
+            Long uid = (Long) row[0];
             User user = userRepository.findById(uid).orElse(null);
             if (user == null) continue;
 
@@ -112,7 +115,7 @@ public class LeaderboardService {
 
             entries.add(LeaderboardResponse.LeaderEntry.builder()
                     .rank(rank++)
-                    .userId(uid)
+                    .userId(user.getUuid())
                     .username(user.getUsername())
                     .nickname(user.getNickname())
                     .avatarUrl(user.getAvatarUrl())
@@ -154,7 +157,7 @@ public class LeaderboardService {
 
         return LeaderboardResponse.LeaderEntry.builder()
                 .rank(rank)
-                .userId(user.getId())
+                .userId(user.getUuid())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
                 .avatarUrl(user.getAvatarUrl())
@@ -165,7 +168,7 @@ public class LeaderboardService {
                 .build();
     }
 
-    private int getCurrentUserRank(String type, String userId) {
+    private int getCurrentUserRank(String type, Long userId) {
         String jpql;
         switch (type) {
             case "weekly":

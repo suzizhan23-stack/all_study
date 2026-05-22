@@ -22,6 +22,7 @@ import java.util.*;
 @Transactional
 public class ReviewService {
 
+    private final UserRepository userRepository;
     private final WordRepository wordRepository;
     private final ReviewLogRepository reviewLogRepository;
     private final LearningActivityRepository learningActivityRepository;
@@ -35,7 +36,7 @@ public class ReviewService {
 
         List<ReviewQueueResponse.ReviewItem> items = dueWords.stream()
                 .map(w -> ReviewQueueResponse.ReviewItem.builder()
-                        .wordId(w.getId())
+                        .wordId(w.getUuid())
                         .word(w.getWord())
                         .phoneticUk(w.getPhoneticUk())
                         .phoneticUs(w.getPhoneticUs())
@@ -61,7 +62,9 @@ public class ReviewService {
     }
 
     public ReviewResultResponse submitResult(String userId, ReviewResultRequest req) {
-        Word word = wordRepository.findById(req.getWordId())
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(req.getWordId())
                 .orElseThrow(() -> new ResourceNotFoundException("Word", req.getWordId()));
 
         ReviewLog.QuizType quizType;
@@ -72,9 +75,8 @@ public class ReviewService {
         }
 
         ReviewLog log = ReviewLog.builder()
-                .id(UUID.randomUUID().toString())
-                .userId(userId)
-                .wordId(req.getWordId())
+                .userId(user.getId())
+                .wordId(word.getId())
                 .quizType(quizType)
                 .isCorrect(req.getIsCorrect())
                 .responseTimeMs(req.getResponseTimeMs())
@@ -119,12 +121,11 @@ public class ReviewService {
 
         LocalDate today = LocalDate.now();
         LearningActivity activity = learningActivityRepository
-                .findByUserIdAndActivityDate(userId, today)
+                .findByUserIdAndActivityDate(user.getId(), today)
                 .orElse(null);
         if (activity == null) {
             activity = LearningActivity.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
+                    .userId(user.getId())
                     .activityDate(today)
                     .wordsStudied(word.getReviewCount() == 1 && req.getIsCorrect() ? 1 : 0)
                     .reviewsDone(1)
@@ -148,11 +149,10 @@ public class ReviewService {
         }
         learningActivityRepository.save(activity);
 
-        UserStat stat = userStatRepository.findByUserId(userId).orElse(null);
+        UserStat stat = userStatRepository.findByUserId(user.getId()).orElse(null);
         if (stat == null) {
             stat = UserStat.builder()
-                    .id(UUID.randomUUID().toString())
-                    .userId(userId)
+                    .userId(user.getId())
                     .xp(0)
                     .level(1)
                     .streakDays(0)
@@ -192,20 +192,24 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<String> getDistractors(String wordId, String pos, int count) {
-        List<Word> words = wordRepository.findByPosAndIdNot(pos, wordId, PageRequest.of(0, count));
+        Word word = wordRepository.findByUuid(wordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordId));
+        List<Word> words = wordRepository.findByPosAndIdNot(pos, word.getId(), PageRequest.of(0, count));
         return words.stream().map(Word::getMeaningCn).toList();
     }
 
     @Transactional(readOnly = true)
     public Map<String, Object> getReviewStats(String userId) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         LocalDate today = LocalDate.now();
         LocalDate weekStart = today.minusDays(6);
 
-        var todayActivity = learningActivityRepository.findByUserIdAndActivityDate(userId, today).orElse(null);
+        var todayActivity = learningActivityRepository.findByUserIdAndActivityDate(user.getId(), today).orElse(null);
 
         List<LearningActivity> weeklyActivities = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            learningActivityRepository.findByUserIdAndActivityDate(userId, weekStart.plusDays(i))
+            learningActivityRepository.findByUserIdAndActivityDate(user.getId(), weekStart.plusDays(i))
                     .ifPresent(weeklyActivities::add);
         }
 

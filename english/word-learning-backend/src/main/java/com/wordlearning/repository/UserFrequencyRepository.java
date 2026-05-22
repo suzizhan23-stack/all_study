@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserFrequencyRepository extends JpaRepository<UserFrequency, String> {
-    Optional<UserFrequency> findByUserIdAndEntityTypeAndEntityId(String userId, UserFrequency.EntityType type, String entityId);
+public interface UserFrequencyRepository extends JpaRepository<UserFrequency, Long> {
+    Optional<UserFrequency> findByUserIdAndEntityTypeAndEntityId(Long userId, UserFrequency.EntityType type, Long entityId);
+    Optional<UserFrequency> findByUuid(String uuid);
 }

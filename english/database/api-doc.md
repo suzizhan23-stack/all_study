@@ -1,7 +1,7 @@
 # 英语学习网站 — API 接口文档
 
-> 版本：v2.0  
-> 关联：数据库 v8（36 表）  
+> 版本：v2.1  
+> 关联：数据库 v8（36 表，INT AUTO_INCREMENT PK + UUID 双键策略）  
 > 统一响应格式见下文
 
 ---
@@ -101,7 +101,9 @@ Token 过期返回 401：
 
 ### uuid 格式说明
 
-本文档中所有 `:id` 类型参数及响应中的 `id` 字段均为 UUID v4 格式（36 字符，含连字符），示例：`a1b2c3d4-e5f6-7890-abcd-ef1234567890`
+本文档中所有 `:id` 类型参数（`{id}` 路径变量）及响应中的 `id` 字段均为 UUID v4 格式（36 字符，含连字符），示例：`a1b2c3d4-e5f6-7890-abcd-ef1234567890`
+
+**内部实现说明**：数据库使用 INT AUTO_INCREMENT 作为主键（PK）进行 JOIN 和索引，同时为每条记录分配一个 UUID（`uuid CHAR(36) UNIQUE`）对外暴露。Controller 层通过 `@PathVariable String uuid` 接收 UUID，Service 层调用 `repository.findByUuid(uuid)` 获取记录后，内部所有关联查询使用 INT PK。API 契约保持不变——外部调用者始终使用 UUID 字符串访问资源。
 
 ---
 
@@ -260,7 +262,7 @@ PUT /api/dashboard/recommendations/:id/consume
 ```sql
 UPDATE daily_recommendations
 SET is_consumed = TRUE, consumed_at = NOW()
-WHERE id = :id AND user_id = :user_id;
+WHERE uuid = :uuid AND user_id = :user_id;
 ```
 
 ---
@@ -420,8 +422,8 @@ POST /api/search/history
 #### SQL
 
 ```sql
-INSERT INTO search_history (id, user_id, query, result_count, searched_at)
-VALUES (UUID(), :user_id, :query, :result_count, NOW());
+INSERT INTO search_history (uuid, user_id, query, result_count, searched_at)
+VALUES (:uuid, :user_id, :query, :result_count, NOW());
 ```
 
 ---
@@ -667,11 +669,11 @@ GET /api/words/:id
 
 ```sql
 -- 1. 单词基本信息
-SELECT * FROM words WHERE id = :id;
+SELECT * FROM words WHERE uuid = :uuid;
 
 -- 2. 详细释义
 SELECT * FROM definitions
-WHERE word_id = :id
+WHERE word_id = :wordId
 ORDER BY sort_order;
 
 -- 3. 固定搭配（含用户自定义频率覆写）
@@ -679,19 +681,19 @@ SELECT c.*, COALESCE(uf.frequency, c.frequency) AS effective_freq
 FROM collocations c
 LEFT JOIN user_frequencies uf
   ON uf.entity_type = 'collocation' AND uf.entity_id = c.id AND uf.user_id = :user_id
-WHERE c.word_id = :id
+WHERE c.word_id = :wordId
 ORDER BY effective_freq DESC;
 
 -- 4. 介词模式
 SELECT * FROM prep_patterns
-WHERE word_id = :id
+WHERE word_id = :wordId
 ORDER BY frequency DESC;
 
 -- 5. 例句（含平均评分）
 SELECT e.*, COALESCE(AVG(cr.rating), 0) AS avg_rating, COUNT(cr.id) AS rating_count
 FROM examples e
 LEFT JOIN content_ratings cr ON cr.entity_type = 'example' AND cr.entity_id = e.id
-WHERE e.word_id = :id
+WHERE e.word_id = :wordId
 GROUP BY e.id
 ORDER BY e.frequency DESC;
 
@@ -699,45 +701,45 @@ ORDER BY e.frequency DESC;
 SELECT wr.relation_type, wr.related_word_id AS word_id, w.word, w.meaning_cn
 FROM word_relations wr
 JOIN words w ON wr.related_word_id = w.id
-WHERE wr.word_id = :id
+WHERE wr.word_id = :wordId
 UNION
 SELECT
   CASE WHEN wr.relation_type = 'synonym' THEN 'synonym' ELSE 'antonym' END,
   wr.word_id, w.word, w.meaning_cn
 FROM word_relations wr
 JOIN words w ON wr.word_id = w.id
-WHERE wr.related_word_id = :id;
+WHERE wr.related_word_id = :wordId;
 
 -- 7. 用户学习进度（SM-2）
 SELECT stage, confidence, next_review, review_count, consecutive_correct
 FROM user_spaced_repetition
-WHERE user_id = :user_id AND word_id = :id;
+WHERE user_id = :user_id AND word_id = :wordId;
 
 -- 8. 用户自定义词频
 SELECT frequency
 FROM user_frequencies
-WHERE user_id = :user_id AND entity_type = 'word' AND entity_id = :id;
+WHERE user_id = :user_id AND entity_type = 'word' AND entity_id = :wordId;
 
 -- 9. 收藏信息
 SELECT ff.id AS folder_id, ff.name AS folder_name
 FROM favorites f
 JOIN favorite_folders ff ON f.folder_id = ff.id
-WHERE f.user_id = :user_id AND f.entity_type = 'word' AND f.entity_id = :id;
+WHERE f.user_id = :user_id AND f.entity_type = 'word' AND f.entity_id = :wordId;
 
 -- 10. 用户笔记
 SELECT * FROM user_notes
-WHERE user_id = :user_id AND entity_type = 'word' AND entity_id = :id;
+WHERE user_id = :user_id AND entity_type = 'word' AND entity_id = :wordId;
 
 -- 11. 用户标签
 SELECT t.*
 FROM word_tags wt
 JOIN tags t ON wt.tag_id = t.id
-WHERE wt.user_id = :user_id AND wt.word_id = :id;
+WHERE wt.user_id = :user_id AND wt.word_id = :wordId;
 
 -- 12. 用户评分
 SELECT rating
 FROM content_ratings
-WHERE user_id = :user_id AND entity_type = 'word' AND entity_id = :id;
+WHERE user_id = :user_id AND entity_type = 'word' AND entity_id = :wordId;
 
 -- 13. 相关文章（文章词索引中匹配该词的）
 SELECT a.id, a.title, a.content AS snippet
@@ -776,8 +778,8 @@ PUT /api/words/:id/frequency
 #### SQL
 
 ```sql
-INSERT INTO user_frequencies (id, user_id, entity_type, entity_id, frequency)
-VALUES (UUID(), :user_id, 'word', :id, :frequency)
+INSERT INTO user_frequencies (uuid, user_id, entity_type, entity_id, frequency)
+VALUES (:uuid, :user_id, 'word', :id, :frequency)
 ON DUPLICATE KEY UPDATE frequency = VALUES(frequency), updated_at = NOW();
 ```
 
@@ -817,8 +819,8 @@ PUT /api/words/:id/note
 #### SQL
 
 ```sql
-INSERT INTO user_notes (id, user_id, entity_type, entity_id, content, is_private)
-VALUES (UUID(), :user_id, 'word', :id, :content, :is_private)
+INSERT INTO user_notes (uuid, user_id, entity_type, entity_id, content, is_private)
+VALUES (:uuid, :user_id, 'word', :id, :content, :is_private)
 ON DUPLICATE KEY UPDATE
   content = VALUES(content),
   is_private = VALUES(is_private),
@@ -853,8 +855,8 @@ POST /api/words/:id/tags
 #### SQL
 
 ```sql
-INSERT IGNORE INTO word_tags (id, user_id, word_id, tag_id)
-VALUES (UUID(), :user_id, :id, :tag_id);
+INSERT IGNORE INTO word_tags (uuid, user_id, word_id, tag_id)
+VALUES (:uuid, :user_id, :id, :tag_id);
 ```
 
 ---
@@ -873,7 +875,7 @@ DELETE /api/words/:id/tags/:tagId
 #### SQL
 
 ```sql
-DELETE FROM word_tags WHERE user_id = :user_id AND word_id = :id AND tag_id = :tagId;
+DELETE FROM word_tags WHERE user_id = :user_id AND word_id = :wordId AND tag_id = :tagId;
 ```
 
 ---
@@ -949,8 +951,8 @@ POST /api/favorites
 #### SQL
 
 ```sql
-INSERT INTO favorites (id, user_id, folder_id, entity_type, entity_id)
-VALUES (UUID(), :user_id, :folder_id, :entity_type, :entity_id);
+INSERT INTO favorites (uuid, user_id, folder_id, entity_type, entity_id)
+VALUES (:uuid, :user_id, :folder_id, :entity_type, :entity_id);
 ```
 
 ---
@@ -964,7 +966,7 @@ DELETE /api/favorites/:id
 | id | path | uuid | 是 | 收藏记录 ID |
 
 ```sql
-DELETE FROM favorites WHERE id = :id AND user_id = :user_id;
+DELETE FROM favorites WHERE uuid = :uuid AND user_id = :user_id;
 ```
 
 ---
@@ -986,8 +988,8 @@ PUT /api/words/:id/rating
 | rating | int | 是 | 评分 1-5 |
 
 ```sql
-INSERT INTO content_ratings (id, user_id, entity_type, entity_id, rating)
-VALUES (UUID(), :user_id, 'word', :id, :rating)
+INSERT INTO content_ratings (uuid, user_id, entity_type, entity_id, rating)
+VALUES (:uuid, :user_id, 'word', :id, :rating)
 ON DUPLICATE KEY UPDATE rating = VALUES(rating), updated_at = NOW();
 ```
 
@@ -1011,8 +1013,8 @@ POST /api/tags
 #### SQL
 
 ```sql
-INSERT INTO tags (id, user_id, tag, color)
-VALUES (UUID(), :user_id, :tag, :color);
+INSERT INTO tags (uuid, user_id, tag, color)
+VALUES (:uuid, :user_id, :tag, :color);
 ```
 
 ---
@@ -1201,11 +1203,11 @@ WHERE user_id = :user_id AND word_id = :word_id AND plan_date = :plan_date;
 -- 若已存在则返回 409
 
 -- 插入新条目
-INSERT INTO user_daily_plan_entries (id, user_id, word_id, plan_date, sort_order)
-SELECT UUID(), :user_id, :word_id, :plan_date,
-  COALESCE(MAX(sort_order), 0) + 1
-FROM user_daily_plan_entries
-WHERE user_id = :user_id AND plan_date = :plan_date;
+INSERT INTO user_daily_plan_entries (uuid, user_id, word_id, plan_date, sort_order)
+VALUES (:uuid, :user_id, :word_id, :plan_date,
+  (SELECT COALESCE(MAX(sort_order), 0) + 1
+   FROM user_daily_plan_entries
+   WHERE user_id = :user_id AND plan_date = :plan_date));
 ```
 
 ---
@@ -1221,7 +1223,7 @@ DELETE /api/plans/daily/entries/:id
 | id | path | uuid | 是 | 计划条目 ID |
 
 ```sql
-DELETE FROM user_daily_plan_entries WHERE id = :id AND user_id = :user_id;
+DELETE FROM user_daily_plan_entries WHERE uuid = :uuid AND user_id = :user_id;
 ```
 
 ---
@@ -1245,7 +1247,7 @@ PUT /api/plans/daily/entries/:id/complete
 ```sql
 UPDATE user_daily_plan_entries
 SET is_completed = TRUE, completed_at = NOW()
-WHERE id = :id AND user_id = :user_id;
+WHERE uuid = :uuid AND user_id = :user_id;
 ```
 
 ---
@@ -1297,7 +1299,7 @@ GET /api/words/:id/collocations
 ```sql
 SELECT id, collocation, translation, frequency
 FROM collocations
-WHERE word_id = :id
+WHERE word_id = :wordId
 ORDER BY frequency DESC
 LIMIT :limit;
 ```
@@ -1317,7 +1319,7 @@ GET /api/words/:id/prep-patterns
 ```sql
 SELECT id, pattern, translation, preposition, frequency
 FROM prep_patterns
-WHERE word_id = :id
+WHERE word_id = :wordId
 ORDER BY frequency DESC
 LIMIT :limit;
 ```
@@ -1458,8 +1460,8 @@ POST /api/review/result
 START TRANSACTION;
 
 -- 1. 记录答题日志
-INSERT INTO review_log (id, user_id, word_id, quiz_type, is_correct, response_time_ms, wrong_answer, reviewed_at)
-VALUES (UUID(), :user_id, :word_id, :quiz_type, :is_correct, :response_time_ms, :wrong_answer, NOW());
+INSERT INTO review_log (uuid, user_id, word_id, quiz_type, is_correct, response_time_ms, wrong_answer, reviewed_at)
+VALUES (:uuid, :user_id, :word_id, :quiz_type, :is_correct, :response_time_ms, :wrong_answer, NOW());
 
 -- 2. SM-2 参数计算（在代码中计算后落库）
 -- 伪代码逻辑：
@@ -1486,13 +1488,13 @@ UPDATE user_spaced_repetition SET
 WHERE user_id = :user_id AND word_id = :word_id;
 
 -- 如果不存在则插入（首次学习）
-INSERT INTO user_spaced_repetition (id, user_id, word_id, stage, ease_factor, interval_days, next_review, review_count, last_reviewed_at)
-SELECT UUID(), :user_id, :word_id, 1, 2.5, 1, DATE_ADD(NOW(), INTERVAL 1 DAY), 1, NOW()
-WHERE NOT EXISTS (SELECT 1 FROM user_spaced_repetition WHERE user_id = :user_id AND word_id = :word_id);
+INSERT INTO user_spaced_repetition (uuid, user_id, word_id, stage, ease_factor, interval_days, next_review, review_count, last_reviewed_at)
+VALUES (:uuid, :user_id, :word_id, 1, 2.5, 1, DATE_ADD(NOW(), INTERVAL 1 DAY), 1, NOW())
+ON DUPLICATE KEY UPDATE word_id = word_id;  -- 已存在则忽略（通过 UNIQUE(user_id, word_id)）
 
 -- 3. 更新每日学习活动
-INSERT INTO learning_activities (id, user_id, activity_date, words_studied, reviews_done, time_spent_sec, correct_count, wrong_count)
-VALUES (UUID(), :user_id, CURDATE(),
+INSERT INTO learning_activities (uuid, user_id, activity_date, words_studied, reviews_done, time_spent_sec, correct_count, wrong_count)
+VALUES (:uuid, :user_id, CURDATE(),
   IF(:is_correct AND :prev_review_count = 0, 1, 0), -- 首次正确算学了一个新词
   1, :response_time_ms / 1000,
   IF(:is_correct, 1, 0), IF(:is_correct, 0, 1))
@@ -1783,10 +1785,10 @@ GET /api/articles/:id
 
 ```sql
 -- 文章基本信息
-SELECT * FROM articles WHERE id = :id;
+SELECT * FROM articles WHERE uuid = :uuid;
 
--- 阅读进度
-SELECT * FROM reading_progress WHERE user_id = :user_id AND article_id = :id;
+-- 阅读进度（articleId 为 resolved INT PK）
+SELECT * FROM reading_progress WHERE user_id = :user_id AND article_id = :articleId;
 
 -- 文中核心词汇
 SELECT w.word, w.meaning_cn, w.difficulty
@@ -1828,8 +1830,8 @@ PUT /api/articles/:id/progress
 #### SQL
 
 ```sql
-INSERT INTO reading_progress (id, user_id, article_id, scroll_position, reading_time_sec, last_read_at)
-VALUES (UUID(), :user_id, :id, :scroll_position, :reading_time_sec, NOW())
+INSERT INTO reading_progress (uuid, user_id, article_id, scroll_position, reading_time_sec, last_read_at)
+VALUES (:uuid, :user_id, :id, :scroll_position, :reading_time_sec, NOW())
 ON DUPLICATE KEY UPDATE
   scroll_position = VALUES(scroll_position),
   reading_time_sec = COALESCE(reading_time_sec, 0) + VALUES(reading_time_sec),
@@ -1849,7 +1851,7 @@ PUT /api/articles/:id/complete
 ```sql
 UPDATE reading_progress
 SET is_completed = TRUE, scroll_position = 999999, last_read_at = NOW()
-WHERE user_id = :user_id AND article_id = :id;
+WHERE user_id = :user_id AND article_id = :articleId;
 
 -- 增加 XP
 UPDATE user_stats SET xp = xp + 30 WHERE user_id = :user_id;
@@ -1906,7 +1908,7 @@ SELECT * FROM words WHERE word = :word;
 
 -- 查找在文中的位置（通过全文索引或预存的 sentence 位置）
 SELECT sentence, position FROM article_word_occurrences
-WHERE article_id = :id AND word = :word;
+WHERE article_id = :articleId AND word = :word;
 ```
 
 #### 附加操作
@@ -1914,7 +1916,7 @@ WHERE article_id = :id AND word = :word;
 ```sql
 UPDATE reading_progress
 SET words_looked_up = words_looked_up + 1
-WHERE user_id = :user_id AND article_id = :id;
+WHERE user_id = :user_id AND article_id = :articleId;
 ```
 
 ---
@@ -2008,10 +2010,9 @@ POST /api/folders
 #### SQL
 
 ```sql
-INSERT INTO favorite_folders (id, user_id, name, category, is_public, sort_order)
-SELECT UUID(), :user_id, :name, :category, :is_public,
-  COALESCE(MAX(sort_order), 0) + 1
-FROM favorite_folders WHERE user_id = :user_id;
+INSERT INTO favorite_folders (uuid, user_id, name, category, is_public, sort_order)
+VALUES (:uuid, :user_id, :name, :category, :is_public,
+  (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM favorite_folders WHERE user_id = :user_id));
 ```
 
 ---
@@ -2037,7 +2038,7 @@ PUT /api/folders/:id
 UPDATE favorite_folders
 SET name = COALESCE(:name, name),
     is_public = COALESCE(:is_public, is_public)
-WHERE id = :id AND user_id = :user_id;
+WHERE uuid = :uuid AND user_id = :user_id;
 ```
 
 ---
@@ -2049,8 +2050,8 @@ DELETE /api/folders/:id
 ```
 
 ```sql
-DELETE FROM favorites WHERE folder_id = :id;
-DELETE FROM favorite_folders WHERE id = :id AND user_id = :user_id;
+DELETE FROM favorites WHERE folder_id = :folderId;
+DELETE FROM favorite_folders WHERE uuid = :uuid AND user_id = :user_id;
 ```
 
 ---
@@ -2071,7 +2072,7 @@ PUT /api/folders/reorder
 
 ```sql
 -- 逐条更新（或在代码中批量）
-UPDATE favorite_folders SET sort_order = :index WHERE id = :id AND user_id = :user_id;
+UPDATE favorite_folders SET sort_order = :index WHERE uuid = :uuid AND user_id = :user_id;
 ```
 
 ---
@@ -2123,7 +2124,7 @@ GET /api/folders/:id/items
 SELECT f.*, w.word, w.meaning_cn, w.pos, w.phonetic_uk
 FROM favorites f
 JOIN words w ON f.entity_type = 'word' AND f.entity_id = w.id
-WHERE f.folder_id = :id AND f.user_id = :user_id
+WHERE f.folder_id = :folderId AND f.user_id = :user_id
 ORDER BY
   CASE WHEN :sort = 'newest' THEN f.created_at END DESC,
   CASE WHEN :sort = 'oldest' THEN f.created_at END ASC,
@@ -2160,7 +2161,7 @@ POST /api/favorites/batch-tag
 ```
 
 ```sql
-INSERT IGNORE INTO word_tags (id, user_id, word_id, tag_id)
+INSERT IGNORE INTO word_tags (uuid, user_id, word_id, tag_id)
 SELECT UUID(), :user_id, word_id, :tag_id
 FROM UNNEST(:word_ids) AS word_id;
 ```
@@ -2303,7 +2304,7 @@ ORDER BY wrong_count DESC
 LIMIT :limit;
 
 -- 更新为待复习（upsert）
-INSERT INTO user_spaced_repetition (id, user_id, word_id, next_review, stage)
+INSERT INTO user_spaced_repetition (uuid, user_id, word_id, next_review, stage)
 SELECT UUID(), :user_id, word_id, NOW(), 0
 FROM UNNEST(:word_ids) AS word_id
 ON DUPLICATE KEY UPDATE next_review = NOW();
@@ -2442,8 +2443,8 @@ POST /api/plans/join
 SELECT id FROM user_plans WHERE user_id = :user_id AND completed_at IS NULL;
 -- 如果有则返回 409
 
-INSERT INTO user_plans (id, user_id, plan_id, started_at, current_day)
-VALUES (UUID(), :user_id, :plan_id, CURDATE(), 1);
+INSERT INTO user_plans (uuid, user_id, plan_id, started_at, current_day)
+VALUES (:uuid, :user_id, :plan_id, CURDATE(), 1);
 ```
 
 ---
@@ -2526,7 +2527,7 @@ POST /api/plans/daily/generate
 
 ```sql
 -- 以 random 为例
-INSERT INTO daily_plan_items (id, user_id, word_book_id, word_id, plan_date, sort_order, strategy_id)
+INSERT INTO daily_plan_items (uuid, user_id, word_book_id, word_id, plan_date, sort_order, strategy_id)
 SELECT UUID(), :user_id, :word_book_id, wbe.word_id, :date, ROW_NUMBER() OVER (), :strategy_id
 FROM word_book_entries wbe
 WHERE wbe.word_book_id = :word_book_id
@@ -2953,8 +2954,8 @@ PUT /api/user/settings
 #### SQL
 
 ```sql
-INSERT INTO user_settings (id, user_id, setting_key, setting_value)
-VALUES (UUID(), :user_id, :key, :value)
+INSERT INTO user_settings (uuid, user_id, setting_key, setting_value)
+VALUES (:uuid, :user_id, :key, :value)
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
 ```
 
@@ -3243,7 +3244,7 @@ PUT /api/admin/users/:id/status
 ```
 
 ```sql
-UPDATE users SET is_active = :is_active WHERE id = :id;
+UPDATE users SET is_active = :is_active WHERE uuid = :uuid;
 ```
 
 ---
@@ -3273,20 +3274,20 @@ DELETE /api/admin/words/:id
 ```
 
 ```sql
-INSERT INTO words (id, word, phonetic_uk, phonetic_us, pos, meaning_cn, source, difficulty, frequency, first_letter)
-VALUES (UUID(), :word, :phonetic_uk, :phonetic_us, :pos, :meaning_cn, :source, :difficulty, :frequency, UPPER(LEFT(:word, 1)));
+INSERT INTO words (uuid, word, phonetic_uk, phonetic_us, pos, meaning_cn, source, difficulty, frequency, first_letter)
+VALUES (:uuid, :word, :phonetic_uk, :phonetic_us, :pos, :meaning_cn, :source, :difficulty, :frequency, UPPER(LEFT(:word, 1)));
 ```
 
 #### 删除单词
 
 ```sql
-DELETE FROM word_relations WHERE word_id = :id OR related_word_id = :id;
-DELETE FROM collocations WHERE word_id = :id;
-DELETE FROM prep_patterns WHERE word_id = :id;
-DELETE FROM examples WHERE word_id = :id;
-DELETE FROM definitions WHERE word_id = :id;
-DELETE FROM word_book_entries WHERE word_id = :id;
-DELETE FROM words WHERE id = :id;
+DELETE FROM word_relations WHERE word_id = :wordId OR related_word_id = :wordId;
+DELETE FROM collocations WHERE word_id = :wordId;
+DELETE FROM prep_patterns WHERE word_id = :wordId;
+DELETE FROM examples WHERE word_id = :wordId;
+DELETE FROM definitions WHERE word_id = :wordId;
+DELETE FROM word_book_entries WHERE word_id = :wordId;
+DELETE FROM words WHERE id = :wordId;  -- INT PK from resolved entity
 ```
 
 ---
@@ -3328,11 +3329,11 @@ POST /api/admin/words/batch-import
 #### SQL
 
 ```sql
-INSERT IGNORE INTO words (id, word, pos, meaning_cn, difficulty, source, first_letter)
+INSERT IGNORE INTO words (uuid, word, pos, meaning_cn, difficulty, source, first_letter)
 VALUES (UUID(), :word, :pos, :meaning_cn, :difficulty, :source, UPPER(LEFT(:word, 1)));
 
 -- 同时关联到单词本
-INSERT INTO word_book_entries (id, word_book_id, word_id, sort_order)
+INSERT INTO word_book_entries (uuid, word_book_id, word_id, sort_order)
 SELECT UUID(), :word_book_id, w.id, :sort_order
 FROM words w WHERE w.word = :word;
 ```
@@ -3433,11 +3434,11 @@ POST /api/auth/register
 SELECT id FROM users WHERE username = :username OR email = :email;
 -- 若已存在返回 409
 
-INSERT INTO users (id, username, password_hash, email, nickname, role, created_at)
-VALUES (UUID(), :username, :password_hash, :email, COALESCE(:nickname, :username), 'user', NOW());
+INSERT INTO users (uuid, username, password_hash, email, nickname, role, created_at)
+VALUES (:uuid, :username, :password_hash, :email, COALESCE(:nickname, :username), 'user', NOW());
 
-INSERT INTO user_stats (user_id, xp, level, streak_days, longest_streak, total_words_learned, total_reviews)
-VALUES (:user_id, 0, 1, 0, 0, 0, 0);
+INSERT INTO user_stats (uuid, user_id, xp, level, streak_days, longest_streak, total_words_learned, total_reviews)
+VALUES (:uuid, :user_id, 0, 1, 0, 0, 0, 0);
 ```
 
 ---
@@ -3520,9 +3521,10 @@ POST /api/auth/logout
 
 ---
 
-> **文档版本**: v2.0  
-> **最后更新**: 2026-05-21  
-> **关联数据库**: word_learning v8（36 表）  
+> **文档版本**: v2.1  
+> **最后更新**: 2026-05-22  
+> **关联数据库**: word_learning v8（36 表，INT AUTO_INCREMENT PK + UUID 双键）  
 > **修改记录**:  
 >   - v1.0: 初版，按页面列出接口路径与 SQL  
->   - v2.0: 增加统一响应格式、错误码、每个接口的请求参数表（含位置/类型/必填/说明）、响应字段表、完整 SQL（含参数绑定 `:param` 写法）
+>   - v2.0: 增加统一响应格式、错误码、每个接口的请求参数表（含位置/类型/必填/说明）、响应字段表、完整 SQL（含参数绑定 `:param` 写法）  
+>   - v2.1: 数据库迁移 INT AUTO_INCREMENT PK + UUID CHAR(36) UNIQUE；所有 SQL 中 `id` PK 列改为 `uuid` 列用于外部查询，INSERT 中的 `UUID()` 改为 `:uuid` 参数；API 契约保持不变

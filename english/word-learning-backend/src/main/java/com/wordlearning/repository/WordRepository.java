@@ -10,9 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface WordRepository extends JpaRepository<Word, String> {
+public interface WordRepository extends JpaRepository<Word, Long> {
     Optional<Word> findByWord(String word);
     List<Word> findByWordStartingWith(String prefix, Pageable p);
-    List<Word> findByPosAndIdNot(String pos, String id, Pageable p);
+    List<Word> findByPosAndIdNot(String pos, Long id, Pageable p);
     List<Word> findByStageAndNextReviewLessThanEqual(int stage, LocalDateTime time, Pageable p);
+    Optional<Word> findByUuid(String uuid);
 }

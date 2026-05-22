@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface UserDailyPlanEntryRepository extends JpaRepository<UserDailyPlanEntry, String> {
-    List<UserDailyPlanEntry> findByUserIdAndPlanDateOrderBySortOrder(String userId, LocalDate date);
+public interface UserDailyPlanEntryRepository extends JpaRepository<UserDailyPlanEntry, Long> {
+    List<UserDailyPlanEntry> findByUserIdAndPlanDateOrderBySortOrder(Long userId, LocalDate date);
+    Optional<UserDailyPlanEntry> findByUuid(String uuid);
 }

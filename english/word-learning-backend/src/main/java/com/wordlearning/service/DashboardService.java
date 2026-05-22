@@ -4,7 +4,9 @@ import com.wordlearning.dto.response.DashboardResponse;
 import com.wordlearning.entity.Article;
 import com.wordlearning.entity.DailyRecommendation;
 import com.wordlearning.entity.ReadingProgress;
+import com.wordlearning.entity.User;
 import com.wordlearning.entity.Word;
+import com.wordlearning.exception.ResourceNotFoundException;
 import com.wordlearning.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class DashboardService {
 
+    private final UserRepository userRepository;
     private final UserStatRepository userStatRepository;
     private final LearningActivityRepository learningActivityRepository;
     private final UserSettingRepository userSettingRepository;
@@ -39,12 +42,16 @@ public class DashboardService {
 
     @Transactional(readOnly = true)
     public DashboardResponse getDashboard(String userId) {
-        var stat = userStatRepository.findByUserId(userId).orElse(null);
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Long uid = user.getId();
+
+        var stat = userStatRepository.findByUserId(uid).orElse(null);
 
         LocalDate today = LocalDate.now();
-        var activity = learningActivityRepository.findByUserIdAndActivityDate(userId, today).orElse(null);
+        var activity = learningActivityRepository.findByUserIdAndActivityDate(uid, today).orElse(null);
 
-        var settings = userSettingRepository.findByUserId(userId);
+        var settings = userSettingRepository.findByUserId(uid);
         int dailyGoal = settings.stream()
                 .filter(s -> "daily_goal".equals(s.getSettingKey()))
                 .findFirst()
@@ -58,33 +65,46 @@ public class DashboardService {
         int pct = dailyGoal > 0 ? (int) ((double) wordsStudied / dailyGoal * 100) : 0;
 
         var recommendations = dailyRecommendationRepository
-                .findByUserIdAndRecommendDateAndIsConsumedFalseOrderByReason(userId, today);
+                .findByUserIdAndRecommendDateAndIsConsumedFalseOrderByReason(uid, today);
 
-        List<String> wordIds = recommendations.stream()
+        List<Long> entityIds = recommendations.stream()
                 .map(DailyRecommendation::getEntityId)
                 .toList();
-        List<Word> words = wordRepository.findAllById(wordIds);
-        Map<String, String> wordTextMap = words.stream()
-                .collect(Collectors.toMap(Word::getId, Word::getWord));
+
+        Map<Long, String> wordTextMap = new java.util.HashMap<>();
+        Map<Long, String> wordUuidMap = new java.util.HashMap<>();
+        if (!entityIds.isEmpty()) {
+            List<Word> words = entityManager.createQuery(
+                            "SELECT w FROM Word w WHERE w.id IN :ids", Word.class)
+                    .setParameter("ids", entityIds)
+                    .getResultList();
+            for (Word w : words) {
+                wordTextMap.put(w.getId(), w.getWord());
+                wordUuidMap.put(w.getId(), w.getUuid());
+            }
+        }
 
         List<DashboardResponse.Recommendation> recList = recommendations.stream()
-                .map(r -> DashboardResponse.Recommendation.builder()
-                        .id(r.getId())
-                        .entityType(r.getEntityType())
-                        .entityId(r.getEntityId())
-                        .word(wordTextMap.getOrDefault(r.getEntityId(), ""))
-                        .reason(r.getReason())
-                        .isConsumed(r.isConsumed())
-                        .build())
+                .map(r -> {
+                    Long eid = r.getEntityId();
+                    return DashboardResponse.Recommendation.builder()
+                            .id(r.getUuid())
+                            .entityType(r.getEntityType())
+                            .entityId(wordUuidMap.getOrDefault(eid, String.valueOf(eid)))
+                            .word(wordTextMap.getOrDefault(eid, ""))
+                            .reason(r.getReason())
+                            .isConsumed(r.isConsumed())
+                            .build();
+                })
                 .toList();
 
         @SuppressWarnings("unchecked")
         int wrongWordCount = ((List<Object[]>) (List<?>) reviewLogRepository.countWrongWordsByUser(
-                userId, PageRequest.of(0, 100))).size();
+                uid, PageRequest.of(0, 100))).size();
 
         List<Article> allArticles = articleRepository.findAll();
-        Set<String> articlesWithProgress = readingProgressRepository.findAll().stream()
-                .filter(rp -> rp.getUserId().equals(userId))
+        Set<Long> articlesWithProgress = readingProgressRepository.findAll().stream()
+                .filter(rp -> rp.getUserId().equals(uid))
                 .map(ReadingProgress::getArticleId)
                 .collect(Collectors.toSet());
         long unreadArticleCount = allArticles.stream()
@@ -131,9 +151,11 @@ public class DashboardService {
     }
 
     public void consumeRecommendation(String userId, String recId) {
-        DailyRecommendation rec = dailyRecommendationRepository.findById(recId)
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        DailyRecommendation rec = dailyRecommendationRepository.findByUuid(recId)
                 .orElseThrow(() -> new RuntimeException("Recommendation not found: " + recId));
-        if (!rec.getUserId().equals(userId)) {
+        if (!rec.getUserId().equals(user.getId())) {
             throw new RuntimeException("Unauthorized");
         }
         rec.setConsumed(true);
