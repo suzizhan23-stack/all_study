@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface DailyPlanItemRepository extends JpaRepository<DailyPlanItem, Long> {
     List<DailyPlanItem> findByUserIdAndPlanDateOrderBySortOrder(Long userId, LocalDate date);
+    List<DailyPlanItem> findByUserId(Long userId);
     Optional<DailyPlanItem> findByUuid(String uuid);
 }

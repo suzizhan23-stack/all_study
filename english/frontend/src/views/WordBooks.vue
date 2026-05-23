@@ -61,12 +61,12 @@
             <label>词性：</label>
             <button
               v-for="cat in store.posCategories"
-              :key="cat"
+              :key="cat.value"
               class="btn btn-sm"
-              :class="{ 'btn-primary': selectedPos === cat }"
+              :class="{ 'btn-primary': selectedPos.includes(cat.value) }"
               @click="togglePos(cat)"
-            >{{ cat }}</button>
-            <button v-if="selectedPos" class="btn btn-sm" @click="selectedPos = ''">清除</button>
+            >{{ cat.label }}</button>
+            <button v-if="selectedPos.length" class="btn btn-sm" @click="selectedPos = []; currentPage = 1; fetchWords()">清除</button>
           </div>
           <div class="filter-group" style="margin-top:8px">
             <label>首字母：</label>
@@ -110,6 +110,11 @@
             </tr>
           </tbody>
         </table>
+        <div class="pagination" v-if="totalPages > 1">
+          <button class="btn btn-sm" :disabled="currentPage <= 1" @click="goPage(currentPage - 1)">上一页</button>
+          <span class="page-info">第 {{ currentPage }} / {{ totalPages }} 页</span>
+          <button class="btn btn-sm" :disabled="currentPage >= totalPages" @click="goPage(currentPage + 1)">下一页</button>
+        </div>
         <div v-if="!store.currentBookWords || !store.currentBookWords.length" class="empty-state" style="padding:40px">
           <p>暂无匹配的词条</p>
         </div>
@@ -133,12 +138,14 @@ const router = useRouter()
 const store = useWordBookStore()
 
 const selectedBook = ref('')
-const selectedPos = ref('')
+const selectedPos = ref([])
 const selectedLetter = ref('')
 const selectedStrategy = ref('')
 const dailyCount = ref(10)
 const loading = ref(false)
 const todayEntries = ref(new Set())
+const currentPage = ref(1)
+const pageSize = 20
 
 const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
@@ -170,19 +177,42 @@ const strategyPreview = computed(() => {
 
 async function fetchWords() {
   if (!selectedBook.value) return
+  const posValues = selectedPos.value.map(v => {
+    const cat = store.posCategories.find(c => c.value === v)
+    return cat ? cat.posList : [v]
+  }).flat().join(',')
   await store.fetchBookWords(selectedBook.value, {
-    pos: selectedPos.value || undefined,
+    pos: posValues || undefined,
     letter: selectedLetter.value || undefined,
-    page: 1,
-    size: 50,
+    page: currentPage.value,
+    size: pageSize,
   })
 }
 
 function togglePos(cat) {
-  selectedPos.value = selectedPos.value === cat ? '' : cat
+  const idx = selectedPos.value.indexOf(cat.value)
+  if (idx >= 0) {
+    selectedPos.value.splice(idx, 1)
+  } else {
+    selectedPos.value.push(cat.value)
+  }
+  currentPage.value = 1
+  fetchWords()
 }
 function toggleLetter(l) {
   selectedLetter.value = selectedLetter.value === l ? '' : l
+  currentPage.value = 1
+  fetchWords()
+}
+
+const totalPages = computed(() =>
+  store.currentBookPagination ? store.currentBookPagination.totalPages : 0
+)
+
+function goPage(p) {
+  if (p < 1 || p > totalPages.value) return
+  currentPage.value = p
+  fetchWords()
 }
 function levelBadge(level) {
   if (level === 'CET-4') return 'badge-green'
@@ -242,12 +272,10 @@ onMounted(async () => {
 })
 
 watch(selectedBook, () => {
+  currentPage.value = 1
   fetchWords()
 })
 
-watch([selectedPos, selectedLetter], () => {
-  fetchWords()
-})
 </script>
 
 <style scoped>
@@ -308,4 +336,9 @@ watch([selectedPos, selectedLetter], () => {
 }
 .btn-add:hover { background: var(--color-primary); color: #fff; }
 .check-tag { font-size: 18px; color: var(--color-success); font-weight: 700; }
+.pagination {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 16px 0;
+}
+.page-info { font-size: 14px; color: var(--color-text-secondary); }
 </style>

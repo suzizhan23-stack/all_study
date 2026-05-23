@@ -16,6 +16,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +28,40 @@ public class ReviewService {
     private final ReviewLogRepository reviewLogRepository;
     private final LearningActivityRepository learningActivityRepository;
     private final UserStatRepository userStatRepository;
+    private final UserDailyPlanEntryRepository userDailyPlanEntryRepository;
+    private final DailyPlanItemRepository dailyPlanItemRepository;
 
     @Transactional(readOnly = true)
     public ReviewQueueResponse getQueue(String userId, String mode, int limit, String source) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         LocalDateTime now = LocalDateTime.now();
+
+        // 1. Words due for review (have been reviewed before, nextReview is past)
         List<Word> dueWords = wordRepository.findByStageAndNextReviewLessThanEqual(0, now,
                 PageRequest.of(0, limit));
+
+        Set<Long> wordIds = dueWords.stream().map(Word::getId).collect(Collectors.toSet());
+
+        // 2. Words in the user's plan entries that haven't been completed yet
+        List<Long> planWordIds = new ArrayList<>();
+        userDailyPlanEntryRepository.findByUserId(user.getId()).stream()
+                .filter(e -> !e.isCompleted())
+                .map(UserDailyPlanEntry::getWordId)
+                .filter(id -> !wordIds.contains(id))
+                .forEach(planWordIds::add);
+        dailyPlanItemRepository.findByUserId(user.getId()).stream()
+                .filter(e -> !e.isCompleted())
+                .map(DailyPlanItem::getWordId)
+                .filter(id -> !wordIds.contains(id))
+                .forEach(planWordIds::add);
+
+        if (!planWordIds.isEmpty()) {
+            List<Word> planWords = wordRepository.findAllById(planWordIds.stream()
+                    .distinct().limit(limit - dueWords.size()).collect(Collectors.toList()));
+            dueWords.addAll(planWords);
+            dueWords.stream().map(Word::getId).forEach(wordIds::add);
+        }
 
         List<ReviewQueueResponse.ReviewItem> items = dueWords.stream()
                 .map(w -> ReviewQueueResponse.ReviewItem.builder()

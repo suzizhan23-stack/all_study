@@ -69,14 +69,14 @@ public class PlanController {
     }
 
     @DeleteMapping("/daily/entries/{id}")
-    public ApiResponse<Void> removePlanEntry(@PathVariable String uuid) {
+    public ApiResponse<Void> removePlanEntry(@PathVariable("id") String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         planService.removePlanEntry(userId, uuid);
         return ApiResponse.success();
     }
 
     @PutMapping("/daily/entries/{id}/complete")
-    public ApiResponse<Void> markEntryComplete(@PathVariable String uuid) {
+    public ApiResponse<Void> markEntryComplete(@PathVariable("id") String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         planService.markEntryComplete(userId, uuid);
         return ApiResponse.success();

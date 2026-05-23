@@ -1,124 +1,124 @@
 import { api } from './http'
 
 export const authApi = {
-  register: (data) => api.post('/api/auth/register', data),
-  login: (data) => api.post('/api/auth/login', data),
-  logout: () => api.post('/api/auth/logout'),
+  register: (data) => api.post('/auth/register', data),
+  login: (data) => api.post('/auth/login', data),
+  logout: () => api.post('/auth/logout'),
 }
 
 export const userApi = {
-  getProfile: () => api.get('/api/user/profile'),
-  updateProfile: (data) => api.put('/api/user/profile', data),
-  getSettings: () => api.get('/api/user/settings'),
-  updateSettings: (data) => api.put('/api/user/settings', { settings: data }),
-  getActivity: (days) => api.get('/api/user/activity', { days }),
-  getBadges: () => api.get('/api/user/badges'),
-  getDefaultStrategy: () => api.get('/api/user/default-strategy'),
-  setDefaultStrategy: (strategyId) => api.put('/api/user/default-strategy', { strategyId }),
-  updateStreak: () => api.put('/api/user/stats/streak'),
+  getProfile: () => api.get('/user/profile'),
+  updateProfile: (data) => api.put('/user/profile', data),
+  getSettings: () => api.get('/user/settings'),
+  updateSettings: (data) => api.put('/user/settings', { settings: data }),
+  getActivity: (days) => api.get('/user/activity', { days }),
+  getBadges: () => api.get('/user/badges'),
+  getDefaultStrategy: () => api.get('/user/default-strategy'),
+  setDefaultStrategy: (strategyId) => api.put('/user/default-strategy', { strategyId }),
+  updateStreak: () => api.put('/user/stats/streak'),
 }
 
 export const wordApi = {
-  getDetail: (id) => api.get(`/api/words/${id}`),
-  updateFrequency: (id, frequency) => api.put(`/api/words/${id}/frequency`, { frequency }),
-  updateNote: (id, content, isPrivate) => api.put(`/api/words/${id}/note`, { content, isPrivate }),
-  addTag: (id, tagId) => api.post(`/api/words/${id}/tags`, { tagId }),
-  removeTag: (id, tagId) => api.delete(`/api/words/${id}/tags/${tagId}`),
-  rate: (id, rating) => api.put(`/api/words/${id}/rating`, { rating }),
+  getDetail: (id) => api.get(`/words/${id}`),
+  updateFrequency: (id, frequency) => api.put(`/words/${id}/frequency`, { frequency }),
+  updateNote: (id, content, isPrivate) => api.put(`/words/${id}/note`, { content, isPrivate }),
+  addTag: (id, tagId) => api.post(`/words/${id}/tags`, { tagId }),
+  removeTag: (id, tagId) => api.delete(`/words/${id}/tags/${tagId}`),
+  rate: (id, rating) => api.put(`/words/${id}/rating`, { rating }),
 }
 
 export const searchApi = {
-  suggest: (query, limit) => api.get('/api/search/suggest', { query, limit }),
-  search: (params) => api.get('/api/search', params),
-  getHistory: (limit) => api.get('/api/search/history', { limit }),
-  saveHistory: (query, resultCount) => api.post('/api/search/history', { query, resultCount }),
-  clearHistory: () => api.delete('/api/search/history'),
+  suggest: (query, limit) => api.get('/search/suggest', { query, limit }),
+  search: (params) => api.get('/search', params),
+  getHistory: (limit) => api.get('/search/history', { limit }),
+  saveHistory: (query, resultCount) => api.post('/search/history', { query, resultCount }),
+  clearHistory: () => api.delete('/search/history'),
 }
 
 export const reviewApi = {
-  getQueue: (params) => api.get('/api/review/queue', params),
-  submitResult: (data) => api.post('/api/review/result', data),
-  getDistractors: (params) => api.get('/api/review/distractors', params),
-  getStats: () => api.get('/api/review/stats'),
+  getQueue: (params) => api.get('/review/queue', params),
+  submitResult: (data) => api.post('/review/result', data),
+  getDistractors: (params) => api.get('/review/distractors', params),
+  getStats: () => api.get('/review/stats'),
 }
 
 export const articleApi = {
-  getList: (params) => api.get('/api/articles', params),
-  getDetail: (id) => api.get(`/api/articles/${id}`),
-  updateProgress: (id, data) => api.put(`/api/articles/${id}/progress`, data),
-  complete: (id) => api.put(`/api/articles/${id}/complete`),
-  lookup: (id, word) => api.get(`/api/articles/${id}/lookup`, { word }),
+  getList: (params) => api.get('/articles', params),
+  getDetail: (id) => api.get(`/articles/${id}`),
+  updateProgress: (id, data) => api.put(`/articles/${id}/progress`, data),
+  complete: (id) => api.put(`/articles/${id}/complete`),
+  lookup: (id, word) => api.get(`/articles/${id}/lookup`, { word }),
 }
 
 export const folderApi = {
-  getList: (category) => api.get('/api/folders', { category }),
-  create: (data) => api.post('/api/folders', data),
-  update: (id, data) => api.put(`/api/folders/${id}`, data),
-  delete: (id) => api.delete(`/api/folders/${id}`),
-  reorder: (order) => api.put('/api/folders/reorder', { order }),
-  getItems: (id, params) => api.get(`/api/folders/${id}/items`, params),
+  getList: (category) => api.get('/folders', { category }),
+  create: (data) => api.post('/folders', data),
+  update: (id, data) => api.put(`/folders/${id}`, data),
+  delete: (id) => api.delete(`/folders/${id}`),
+  reorder: (order) => api.put('/folders/reorder', { order }),
+  getItems: (id, params) => api.get(`/folders/${id}/items`, params),
 }
 
 export const favoriteApi = {
-  add: (data) => api.post('/api/favorites', data),
-  remove: (id) => api.delete(`/api/favorites/${id}`),
-  batchDelete: (ids) => api.post('/api/favorites/batch-delete', { ids }),
-  batchTag: (wordIds, tagId) => api.post('/api/favorites/batch-tag', { wordIds, tagId }),
+  add: (data) => api.post('/favorites', data),
+  remove: (id) => api.delete(`/favorites/${id}`),
+  batchDelete: (ids) => api.post('/favorites/batch-delete', { ids }),
+  batchTag: (wordIds, tagId) => api.post('/favorites/batch-tag', { wordIds, tagId }),
 }
 
 export const wordBookApi = {
-  getList: (difficultyLevel) => api.get('/api/word-books', { difficultyLevel }),
-  getWords: (id, params) => api.get(`/api/word-books/${id}/words`, params),
-  getPosCategories: () => api.get('/api/word-books/pos-categories'),
+  getList: (difficultyLevel) => api.get('/word-books', { difficultyLevel }),
+  getWords: (id, params) => api.get(`/word-books/${id}/words`, params),
+  getPosCategories: () => api.get('/word-books/pos-categories'),
 }
 
 export const planApi = {
-  getActive: () => api.get('/api/plans/active'),
-  getTemplates: () => api.get('/api/plans/templates'),
-  join: (planId) => api.post('/api/plans/join', { planId }),
-  getDailyWords: (date) => api.get('/api/plans/daily/words', { date }),
-  getDailyDates: (limit) => api.get('/api/plans/daily/dates', { limit }),
-  addEntry: (data) => api.post('/api/plans/daily/entries', data),
-  deleteEntry: (id) => api.delete(`/api/plans/daily/entries/${id}`),
-  completeEntry: (id) => api.put(`/api/plans/daily/entries/${id}/complete`),
-  generate: (data) => api.post('/api/plans/daily/generate', data),
+  getActive: () => api.get('/plans/active'),
+  getTemplates: () => api.get('/plans/templates'),
+  join: (planId) => api.post('/plans/join', { planId }),
+  getDailyWords: (date) => api.get('/plans/daily/words', { date }),
+  getDailyDates: (limit) => api.get('/plans/daily/dates', { limit }),
+  addEntry: (data) => api.post('/plans/daily/entries', data),
+  deleteEntry: (id) => api.delete(`/plans/daily/entries/${id}`),
+  completeEntry: (id) => api.put(`/plans/daily/entries/${id}/complete`),
+  generate: (data) => api.post('/plans/daily/generate', data),
 }
 
 export const dashboardApi = {
-  get: () => api.get('/api/dashboard'),
-  consumeRecommendation: (id) => api.put(`/api/dashboard/recommendations/${id}/consume`),
+  get: () => api.get('/dashboard'),
+  consumeRecommendation: (id) => api.put(`/dashboard/recommendations/${id}/consume`),
 }
 
 export const leaderboardApi = {
-  get: (type, limit) => api.get('/api/leaderboard', { type, limit }),
+  get: (type, limit) => api.get('/leaderboard', { type, limit }),
 }
 
 export const wrongWordApi = {
-  getList: (params) => api.get('/api/wrong-words', params),
-  getReviewWords: (data) => api.post('/api/wrong-words/review', data),
+  getList: (params) => api.get('/wrong-words', params),
+  getReviewWords: (data) => api.post('/wrong-words/review', data),
 }
 
 export const tagApi = {
-  getList: () => api.get('/api/tags'),
-  create: (data) => api.post('/api/tags', data),
+  getList: () => api.get('/tags'),
+  create: (data) => api.post('/tags', data),
 }
 
 export const strategyApi = {
-  getList: () => api.get('/api/strategies'),
+  getList: () => api.get('/strategies'),
 }
 
 export const badgeApi = {
-  getList: () => api.get('/api/badges'),
+  getList: () => api.get('/badges'),
 }
 
 export const adminApi = {
-  getOverview: () => api.get('/api/admin/overview'),
-  getUsers: (params) => api.get('/api/admin/users', params),
-  toggleUserStatus: (id, isActive) => api.put(`/api/admin/users/${id}/status`, { isActive }),
-  getWords: (params) => api.get('/api/admin/words', params),
-  createWord: (data) => api.post('/api/admin/words', data),
-  updateWord: (id, data) => api.put(`/api/admin/words/${id}`, data),
-  deleteWord: (id) => api.delete(`/api/admin/words/${id}`),
-  batchImport: (data) => api.post('/api/admin/words/batch-import', data),
-  getFeedback: (params) => api.get('/api/admin/feedback', params),
+  getOverview: () => api.get('/admin/overview'),
+  getUsers: (params) => api.get('/admin/users', params),
+  toggleUserStatus: (id, isActive) => api.put(`/admin/users/${id}/status`, { isActive }),
+  getWords: (params) => api.get('/admin/words', params),
+  createWord: (data) => api.post('/admin/words', data),
+  updateWord: (id, data) => api.put(`/admin/words/${id}`, data),
+  deleteWord: (id) => api.delete(`/admin/words/${id}`),
+  batchImport: (data) => api.post('/admin/words/batch-import', data),
+  getFeedback: (params) => api.get('/admin/feedback', params),
 }

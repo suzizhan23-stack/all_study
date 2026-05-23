@@ -19,8 +19,8 @@
             </div>
             <div v-else class="card-back" @click="flipped = false">
               <div class="card-word">{{ currentWord.word }}</div>
-              <div class="card-phonetic phonetic">{{ currentWord.phonetic_uk }}</div>
-              <div class="card-meaning">{{ currentWord.meaning_cn }}</div>
+              <div class="card-phonetic phonetic">{{ currentWord.phoneticUk }}</div>
+              <div class="card-meaning">{{ currentWord.meaningCn }}</div>
               <div class="card-hint">点击返回</div>
             </div>
           </div>
@@ -35,7 +35,7 @@
           <div class="quiz-mode">
             <div class="quiz-question">请选择 "{{ currentWord.word }}" 的中文释义：</div>
             <div class="quiz-options">
-              <button v-for="(opt, i) in shuffledOptions" :key="i" class="btn quiz-option" :class="answered ? (opt === currentWord.meaning_cn ? 'correct' : 'wrong') : ''" :disabled="answered" @click="selectChoice(opt)">{{ opt }}</button>
+              <button v-for="(opt, i) in shuffledOptions" :key="i" class="btn quiz-option" :class="answered ? (opt === currentWord.meaningCn ? 'correct' : 'wrong') : ''" :disabled="answered" @click="selectChoice(opt)">{{ opt }}</button>
             </div>
             <button v-if="answered" class="btn btn-primary" style="margin-top:16px" @click="nextCard">下一题</button>
           </div>
@@ -44,7 +44,7 @@
         <template v-else-if="mode === 'spelling'">
           <div class="quiz-mode">
             <div class="quiz-question">拼写单词：</div>
-            <div class="quiz-hint">{{ currentWord.meaning_cn }}  / {{ currentWord.phonetic_uk }}</div>
+            <div class="quiz-hint">{{ currentWord.meaningCn }}  / {{ currentWord.phoneticUk }}</div>
             <input v-model="spellingInput" class="input spelling-input" placeholder="输入英文..." :disabled="answered" @keyup.enter="checkSpelling" />
             <div v-if="answered" class="spelling-result" :class="spellingCorrect ? 'correct' : 'wrong'">
               {{ spellingCorrect ? '✅ 正确！' : '❌ 正确答案: ' + currentWord.word }}
@@ -59,7 +59,7 @@
             <div class="quiz-question">听音辨义：</div>
             <button class="btn btn-lg" style="font-size:24px;padding:20px 40px;margin:20px 0">🔊 播放发音</button>
             <div class="quiz-options">
-              <button v-for="(opt, i) in shuffledOptions" :key="i" class="btn quiz-option" :class="answered ? (opt === currentWord.meaning_cn ? 'correct' : 'wrong') : ''" :disabled="answered" @click="selectChoice(opt)">{{ opt }}</button>
+              <button v-for="(opt, i) in shuffledOptions" :key="i" class="btn quiz-option" :class="answered ? (opt === currentWord.meaningCn ? 'correct' : 'wrong') : ''" :disabled="answered" @click="selectChoice(opt)">{{ opt }}</button>
             </div>
             <button v-if="answered" class="btn btn-primary" style="margin-top:16px" @click="nextCard">下一题</button>
           </div>

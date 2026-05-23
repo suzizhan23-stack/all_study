@@ -41,14 +41,14 @@ public class FolderController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<Void> updateFolder(@PathVariable String uuid, @RequestBody FolderRequest req) {
+    public ApiResponse<Void> updateFolder(@PathVariable("id") String uuid, @RequestBody FolderRequest req) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         favoriteService.updateFolder(userId, uuid, req);
         return ApiResponse.success();
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteFolder(@PathVariable String uuid) {
+    public ApiResponse<Void> deleteFolder(@PathVariable("id") String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         favoriteService.deleteFolder(userId, uuid);
         return ApiResponse.success();
@@ -64,7 +64,7 @@ public class FolderController {
     }
 
     @GetMapping("/{id}/items")
-    public ApiResponse<FolderItemsResponse> getFolderItems(@PathVariable String uuid,
+    public ApiResponse<FolderItemsResponse> getFolderItems(@PathVariable("id") String uuid,
                                                             @RequestParam(defaultValue = "1") int page,
                                                             @RequestParam(defaultValue = "20") int size,
                                                             @RequestParam(required = false) String sort) {

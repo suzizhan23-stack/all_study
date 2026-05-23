@@ -25,7 +25,7 @@ public class DashboardController {
     }
 
     @PutMapping("/recommendations/{id}/consume")
-    public ApiResponse<Void> consumeRecommendation(@PathVariable String uuid) {
+    public ApiResponse<Void> consumeRecommendation(@PathVariable("id") String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         dashboardService.consumeRecommendation(userId, uuid);
         return ApiResponse.success();

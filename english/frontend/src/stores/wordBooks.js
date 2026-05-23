@@ -13,14 +13,16 @@ export const useWordBookStore = defineStore('wordBooks', () => {
   async function fetchBooks(difficultyLevel) {
     loading.value = true
     try {
-      books.value = await wordBookApi.getList(difficultyLevel)
+      const data = await wordBookApi.getList(difficultyLevel)
+      books.value = data.books || data
     } finally {
       loading.value = false
     }
   }
 
   async function fetchStrategies() {
-    strategies.value = await strategyApi.getList()
+    const data = await strategyApi.getList()
+    strategies.value = data.strategies || data
   }
 
   async function fetchPosCategories() {
@@ -32,7 +34,7 @@ export const useWordBookStore = defineStore('wordBooks', () => {
     loading.value = true
     try {
       const res = await wordBookApi.getWords(id, params)
-      currentBookWords.value = res.data || res.list || res
+      currentBookWords.value = res.words || res.data || res.list || res
       currentBookPagination.value = res.pagination || res.meta || null
     } finally {
       loading.value = false

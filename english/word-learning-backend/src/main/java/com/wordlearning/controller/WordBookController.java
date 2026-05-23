@@ -28,7 +28,7 @@ public class WordBookController {
     }
 
     @GetMapping("/{id}/words")
-    public ApiResponse<WordBookWordsResponse> getWordBookWords(@PathVariable String uuid,
+    public ApiResponse<WordBookWordsResponse> getWordBookWords(@PathVariable("id") String uuid,
                                                                 @RequestParam(required = false) String pos,
                                                                 @RequestParam(required = false) String letter,
                                                                 @RequestParam(required = false) String search,
@@ -39,7 +39,7 @@ public class WordBookController {
     }
 
     @GetMapping("/pos-categories")
-    public ApiResponse<List<Map<String, String>>> getPosCategories() {
+    public ApiResponse<List<Map<String, Object>>> getPosCategories() {
         return ApiResponse.success(wordBookService.getPosCategories());
     }
 }

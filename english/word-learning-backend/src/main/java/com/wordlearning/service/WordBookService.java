@@ -189,7 +189,7 @@ public class WordBookService {
     private List<WordBookWordsResponse.PosCategory> getPosCategoriesFromWords(Long bookId) {
         Map<String, List<String>> categoryMap = new LinkedHashMap<>();
         categoryMap.put("名词", Arrays.asList("n.", "n", "noun"));
-        categoryMap.put("动词", Arrays.asList("v.", "v", "verb", "vt.", "vi."));
+        categoryMap.put("动词", Arrays.asList("v.", "v", "verb", "vt.", "vi.", "vt. & vi.", "vi. & vt."));
         categoryMap.put("形容词", Arrays.asList("adj.", "adj", "adjective"));
         categoryMap.put("副词", Arrays.asList("adv.", "adv", "adverb"));
         categoryMap.put("代词", Arrays.asList("pron.", "pron", "pronoun"));
@@ -229,33 +229,34 @@ public class WordBookService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, String>> getPosCategories() {
-        List<Map<String, String>> categories = new ArrayList<>();
+    public List<Map<String, Object>> getPosCategories() {
+        List<Map<String, Object>> categories = new ArrayList<>();
 
-        Map<String, String> all = new LinkedHashMap<>();
+        Map<String, Object> all = new LinkedHashMap<>();
         all.put("label", "全部");
         all.put("value", "all");
         categories.add(all);
 
-        addCategory(categories, "名词", "n.");
-        addCategory(categories, "动词", "v.");
-        addCategory(categories, "形容词", "adj.");
-        addCategory(categories, "副词", "adv.");
-        addCategory(categories, "代词", "pron.");
-        addCategory(categories, "介词", "prep.");
-        addCategory(categories, "连词", "conj.");
-        addCategory(categories, "冠词", "art.");
-        addCategory(categories, "感叹词", "interj.");
-        addCategory(categories, "数词", "num.");
-        addCategory(categories, "其他", "other");
+        addCategory(categories, "名词", "n.", Arrays.asList("n.", "n", "noun"));
+        addCategory(categories, "动词", "v.", Arrays.asList("v.", "v", "verb", "vt.", "vi.", "vt. & vi.", "vi. & vt."));
+        addCategory(categories, "形容词", "adj.", Arrays.asList("adj.", "adj", "adjective"));
+        addCategory(categories, "副词", "adv.", Arrays.asList("adv.", "adv", "adverb"));
+        addCategory(categories, "代词", "pron.", Arrays.asList("pron.", "pron", "pronoun"));
+        addCategory(categories, "介词", "prep.", Arrays.asList("prep.", "prep", "preposition"));
+        addCategory(categories, "连词", "conj.", Arrays.asList("conj.", "conj", "conjunction"));
+        addCategory(categories, "冠词", "art.", Arrays.asList("art.", "art", "article"));
+        addCategory(categories, "感叹词", "interj.", Arrays.asList("interj.", "interj", "interjection"));
+        addCategory(categories, "数词", "num.", Arrays.asList("num.", "num", "numeral"));
+        addCategory(categories, "其他", "other", Arrays.asList("phrase", "other"));
 
         return categories;
     }
 
-    private void addCategory(List<Map<String, String>> list, String label, String value) {
-        Map<String, String> item = new LinkedHashMap<>();
+    private void addCategory(List<Map<String, Object>> list, String label, String value, List<String> posList) {
+        Map<String, Object> item = new LinkedHashMap<>();
         item.put("label", label);
         item.put("value", value);
+        item.put("posList", posList);
         list.add(item);
     }
 

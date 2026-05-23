@@ -44,7 +44,7 @@ public class AdminController {
     }
 
     @PutMapping("/users/{id}/status")
-    public ApiResponse<Void> toggleUserStatus(@PathVariable String uuid, @RequestBody Map<String, Object> body) {
+    public ApiResponse<Void> toggleUserStatus(@PathVariable("id") String uuid, @RequestBody Map<String, Object> body) {
         adminService.toggleUserStatus(uuid, (boolean) body.get("isActive"));
         return ApiResponse.success();
     }
@@ -63,12 +63,12 @@ public class AdminController {
     }
 
     @PutMapping("/words/{id}")
-    public ApiResponse<Word> updateWord(@PathVariable String uuid, @RequestBody Word word) {
+    public ApiResponse<Word> updateWord(@PathVariable("id") String uuid, @RequestBody Word word) {
         return ApiResponse.success(adminService.updateWord(uuid, word));
     }
 
     @DeleteMapping("/words/{id}")
-    public ApiResponse<Void> deleteWord(@PathVariable String uuid) {
+    public ApiResponse<Void> deleteWord(@PathVariable("id") String uuid) {
         adminService.deleteWord(uuid);
         return ApiResponse.success();
     }

@@ -10,8 +10,8 @@
       <div>
         <h1 class="word-title">{{ word.word }}</h1>
         <div class="word-meta">
-          <span class="phonetic">UK {{ word.phonetic_uk }}</span>
-          <span class="phonetic" style="margin-left:12px">US {{ word.phonetic_us }}</span>
+          <span class="phonetic">UK {{ word.phoneticUk }}</span>
+          <span class="phonetic" style="margin-left:12px">US {{ word.phoneticUs }}</span>
           <button class="btn btn-sm" style="margin-left:8px">🔊 UK</button>
           <button class="btn btn-sm">🔊 US</button>
         </div>
@@ -38,20 +38,25 @@
     </div>
 
     <div class="card" style="margin-top:16px">
+      <h3>词源</h3>
+      <p>{{ word.etymologyCn }}</p>
+    </div>
+
+    <div class="card" style="margin-top:16px">
       <h3>详细释义</h3>
       <div v-for="(d, i) in definitions" :key="d.id" class="def-item">
         <span class="def-num">{{ i + 1 }}</span>
         <div>
-          <div class="def-en">{{ d.meaning_en }}</div>
-          <div class="def-cn">{{ d.meaning_cn }}</div>
+          <div class="def-en">{{ d.meaningEn }}</div>
+          <div class="def-cn">{{ d.meaningCn }}</div>
         </div>
       </div>
     </div>
 
-    <div class="detail-grid" style="margin-top:16px">
-      <div class="card">
-        <h3>固定搭配</h3>
-        <div v-for="c in collocations" :key="c.id" class="list-item">
+    <div class="card" style="margin-top:16px">
+      <h3>固定搭配</h3>
+      <div class="phrase-grid">
+        <div v-for="c in collocations" :key="c.id" class="phrase-item">
           <div>
             <strong>{{ c.collocation }}</strong>
             <span class="list-trans">{{ c.translation }}</span>
@@ -59,9 +64,12 @@
           <span class="badge badge-gray">freq {{ c.frequency }}</span>
         </div>
       </div>
-      <div class="card">
-        <h3>介词模式</h3>
-        <div v-for="p in prepPatterns" :key="p.id" class="list-item">
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>介词模式</h3>
+      <div class="phrase-grid">
+        <div v-for="p in prepPatterns" :key="p.id" class="phrase-item">
           <div>
             <strong>{{ p.pattern }}</strong>
             <span class="list-trans">{{ p.translation }}</span>
@@ -74,18 +82,13 @@
     <div class="card" style="margin-top:16px">
       <h3>例句</h3>
       <div v-for="e in examples" :key="e.id" class="example-item">
-        <div class="example-en">{{ e.sentence_en }}</div>
-        <div class="example-cn">{{ e.sentence_cn }}</div>
+        <div class="example-en">{{ e.sentenceEn }}</div>
+        <div class="example-cn">{{ e.sentenceCn }}</div>
         <div class="example-meta">
-          <span v-if="e.source_detail" class="badge badge-gray">{{ e.source_detail }}</span>
+          <span v-if="e.sourceDetail" class="badge badge-gray">{{ e.sourceDetail }}</span>
           <span>👍 {{ e.frequency }}</span>
         </div>
       </div>
-    </div>
-
-    <div class="card" style="margin-top:16px">
-      <h3>词源</h3>
-      <p>{{ word.etymology_cn }}</p>
     </div>
 
     <div class="card" style="margin-top:16px">
@@ -115,7 +118,7 @@
       <h3>我的标签</h3>
       <div class="tags-wrap">
         <span v-for="t in myTags" :key="t" class="tag" :style="{ background: t.color + '20', color: t.color }">
-          #{{ t.name }}
+          #{{ t.tag }}
         </span>
         <select class="input" style="width:auto;display:inline-block;margin-left:8px">
           <option value="">+ 添加标签</option>
@@ -145,7 +148,7 @@ const store = useWordStore()
 const loading = ref(true)
 const error = ref(null)
 
-const word = computed(() => store.currentWord?.word || null)
+const word = computed(() => store.currentWord || null)
 const definitions = computed(() => store.currentWord?.definitions || [])
 const collocations = computed(() => store.currentWord?.collocations || [])
 const prepPatterns = computed(() => store.currentWord?.prepPatterns || [])
@@ -170,9 +173,9 @@ onMounted(async () => {
     if (store.currentWord) {
       const ud = store.currentWord.userData || {}
       personalFreq.value = ud.frequency ?? 50
-      isFavorited.value = ud.isFavorited ?? false
-      note.value = ud.note?.content ?? ''
-      notePublic.value = ud.note?.isPublic ?? true
+      isFavorited.value = (ud.favorites && ud.favorites.length > 0) ?? false
+      note.value = ud.notes?.content ?? ''
+      notePublic.value = ud.notes?.isPublic ?? true
       myTags.value = ud.tags || []
     }
   } catch (e) {
@@ -203,10 +206,14 @@ h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
 .def-num { width: 24px; height: 24px; border-radius: 50%; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
 .def-en { font-size: 15px; margin-bottom: 2px; }
 .def-cn { font-size: 14px; color: var(--color-text-secondary); }
-.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.list-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
-.list-item:last-child { border-bottom: none; }
-.list-trans { display: block; font-size: 13px; color: var(--color-text-secondary); }
+.list-trans { display: block; font-size: 13px; color: var(--color-text-secondary); white-space: nowrap; }
+.phrase-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.phrase-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); background: var(--color-bg);
+  font-size: 13px;
+}
 .example-item { padding: 12px 0; border-bottom: 1px solid var(--color-border); }
 .example-item:last-child { border-bottom: none; }
 .example-en { font-size: 15px; margin-bottom: 4px; }

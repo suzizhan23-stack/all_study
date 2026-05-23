@@ -35,27 +35,27 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<ArticleDetailResponse> getArticleDetail(@PathVariable String uuid) {
+    public ApiResponse<ArticleDetailResponse> getArticleDetail(@PathVariable("id") String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ApiResponse.success(articleService.getArticleDetail(userId, uuid));
     }
 
     @PutMapping("/{id}/progress")
-    public ApiResponse<Void> saveProgress(@PathVariable String uuid, @RequestBody ProgressRequest req) {
+    public ApiResponse<Void> saveProgress(@PathVariable("id") String uuid, @RequestBody ProgressRequest req) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         articleService.saveProgress(userId, uuid, req.getScrollPosition(), req.getReadingTimeSec());
         return ApiResponse.success();
     }
 
     @PutMapping("/{id}/complete")
-    public ApiResponse<Void> markComplete(@PathVariable String uuid) {
+    public ApiResponse<Void> markComplete(@PathVariable("id") String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         articleService.markComplete(userId, uuid);
         return ApiResponse.success();
     }
 
     @GetMapping("/{id}/lookup")
-    public ApiResponse<Map<String, Object>> lookupWord(@PathVariable String uuid, @RequestParam String word) {
+    public ApiResponse<Map<String, Object>> lookupWord(@PathVariable("id") String uuid, @RequestParam String word) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ApiResponse.success(articleService.lookupWord(userId, uuid, word));
     }
