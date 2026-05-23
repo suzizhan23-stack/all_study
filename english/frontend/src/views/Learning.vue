@@ -7,7 +7,7 @@
         <div class="plan-date-nav">
           <button class="btn btn-sm" :disabled="!prevDate" @click="goDate(-1)">‹ 前一天</button>
           <select v-model="selectedDate" class="input plan-date-select" @change="onDateChange">
-            <option v-for="d in planStore.availableDates" :key="d" :value="d">
+            <option v-for="d in planStore.dailyDates" :key="d" :value="d">
               {{ formatLabel(d) }}
             </option>
           </select>
@@ -16,13 +16,15 @@
       </div>
       <div class="plan-summary">
         <span v-if="isToday" class="badge badge-green">今天</span>
-        <span class="plan-count">{{ planStore.currentPlanCount }} 个单词</span>
+        <span class="plan-count">{{ planStore.dailyWords.length }} 个单词</span>
         <router-link to="/word-books" class="btn btn-sm btn-primary" style="margin-left:auto">从单词本添加</router-link>
       </div>
     </div>
 
+    <div v-if="loading" style="text-align:center;padding:40px;color:var(--color-text-secondary)">加载中...</div>
+
     <!-- 计划为空 -->
-    <div v-if="planStore.currentPlanCount === 0" class="card empty-state" style="padding:60px;text-align:center">
+    <div v-if="planStore.dailyWords.length === 0" class="card empty-state" style="padding:60px;text-align:center">
       <p style="font-size:16px;margin-bottom:12px">
         {{ isToday ? '今天还没有学习计划' : '该日期没有学习计划' }}
       </p>
@@ -30,11 +32,11 @@
         {{ isToday ? '去单词本中选择单词加入今天的计划吧' : '选择一个有计划的日期，或回到今天' }}
       </p>
       <router-link v-if="isToday" to="/word-books" class="btn btn-primary">去单词本添加 →</router-link>
-      <button v-else class="btn btn-primary" @click="selectedDate = planStore.today">回到今天</button>
+      <button v-else class="btn btn-primary" @click="goToToday()">回到今天</button>
     </div>
 
     <!-- 词性筛选 -->
-    <div v-if="planStore.currentPlanCount > 0" class="learn-filter-bar">
+    <div v-if="planStore.dailyWords.length > 0" class="learn-filter-bar">
       <button
         v-for="cat in posCategories" :key="cat.key"
         class="btn btn-sm"
@@ -42,11 +44,11 @@
         :style="activePos !== cat.key ? `border-color:${cat.color};color:${cat.color}` : ''"
         @click="activePos = activePos === cat.key ? '' : cat.key"
       >{{ cat.label }}</button>
-      <span class="filter-count">{{ filteredWords.length }}/{{ planStore.currentPlanCount }}</span>
+      <span class="filter-count">{{ filteredWords.length }}/{{ planStore.dailyWords.length }}</span>
     </div>
 
     <!-- 单词卡片列表 -->
-    <div v-if="planStore.currentPlanCount > 0" class="learn-grid">
+    <div v-if="planStore.dailyWords.length > 0" class="learn-grid">
       <div
         v-for="item in filteredWords" :key="item.id"
         class="card learn-card"
@@ -96,13 +98,16 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useDailyPlanStore } from '../stores/dailyPlan'
 
 const planStore = useDailyPlanStore()
 
 const activePos = ref('')
-const selectedDate = ref(planStore.today)
+const selectedDate = ref('')
+const loading = ref(false)
+
+const posLabels = { verb: '动词', noun: '名词', adj: '形容词', adv: '副词', prep: '介词' }
 
 const posCategories = [
   { key: 'verb', label: '动词', color: '#3b82f6' },
@@ -112,48 +117,80 @@ const posCategories = [
   { key: 'prep', label: '介词', color: '#06b6d4' },
 ]
 
-const isToday = computed(() => selectedDate.value === planStore.today)
+const today = computed(() => new Date().toISOString().slice(0, 10))
 
-const planDates = computed(() => planStore.availableDates)
+const isToday = computed(() => selectedDate.value === today.value)
 
 const prevDate = computed(() => {
-  const idx = planDates.value.indexOf(selectedDate.value)
-  return idx < planDates.value.length - 1 ? planDates.value[idx + 1] : null
+  const idx = planStore.dailyDates.indexOf(selectedDate.value)
+  return idx < planStore.dailyDates.length - 1 ? planStore.dailyDates[idx + 1] : null
 })
 
 const nextDate = computed(() => {
-  const idx = planDates.value.indexOf(selectedDate.value)
-  return idx > 0 ? planDates.value[idx - 1] : null
+  const idx = planStore.dailyDates.indexOf(selectedDate.value)
+  return idx > 0 ? planStore.dailyDates[idx - 1] : null
+})
+
+const dailyWordsMapped = computed(() => {
+  return (planStore.dailyWords || []).map(w => ({
+    ...w,
+    phonetic: w.phoneticUk || w.phonetic || '',
+    posKey: w.pos,
+    posLabel: posLabels[w.pos] || w.posLabel || w.pos || '',
+    collocations: w.collocations || [],
+    preps: w.preps || [],
+  }))
 })
 
 const filteredWords = computed(() => {
-  const words = planStore.getWordsForDate(selectedDate.value)
-  if (!activePos.value) return words
-  return words.filter(w => w.posKey === activePos.value)
+  if (!activePos.value) return dailyWordsMapped.value
+  return dailyWordsMapped.value.filter(w => w.posKey === activePos.value)
+})
+
+async function fetchPlanData(date) {
+  loading.value = true
+  try {
+    await Promise.all([
+      planStore.fetchDailyDates(30),
+      planStore.fetchDailyWords(date),
+    ])
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(async () => {
+  selectedDate.value = today.value
+  await fetchPlanData(selectedDate.value)
 })
 
 function formatLabel(dateStr) {
   const d = new Date(dateStr)
   const weekdays = ['日', '一', '二', '三', '四', '五', '六']
   const label = `${dateStr} 周${weekdays[d.getDay()]}`
-  if (dateStr === planStore.today) return label + ' (今天)'
+  if (dateStr === today.value) return label + ' (今天)'
   return label
 }
 
 function onDateChange() {
-  planStore.setSelectedDate(selectedDate.value)
+  fetchPlanData(selectedDate.value)
 }
 
 function goDate(dir) {
   const target = dir === -1 ? prevDate.value : nextDate.value
   if (target) {
     selectedDate.value = target
-    planStore.setSelectedDate(target)
+    fetchPlanData(target)
   }
 }
 
+function goToToday() {
+  selectedDate.value = today.value
+  fetchPlanData(today.value)
+}
+
 function removeFromPlan(wordId) {
-  planStore.removeWord(selectedDate.value, wordId)
+  planStore.deleteEntry(wordId)
 }
 </script>
 

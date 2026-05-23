@@ -2,58 +2,68 @@
   <div class="reader-page">
     <div class="reader-toolbar">
       <router-link to="/reading" class="btn btn-sm">← 返回列表</router-link>
-      <div class="reader-stats">查词: {{ lookupCount }} 个 | 已收藏 3 个生词</div>
+      <div class="reader-stats">查词: {{ lookupCount }} 个</div>
       <button class="btn btn-sm btn-primary" @click="markComplete">✅ 标记读完</button>
     </div>
-    <h1 class="reader-title">{{ article.title }}</h1>
-    <div class="reader-meta">{{ article.source_name }} · {{ article.date }} · {{ article.word_count }} 词</div>
-    <div class="reader-content">
-      <p v-for="(p, i) in article.paragraphs" :key="i">
-        <template v-for="(seg, j) in tokenize(p)" :key="j">
-          <span v-if="seg.type === 'word'" class="reader-word" @click="lookup(seg.text)" :title="seg.text">
-            {{ seg.text }}
-          </span>
-          <span v-else>{{ seg.text }}</span>
-        </template>
-      </p>
-    </div>
-    <div class="progress-bar reader-progress">
-      <div class="progress-bar-fill" style="width:80%"></div>
-    </div>
+    <div v-if="loading" style="text-align:center;padding:60px;color:var(--color-text-secondary)">加载中...</div>
+    <template v-else>
+      <h1 class="reader-title">{{ article.title }}</h1>
+      <div class="reader-meta">{{ article.source_name }} · {{ article.date }} · {{ article.word_count }} 词</div>
+      <div class="reader-content">
+        <p v-for="(p, i) in article.paragraphs" :key="i">
+          <template v-for="(seg, j) in tokenize(p)" :key="j">
+            <span v-if="seg.type === 'word'" class="reader-word" @click="lookup(seg.text)" :title="seg.text">
+              {{ seg.text }}
+            </span>
+            <span v-else>{{ seg.text }}</span>
+          </template>
+        </p>
+      </div>
+      <div class="progress-bar reader-progress">
+        <div class="progress-bar-fill" :style="{ width: scrollPercent + '%' }"></div>
+      </div>
+    </template>
 
     <div v-if="lookupWord" class="card lookup-popup">
       <div class="lookup-header">
         <strong>{{ lookupWord }}</strong>
-        <span class="phonetic">/əˈbændən/</span>
-        <span style="color:var(--color-text-secondary)">vt. 放弃；遗弃；抛弃</span>
+        <span v-if="lookupData?.phonetic" class="phonetic">{{ lookupData.phonetic }}</span>
+        <span v-if="lookupData?.meaning" style="color:var(--color-text-secondary)">{{ lookupData.meaning }}</span>
       </div>
       <div class="lookup-actions">
         <button class="btn btn-sm btn-primary">⭐ 收藏</button>
         <button class="btn btn-sm">📝 笔记</button>
         <button class="btn btn-sm">🔊</button>
-        <button class="btn btn-sm" @click="lookupWord = ''">关闭</button>
+        <button class="btn btn-sm" @click="lookupWord = ''; lookupData = null">关闭</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute } from 'vue-router'
+import { articleApi } from '../api'
 
+const route = useRoute()
+const articleId = computed(() => route.params.id)
+const loading = ref(true)
 const lookupWord = ref('')
-const lookupCount = ref(5)
+const lookupData = ref(null)
+const lookupCount = ref(0)
+const scrollPercent = ref(0)
 
 const article = ref({
-  title: 'The Economic Logic of Climate Policy',
-  source_name: 'The Economist',
-  date: '2024-03',
-  word_count: 1200,
-  paragraphs: [
-    'Climate change is one of the most pressing challenges of our time. The economic logic behind climate policy requires us to abandon the false choice between economic growth and environmental protection.',
-    'Many countries have already abandoned their reliance on fossil fuels and are transitioning to renewable energy sources. This shift represents one of the most significant economic transformations in human history.',
-    'Policymakers must consider the long-term costs of inaction rather than abandoning their commitments when short-term economic pressures arise.',
-  ],
+  title: '',
+  source_name: '',
+  date: '',
+  word_count: 0,
+  paragraphs: [],
 })
+
+let scrollTimer = null
+const readingTimeSec = ref(0)
+let readingTimer = null
 
 function tokenize(text) {
   const parts = []
@@ -68,14 +78,59 @@ function tokenize(text) {
   return parts
 }
 
-function lookup(word) {
+async function lookup(word) {
   lookupWord.value = word
   lookupCount.value++
+  try {
+    lookupData.value = await articleApi.lookup(articleId.value, word)
+  } catch {
+    lookupData.value = null
+  }
 }
 
-function markComplete() {
-  alert('已标记为读完！')
+async function saveProgress() {
+  try {
+    await articleApi.updateProgress(articleId.value, {
+      scrollPosition: window.scrollY,
+      readingTimeSec: readingTimeSec.value,
+    })
+  } catch {}
 }
+
+function onScroll() {
+  const scrollTop = window.scrollY
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight
+  scrollPercent.value = docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0
+  clearTimeout(scrollTimer)
+  scrollTimer = setTimeout(saveProgress, 1000)
+}
+
+async function markComplete() {
+  try {
+    await articleApi.complete(articleId.value)
+    alert('已标记为读完！')
+  } catch {}
+}
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    const data = await articleApi.getDetail(articleId.value)
+    if (data) Object.assign(article.value, data)
+    window.addEventListener('scroll', onScroll)
+    readingTimer = setInterval(() => { readingTimeSec.value++ }, 1000)
+  } catch {
+    article.value.paragraphs = []
+  } finally {
+    loading.value = false
+  }
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', onScroll)
+  clearTimeout(scrollTimer)
+  clearInterval(readingTimer)
+})
 </script>
 
 <style scoped>

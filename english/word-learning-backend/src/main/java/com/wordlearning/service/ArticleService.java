@@ -5,6 +5,7 @@ import com.wordlearning.dto.response.ArticleListResponse;
 import com.wordlearning.dto.response.PageResponse;
 import com.wordlearning.entity.Article;
 import com.wordlearning.entity.ReadingProgress;
+import com.wordlearning.entity.User;
 import com.wordlearning.entity.UserStat;
 import com.wordlearning.entity.Word;
 import com.wordlearning.exception.ResourceNotFoundException;
@@ -83,7 +84,7 @@ public class ArticleService {
                                 .build();
                     }
                     return ArticleListResponse.ArticleItem.builder()
-                            .id(a.getId())
+                            .id(a.getUuid())
                             .title(a.getTitle())
                             .author(a.getAuthor())
                             .sourceName(a.getSourceName())

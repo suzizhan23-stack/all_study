@@ -331,6 +331,7 @@ CREATE TABLE favorites (
     id              INT AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
     uuid            CHAR(36)        NOT NULL UNIQUE COMMENT '全局唯一标识',
     folder_id       INT             NOT NULL COMMENT '→ favorite_folders.id',
+    user_id         INT             NOT NULL COMMENT '→ users.id（冗余，方便直接查询）',
     entity_type     ENUM('word','collocation','prep_pattern','example','article') NOT NULL COMMENT '收藏实体类型',
     entity_id       INT             NOT NULL COMMENT '对应实体表的 id',
     note            TEXT            NULL     COMMENT '用户备注',
@@ -338,6 +339,7 @@ CREATE TABLE favorites (
     updated_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY uk_folder_entity (folder_id, entity_type, entity_id),
     INDEX idx_folder (folder_id),
+    INDEX idx_user (user_id),
     INDEX idx_entity (entity_type, entity_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收藏条目表';
 
@@ -819,8 +821,8 @@ INSERT INTO favorite_folders (uuid, user_id, name, category, is_default, sort_or
 ('a1eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 1, '地道搭配', 'phrase', 0, 2),
 ('a1eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 1, '好文收藏', 'article', 0, 3);
 
-INSERT INTO favorites (uuid, folder_id, entity_type, entity_id, note) VALUES
-('a2eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 1, 'word', 1, '高频词，需要重点掌握');
+INSERT INTO favorites (uuid, folder_id, user_id, entity_type, entity_id, note) VALUES
+('a2eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 1, 1, 'word', 1, '高频词，需要重点掌握');
 
 -- 用户自定义标签 (user_id=2 = demo)
 INSERT INTO user_tags (uuid, user_id, tag, color) VALUES

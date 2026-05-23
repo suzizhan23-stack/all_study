@@ -61,25 +61,29 @@ const store = useWordStore()
 
 const query = ref('')
 const results = ref([])
-const searchHistory = ref(store.searchHistory)
+const searchHistory = ref([])
 
-onMounted(() => {
+onMounted(async () => {
+  await store.fetchSearchHistory()
+  searchHistory.value = store.searchHistory
   if (route.query.q) {
     query.value = route.query.q
-    onSearch()
+    await onSearch()
   }
 })
 
-function onSearch() {
+async function onSearch() {
   if (!query.value.trim()) { results.value = []; return }
-  store.searchWords(query.value)
+  await store.search({ q: query.value })
   results.value = store.searchResults
   if (results.value.length) {
-    searchHistory.value.unshift({ query: query.value, searched_at: new Date().toLocaleString() })
+    await store.saveSearchHistory(query.value, results.value.length)
+    searchHistory.value = store.searchHistory
   }
 }
 
-function clearHistory() {
+async function clearHistory() {
+  await store.clearSearchHistory()
   searchHistory.value = []
 }
 </script>

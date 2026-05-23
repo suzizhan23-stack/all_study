@@ -8,6 +8,8 @@ import com.wordlearning.entity.User;
 import com.wordlearning.entity.Word;
 import com.wordlearning.exception.ResourceNotFoundException;
 import com.wordlearning.repository.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class DashboardService {
     private final ReadingProgressRepository readingProgressRepository;
     private final WordRepository wordRepository;
     private final ArticleRepository articleRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private static final Map<Integer, Integer> LEVEL_XP = Map.of(
             1, 0, 2, 100, 3, 250, 4, 500, 5, 800,

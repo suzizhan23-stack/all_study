@@ -20,56 +20,70 @@
       </div>
     </div>
 
-    <div class="grid-3">
-      <div v-for="f in folders" :key="f.id" class="card folder-card">
-        <div class="folder-icon">{{ folderIcon(f.category) }}</div>
-        <div class="folder-name">{{ f.name }}</div>
-        <div class="folder-category badge badge-blue">{{ f.category }}</div>
-        <div class="folder-count">{{ f.count }} 个条目</div>
-        <div v-if="f.is_default" class="folder-default">默认</div>
-        <div class="folder-actions">
-          <router-link :to="`/favorites/${f.id}`" class="btn btn-sm btn-primary">查看</router-link>
-          <button v-if="!f.is_default" class="btn btn-sm" @click="deleteFolder(f.id)">删除</button>
+    <div v-if="loading" style="text-align:center;padding:40px;color:var(--color-text-secondary)">加载中...</div>
+    <template v-else>
+      <div class="grid-3">
+        <div v-for="f in folders" :key="f.id" class="card folder-card">
+          <div class="folder-icon">{{ folderIcon(f.category) }}</div>
+          <div class="folder-name">{{ f.name }}</div>
+          <div class="folder-category badge badge-blue">{{ f.category }}</div>
+          <div class="folder-count">{{ f.count }} 个条目</div>
+          <div v-if="f.is_default" class="folder-default">默认</div>
+          <div class="folder-actions">
+            <router-link :to="`/favorites/${f.id}`" class="btn btn-sm btn-primary">查看</router-link>
+            <button v-if="!f.is_default" class="btn btn-sm" @click="deleteFolder(f.id)">删除</button>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { folderApi } from '../api'
 
 const showNewFolder = ref(false)
 const newFolderName = ref('')
 const newFolderCategory = ref('word')
+const loading = ref(false)
 
-const folders = ref([
-  { id: 'f1', name: '稍后复习', category: 'word', count: 12, is_default: true },
-  { id: 'f2', name: '精彩例句', category: 'example', count: 5, is_default: false },
-  { id: 'f3', name: '地道搭配', category: 'phrase', count: 8, is_default: false },
-  { id: 'f4', name: '好文收藏', category: 'article', count: 3, is_default: false },
-])
+const folders = ref([])
+
+async function fetchFolders() {
+  loading.value = true
+  try {
+    const res = await folderApi.getList()
+    folders.value = Array.isArray(res) ? res : []
+  } catch {
+    folders.value = []
+  } finally {
+    loading.value = false
+  }
+}
 
 function folderIcon(cat) {
   return { word: '📖', example: '💬', phrase: '🔗', article: '📰', other: '📁' }[cat] || '📁'
 }
 
-function createFolder() {
+async function createFolder() {
   if (!newFolderName.value.trim()) return
-  folders.value.push({
-    id: 'f' + Date.now(),
-    name: newFolderName.value,
-    category: newFolderCategory.value,
-    count: 0,
-    is_default: false,
-  })
-  newFolderName.value = ''
-  showNewFolder.value = false
+  try {
+    await folderApi.create({ name: newFolderName.value, category: newFolderCategory.value, isPublic: false })
+    newFolderName.value = ''
+    showNewFolder.value = false
+    await fetchFolders()
+  } catch {}
 }
 
-function deleteFolder(id) {
-  folders.value = folders.value.filter(f => f.id !== id)
+async function deleteFolder(id) {
+  try {
+    await folderApi.delete(id)
+    await fetchFolders()
+  } catch {}
 }
+
+onMounted(fetchFolders)
 </script>
 
 <style scoped>

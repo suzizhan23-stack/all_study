@@ -6,7 +6,13 @@
         <h2>{{ user.nickname }}</h2>
         <div class="profile-level">Lv.{{ user.level }} · {{ user.xp }} XP</div>
         <p class="profile-bio">{{ user.bio }}</p>
-        <button class="btn btn-sm">编辑资料</button>
+        <button v-if="!editing" class="btn btn-sm" @click="startEdit()">编辑资料</button>
+        <div v-else class="edit-profile">
+          <input v-model="editForm.nickname" class="input" placeholder="昵称" style="margin-bottom:8px" />
+          <input v-model="editForm.bio" class="input" placeholder="简介" style="margin-bottom:8px" />
+          <button class="btn btn-sm btn-primary" @click="saveProfile">保存</button>
+          <button class="btn btn-sm" @click="editing = false" style="margin-left:4px">取消</button>
+        </div>
         <div class="profile-email">📧 {{ user.email }}</div>
       </div>
 
@@ -21,7 +27,7 @@
         <div class="chart-placeholder">
           <div class="chart-label">近 7 天学习曲线</div>
           <div class="mini-chart">
-            <div v-for="(d, i) in weekData" :key="i" class="bar" :style="{ height: d * 2 + 'px' }" :title="d + ' 词'"></div>
+            <div v-for="(d, i) in activityData" :key="i" class="bar" :style="{ height: d * 2 + 'px' }" :title="d + ' 词'"></div>
           </div>
           <div class="chart-days">
             <span v-for="(day, i) in ['一','二','三','四','五','六','日']" :key="i">{{ day }}</span>
@@ -45,10 +51,12 @@
       <button class="btn btn-primary" style="margin-top:12px" @click="saveSettings">保存设置</button>
     </div>
 
+    <div v-if="loading" style="text-align:center;padding:40px;color:var(--color-text-secondary)">加载中...</div>
+
     <div class="card" style="margin-top:16px">
       <h3>徽章墙</h3>
       <div class="badges-grid">
-        <div v-for="b in badges" :key="b.id" class="badge-item" :class="{ 'badge-earned': b.earned, 'badge-locked': !b.earned }">
+        <div v-for="b in store.badges.list" :key="b.id" class="badge-item" :class="{ 'badge-earned': b.earned, 'badge-locked': !b.earned }">
           <div class="badge-icon">{{ b.icon }}</div>
           <div class="badge-name">{{ b.name }}</div>
           <div class="badge-status">{{ b.earned ? '已获得' : '未获得' }}</div>
@@ -60,46 +68,71 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '../stores/user'
+import { userApi } from '../api'
 
 const store = useUserStore()
 
-const user = ref({
-  nickname: store.nickname,
-  level: store.level,
-  xp: store.xp,
-  bio: store.bio,
-  email: 'demo@example.com',
-  totalWords: store.totalWordsLearned,
-  totalReviews: store.totalReviews,
-  totalHours: Math.round(store.totalTimeSpentSec / 3600 * 10) / 10,
-  streak: store.streakDays,
+const loading = ref(false)
+const editing = ref(false)
+const editForm = ref({ nickname: '', bio: '' })
+
+const user = computed(() => store.user || {})
+
+const activityData = computed(() => {
+  const data = store.activity
+  if (Array.isArray(data) && data.length) {
+    if (typeof data[0] === 'number') return data
+    if (data[0] && typeof data[0].count === 'number') return data.map(d => d.count)
+  }
+  return Array(7).fill(0)
 })
 
-const weekData = ref([12, 18, 6, 24, 15, 8, 12])
-
-const settings = ref([
-  { key: 'daily_word_goal', label: '每日目标', type: 'number', val: parseInt(store.settings.daily_word_goal) },
-  { key: 'learning_mode', label: '学习模式', type: 'select', val: store.settings.learning_mode, options: ['card', 'choice', 'spelling', 'listening'] },
-  { key: 'pronunciation', label: '发音偏好', type: 'select', val: store.settings.pronunciation, options: ['uk', 'us'] },
-  { key: 'theme', label: '主题', type: 'select', val: store.settings.theme, options: ['light', 'dark'] },
-  { key: 'reminder_time', label: '提醒时间', type: 'time', val: store.settings.reminder_time },
-  { key: 'ui_language', label: '界面语言', type: 'select', val: store.settings.ui_language, options: ['zh', 'en'] },
-])
-
-const badges = ref([
-  { id: 'b1', name: '初次学习', icon: '🎯', earned: true },
-  { id: 'b2', name: '打卡7天', icon: '🔥', earned: false },
-  { id: 'b3', name: '百词斩', icon: '💪', earned: false },
-  { id: 'b4', name: '学霸', icon: '🧠', earned: false },
-  { id: 'b5', name: '书虫', icon: '📚', earned: false },
-])
+const settings = ref([])
 
 function saveSettings() {
-  settings.value.forEach(s => store.updateSetting(s.key, s.val))
+  const data = {}
+  settings.value.forEach(s => { data[s.key] = s.val })
+  store.updateSettings(data)
   alert('设置已保存')
 }
+
+function startEdit() {
+  editForm.value = { nickname: user.value.nickname || '', bio: user.value.bio || '' }
+  editing.value = true
+}
+
+async function saveProfile() {
+  try {
+    await userApi.updateProfile(editForm.value)
+    await store.fetchProfile()
+    editing.value = false
+  } catch (e) {
+    alert('保存失败: ' + (e.message || ''))
+  }
+}
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    await Promise.all([
+      store.fetchActivity(7),
+      store.fetchBadges(),
+      store.fetchSettings(),
+    ])
+    settings.value = [
+      { key: 'daily_word_goal', label: '每日目标', type: 'number', val: parseInt(store.settings.daily_word_goal) || 10 },
+      { key: 'learning_mode', label: '学习模式', type: 'select', val: store.settings.learning_mode || 'card', options: ['card', 'choice', 'spelling', 'listening'] },
+      { key: 'pronunciation', label: '发音偏好', type: 'select', val: store.settings.pronunciation || 'uk', options: ['uk', 'us'] },
+      { key: 'theme', label: '主题', type: 'select', val: store.settings.theme || 'light', options: ['light', 'dark'] },
+      { key: 'reminder_time', label: '提醒时间', type: 'time', val: store.settings.reminder_time || '08:00' },
+      { key: 'ui_language', label: '界面语言', type: 'select', val: store.settings.ui_language || 'zh', options: ['zh', 'en'] },
+    ]
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped>

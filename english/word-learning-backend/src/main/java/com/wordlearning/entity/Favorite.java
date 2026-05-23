@@ -19,6 +19,9 @@ public class Favorite {
     @Column(name = "uuid", nullable = false, unique = true, length = 36)
     private String uuid;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     @Column(name = "folder_id", nullable = false)
     private Long folderId;
 

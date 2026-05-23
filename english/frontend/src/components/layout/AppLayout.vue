@@ -14,7 +14,14 @@
           <router-link to="/favorites" class="nav-link">收藏</router-link>
           <router-link to="/wrong-answers" class="nav-link">错题</router-link>
           <router-link to="/leaderboard" class="nav-link">排行</router-link>
-          <router-link to="/profile" class="nav-link nav-user">👤 演示用户</router-link>
+          <template v-if="userStore.isLoggedIn && userStore.user">
+            <router-link to="/profile" class="nav-link nav-user">
+              <img v-if="userStore.user.avatar" :src="userStore.user.avatar" class="user-avatar" />
+              {{ userStore.user.nickname || userStore.user.username }}
+            </router-link>
+            <button class="nav-link" @click="logout">退出</button>
+          </template>
+          <router-link v-else to="/login" class="nav-link nav-user">登录</router-link>
         </nav>
       </div>
     </header>
@@ -25,16 +32,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../../stores/user'
 
 const router = useRouter()
+const userStore = useUserStore()
 const searchQuery = ref('')
+
+onMounted(() => {
+  userStore.fetchProfile()
+})
 
 function doSearch() {
   if (searchQuery.value.trim()) {
     router.push({ path: '/search', query: { q: searchQuery.value.trim() } })
   }
+}
+
+function logout() {
+  userStore.logout()
+  router.push('/login')
 }
 </script>
 

@@ -2,10 +2,15 @@
   <div class="leaderboard-page">
     <h2 style="margin-bottom:16px">🏆 排行榜</h2>
     <div class="lb-tabs" style="margin-bottom:16px">
-      <button class="btn btn-primary btn-sm">🏅 总榜</button>
-      <button class="btn btn-sm">🔥 周榜</button>
-      <button class="btn btn-sm">👥 好友</button>
+      <button
+        v-for="tab in tabs" :key="tab.key"
+        class="btn btn-sm"
+        :class="{ 'btn-primary': activeTab === tab.key }"
+        @click="switchTab(tab.key)"
+      >{{ tab.label }}</button>
+      <span v-if="myRank" style="margin-left:auto;font-size:14px;color:var(--color-text-secondary)">你的排名: #{{ myRank.rank || myRank }}</span>
     </div>
+    <div v-if="loading" style="text-align:center;padding:40px;color:var(--color-text-secondary)">加载中...</div>
     <table class="table">
       <thead>
         <tr>
@@ -38,20 +43,50 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useUserStore } from '../stores/user'
+import { leaderboardApi } from '../api'
 
-const currentUserId = 'u2'
+const store = useUserStore()
 
-const rankings = ref([
-  { id: 'u1', username: 'admin', avatar: '👑', level: 12, xp: 2450, streak: 15, accuracy: 89 },
-  { id: 'u2', username: 'demo', avatar: '👤', level: 5, xp: 320, streak: 3, accuracy: 75 },
-  { id: 'u3', username: 'user1', avatar: '😊', level: 4, xp: 280, streak: 5, accuracy: 82 },
-  { id: 'u4', username: 'user2', avatar: '😎', level: 3, xp: 150, streak: 2, accuracy: 70 },
-])
+const currentUserId = ref('')
+const rankings = ref([])
+const myRank = ref(null)
+const activeTab = ref('global')
+const loading = ref(false)
+
+const tabs = [
+  { key: 'global', label: '🏅 总榜' },
+  { key: 'weekly', label: '🔥 周榜' },
+  { key: 'friends', label: '👥 好友' },
+]
+
+async function fetchLeaderboard(type) {
+  loading.value = true
+  try {
+    const res = await leaderboardApi.get(type, 100)
+    rankings.value = res.list || res.data || res || []
+    myRank.value = res.myRank || null
+    currentUserId.value = store.user?.id || ''
+  } catch {
+    rankings.value = []
+  } finally {
+    loading.value = false
+  }
+}
+
+function switchTab(tab) {
+  activeTab.value = tab
+  fetchLeaderboard(tab)
+}
 
 function medal(rank) {
   return rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : ''
 }
+
+onMounted(async () => {
+  await fetchLeaderboard('global')
+})
 </script>
 
 <style scoped>

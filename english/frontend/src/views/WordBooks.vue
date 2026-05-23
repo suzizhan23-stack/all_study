@@ -18,7 +18,9 @@
       </div>
     </div>
 
-    <!-- 当前选中的单词本 -->
+    <div v-if="loading" style="text-align:center;padding:40px;color:var(--color-text-secondary)">加载中...</div>
+
+  <!-- 当前选中的单词本 -->
     <template v-if="currentBook">
       <!-- 开始学习面板：选择策略 + 每日数量 -->
       <div class="card" style="margin-bottom:16px">
@@ -69,7 +71,7 @@
           <div class="filter-group" style="margin-top:8px">
             <label>首字母：</label>
             <button
-              v-for="l in store.letters"
+              v-for="l in letters"
               :key="l"
               class="btn btn-sm letter-btn"
               :class="{ 'btn-primary': selectedLetter === l }"
@@ -84,31 +86,31 @@
       <div class="card" style="margin-bottom:16px">
         <div class="preview-header">
           <h3>{{ currentBook.name }} · 预览</h3>
-          <span class="preview-count">{{ filteredWords.length }} 个词</span>
+            <span class="preview-count">{{ (store.currentBookWords || []).length }} 个词</span>
         </div>
         <table class="table">
           <thead>
             <tr><th>#</th><th>单词</th><th>词性</th><th>释义</th><th>首字母</th><th>难度</th><th>操作</th></tr>
           </thead>
           <tbody>
-            <tr v-for="(w, i) in filteredWords" :key="w.id">
+            <tr v-for="(w, i) in store.currentBookWords" :key="w.id">
               <td>{{ i + 1 }}</td>
               <td>
                 <router-link :to="`/word/${w.id}`" class="word-link">{{ w.word }}</router-link>
-                <span v-if="planCount(w.word) > 0" class="plan-count-badge" :title="`已加入 ${planCount(w.word)} 次`">{{ planCount(w.word) }}</span>
+                <span v-if="planCount(w.id) > 0" class="plan-count-badge" :title="`已加入 ${planCount(w.id)} 次`">{{ planCount(w.id) }}</span>
               </td>
               <td><span class="badge badge-blue">{{ w.pos }}</span></td>
               <td>{{ w.meaning_cn }}</td>
               <td><span class="badge badge-gray">{{ w.first_letter }}</span></td>
               <td>{{ '⭐'.repeat(w.difficulty) }}</td>
               <td class="action-cell">
-                <button v-if="!inToday(w.word)" class="btn-add" title="加入学习计划" @click="addToPlan(w.word)">+</button>
+                <button v-if="!inToday(w.id)" class="btn-add" title="加入学习计划" @click="addToPlan(w)">+</button>
                 <span v-else class="check-tag">✓</span>
               </td>
             </tr>
           </tbody>
         </table>
-        <div v-if="!filteredWords.length" class="empty-state" style="padding:40px">
+        <div v-if="!store.currentBookWords || !store.currentBookWords.length" class="empty-state" style="padding:40px">
           <p>暂无匹配的词条</p>
         </div>
       </div>
@@ -122,20 +124,23 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useWordBookStore } from '../stores/wordBooks'
-import { useDailyPlanStore } from '../stores/dailyPlan'
+import { planApi } from '../api'
 
 const router = useRouter()
 const store = useWordBookStore()
-const planStore = useDailyPlanStore()
 
-const selectedBook = ref('wb1')
+const selectedBook = ref('')
 const selectedPos = ref('')
 const selectedLetter = ref('')
-const selectedStrategy = ref('s1')
+const selectedStrategy = ref('')
 const dailyCount = ref(10)
+const loading = ref(false)
+const todayEntries = ref(new Set())
+
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 const toast = ref({ show: false, msg: '', type: 'success' })
 let toastTimer = null
@@ -149,40 +154,8 @@ function showToast(msg, type = 'success') {
 const currentBook = computed(() => store.books.find(b => b.id === selectedBook.value))
 const currentStrategy = computed(() => store.strategies.find(s => s.id === selectedStrategy.value))
 
-const sampleData = [
-  { word: 'abandon', pos: 'vt.', meaning: '放弃', letter: 'A', diff: 2 },
-  { word: 'remarkable', pos: 'adj.', meaning: '显著的', letter: 'R', diff: 3 },
-  { word: 'contribute', pos: 'v.', meaning: '贡献', letter: 'C', diff: 2 },
-  { word: 'significant', pos: 'adj.', meaning: '重要的', letter: 'S', diff: 3 },
-  { word: 'approach', pos: 'v.', meaning: '接近', letter: 'A', diff: 1 },
-  { word: 'demonstrate', pos: 'vt.', meaning: '证明', letter: 'D', diff: 3 },
-  { word: 'establish', pos: 'vt.', meaning: '建立', letter: 'E', diff: 2 },
-  { word: 'fundamental', pos: 'adj.', meaning: '基本的', letter: 'F', diff: 3 },
-  { word: 'generate', pos: 'vt.', meaning: '产生', letter: 'G', diff: 2 },
-  { word: 'hypothesis', pos: 'n.', meaning: '假设', letter: 'H', diff: 4 },
-]
-
-const allPreviewWords = computed(() => {
-  return Array.from({ length: 30 }, (_, i) => {
-    const s = sampleData[i % sampleData.length]
-    return { id: `preview-${i}`, ...s }
-  })
-})
-
-const filteredWords = computed(() => {
-  let result = allPreviewWords.value
-  if (selectedPos.value) {
-    const posPatterns = store.posMap[selectedPos.value] || []
-    result = result.filter(w => posPatterns.includes(w.pos))
-  }
-  if (selectedLetter.value) {
-    result = result.filter(w => w.first_letter === selectedLetter.value)
-  }
-  return result
-})
-
 const strategyPreview = computed(() => {
-  if (!currentStrategy.value) return ''
+  if (!currentStrategy.value || !currentBook.value) return ''
   const type = currentStrategy.value.type
   const parts = [`从「${currentBook.value.name}」中`]
   if (type === 'random') parts.push('完全随机抽取')
@@ -194,6 +167,16 @@ const strategyPreview = computed(() => {
   parts.push(`，每日 ${dailyCount.value} 词`)
   return parts.join('')
 })
+
+async function fetchWords() {
+  if (!selectedBook.value) return
+  await store.fetchBookWords(selectedBook.value, {
+    pos: selectedPos.value || undefined,
+    letter: selectedLetter.value || undefined,
+    page: 1,
+    size: 50,
+  })
+}
 
 function togglePos(cat) {
   selectedPos.value = selectedPos.value === cat ? '' : cat
@@ -210,17 +193,61 @@ function levelBadge(level) {
 function startLearning() {
   router.push('/review')
 }
-function planCount(word) {
-  return planStore.wordPlanCount(word)
+
+async function fetchTodayEntries() {
+  const today = new Date().toISOString().slice(0, 10)
+  try {
+    const words = await planApi.getDailyWords(today)
+    todayEntries.value = new Set((words || []).map(w => w.id))
+  } catch {
+    todayEntries.value = new Set()
+  }
 }
-function inToday(word) {
-  return planStore.isInTodayPlan(word)
+
+function planCount(wordId) {
+  return todayEntries.value.has(wordId) ? 1 : 0
 }
-function addToPlan(word) {
-  const ok = planStore.addWord(word)
-  if (ok) showToast(`已将「${word}」加入今天的学习计划`, 'success')
-  else showToast(`「${word}」已在今天的学习计划中`, 'warning')
+
+function inToday(wordId) {
+  return todayEntries.value.has(wordId)
 }
+
+async function addToPlan(w) {
+  const today = new Date().toISOString().slice(0, 10)
+  try {
+    await planApi.addEntry({ wordId: w.id, planDate: today })
+    todayEntries.value.add(w.id)
+    showToast(`已将「${w.word}」加入今天的学习计划`, 'success')
+  } catch {
+    showToast(`「${w.word}」已在今天的学习计划中`, 'warning')
+  }
+}
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    await Promise.all([
+      store.fetchBooks(),
+      store.fetchStrategies(),
+      store.fetchPosCategories(),
+      fetchTodayEntries(),
+    ])
+    if (store.books.length) {
+      selectedBook.value = store.books[0].id
+      selectedStrategy.value = store.strategies[0]?.id || ''
+    }
+  } finally {
+    loading.value = false
+  }
+})
+
+watch(selectedBook, () => {
+  fetchWords()
+})
+
+watch([selectedPos, selectedLetter], () => {
+  fetchWords()
+})
 </script>
 
 <style scoped>

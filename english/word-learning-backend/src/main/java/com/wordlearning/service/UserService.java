@@ -68,7 +68,7 @@ public class UserService {
                 .totalReviews((int) totalReviews)
                 .totalTimeSpentSec(stat != null ? stat.getTotalTimeSpentSec() : 0)
                 .accuracy(accuracy)
-                .defaultStrategyId(user.getDefaultStrategyId())
+                .defaultStrategyId(user.getDefaultStrategyId() != null ? String.valueOf(user.getDefaultStrategyId()) : null)
                 .createdAt(user.getCreatedAt() != null ? user.getCreatedAt().toString() : null)
                 .build();
     }

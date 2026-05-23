@@ -1,5 +1,11 @@
 <template>
-  <div class="word-detail" v-if="word">
+  <div class="word-detail" v-if="loading">
+    <div class="card" style="text-align:center;padding:40px">加载中...</div>
+  </div>
+  <div class="word-detail" v-else-if="error">
+    <div class="card" style="text-align:center;padding:40px;color:var(--color-danger)">{{ error }}</div>
+  </div>
+  <div class="word-detail" v-else-if="word">
     <div class="detail-header">
       <div>
         <h1 class="word-title">{{ word.word }}</h1>
@@ -129,28 +135,58 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { useWordStore } from '../stores/words'
 
+const route = useRoute()
 const store = useWordStore()
-const word = ref(store.sampleWord)
-const definitions = ref(store.sampleDefinitions)
-const collocations = ref(store.sampleCollocations)
-const prepPatterns = ref(store.samplePrepPatterns)
-const examples = ref(store.sampleExamples)
-const relations = ref(store.sampleRelations)
 
-const personalFreq = ref(72)
+const loading = ref(true)
+const error = ref(null)
+
+const word = computed(() => store.currentWord?.word || null)
+const definitions = computed(() => store.currentWord?.definitions || [])
+const collocations = computed(() => store.currentWord?.collocations || [])
+const prepPatterns = computed(() => store.currentWord?.prepPatterns || [])
+const examples = computed(() => store.currentWord?.examples || [])
+const relations = computed(() => store.currentWord?.relations || { synonyms: [], antonyms: [] })
+
+const personalFreq = ref(50)
 const isFavorited = ref(false)
-const note = ref('这个词在考研阅读里出现过好几次，注意它和 desert, give up 的区别。')
+const note = ref('')
 const notePublic = ref(true)
+const myTags = ref([])
 
-const myTags = ref([
-  { name: '写作词汇', color: '#FF5733' },
-  { name: '考试必备', color: '#3357FF' },
-])
+onMounted(async () => {
+  const id = route.params.id
+  if (!id) {
+    error.value = '缺少单词 ID'
+    loading.value = false
+    return
+  }
+  try {
+    await store.fetchWordDetail(id)
+    if (store.currentWord) {
+      const ud = store.currentWord.userData || {}
+      personalFreq.value = ud.frequency ?? 50
+      isFavorited.value = ud.isFavorited ?? false
+      note.value = ud.note?.content ?? ''
+      notePublic.value = ud.note?.isPublic ?? true
+      myTags.value = ud.tags || []
+    }
+  } catch (e) {
+    error.value = '加载失败'
+  } finally {
+    loading.value = false
+  }
+})
 
-function saveNote() { alert('笔记已保存') }
+function saveNote() {
+  if (store.currentWord) {
+    store.updateNote(route.params.id, note.value, !notePublic.value)
+  }
+}
 </script>
 
 <style scoped>

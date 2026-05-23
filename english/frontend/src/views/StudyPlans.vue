@@ -10,7 +10,7 @@
           <div class="plan-name">{{ activePlan.name }}</div>
           <div class="plan-sub">
             第 {{ activePlan.current_day }} 天 / 共 {{ activePlan.duration }} 天
-            <span class="plan-meta" style="margin-left:8px">· {{ activePlan.bookName }} · {{ store.getStrategyName(activePlan.strategyType) }}</span>
+            <span class="plan-meta" style="margin-left:8px">· {{ activePlan.bookName }} · {{ strategyName(activePlan.strategyId) }}</span>
           </div>
           <div class="progress-bar" style="margin-top:8px;max-width:400px">
             <div class="progress-bar-fill" :style="{ width: activePlan.pct + '%' }"></div>
@@ -73,12 +73,14 @@
       </div>
     </div>
 
+    <div v-if="loading" style="text-align:center;padding:40px;color:var(--color-text-secondary)">加载中...</div>
+
     <!-- 可选预置计划（历史保留，改为推荐） -->
-    <h3 style="margin-bottom:12px;margin-top:24px">推荐计划</h3>
-    <div class="grid-3">
-      <div v-for="p in recommendedPlans" :key="p.id" class="card plan-card">
+    <h3 v-if="templates.length" style="margin-bottom:12px;margin-top:24px">推荐计划</h3>
+    <div v-if="templates.length" class="grid-3">
+      <div v-for="p in templates" :key="p.id" class="card plan-card">
         <div class="plan-card-name">{{ p.name }}</div>
-        <div class="plan-card-detail">{{ p.duration }} 天 · 每日 {{ p.daily }} 词</div>
+        <div class="plan-card-detail">{{ p.duration }} 天 · 每日 {{ p.dailyCount }} 词</div>
         <div class="plan-card-target" v-if="p.target">{{ p.target }}</div>
         <p class="plan-card-desc">{{ p.description }}</p>
         <button class="btn btn-primary btn-sm" style="margin-top:12px" @click="applyRecommended(p)">使用此配置</button>
@@ -88,17 +90,20 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useWordBookStore } from '../stores/wordBooks'
+import { planApi } from '../api'
 
 const router = useRouter()
 const store = useWordBookStore()
 
 const activePlan = ref(null)
-const newPlanBook = ref('wb1')
-const newPlanStrategy = ref('s1')
+const newPlanBook = ref('')
+const newPlanStrategy = ref('')
 const newPlanDaily = ref(10)
+const templates = ref([])
+const loading = ref(false)
 
 const currentBook = computed(() => store.books.find(b => b.id === newPlanBook.value))
 const estimatedDays = computed(() => {
@@ -106,31 +111,57 @@ const estimatedDays = computed(() => {
   return Math.ceil(currentBook.value.word_count / newPlanDaily.value)
 })
 
-const recommendedPlans = ref([
-  { id: 'rp1', name: '四级30天冲刺', duration: 30, daily: 20, target: 'CET-4', book: 'wb1', strategy: 's1', description: '从四级单词本随机抽取，适合快速扩充词汇量' },
-  { id: 'rp2', name: '考研60天攻坚', duration: 60, daily: 15, target: '考研', book: 'wb3', strategy: 's5', description: '从考研单词本由易到难，适合系统备考' },
-  { id: 'rp3', name: '六级词性精练', duration: 45, daily: 25, target: 'CET-6', book: 'wb2', strategy: 's3', description: '按词性分组 + 字母顺序，适合深入掌握' },
-])
-
-function createPlan() {
+async function createPlan() {
   const book = store.books.find(b => b.id === newPlanBook.value)
   const strategy = store.strategies.find(s => s.id === newPlanStrategy.value)
   if (!book || !strategy) return
-  activePlan.value = {
-    id: Date.now().toString(),
-    name: `${book.name} · ${strategy.name}`,
-    current_day: 1, duration: estimatedDays.value, pct: 0,
-    daily: newPlanDaily.value, done: 0,
-    bookName: book.name, strategyType: strategy.type,
+
+  loading.value = true
+  try {
+    const plan = await planApi.generate({
+      wordBookId: newPlanBook.value,
+      strategyId: newPlanStrategy.value,
+      count: newPlanDaily.value,
+    })
+    activePlan.value = plan
+    router.push('/review')
+  } finally {
+    loading.value = false
   }
-  router.push('/review')
+}
+
+function strategyName(strategyId) {
+  const s = store.strategies.find(s => s.id === strategyId)
+  return s ? s.name : ''
 }
 
 function applyRecommended(p) {
-  newPlanBook.value = p.book
-  newPlanStrategy.value = p.strategy
-  newPlanDaily.value = p.daily
+  newPlanBook.value = p.wordBookId
+  newPlanStrategy.value = p.strategyId
+  newPlanDaily.value = p.dailyCount
 }
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    const [active, tmpl] = await Promise.all([
+      planApi.getActive(),
+      planApi.getTemplates(),
+      store.fetchBooks(),
+      store.fetchStrategies(),
+    ])
+    activePlan.value = active
+    templates.value = tmpl || []
+    if (store.books.length && templates.value.length) {
+      newPlanBook.value = store.books[0].id
+      newPlanStrategy.value = store.strategies[0]?.id || ''
+    }
+  } catch {
+    templates.value = []
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped>

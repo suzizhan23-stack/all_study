@@ -13,53 +13,104 @@
       <span>{{ items.length }} 个条目</span>
     </div>
     <div class="folder-actions-bar">
-      <button class="btn btn-sm btn-danger">批量删除</button>
+      <button class="btn btn-sm btn-danger" @click="batchDelete" :disabled="!selectedIds.length">批量删除</button>
       <button class="btn btn-sm">批量加标签</button>
     </div>
-    <table class="table" style="margin-top:12px">
-      <thead>
-        <tr>
-          <th style="width:30px"><input type="checkbox" /></th>
-          <th>单词</th>
-          <th>释义</th>
-          <th>频率</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in items" :key="item.id">
-          <td><input type="checkbox" /></td>
-          <td><router-link :to="`/word/${item.entity_id}`" style="font-weight:600">{{ item.word }}</router-link></td>
-          <td>{{ item.meaning }}</td>
-          <td><span class="badge badge-gray">freq {{ item.freq }}</span></td>
-          <td>
-            <button class="btn btn-sm">📝</button>
-            <button class="btn btn-sm">🏷️</button>
-            <button class="btn btn-sm btn-danger" @click="removeItem(item.id)">🗑️</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="loading" style="text-align:center;padding:40px;color:var(--color-text-secondary)">加载中...</div>
+    <template v-else>
+      <table class="table" style="margin-top:12px">
+        <thead>
+          <tr>
+            <th style="width:30px"><input type="checkbox" @change="toggleSelectAll" :checked="allSelected" /></th>
+            <th>单词</th>
+            <th>释义</th>
+            <th>频率</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in items" :key="item.id">
+            <td><input type="checkbox" :checked="selectedIds.includes(item.id)" @change="toggleSelect(item.id)" /></td>
+            <td><router-link :to="`/word/${item.entity_id || item.entityId}`" style="font-weight:600">{{ item.word }}</router-link></td>
+            <td>{{ item.meaning }}</td>
+            <td><span class="badge badge-gray">freq {{ item.freq }}</span></td>
+            <td>
+              <button class="btn btn-sm">📝</button>
+              <button class="btn btn-sm">🏷️</button>
+              <button class="btn btn-sm btn-danger" @click="removeItem(item.id)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-if="!items.length" style="text-align:center;padding:40px;color:var(--color-text-secondary)">暂无条目</div>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { folderApi, favoriteApi } from '../api'
 
 const route = useRoute()
-const folders = { f1: { id: 'f1', name: '稍后复习', category: 'word' } }
-const folder = ref(folders['f1'])
+const folderId = computed(() => route.params.id)
+const loading = ref(false)
 
-const items = ref([
-  { id: 'i1', entity_id: 'w1', word: 'abandon', meaning: '放弃；遗弃；抛弃', freq: 72 },
-  { id: 'i2', entity_id: 'w2', word: 'remarkable', meaning: '显著的', freq: 50 },
-  { id: 'i3', entity_id: 'w3', word: 'contribute', meaning: '贡献', freq: 30 },
-])
+const folder = ref({ name: '收藏夹', category: '' })
+const items = ref([])
+const selectedIds = ref([])
+const allSelected = computed(() => items.value.length > 0 && selectedIds.value.length === items.value.length)
 
-function removeItem(id) {
-  items.value = items.value.filter(i => i.id !== id)
+async function fetchItems() {
+  loading.value = true
+  try {
+    const res = await folderApi.getItems(folderId.value, { page: 1, size: 50, sort: 'created' })
+    if (res && res.items) {
+      items.value = res.items
+      if (res.folder) folder.value = res.folder
+    } else if (Array.isArray(res)) {
+      items.value = res
+    } else {
+      items.value = []
+    }
+  } catch {
+    items.value = []
+  } finally {
+    loading.value = false
+  }
 }
+
+function toggleSelect(id) {
+  const i = selectedIds.value.indexOf(id)
+  if (i >= 0) selectedIds.value.splice(i, 1)
+  else selectedIds.value.push(id)
+}
+
+function toggleSelectAll() {
+  if (allSelected.value) {
+    selectedIds.value = []
+  } else {
+    selectedIds.value = items.value.map(i => i.id)
+  }
+}
+
+async function removeItem(id) {
+  try {
+    await favoriteApi.remove(id)
+    await fetchItems()
+  } catch {}
+}
+
+async function batchDelete() {
+  if (!selectedIds.value.length) return
+  try {
+    await favoriteApi.batchDelete(selectedIds.value)
+    selectedIds.value = []
+    await fetchItems()
+  } catch {}
+}
+
+onMounted(fetchItems)
 </script>
 
 <style scoped>
