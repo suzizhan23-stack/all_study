@@ -235,107 +235,392 @@ public class User {
 
 #### ③ Spring Security — 认证与授权
 
-##### 三层安全模型
+##### 3.1 JwtAuthFilter：什么时候、怎么创建，怎么注入到 Security？
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 第1层: SecurityFilterChain                                  │
-│ 作用: 定义哪些 URL 需要什么权限、哪些开放                      │
-│ 配置: SecurityConfig.java                                    │
-│                                                             │
-│  ┌─ /api/auth/**        → 所有人可访问（注册、登录）          │
-│  ├─ /api/admin/**       → 仅 ADMIN 角色可访问                │
-│  ├─ GET /api/badges     → 所有人可访问                       │
-│  └─ 其他路径            → 必须登录（有有效 JWT Token）         │
-├─────────────────────────────────────────────────────────────┤
-│ 第2层: JwtAuthFilter（自定义过滤器）                          │
-│ 作用: 每个请求拦截，从 Header 中提取 JWT Token，验证签名和     │
-│        过期时间，解析出用户身份，设置到安全上下文               │
-│ 位置: 在 UsernamePasswordAuthenticationFilter 之前执行        │
-│                                                             │
-│ 流程: Request → JwtAuthFilter.doFilterInternal()             │
-│         │                                                    │
-│         ├─ 有 Authorization: Bearer xxx?                     │
-│         │   ├─ 无 → 放行（后续被第 1 层拦截）                │
-│         │   └─ 有 → validateToken()                         │
-│         │        ├─ 无效 → 放行（同上）                      │
-│         │        └─ 有效 → 解析 userId + role                │
-│         │              → 创建 UsernamePasswordAuthenticationToken│
-│         │              → 放入 SecurityContextHolder          │
-│         └─ 继续执行过滤器链                                   │
-├─────────────────────────────────────────────────────────────┤
-│ 第3层: SecurityContextHolder                                 │
-│ 作用: 线程级缓存，存当前登录用户信息                          │
-│ 使用: 在任何地方通过静态方法读取                              │
-│                                                             │
-│  String userId = (String) SecurityContextHolder               │
-│      .getContext()                                           │
-│      .getAuthentication()                                    │
-│      .getPrincipal();                                        │
-│                                                             │
-│ 注意: 每个请求一个线程，请求结束自动清理（SecurityContextHolder.│
-│       setStrategyName(MODE_INHERITABLETHREADLOCAL)）          │
-└─────────────────────────────────────────────────────────────┘
+```java
+// 文件：JwtAuthFilter.java
+@Component                                    // ← ★ 关键：这个注解让 Spring 自动发现它
+@RequiredArgsConstructor                      // 构造器注入 JwtUtil
+public class JwtAuthFilter extends OncePerRequestFilter {
+    // OncePerRequestFilter 保证：即使请求经历多次 forward/include，
+    // doFilterInternal() 也只会执行一次
+
+    private final JwtUtil jwtUtil;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ... {
+        // ... 详见 4.4 节
+    }
+}
 ```
 
-##### 完整配置代码（逐行解读）
+**创建全过程（时间线）：**
+
+```
+Spring Boot 启动 (Phase 4 - Bean 实例化)
+    │
+    ├── @ComponentScan 扫描到 JwtAuthFilter
+    │     (因为 @Component 注解被 Spring 识别)
+    │
+    ├── 发现构造器需要 JwtUtil（@RequiredArgsConstructor 生成）
+    │     → getBean("jwtUtil")
+    │     → JwtUtil 之前已经被创建（它没有其他依赖）
+    │
+    ├── 创建 JwtAuthFilter 实例
+    │     → new JwtAuthFilter(jwtUtil)
+    │     → 这个实例被放入 Spring 的 SingletonObjects 缓存
+    │
+    ├── SecurityConfig 也需要创建
+    │     → SecurityConfig 有 @RequiredArgsConstructor
+    │     → 构造器参数: JwtAuthFilter
+    │     → getBean("jwtAuthFilter") → 从缓存拿到刚才创建的实例
+    │     → 创建 SecurityConfig 实例
+    │
+    └── SecurityConfig 的两个 @Bean 方法被调用（见下方 3.2）
+```
+
+**注入 Security 过滤器链的关键一行：**
 
 ```java
 // SecurityConfig.java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        // ... 各种配置 ...
+        .addFilterBefore(jwtAuthFilter,                  // 我们的过滤器实例
+                         UsernamePasswordAuthenticationFilter.class);
+        //         ↑                                ↑
+        //   把我们的过滤器插入   在这个内置过滤器的前面
+        return http.build();
+}
+```
+
+`addFilterBefore(X, Y.class)` 在 Security 内部做了什么？
+
+```
+Security 的 FilterChainProxy 维护一个 List<Filter> filters
+    
+    初始状态（Security 默认的 15+ 个 Filter）：
+    [0] SecurityContextPersistenceFilter
+    [1] WebAsyncManagerIntegrationFilter
+    [2] CsrfFilter
+    [3] LogoutFilter
+    [4] UsernamePasswordAuthenticationFilter  ← 我们要插在前面
+    [5] DefaultLoginPageGeneratingFilter
+    [6] DefaultLogoutPageGeneratingFilter
+    [7] BasicAuthenticationFilter
+    [8] RequestCacheAwareFilter
+    [9] SecurityContextHolderAwareRequestFilter
+    [10] AnonymousAuthenticationFilter
+    [11] SessionManagementFilter
+    [12] ExceptionTranslationFilter
+    [13] FilterSecurityInterceptor
+    
+    执行 addFilterBefore(myFilter, UsernamePasswordAuthenticationFilter.class) 后：
+    [0] SecurityContextPersistenceFilter
+    [1] WebAsyncManagerIntegrationFilter
+    [2] CsrfFilter
+    [3] LogoutFilter
+    [4] JwtAuthFilter              ← 我们插入的！在 UsernamePassword 之前
+    [5] UsernamePasswordAuthenticationFilter   ← 被推后一位
+    [6] DefaultLoginPageGeneratingFilter
+    ...
+```
+
+> **为什么要插在这个位置？** 因为我们希望：请求先经过 JwtAuthFilter（解析 Token 设置身份），再经过 `FilterSecurityInterceptor`（检查权限）——但不能再晚了，要在 `UsernamePasswordAuthenticationFilter`（表单登录）之前，因为 JWT 验证通过了就不需要表单登录了。
+
+---
+
+##### 3.2 SecurityConfig 的两个 @Bean：是什么？什么时候工作？方法参数怎么来的？
+
+```java
 @Configuration
-@EnableWebSecurity          // 开启 Spring Security 的 Web 安全支持
-@RequiredArgsConstructor    // 注入 JwtAuthFilter
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+    // ──── Bean ①：SecurityFilterChain ────
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            // ① 关闭 CSRF（跨站请求伪造防护）
-            // 为什么？JWT 无状态，Token 存在 Header 里，CSRF 攻击需要利用 Cookie
-            // 我们的请求不依赖 Cookie 做认证，所以 CSRF 防护没必要
-            .csrf(csrf -> csrf.disable())
-
-            // ② 无状态会话（STATELESS）
-            // 为什么？传统 Security 用 HttpSession 存登录状态
-            // 但 JWT 方案不需要 Session——每次请求都带 Token
-            // 还能水平扩展（负载均衡时不用共享 Session）
+        http.csrf(csrf -> csrf.disable())
             .sessionManagement(sm -> sm.sessionCreationPolicy(STATELESS))
-
-            // ③ 定义 URL 权限矩阵
             .authorizeHttpRequests(auth -> auth
-                // 登录/注册路径 → 完全开放（不需要 Token）
                 .requestMatchers("/api/auth/**").permitAll()
-                // 管理员路径 → 需要 ADMIN 角色
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                // GET /api/badges → 开放（方便前端展示排行榜）
                 .requestMatchers(HttpMethod.GET, "/api/badges").permitAll()
-                // 其它所有请求 → 必须认证（有有效 Token）
                 .anyRequest().authenticated()
             )
-
-            // ④ 插入自定义过滤器
-            // 在 UsernamePasswordAuthenticationFilter 之前执行 JwtAuthFilter
-            // 为什么要在这个位置？UsernamePasswordAuthenticationFilter 是 Security 默认的
-            // 表单登录过滤器，我们希望在它之前就完成 Token 验证
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();  // 组装成 SecurityFilterChain Bean
+        return http.build();
     }
 
+    // ──── Bean ②：PasswordEncoder ────
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // BCrypt 密码编码器
-        // 特点：自动加盐，每次加密结果不同
-        // encode("password123") → $2a$10$N9qo8uLOickgx2ZMRZoMye...
-        // matches("password123", hash) → true/false
         return new BCryptPasswordEncoder();
     }
 }
 ```
 
-##### 业务代码中如何获取当前登录用户？
+**Bean ① `SecurityFilterChain filterChain(HttpSecurity http)`：**
+
+| 问题 | 回答 |
+|---|---|
+| **什么时候被调用？** | 在 Spring 启动 Phase 4（refresh → 实例化单例 Bean）阶段。SecurityConfig 实例创建后，Spring 遍历它的 `@Bean` 方法并执行 |
+| **返回值是什么？** | `SecurityFilterChain`——一个包含"URL 权限规则 + Filter 列表"的对象。Tomcat 处理请求时，会先经过这个链条上的所有 Filter |
+| **参数 `HttpSecurity http` 哪里来的？** | Spring 自动注入的。Spring Security 的自动配置（`SecurityAutoConfiguration`）预先创建了一个 `HttpSecurity` Bean。它有一个默认配置好的 Filter 列表（15+ 个内置 Filter），我们调用 `http.xxx()` 就是在**修改这个默认配置** |
+
+**`HttpSecurity http` 参数详细解释：**
+
+```java
+// Spring Security 内部（简化理解）
+// 1. Spring 在启动时创建了一个 HttpSecurity 对象
+//    HttpSecurity http = new HttpSecurity(...);
+//    http 内部已经有一个默认的 FilterOrderRegistration
+//    （记录了所有默认 Filter 的类名和顺序）
+//
+// 2. SecurityConfig.filterChain(http) 被调用
+//    → 我们拿到这个 http 对象，调用它的方法修改配置
+//
+// 3. http.build() 被调用
+//    → HttpSecurity 根据我们修改后的配置，构建出一个 SecurityFilterChain
+//    → 这个 SecurityFilterChain 包含:
+//       a) 请求匹配器列表（哪些 URL 需要什么权限）
+//       b) 最终的 Filter 列表（按顺序排好的所有 Filter）
+//
+// 4. 返回的 SecurityFilterChain 被注册到 Tomcat 的 Filter 链中
+//    → 通过 FilterChainProxy 包装
+//    → FilterChainProxy 作为 Tomcat 的一个 Filter 被注册
+//    → 所有请求先进入 FilterChainProxy
+//    → FilterChainProxy 再委托给内部的 SecurityFilterChain 的 Filter 列表
+```
+
+**`http.xxx()` 的链式调用是在做什么？**
+
+```java
+http
+    .csrf(csrf -> csrf.disable())
+    // → 修改内部配置: csrf 相关 Filter 被移除（或者不添加默认的 CsrfFilter）
+
+    .sessionManagement(sm -> sm.sessionCreationPolicy(STATELESS))
+    // → 修改内部配置: 设置为无状态，不创建 HttpSession
+    // → SessionManagementFilter 的行为被改变（不会跳转到登录页）
+
+    .authorizeHttpRequests(auth -> auth
+        .requestMatchers("/api/auth/**").permitAll()
+        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+        .requestMatchers(HttpMethod.GET, "/api/badges").permitAll()
+        .anyRequest().authenticated()
+    )
+    // → 添加请求权限规则到内部列表
+    // → 这些规则最终被 FilterSecurityInterceptor 使用
+    //   FilterSecurityInterceptor 在每次请求时比对：
+    //     当前请求路径 → 匹配哪个规则 → 当前用户有对应权限吗？
+    //     有 → 放行；没有 → 抛出 AccessDeniedException → 403
+
+    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+    // → 修改 Filter 列表：在 UsernamePasswordAuthenticationFilter 前面插入
+    // → 最终 http.build() 时把这个顺序固定下来
+```
+
+**`http.build()` 内部发生了什么？**
+
+```
+http.build()
+    │
+    ├── ① 收集所有配置（csrf禁用、无状态session、权限规则、自定义Filter...）
+    │
+    ├── ② 组装 Filter 列表
+    │     ┌─ 从 FilterOrderRegistration 获取默认顺序
+    │     ├─ 应用 .addFilterBefore / .addFilterAfter / .removeFilter
+    │     └─ 得到最终顺序的 Filter[]
+    │
+    ├── ③ 创建 DefaultSecurityFilterChain 对象
+    │     ├─ 持有: 请求匹配器（AntPathRequestMatcher...）
+    │     └─ 持有: 最终 Filter 列表
+    │
+    └── ④ 将 DefaultSecurityFilterChain 注册到 FilterChainProxy
+          → FilterChainProxy.getFilters() 返回这个列表
+          → Tomcat 每次请求来了，FilterChainProxy 依次调用每个 Filter
+```
+
+**Bean ② `PasswordEncoder passwordEncoder()`：**
+
+| 问题 | 回答 |
+|---|---|
+| **什么时候被调用？** | 与 filterChain 同时，在实例化单例 Bean 阶段。SecurityConfig 创建后，Spring 发现有两个 `@Bean` 方法，按顺序依次调用 |
+| **返回值是什么？** | `BCryptPasswordEncoder` 实例——一个实现了 `PasswordEncoder` 接口的对象 |
+| **谁用到了它？** | `AuthService` 通过构造器注入 `PasswordEncoder`，在注册时调用 `passwordEncoder.encode(明文)` 存 Hash，在登录时调用 `passwordEncoder.matches(明文, Hash)` 比对 |
+| **参数怎么来的？** | 没有参数——这是一个无参 `@Bean` |
+
+```java
+// AuthService 中使用 PasswordEncoder
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+    private final PasswordEncoder passwordEncoder;  // ← 注入的就是 SecurityConfig 创建的 BCryptPasswordEncoder
+
+    public LoginResponse register(RegisterRequest req) {
+        User user = User.builder()
+            .passwordHash(passwordEncoder.encode(req.getPassword()))  // BCrypt 加密
+            .build();
+        userRepository.save(user);
+        // ...
+    }
+
+    public LoginResponse login(LoginRequest req) {
+        User user = userRepository.findByUsername(req.getUsername())
+            .orElseThrow(() -> BusinessException.badRequest("invalid username or password"));
+        if (!passwordEncoder.matches(req.getPassword(), user.getPasswordHash())) {
+            // matches() 用 BCrypt 比对明文和 Hash
+            throw BusinessException.badRequest("invalid username or password");
+        }
+        // ...
+    }
+}
+```
+
+---
+
+##### 3.3 SecurityFilterChain 上到底有哪些 Filter？各自负责什么？
+
+当 `http.build()` 执行后，生成的 SecurityFilterChain 包含以下 Filter（按执行顺序）：
+
+```java
+// 以下是最终在 FilterChainProxy 中的完整 Filter 列表（15 个）
+// 每个请求都会经过这 15 个 Filter（除非被提前 return 了）
+//
+// 标记说明：
+//   [默认] = Spring Security 自带，我们没有禁用它
+//   [自定义] = 我们通过 @Bean 或 @Component 添加的
+//   [已禁用] = 被 .disable() 或 .xx().disable() 排除的
+
+序号 | Filter 类                           | 创建时机                    | 职责
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  1  | SecurityContextPersistenceFilter    | [默认] Spring Security 自动创建 | 每次请求开始前从 SecurityContextHolder 读取认证信息；
+     |                                     |                             | 请求结束后清空 SecurityContextHolder（防止内存泄漏）
+     |                                     |                             | 我们没禁用它——虽然不用 HttpSession，但它还负责清理
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  2  | WebAsyncManagerIntegrationFilter   | [默认] 自动创建               | 让 SecurityContext 能传递到异步线程（@Async）
+     |                                     |                             | 我们没禁用——虽然没用到异步，留着无害
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  3  | CsrfFilter                         | [默认] 自动创建               | CSRF 防护——检查 POST/PUT/DELETE 请求是否带 _csrf token
+     |                                     |                             | ★ 我们禁用了: .csrf(csrf -> csrf.disable())
+     |                                     |                             | 所以这个 Filter 不出现（被移除）
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  4  | LogoutFilter                       | [默认] 自动创建               | 处理 /logout 请求——清除认证信息、使 Session 失效
+     |                                     |                             | 我们没禁用——/api/auth/logout 路径由 AuthController 处理
+     |                                     |                             | 所以这个 Filter 可能不会拦截 /api/auth/logout
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  5  | JwtAuthFilter                      | ★ [自定义] 我们加的           | 解析 JWT Token，设置 SecurityContextHolder
+     |                                     | .addFilterBefore(...,       | 没有 Token → 跳过；有 Token 但无效 → 跳过；
+     |                                     |   UsernamePassword...Filter) | 有 Token 且有效 → 设 userId 到 SecurityContext
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  6  | UsernamePasswordAuthenticationFilter| [默认] 自动创建               | 处理 /login 的 POST 请求——取 username+password 做认证
+     |                                     |                             | ★ 对我们没用（JWT 方案不需要表单登录）
+     |                                     |                             | 但没禁用——只是不会匹配到我们的 /api/auth/login
+     |                                     |                             | （因为我们路径不是 /login，且我们的 SecurityConfig
+     |                                     |                             |  把 /api/auth/** 设为 permitAll，它不会拦截）
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  7  | DefaultLoginPageGeneratingFilter   | [默认] 自动创建               | 如果没有配置 loginPage，生成默认登录页 /login
+     |                                     |                             | ★ 对我们没用（REST API，不需要登录页）
+     |                                     |                             | 但没禁用——不过因为是 REST 请求，它不会返回 HTML
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  8  | DefaultLogoutPageGeneratingFilter  | [默认] 自动创建               | 生成默认登出确认页
+     |                                     |                             | ★ 对我们没用，同上
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+  9  | BasicAuthenticationFilter          | [默认] 自动创建               | 处理 HTTP Basic Auth（Authorization: Basic base64）
+     |                                     |                             | ★ 对我们没用（JWT 是 Bearer，不是 Basic）
+     |                                     |                             | 但没禁用——不过它不会匹配我们的请求头
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+ 10  | RequestCacheAwareFilter            | [默认] 自动创建               | 如果之前有请求被缓存（因为未认证被重定向到登录页），
+     |                                     |                             | 登录成功后恢复之前的请求
+     |                                     |                             | ★ 对我们没用（STATELESS，没有重定向到登录页）
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+ 11  | SecurityContextHolderAwareRequestFilter| [默认] 自动创建            | 包装 HttpServletRequest，提供：
+     |                                     |                             | request.getUserPrincipal(), request.isUserInRole() 等方法
+     |                                     |                             | ★ 对我们没用（不走 HttpSession）
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+ 12  | AnonymousAuthenticationFilter      | [默认] 自动创建               | 如果 SecurityContextHolder 里没有认证信息，
+     |                                     |                             | 放一个匿名用户进去（避免到处都是 null 判断）
+     |                                     |                             | 我们保留——这样未登录用户的请求也有一个 anonymous 身份，
+     |                                     |                             | 然后被 FilterSecurityInterceptor 拦截
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+ 13  | SessionManagementFilter            | [默认] 自动创建               | Session 管理：检测 Session 固定攻击、限制并发 Session 数
+     |                                     |                             | 我们设了 STATELESS→它基本不做事
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+ 14  | ExceptionTranslationFilter         | [默认] 自动创建               | ★ 关键 Filter！捕获 FilterSecurityInterceptor 抛出的异常：
+     |                                     |                             |   - AuthenticationException → 401 未认证
+     |                                     |                             |   - AccessDeniedException → 403 无权限
+     |                                     |                             | 它把异常转换成 HTTP 响应状态码
+─────┼─────────────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────────────
+ 15  | FilterSecurityInterceptor          | [默认] 自动创建               | ★ 最终仲裁者！检查当前请求对应当前用户是否有权限
+     |                                     |                             | 它拿当前请求路径去匹配我们设置的规则：
+     |                                     |                             |   /api/auth/** → permitAll → 放行
+     |                                     |                             |   /api/admin/** → hasRole("ADMIN") → 检查角色
+     |                                     |                             |   其他 → authenticated → 检查 SecurityContext 有认证吗
+     |                                     |                             | 没有权限 → 抛出 AccessDeniedException → 被 14 号捕获
+```
+
+**过滤器链执行完整流程示例（请求 /api/review/queue）：**
+
+```
+请求到达: GET /api/review/queue
+Headers: Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+
+Tomcat:
+  └─ CharacterEncodingFilter (设置 UTF-8)
+  └─ CorsFilter (添加 CORS 头)
+  └─ FilterChainProxy (Security 的入口)
+      │
+      ├── ① SecurityContextPersistenceFilter
+      │     → 从 SecurityContextHolder 读取（首次请求，空的）
+      │     → 不做任何事
+      │
+      ├── ② WebAsyncManagerIntegrationFilter
+      │     → 不处理
+      │
+      ├── [CsrfFilter 已禁用，跳过]
+      │
+      ├── ③ LogoutFilter
+      │     → 检查路径是否为 /logout → 否 → 跳过
+      │
+      ├── ④ JwtAuthFilter              ★ 关键！
+      │     → 读取 Authorization 头 → "Bearer eyJ..."
+      │     → jwtUtil.validateToken(token) → 通过
+      │     → 解析 userId + role
+      │     → 创建 UsernamePasswordAuthenticationToken
+      │     → SecurityContextHolder.getContext().setAuthentication(auth)
+      │     → 放行
+      │
+      ├── ⑤ UsernamePasswordAuthenticationFilter
+      │     → 检查是否为 POST /login → 否 → 跳过
+      │
+      ├── ⑥~⑩ 其他 Filter（都不处理 REST 请求）
+      │
+      ├── ⑪ AnonymousAuthenticationFilter
+      │     → 已经有认证信息（JwtAuthFilter 设的）→ 跳过
+      │
+      ├── ⑫ SessionManagementFilter
+      │     → STATELESS，不处理
+      │
+      ├── ⑬ ExceptionTranslationFilter
+      │     → 包装下一个 Filter，准备捕获异常
+      │
+      └── ⑭ FilterSecurityInterceptor    ★ 最终裁决！
+            → 匹配路径 /api/review/queue
+            → 匹配规则: anyRequest().authenticated()
+            → 检查 SecurityContextHolder: 有认证信息吗？→ 有
+            → 放行！
+```
+
+---
+
+##### 3.4 业务代码中如何获取当前登录用户？
 
 ```java
 // AuthService.java
@@ -344,9 +629,6 @@ public class SecurityConfig {
 @Transactional
 public class AuthService {
 
-    // ... 登录注册方法 ...
-
-    // 获取当前登录用户 ID（这是最终被 Controller 调用的方式）
     public String getUserId() {
         // 这个 principal 就是 JwtUtil.generateToken() 传入的 userUuid
         // 它在 JwtAuthFilter 中被设置到 SecurityContextHolder
@@ -357,17 +639,59 @@ public class AuthService {
     }
 }
 
-// 另一种常见用法（在 Controller 中直接获取）
-@GetMapping("/profile")
-public ApiResponse<UserProfile> getProfile() {
-    String userId = (String) SecurityContextHolder.getContext()
+// ReviewController.java —— 更常见的用法
+@GetMapping("/queue")
+public ApiResponse<ReviewQueueResponse> getQueue(
+        @RequestParam(defaultValue = "card") String mode,
+        @RequestParam(defaultValue = "20") int limit) {
+    String userId = getCurrentUserId();  // ← 从 SecurityContext 取
+    return ApiResponse.success(reviewService.getQueue(userId, mode, limit));
+}
+
+private String getCurrentUserId() {
+    return (String) SecurityContextHolder.getContext()
             .getAuthentication()
             .getPrincipal();
-    return ApiResponse.success(userService.getProfile(userId));
 }
-// 注意：只有经过 JwtAuthFilter 的请求，getAuthentication() 才不为 null
-// 开放路径（/api/auth/**）不经过 JWT 验证，SecurityContextHolder 里没东西
 ```
+
+**重要：开放路径下 SecurityContext 里没东西**
+
+```java
+// POST /api/auth/register  → 在 SecurityConfig 中配了 permitAll
+// 这个请求经过 Filter 链时，JwtAuthFilter 没有找到 Token（还没注册哪来的 Token？）
+// → JwtAuthFilter 直接放行
+// → AnonymousAuthenticationFilter 放了一个 anonymousUser
+// → FilterSecurityInterceptor 检查: /api/auth/** → permitAll → 放行
+// → Controller 执行
+//
+// 所以在 AuthController.register() 中:
+//   SecurityContextHolder.getContext().getAuthentication()
+//   → 返回的是 AnonymousAuthenticationToken（principal = "anonymousUser"）
+//   → 不要在这里调用 getCurrentUserId()！会拿到 "anonymousUser" 这个字符串！
+```
+
+---
+
+##### 3.5 `HttpSecurity` 还能做什么？
+
+除了本项目用到的方法，`HttpSecurity` 提供的常用 API：
+
+| 方法 | 作用 | 示例 |
+|---|---|---|
+| `.cors()` | 开启 CORS 支持（配合 `@CrossOrigin` 或 `CorsFilter`） | `.cors(cors -> cors.configurationSource(...))` |
+| `.csrf()` | CSRF 防护配置 | `.csrf(csrf -> csrf.disable())` |
+| `.sessionManagement()` | Session 策略 | `.sessionManagement(sm -> sm.sessionCreationPolicy(STATELESS))` |
+| `.authorizeHttpRequests()` | URL 权限规则 | `.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())` |
+| `.addFilterBefore()` | 在指定 Filter 前插入 | `.addFilterBefore(jwtFilter, X.class)` |
+| `.addFilterAfter()` | 在指定 Filter 后插入 | `.addFilterAfter(myFilter, X.class)` |
+| `.removeFilter()` | 移除指定 Filter | `.removeFilter(CsrfFilter.class)` |
+| `.httpBasic()` | 开启 HTTP Basic 认证 | `.httpBasic(Customizer.withDefaults())` |
+| `.formLogin()` | 开启表单登录 | `.formLogin(form -> form.loginPage("/my-login"))` |
+| `.oauth2Login()` | OAuth2 登录 | `.oauth2Login(oauth2 -> oauth2.loginPage("/oauth2/callback"))` |
+| `.exceptionHandling()` | 自定义异常处理 | `.exceptionHandling(e -> e.authenticationEntryPoint(...))` |
+| `.rememberMe()` | 记住我功能 | `.rememberMe(remember -> remember.key("myKey"))` |
+| `.logout()` | 登出配置 | `.logout(logout -> logout.logoutUrl("/api/auth/logout"))` |
 
 ---
 
@@ -448,39 +772,516 @@ public ApiResponse<Void> handleValidation(MethodArgumentNotValidException ex) {
 
 ---
 
-#### ⑤ 四者如何协同工作？（全链路示例）
+#### ⑤ 四者如何协同工作？（全链路详细步骤）
 
-以"用户注册"为例，展示四个框架如何贯穿一个请求：
+以"用户注册"为例，展示一个 HTTP 请求从 Tomcat 到 Controller 方法再到响应的**完整 20 步**：
 
-```
+```java
+// 目标调用：
 POST /api/auth/register
+Headers: Content-Type: application/json
 Body: {"username": "alice", "password": "123456", "email": "alice@test.com"}
 
-                Spring MVC（来自 spring-boot-starter-web）
-                │
-                ├── DispatcherServlet 接收请求
-                │   → HandlerMapping 匹配到 AuthController.register()
-                │   → HandlerAdapter 准备调用方法
-                │
-                ├── Spring Validation（来自 spring-boot-starter-validation）
-                │   → 参数解析器发现 @Valid @RequestBody RegisterRequest
-                │   → 自动执行 RegisterRequest 上的校验注解
-                │   → 如果失败 → GlobalExceptionHandler → 400 响应
-                │   → 如果成功 → 把反序列化后的 RegisterRequest 传给方法
-                │
-                ├── Spring Security（来自 spring-boot-starter-security）
-                │   → SecurityFilterChain 检查 /api/auth/register 是否开放
-                │   → √ 此路径 permitAll() → 不需要认证（JwtAuthFilter 没解析 Token）
-                │
-                ├── Service 层（业务逻辑）
-                │   → AuthService.register()
-                │   → 调用 UserRepository（Spring Data JPA 自动实现）
-                │   → userRepository.save(user) → INSERT INTO users ...
-                │
-                └── Response
-                    → @ResponseBody（@RestController 自带）
-                    → Jackson 把 LoginResponse 序列化成 JSON
-                    → 返回给前端
+// 对应 Controller 方法：
+@PostMapping("/register")                                       // 路径匹配
+public ApiResponse<LoginResponse> register(
+        @Valid @RequestBody RegisterRequest req) {              // 参数 + 校验
+    return ApiResponse.success(authService.register(req));
+}
+```
+
+---
+
+##### 阶段一：Tomcat 接收原始 HTTP 请求（第 1-2 步）
+
+```
+第 1 步：Tomcat 的 Connector（HTTP/1.1 NIO）接收 TCP 连接
+         → 读取原始 HTTP 请求报文
+         → 解析为: method=POST, uri=/api/auth/register, headers={...}, body={...}
+         → 包装为 HttpServletRequest 对象
+
+第 2 步：Tomcat 的 Engine → Host → Context 找到对应的 Web 应用
+         → Context 持有我们注册的 Servlet（DispatcherServlet）
+         → 在到达 Servlet 之前，先经过 Filter 链
+```
+
+---
+
+##### 阶段二：Filter 链执行（第 3-9 步）
+
+```
+第 3 步：CharacterEncodingFilter
+         → request.setCharacterEncoding("UTF-8")
+         → response.setCharacterEncoding("UTF-8")
+         → 确保请求体和响应体都是 UTF-8 编码
+
+第 4 步：CorsFilter（来自 CorsConfig.java @Bean）
+         → 检查 Origin 头
+         → 添加 Access-Control-Allow-Origin: * 到响应头
+         → 如果是 OPTIONS 预检请求 → 直接返回 200（这里不是 OPTIONS，继续）
+
+第 5 步：FilterChainProxy —— Spring Security 的入口 Filter
+         → 内部持有 SecurityFilterChain（15 个 Filter 的列表）
+         → 依次调用每个 Filter
+
+第 6 步：SecurityContextPersistenceFilter
+         → 尝试从 HttpSession 读取 SecurityContext
+         → 我们是 STATELESS，Session 里没有 → 创建一个空的 SecurityContext
+
+第 7 步：JwtAuthFilter.doFilterInternal()
+         → 检查 Authorization 头 → 不存在（还没登录哪来的 Token）
+         → 直接 filterChain.doFilter() 放行→不设置任何认证信息
+
+第 8 步：AnonymousAuthenticationFilter
+         → 检查 SecurityContextHolder → 空的（JwtAuthFilter 没放东西）
+         → 放入一个匿名用户: AnonymousAuthenticationToken(principal="anonymousUser")
+         → 这样后续代码拿 getAuthentication() 不会 NPE
+
+第 9 步：FilterSecurityInterceptor（最终仲裁者）
+         → 匹配请求路径 /api/auth/register
+         → 遍历我们配置的规则:
+           ① /api/auth/** → permitAll() → √ 匹配！
+         → 这条规则说"所有人都能访问"→ 放行！
+         → 请求离开 FilterChainProxy，进入 DispatcherServlet
+```
+
+---
+
+##### 阶段三：DispatcherServlet 入口（第 10 步）
+
+```
+第 10 步：DispatcherServlet.doDispatch() 接收请求
+```
+
+```java
+// DispatcherServlet.java（Spring MVC 核心方法，简化逻辑）
+protected void doDispatch(HttpServletRequest request, HttpServletResponse response) {
+    // ① 通过 HandlerMapping 找到能处理这个请求的 Handler
+    HandlerExecutionChain mappedHandler = getHandler(request);
+    //    ↑ 返回值包含: Controller 方法 + 拦截器列表
+
+    // ② 通过 HandlerAdapter 找到能执行这个 Handler 的适配器
+    HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
+
+    // ③ 执行拦截器的 preHandle()
+    //    （本项目没有自定义拦截器，跳过）
+
+    // ④ 真正调用 Controller 方法！
+    ModelAndView mv = ha.handle(request, response, mappedHandler.getHandler());
+
+    // ⑤ 执行拦截器的 postHandle()
+    //    （本项目跳过）
+
+    // ⑥ 处理返回值（视图解析 / 响应写入）
+    processDispatchResult(request, response, mappedHandler, mv);
+}
+```
+
+---
+
+##### 阶段四：HandlerMapping 如何找到 `AuthController.register()`（第 11 步）
+
+```java
+// 第 11 步：getHandler(request)
+// → 遍历所有 HandlerMapping 实现（按优先级排序）
+//
+// Spring Boot 注册了 5 个 HandlerMapping（按顺序）：
+//   ① RequestMappingHandlerMapping    ← ★ 我们匹配的这个！
+//   ② SimpleUrlHandlerMapping（处理静态资源）
+//   ③ WelcomePageHandlerMapping（欢迎页）
+//   ④ BeanNameUrlHandlerMapping
+//   ⑤ RouterFunctionMapping（WebFlux 函数式）
+//
+// RequestMappingHandlerMapping 在初始化时做了什么事？
+```
+
+```java
+// RequestMappingHandlerMapping 启动时：
+// 1. 扫描所有 @Controller / @RestController 类
+// 2. 对每个类，读取 @RequestMapping 类级别路径
+// 3. 对每个方法，读取 @GetMapping / @PostMapping / @RequestMapping 方法级别路径
+// 4. 构建一个 Map（MappingRegistry）：
+//
+//    MappingRegistry 内部结构（简化）：
+//    ┌──────────────────────────────────────────────────┐
+//    │ key: (POST, /api/auth/register)                  │
+//    │ value:                                           │
+//    │   HandlerMethod{                                  │
+//    │     bean = AuthController 实例                    │
+//    │     method = AuthController.register() 的 Method │
+//    │     parameters = [RegisterRequest req]           │
+//    │     annotations = [@Valid, @RequestBody]         │
+//    │   }                                              │
+//    ├──────────────────────────────────────────────────┤
+//    │ key: (POST, /api/auth/login)                     │
+//    │ value: HandlerMethod{ AuthController.login()... }│
+//    ├──────────────────────────────────────────────────┤
+//    │ key: (GET, /api/review/queue)                    │
+//    │ value: HandlerMethod{ ReviewController.getQueue() }│
+//    └──────────────────────────────────────────────────┘
+//
+// getHandler(request) 的执行过程：
+//   → 从 request 获取 (POST, /api/auth/register)
+//   → 在 MappingRegistry 中查找
+//   → 找到匹配条目！
+//   → 返回 HandlerExecutionChain(handlerMethod, interceptors[])
+```
+
+**为什么是 `RequestMappingHandlerMapping` 而不是其他 Mapping？**
+
+```
+RequestMappingHandlerMapping 的 supports() 方法：
+  检查 handler 是不是 HandlerMethod 类型
+  → 我们的 @PostMapping 方法会被包装为 HandlerMethod
+  → supports() → true
+  → 使用这个 HandlerMapping
+
+其他 HandlerMapping 的 supports()：
+  SimpleUrlHandlerMapping: 检查是否是 ResourceHttpRequestHandler
+  → 我们的 @PostMapping 方法不是 → false → 跳过
+```
+
+---
+
+##### 阶段五：HandlerAdapter 如何准备调用方法（第 12-14 步）
+
+```java
+// 第 12 步：getHandlerAdapter(handler)
+// → 遍历所有 HandlerAdapter 实现
+//
+// Spring 注册了 3 个 HandlerAdapter（按顺序）：
+//   ① RequestMappingHandlerAdapter   ← ★ 匹配这个！
+//   ② SimpleControllerHandlerAdapter
+//   ③ HttpRequestHandlerAdapter
+//
+// RequestMappingHandlerAdapter.supports() 检查:
+//   handler 是否为 HandlerMethod 类型 → 是 → 使用这个 Adapter
+```
+
+```
+第 13 步：ha.handle() → RequestMappingHandlerAdapter.handleInternal()
+```
+
+```java
+// RequestMappingHandlerAdapter.handleInternal() 内部逻辑（简化）：
+protected ModelAndView handleInternal(HttpServletRequest request,
+                                       HttpServletResponse response,
+                                       HandlerMethod handlerMethod) {
+    // ① 调用参数解析器（ArgumentResolvers）
+    Object[] args = getMethodArgumentValues(request, handlerMethod);
+    //    ↑ 这个数组就是 Controller 方法的参数列表
+    //    例: args[0] = RegisterRequest{username="alice", password="123456", email="alice@test.com"}
+
+    // ② 通过反射调用 Controller 方法
+    Object returnValue = handlerMethod.getMethod().invoke(handlerMethod.getBean(), args);
+    //    ↑ 相当于: authController.register(registerRequest)
+    //    ↑ 返回值 = ApiResponse<LoginResponse>
+
+    // ③ 处理返回值（ReturnValueHandlers）
+    handleReturnValue(returnValue, handlerMethod, ...);
+}
+```
+
+```
+第 14 步：getMethodArgumentValues() —— 参数解析的完整过程
+```
+
+```java
+// getMethodArgumentValues() 内部逻辑：
+// 1. 获取方法的所有参数（反射拿到 MethodParameter[]）
+//    对于 register(RegisterRequest req) 来说，就一个参数
+//
+// 2. 遍历每个参数，找到一个能处理它的 ArgumentResolver
+//
+// Spring MVC 内置了 26 个 ArgumentResolver（按顺序尝试）：
+//
+// 序号 | ArgumentResolver 类                  | 能处理什么
+// ─────┼──────────────────────────────────────┼──────────────────────────────
+//  1   | SessionStatusMethodArgumentResolver | @SessionStatus
+//  2   | PrincipalMethodArgumentResolver     | java.security.Principal
+//  3   | HttpServletRequestMethodArgumentResolver | HttpServletRequest
+//  4   | HttpServletResponseMethodArgumentResolver | HttpServletResponse
+//  5   | HttpSessionMethodArgumentResolver    | HttpSession
+//  6   | PushBuilderMethodArgumentResolver    | PushBuilder
+//  7   | UriComponentsBuilderMethodArgumentResolver | UriComponentsBuilder
+//  8   | RequestParamMethodArgumentResolver   | @RequestParam
+//  9   | RequestParamMapMethodArgumentResolver | @RequestParam Map
+//  10  | PathVariableMethodArgumentResolver   | @PathVariable
+//  11  | MatrixVariableMethodArgumentResolver | @MatrixVariable
+//  12  | ...                                  | ...
+//  ... |                                      |
+//  23  | RequestResponseBodyMethodProcessor   | ★ @RequestBody（处理 JSON 反序列化）
+//  24  | ...                                  | ...
+//  26  | ModelMethodProcessor                 | Model
+//
+// 对于 register(@Valid @RequestBody RegisterRequest req)：
+//   第 23 个 Resolver: RequestResponseBodyMethodProcessor
+//     → supportsParameter() 检查参数是否有 @RequestBody 注解
+//     → 有！→ 使用这个 Resolver
+//     → 读取请求体 JSON → Jackson 反序列化为 RegisterRequest 对象
+//     → 返回 RegisterRequest 实例
+//
+// 同时，在 RequestResponseBodyMethodProcessor 中：
+//   发现参数还有 @Valid 注解
+//   → 调用 Validator.validate(registerRequest)
+//   → 执行 @NotBlank, @Size, @Email 等校验注解
+//   → 如果校验失败 → 抛出 MethodArgumentNotValidException
+//   → DispatcherServlet 的 processDispatchResult() 捕获异常
+//   → 找 @ExceptionHandler（GlobalExceptionHandler）
+//   → 返回 400 错误响应
+```
+
+**参数解析决策树：**
+
+```
+Controller 方法参数: @Valid @RequestBody RegisterRequest req
+
+开始遍历 26 个 ArgumentResolver：
+  ↓
+Resolver 1-22: 检查参数注解 → 没有 @RequestStatus, 没有 HttpServletRequest,
+               没有 @RequestParam, 没有 @PathVariable... → 都不匹配
+  ↓
+Resolver 23: RequestResponseBodyMethodProcessor
+  → supportsParameter(parameter):
+    参数是否有 @RequestBody 注解？ → 有！
+  → 使用这个 Resolver
+  ↓
+resolveArgument():
+  ① 从 request.getInputStream() 读取 JSON 字符串
+     → "{"username":"alice","password":"123456","email":"alice@test.com"}"
+  ② 用配置好的 ObjectMapper（Jackson）反序列化:
+     objectMapper.readValue(json, RegisterRequest.class)
+     → 创建 RegisterRequest 对象（通过无参构造器 + setter）
+     → registerRequest.username = "alice"
+     → registerRequest.password = "123456"
+     → registerRequest.email = "alice@test.com"
+     → registerRequest.nickname = null
+  ③ 发现 @Valid 注解 → 执行校验:
+     Validator validator = getValidator();
+     validator.validate(registerRequest, ...);
+     → 检查 @NotBlank: username="alice" → 通过
+     → 检查 @Size(min=3, max=20): "alice".length()=5 → 通过
+     → 检查 @NotBlank: password="123456" → 通过
+     → 检查 @Size(min=6, max=128): "123456".length()=6 → 通过
+     → 检查 @NotBlank: email="alice@test.com" → 通过
+     → 检查 @Email: "alice@test.com" → 通过
+     → 全部通过! 没有 BindingResult 错误
+  ④ 返回 RegisterRequest 实例
+  ↓
+args[0] = RegisterRequest{username="alice", password="123456", email="alice@test.com", nickname=null}
+```
+
+**如果校验失败会怎样？**
+
+```java
+// 假设 password 传了 "12"（只有 2 个字符，不满足 @Size(min=6)）
+// resolveArgument() 中:
+validator.validate(registerRequest, errors);
+// errors 中有错误: password → "长度必须在 6-128 之间"
+// → 抛出 MethodArgumentNotValidException(errors)
+//
+// DispatcherServlet 的 processDispatchResult():
+//   → 检测到是异常 → 调用 processHandlerException()
+//   → 遍历所有 HandlerExceptionResolver（共 4 个）:
+//     ① ExceptionHandlerExceptionResolver  → ★找到我们的 GlobalExceptionHandler！
+//     ② DefaultErrorAttributes
+//     ③ HandlerExceptionResolverComposite
+//     ④ SimpleMappingExceptionResolver（默认的，处理 500）
+//   → ExceptionHandlerExceptionResolver 检查:
+//     GlobalExceptionHandler 有 @ExceptionHandler(MethodArgumentNotValidException.class)
+//     → 匹配！→ 调用 GlobalExceptionHandler.handleValidation()
+//   → 返回 ModelAndView:
+//     视图 = null（因为是 @ResponseBody）
+//     数据 = ApiResponse{code=400, message="password: 长度必须在 6-128 之间", data=null}
+```
+
+---
+
+##### 阶段六：Controller 方法反射调用（第 15 步）
+
+```java
+// 第 15 步：反射调用 Controller 方法
+// handlerMethod.getMethod() ← 就是 AuthController.register() 这个 java.lang.reflect.Method
+// handlerMethod.getBean()   ← 就是 AuthController 实例（之前 Spring 创建好的 Bean）
+// args                     ← 上面解析好的参数数组 [RegisterRequest...]
+
+Object returnValue = handlerMethod.getMethod().invoke(handlerMethod.getBean(), args);
+// 相当于执行: authController.register(registerRequest)
+// 内部:
+//   authService.register(registerRequest)
+//     → 检查用户名是否已存在
+//     → passwordEncoder.encode("123456") → "$2a$10$..."
+//     → User.builder()...build()
+//     → userRepository.save(user)  ← JPA 生成 INSERT SQL
+//     → userStatRepository.save(stat) ← JPA 生成 INSERT SQL
+//     → jwtUtil.generateToken(...)  ← JJWT 生成 JWT
+//     → 返回 LoginResponse(token, expiresIn, userInfo)
+//
+// returnValue = ApiResponse.success(loginResponse)
+//            = ApiResponse{code=200, message="success", data=LoginResponse{...}}
+```
+
+---
+
+##### 阶段七：ReturnValueHandler 处理返回值（第 16-17 步）
+
+```java
+// 第 16 步：handleReturnValue()
+// → 遍历所有 ReturnValueHandler（共 15 个），找能处理这个返回值的
+//
+// 关键 ReturnValueHandler:
+// 序号 | ReturnValueHandler                   | 能处理什么
+// ─────┼──────────────────────────────────────┼──────────────────────────────
+//  1   | ModelAndViewMethodReturnValueHandler | ModelAndView
+//  2   | ModelMethodProcessor                 | Model
+//  3   | ViewMethodReturnValueHandler         | View
+//  4   | ResponseBodyEmitterReturnValueHandler| ResponseBodyEmitter
+//  5   | StreamingResponseBodyReturnValueHandler | StreamingResponseBody
+//  6   | HttpEntityMethodProcessor            | ResponseEntity
+//  7   | HttpHeadersReturnValueHandler        | HttpHeaders
+//  8   | CallableMethodReturnValueHandler     | Callable
+//  9   | DeferredResultMethodReturnValueHandler | DeferredResult
+//  10  | AsyncTaskMethodReturnValueHandler    | WebAsyncTask
+//  11  | ModelAttributeMethodProcessor        | @ModelAttribute
+//  12  | RequestResponseBodyMethodProcessor   | ★ 处理 @ResponseBody（核心！）
+//  ...
+//
+// 因为 AuthController 上有 @RestController（= @Controller + @ResponseBody）
+// 所以返回值有 @ResponseBody 语义
+//
+// RequestResponseBodyMethodProcessor.supportsReturnType() 检查:
+//   方法或类是否有 @ResponseBody 注解？→ @RestController 带有 @ResponseBody → 有！
+// → 使用这个 ReturnValueHandler
+```
+
+```java
+// 第 17 步：RequestResponseBodyMethodProcessor.handleReturnValue()
+// → 用配置好的 ObjectMapper（Jackson）把对象序列化为 JSON
+//
+// 内部逻辑:
+//   1. 拿到 returnValue = ApiResponse<LoginResponse>
+//   2. objectMapper.writeValue(outputStream, returnValue)
+//      → Jackson 遍历 ApiResponse 的字段:
+//         code: 200         → 序列化为 "code":200
+//         message: "success" → 序列化为 "message":"success"
+//         data: LoginResponse → 递归序列化:
+//           token: "eyJhbGci..." → "token":"eyJhbGci..."
+//           expiresIn: 86400    → "expiresIn":86400
+//           user: UserInfo{...} → "user":{...}
+//   3. 把序列化后的 JSON 字符串写入 response.getOutputStream()
+//   4. 设置 Content-Type: application/json
+//
+// 最终响应体:
+// {
+//   "code": 200,
+//   "message": "success",
+//   "data": {
+//     "token": "eyJhbGciOiJIUzI1NiJ9...",
+//     "expiresIn": 86400,
+//     "user": {
+//       "id": "a1b2c3d4-...",
+//       "username": "alice",
+//       "nickname": "alice",
+//       "avatarUrl": null,
+//       "role": "user",
+//       "level": 1
+//     }
+//   }
+// }
+```
+
+---
+
+##### 阶段八：响应写回客户端（第 18-20 步）
+
+```
+第 18 步：DispatcherServlet.processDispatchResult()
+         → 检查 ModelAndView → 为 null（因为是 @ResponseBody，没有视图）
+         → 调用 triggerAfterCompletion() 触发拦截器的 afterCompletion()
+         → 本项目无拦截器，跳过
+
+第 19 步：响应经过 Filter 链（逆序返回）
+         → ExceptionTranslationFilter: 没有异常 → 不做处理
+         → SecurityContextPersistenceFilter: 请求结束后 → 清空 SecurityContextHolder
+         → CorsFilter: 确保 CORS 头已经在响应中
+         → CharacterEncodingFilter: 不做处理（编码已经设好）
+
+第 20 步：Tomcat Connector 把响应写回客户端
+         → 组装 HTTP 响应报文
+         → 设置响应头: Content-Type: application/json;charset=UTF-8
+         → 写入响应体: {"code":200,"message":"success","data":{...}}
+         → 关闭 TCP 连接（或归还到连接池）
+```
+
+---
+
+##### 完整流程 Mermaid 时序图
+
+```mermaid
+sequenceDiagram
+    participant Client as 浏览器/前端
+    participant Tomcat as Tomcat Connector
+    participant Filter as Filter 链
+    participant Security as SecurityFilterChain
+    participant Dispatcher as DispatcherServlet
+    participant HM as HandlerMapping
+    participant HA as HandlerAdapter
+    participant Ctl as AuthController
+    participant Service as AuthService
+    participant JPA as Spring Data JPA
+    participant Jackson as Jackson
+    
+    Client->>Tomcat: POST /api/auth/register\nContent-Type: application/json\nBody: {username, password, email}
+    
+    Tomcat->>Filter: HttpServletRequest
+    
+    Note over Filter: CharacterEncodingFilter → UTF-8
+    Note over Filter: CorsFilter → CORS 头
+    Filter->>Security: 进入 FilterChainProxy
+    
+    Note over Security: SecurityContextPersistenceFilter
+    Note over Security: JwtAuthFilter → 无 Token → 跳过
+    Note over Security: AnonymousAuthenticationFilter → 设 anonymousUser
+    Note over Security: FilterSecurityInterceptor → /api/auth/** permitAll → 放行
+    
+    Security->>Dispatcher: 到达 Servlet
+    
+    Dispatcher->>HM: getHandler(request)
+    Note over HM: 查找 (POST, /api/auth/register)\n→ 匹配到 AuthController.register()
+    HM-->>Dispatcher: HandlerExecutionChain
+    
+    Dispatcher->>HA: getHandlerAdapter(handler)
+    Note over HA: handler 是 HandlerMethod\n→ RequestMappingHandlerAdapter
+    HA-->>Dispatcher: HandlerAdapter
+    
+    Dispatcher->>HA: ha.handle(request, response, handler)
+    
+    Note over HA: 遍历 26 个 ArgumentResolver
+    Note over HA: 第 23 个: RequestResponseBodyMethodProcessor\n支持 @RequestBody
+    Note over HA: 读取 Body JSON → Jackson 反序列化
+    Note over HA: 发现 @Valid → 执行 Bean Validation
+    Note over HA: 验证通过 → args[0] = RegisterRequest 实例
+    
+    HA->>Ctl: register.invoke(controller, args)
+    Ctl->>Service: authService.register(req)
+    Service->>JPA: userRepository.save(user)
+    JPA-->>Service: user saved
+    Note over Service: passwordEncoder.encode(password)\njwtUtil.generateToken()
+    Service-->>Ctl: LoginResponse
+    Ctl-->>HA: ApiResponse.success(loginResponse)
+    
+    Note over HA: 遍历 15 个 ReturnValueHandler
+    Note over HA: 第 12 个: RequestResponseBodyMethodProcessor\n支持 @ResponseBody
+    
+    HA->>Jackson: objectMapper.writeValue(os, apiResponse)
+    Jackson-->>HA: JSON string
+    
+    HA-->>Dispatcher: null (ModelAndView)
+    
+    Dispatcher->>Filter: 响应逆序经过 Filter
+    Dispatcher->>Tomcat: 写入 response OutputStream
+    
+    Tomcat-->>Client: HTTP/1.1 200 OK\nContent-Type: application/json\n{"code":200,"message":"success","data":{...}}
 ```
 
 ### 2.2 认证与加密
