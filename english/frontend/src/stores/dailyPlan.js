@@ -28,11 +28,13 @@ export const useDailyPlanStore = defineStore('dailyPlan', () => {
   }
 
   async function fetchDailyWords(date) {
-    dailyWords.value = await planApi.getDailyWords(date)
+    const res = await planApi.getDailyWords(date)
+    dailyWords.value = res.words || []
   }
 
   async function fetchDailyDates(limit) {
-    dailyDates.value = await planApi.getDailyDates(limit)
+    const res = await planApi.getDailyDates(limit)
+    dailyDates.value = (res.dates || []).map(d => d.date)
   }
 
   async function addEntry(data) {
