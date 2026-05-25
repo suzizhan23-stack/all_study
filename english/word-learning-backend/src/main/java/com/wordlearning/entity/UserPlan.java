@@ -22,8 +22,14 @@ public class UserPlan {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "plan_id", nullable = false)
+    @Column(name = "plan_id")
     private Long planId;
+
+    @Column(name = "word_book_id")
+    private Long wordBookId;
+
+    @Column(name = "strategy_id")
+    private Long strategyId;
 
     @Column(name = "started_at", nullable = false)
     private LocalDateTime startedAt;
@@ -34,8 +40,8 @@ public class UserPlan {
     @Column(name = "current_day", nullable = false)
     private int currentDay;
 
-    @Column(name = "daily_target")
-    private Integer dailyTarget;
+    @Column(name = "daily_count")
+    private Integer dailyCount;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

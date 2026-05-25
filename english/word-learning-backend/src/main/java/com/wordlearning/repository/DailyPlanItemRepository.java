@@ -13,4 +13,5 @@ public interface DailyPlanItemRepository extends JpaRepository<DailyPlanItem, Lo
     List<DailyPlanItem> findByUserIdAndPlanDateOrderBySortOrder(Long userId, LocalDate date);
     List<DailyPlanItem> findByUserId(Long userId);
     Optional<DailyPlanItem> findByUuid(String uuid);
+    void deleteByUserIdAndPlanDate(Long userId, LocalDate planDate);
 }

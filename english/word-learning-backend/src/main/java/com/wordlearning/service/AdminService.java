@@ -30,6 +30,8 @@ public class AdminService {
     private final ContentRatingRepository contentRatingRepository;
     private final WordBookEntryRepository wordBookEntryRepository;
     private final WordBookRepository wordBookRepository;
+    private final CollocationRepository collocationRepository;
+    private final PrepPatternRepository prepPatternRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -177,6 +179,37 @@ public class AdminService {
                 .executeUpdate();
 
         wordRepository.delete(word);
+    }
+
+    public Collocation updateCollocation(String uuid, String collocation, String translation, Integer frequency) {
+        Collocation c = collocationRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("Collocation not found"));
+        if (collocation != null) c.setCollocation(collocation);
+        if (translation != null) c.setTranslation(translation);
+        if (frequency != null) c.setFrequency(frequency);
+        return collocationRepository.save(c);
+    }
+
+    public void deleteCollocation(String uuid) {
+        Collocation c = collocationRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("Collocation not found"));
+        collocationRepository.delete(c);
+    }
+
+    public PrepPattern updatePrepPattern(String uuid, String pattern, String translation, String preposition, Integer frequency) {
+        PrepPattern p = prepPatternRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("PrepPattern not found"));
+        if (pattern != null) p.setPattern(pattern);
+        if (translation != null) p.setTranslation(translation);
+        if (preposition != null) p.setPreposition(preposition);
+        if (frequency != null) p.setFrequency(frequency);
+        return prepPatternRepository.save(p);
+    }
+
+    public void deletePrepPattern(String uuid) {
+        PrepPattern p = prepPatternRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("PrepPattern not found"));
+        prepPatternRepository.delete(p);
     }
 
     public void batchImportWords(List<Map<String, Object>> words, String wordBookId) {

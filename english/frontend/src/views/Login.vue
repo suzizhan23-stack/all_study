@@ -124,4 +124,8 @@ async function handleRegister() {
 .error-msg { color: var(--color-danger); font-size: 13px; margin: -4px 0; }
 .btn-block { width: 100%; justify-content: center; padding: 10px; font-size: 15px; }
 .btn-block:disabled { opacity: .6; cursor: not-allowed; }
+@media (max-width: 480px) {
+  .login-card { padding: 24px 20px; }
+  .login-title { font-size: 20px; }
+}
 </style>

@@ -35,6 +35,10 @@ public class UserDailyPlanEntry {
     @Column(name = "is_completed", nullable = false)
     private boolean isCompleted;
 
+    @Column(name = "is_key_point", nullable = false)
+    @Builder.Default
+    private boolean isKeyPoint = false;
+
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 

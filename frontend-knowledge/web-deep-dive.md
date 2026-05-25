@@ -7110,3 +7110,70 @@ TCP 连接建立后，浏览器立即开始 TLS 握手（详细图解见 1.6 节
 ---
 
 > **后记**：Web 技术看似复杂，但底层逻辑其实非常简洁。理解了 HTTP 的请求-响应模型、DNS 的"名字到地址"映射、CDN 的"就近服务"思想，以及渲染架构的"内容在哪里生成"这条主线，你会发现整个 Web 世界都是围绕这些基础概念构建的。掌握了这些原理，无论是调试 bug、优化性能还是设计架构，你都会有清晰的思路。
+
+---
+
+## 附录：Vite HMR + ngrok 外网访问整页刷新的问题
+
+### 现象
+通过 ngrok 把本地 Vite 开发服务器暴露到外网后，手机浏览器访问时尽管代码没有变化，页面也会频繁自动刷新。
+
+### 原因
+Vite 开发时自带热更新（HMR），通过 WebSocket 与浏览器保持长连接，代码变化时推送给浏览器做模块级更新（不刷新页面）。
+
+```
+  正常流程（本地访问）:
+  浏览器 ─── HTTP ──→ Vite Dev Server (:3000)
+  浏览器 ←── HTML ── Vite Dev Server
+  浏览器 ─── ws://localhost:3000 ──→ Vite Dev Server  ← WebSocket 直连，正常工作
+
+  问题流程（通过 ngrok）:
+  手机浏览器 ─── HTTPS ──→ ngrok ──→ Vite Dev Server (:3000)
+  手机浏览器 ←── HTML ── ngrok ←── Vite Dev Server
+  HTML 中的 HMR 客户端试图连接 ws://xxxx.ngrok-free.dev:3000
+  浏览器安全策略禁止 HTTPS 页面加载非加密 WebSocket → 连接失败
+  HMR 连接中断 → Vite 回退到整页刷新（fallback reload）
+```
+
+核心问题：
+1. ngrok 暴露的是 HTTPS（443 端口），但 Vite 默认 HMR WebSocket 用 `ws://`
+2. 浏览器安全策略：HTTPS 页面禁止建立非加密 WebSocket（`ws://`）
+3. Vite HMR 客户端默认使用 dev server 端口（3000）建立 WebSocket，但 ngrok 端口是 443
+
+### 解决方案
+
+在 `vite.config.js` 中设置 HMR 客户端端口为 443：
+
+```js
+export default defineConfig({
+  server: {
+    hmr: { clientPort: 443 },
+    allowedHosts: ['your-ngrok-domain.ngrok-free.dev'],
+  }
+})
+```
+
+`clientPort: 443` 的作用：
+- 通知 Vite 生成的 HMR 客户端代码：WebSocket 连接的目标端口是 443
+- 浏览器在 HTTPS 页面下自动使用 `wss://`（加密 WebSocket）连接 443 端口
+- WebSocket 握手成功，HMR 正常工作，不再回退到整页刷新
+
+### 原理示意
+
+```
+  修复后：
+  手机浏览器 ─── HTTPS ──→ ngrok ──→ Vite Dev Server (:3000)
+  手机浏览器 ←── HTML ── ngrok ←── Vite Dev Server
+  HTML 中的 HMR 客户端连接 wss://xxxx.ngrok-free.dev:443
+  ngrok 转发 WebSocket 到 Vite Dev Server 的 3000 端口
+  HMR 连接成功，代码修改后只做模块级热替换，不刷新页面
+```
+
+### 相关概念
+
+| 概念 | 说明 |
+|------|------|
+| HMR (Hot Module Replacement) | 开发时修改代码后只替换改动的模块，不刷新页面，保留应用状态 |
+| WebSocket (ws/wss) | 浏览器与服务器间的全双工通信协议，`ws://` 不加密，`wss://` 走 TLS 加密 |
+| ngrok | 内网穿透工具，给本地服务分配一个公网 HTTPS URL |
+| 混合内容限制 (Mixed Content) | HTTPS 页面禁止加载 HTTP/WS 等非加密资源，防止中间人攻击 |

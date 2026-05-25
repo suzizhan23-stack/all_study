@@ -8,13 +8,14 @@
         v-for="b in store.books"
         :key="b.id"
         class="card book-card"
-        :class="{ 'book-active': selectedBook === b.id }"
+        :class="{ 'book-active': selectedBook === b.id, 'book-bound': boundBookId === b.id }"
         @click="selectedBook = b.id"
       >
         <div class="book-name">{{ b.name }}</div>
         <div class="book-level badge" :class="levelBadge(b.difficulty_level)">{{ b.difficulty_level }}</div>
         <div class="book-count">{{ b.word_count }} 词</div>
         <div class="book-desc">{{ b.description }}</div>
+        <div v-if="boundBookId === b.id" class="bound-tag">当前学习</div>
       </div>
     </div>
 
@@ -22,38 +23,6 @@
 
   <!-- 当前选中的单词本 -->
     <template v-if="currentBook">
-      <!-- 开始学习面板：选择策略 + 每日数量 -->
-      <div class="card" style="margin-bottom:16px">
-        <h3>🎯 开始学习</h3>
-        <div class="start-panel">
-          <div class="start-row">
-            <label>学习策略：</label>
-            <div class="strategy-options">
-              <div
-                v-for="s in store.strategies"
-                :key="s.id"
-                class="strategy-card"
-                :class="{ 'strategy-selected': selectedStrategy === s.id }"
-                @click="selectedStrategy = s.id"
-              >
-                <div class="strategy-name">{{ s.name }}</div>
-                <div class="strategy-desc">{{ s.description }}</div>
-              </div>
-            </div>
-          </div>
-          <div class="start-row" style="align-items:center">
-            <label>每日词数：</label>
-            <input v-model.number="dailyCount" class="input" type="number" min="5" max="100" style="max-width:100px" />
-            <span style="font-size:14px;color:var(--color-text-secondary);margin-left:8px">词 / 天</span>
-            <button class="btn btn-success btn-lg" style="margin-left:auto" @click="startLearning">🚀 开始学习</button>
-          </div>
-          <div v-if="currentStrategy" class="strategy-hint">
-            <strong>当前策略预览：</strong>
-            <span>{{ strategyPreview }}</span>
-          </div>
-        </div>
-      </div>
-
       <!-- 筛选 -->
       <div class="card" style="margin-bottom:16px">
         <div class="book-filter-bar">
@@ -86,7 +55,10 @@
       <div class="card" style="margin-bottom:16px">
         <div class="preview-header">
           <h3>{{ currentBook.name }} · 预览</h3>
+          <div style="display:flex;align-items:center;gap:8px">
             <span class="preview-count">{{ (store.currentBookWords || []).length }} 个词</span>
+            <button v-if="store.currentBookWords?.length" class="btn btn-sm btn-primary" @click="addAllToPlan">一键全部加入</button>
+          </div>
         </div>
         <table class="table">
           <thead>
@@ -111,9 +83,16 @@
           </tbody>
         </table>
         <div class="pagination" v-if="totalPages > 1">
-          <button class="btn btn-sm" :disabled="currentPage <= 1" @click="goPage(currentPage - 1)">上一页</button>
-          <span class="page-info">第 {{ currentPage }} / {{ totalPages }} 页</span>
-          <button class="btn btn-sm" :disabled="currentPage >= totalPages" @click="goPage(currentPage + 1)">下一页</button>
+          <button class="btn btn-sm" :disabled="currentPage <= 1" @click="goPage(currentPage - 1)">‹</button>
+          <span class="page-info">
+            第 <input v-model.number="jumpPage" class="input page-jump" type="number" :min="1" :max="totalPages" @keyup.enter="goJump" /> / {{ totalPages }} 页
+          </span>
+          <button class="btn btn-sm" :disabled="currentPage >= totalPages" @click="goPage(currentPage + 1)">›</button>
+          <select v-model.number="pageSize" class="input page-size" @change="onPageSizeChange">
+            <option :value="10">10条/页</option>
+            <option :value="20">20条/页</option>
+            <option :value="50">50条/页</option>
+          </select>
         </div>
         <div v-if="!store.currentBookWords || !store.currentBookWords.length" class="empty-state" style="padding:40px">
           <p>暂无匹配的词条</p>
@@ -130,22 +109,20 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import { useWordBookStore } from '../stores/wordBooks'
 import { planApi } from '../api'
 
-const router = useRouter()
 const store = useWordBookStore()
 
 const selectedBook = ref('')
+const boundBookId = ref('')
 const selectedPos = ref([])
 const selectedLetter = ref('')
-const selectedStrategy = ref('')
-const dailyCount = ref(10)
 const loading = ref(false)
 const todayEntries = ref(new Set())
 const currentPage = ref(1)
-const pageSize = 20
+const pageSize = ref(20)
+const jumpPage = ref(1)
 
 const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
@@ -159,21 +136,6 @@ function showToast(msg, type = 'success') {
 }
 
 const currentBook = computed(() => store.books.find(b => b.id === selectedBook.value))
-const currentStrategy = computed(() => store.strategies.find(s => s.id === selectedStrategy.value))
-
-const strategyPreview = computed(() => {
-  if (!currentStrategy.value || !currentBook.value) return ''
-  const type = currentStrategy.value.type
-  const parts = [`从「${currentBook.value.name}」中`]
-  if (type === 'random') parts.push('完全随机抽取')
-  else if (type === 'alphabetical') parts.push('按字母 A→Z 顺序抽取')
-  else if (type === 'pos_alphabetical') parts.push('按选定词性 + 字母顺序抽取')
-  else if (type === 'pos_random') parts.push('按选定词性 + 随机抽取')
-  else if (type === 'difficulty_asc') parts.push('从简单到困难抽取')
-  else if (type === 'difficulty_desc') parts.push('从困难到简单抽取')
-  parts.push(`，每日 ${dailyCount.value} 词`)
-  return parts.join('')
-})
 
 async function fetchWords() {
   if (!selectedBook.value) return
@@ -185,7 +147,7 @@ async function fetchWords() {
     pos: posValues || undefined,
     letter: selectedLetter.value || undefined,
     page: currentPage.value,
-    size: pageSize,
+    size: pageSize.value,
   })
 }
 
@@ -212,6 +174,20 @@ const totalPages = computed(() =>
 function goPage(p) {
   if (p < 1 || p > totalPages.value) return
   currentPage.value = p
+  jumpPage.value = p
+  fetchWords()
+}
+
+function goJump() {
+  const p = jumpPage.value
+  if (!p || p < 1) { jumpPage.value = 1; return }
+  if (p > totalPages.value) { jumpPage.value = totalPages.value; return }
+  goPage(jumpPage.value)
+}
+
+function onPageSizeChange() {
+  currentPage.value = 1
+  jumpPage.value = 1
   fetchWords()
 }
 function levelBadge(level) {
@@ -220,15 +196,12 @@ function levelBadge(level) {
   if (level === '考研') return 'badge-red'
   return 'badge-gray'
 }
-function startLearning() {
-  router.push('/review')
-}
 
 async function fetchTodayEntries() {
   const today = new Date().toISOString().slice(0, 10)
   try {
-    const words = await planApi.getDailyWords(today)
-    todayEntries.value = new Set((words || []).map(w => w.id))
+    const data = await planApi.getDailyWords(today)
+    todayEntries.value = new Set((data.words || []).map(w => w.wordId))
   } catch {
     todayEntries.value = new Set()
   }
@@ -253,18 +226,33 @@ async function addToPlan(w) {
   }
 }
 
+async function addAllToPlan() {
+  const words = store.currentBookWords
+  if (!words || !words.length) return
+  const today = new Date().toISOString().slice(0, 10)
+  const wordIds = words.map(w => w.id)
+  try {
+    await planApi.batchAddEntries({ wordIds, planDate: today })
+    wordIds.forEach(id => todayEntries.value.add(id))
+    showToast(`已将 ${wordIds.length} 个单词加入今天的学习计划`, 'success')
+  } catch {
+    showToast('批量加入失败，请重试', 'warning')
+  }
+}
+
 onMounted(async () => {
   loading.value = true
   try {
-    await Promise.all([
+    const [activePlan] = await Promise.all([
+      planApi.getActive(),
       store.fetchBooks(),
       store.fetchStrategies(),
       store.fetchPosCategories(),
       fetchTodayEntries(),
     ])
+    boundBookId.value = activePlan?.wordBook?.id || ''
     if (store.books.length) {
-      selectedBook.value = store.books[0].id
-      selectedStrategy.value = store.strategies[0]?.id || ''
+      selectedBook.value = boundBookId.value || store.books[0].id
     }
   } finally {
     loading.value = false
@@ -275,20 +263,26 @@ watch(selectedBook, () => {
   currentPage.value = 1
   fetchWords()
 })
-
 </script>
 
 <style scoped>
 .book-card {
   cursor: pointer; transition: .15s; text-align: center; padding: 24px;
-  border: 2px solid transparent;
+  border: 2px solid transparent; position: relative;
 }
 .book-card:hover { border-color: var(--color-primary); transform: translateY(-2px); }
 .book-active { border-color: var(--color-primary); background: var(--color-primary-light); }
+.book-bound { border-color: var(--color-success); }
 .book-name { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .book-level { margin-bottom: 6px; }
 .book-count { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 4px; }
 .book-desc { font-size: 13px; color: var(--color-text-secondary); }
+.bound-tag {
+  position: absolute; top: -8px; right: -8px;
+  padding: 3px 10px; border-radius: 12px;
+  font-size: 11px; font-weight: 700;
+  background: var(--color-success); color: #fff;
+}
 .book-filter-bar { display: flex; flex-direction: column; gap: 4px; }
 .filter-group { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .filter-group label { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); min-width: 50px; }
@@ -297,20 +291,6 @@ watch(selectedBook, () => {
 .preview-header h3 { font-size: 15px; margin: 0; }
 .preview-count { font-size: 13px; color: var(--color-text-secondary); }
 .word-link { font-weight: 600; }
-.start-panel { display: flex; flex-direction: column; gap: 16px; margin-top: 12px; }
-.start-row { display: flex; gap: 12px; }
-.start-row > label { min-width: 80px; font-size: 14px; font-weight: 500; padding-top: 6px; }
-.strategy-options { display: flex; flex-wrap: wrap; gap: 8px; }
-.strategy-card {
-  padding: 12px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-sm);
-  cursor: pointer; transition: .15s; min-width: 140px;
-}
-.strategy-card:hover { border-color: var(--color-primary); }
-.strategy-selected { border-color: var(--color-primary); background: var(--color-primary-light); }
-.strategy-name { font-size: 14px; font-weight: 600; }
-.strategy-desc { font-size: 12px; color: var(--color-text-secondary); }
-.strategy-hint { font-size: 13px; color: var(--color-text-secondary); padding: 8px 12px; background: var(--color-bg); border-radius: var(--radius-sm); }
-.btn-lg { padding: 12px 32px; font-size: 16px; }
 .toast {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
   padding: 12px 24px; border-radius: var(--radius-sm); font-size: 14px;
@@ -340,5 +320,14 @@ watch(selectedBook, () => {
   display: flex; align-items: center; justify-content: center; gap: 12px;
   padding: 16px 0;
 }
-.page-info { font-size: 14px; color: var(--color-text-secondary); }
+.page-info { font-size: 14px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; }
+.page-jump { width: 56px; text-align: center; padding: 4px 6px; }
+.page-size { width: auto; padding: 4px 6px; }
+@media (max-width: 768px) {
+  .filter-group { gap: 6px; }
+  .filter-group label { min-width: auto; margin-right: 4px; }
+  .letter-btn { min-width: 32px; padding: 6px 6px; font-size: 11px; }
+  .preview-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .action-cell { white-space: nowrap; }
+}
 </style>

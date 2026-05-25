@@ -1,28 +1,23 @@
 package com.wordlearning.controller;
 
+import com.wordlearning.dto.request.CreatePlanRequest;
 import com.wordlearning.dto.request.GeneratePlanRequest;
 import com.wordlearning.dto.request.JoinPlanRequest;
+import com.wordlearning.dto.request.BatchPlanEntryRequest;
 import com.wordlearning.dto.request.PlanEntryRequest;
+import com.wordlearning.dto.request.SetCurrentWordBookRequest;
 import com.wordlearning.dto.response.ApiResponse;
 import com.wordlearning.dto.response.DailyPlanResponse;
 import com.wordlearning.dto.response.PlanDatesResponse;
+import com.wordlearning.dto.response.PlanResponse;
 import com.wordlearning.entity.LearningPlan;
 import com.wordlearning.service.PlanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/plans")
@@ -32,7 +27,7 @@ public class PlanController {
     private final PlanService planService;
 
     @GetMapping("/active")
-    public ApiResponse<Map<String, Object>> getActivePlan() {
+    public ApiResponse<PlanResponse> getActivePlan() {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ApiResponse.success(planService.getActivePlan(userId));
     }
@@ -47,6 +42,12 @@ public class PlanController {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         planService.joinPlan(userId, req.getPlanId());
         return ApiResponse.success();
+    }
+
+    @PostMapping("/create")
+    public ApiResponse<PlanResponse> createPlan(@Valid @RequestBody CreatePlanRequest req) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ApiResponse.success(planService.createPlan(userId, req.getWordBookId(), req.getStrategyId(), req.getDailyCount()));
     }
 
     @GetMapping("/daily/words")
@@ -68,6 +69,13 @@ public class PlanController {
         return ApiResponse.success();
     }
 
+    @PostMapping("/daily/entries/batch")
+    public ApiResponse<Void> addBatchPlanEntries(@Valid @RequestBody BatchPlanEntryRequest req) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        planService.addBatchPlanEntries(userId, req);
+        return ApiResponse.success();
+    }
+
     @DeleteMapping("/daily/entries/{id}")
     public ApiResponse<Void> removePlanEntry(@PathVariable("id") String uuid) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -82,9 +90,35 @@ public class PlanController {
         return ApiResponse.success();
     }
 
+    @PutMapping("/daily/entries/{id}/key-point")
+    public ApiResponse<Void> toggleKeyPoint(@PathVariable("id") String uuid) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        planService.toggleKeyPoint(userId, uuid);
+        return ApiResponse.success();
+    }
+
+    @PutMapping("/daily/entries/by-word/{wordId}/key-point")
+    public ApiResponse<Void> toggleKeyPointByWord(@PathVariable("wordId") String wordUuid) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        planService.toggleKeyPointByWordId(userId, wordUuid);
+        return ApiResponse.success();
+    }
+
     @PostMapping("/daily/generate")
     public ApiResponse<Integer> generateDailyPlan(@Valid @RequestBody GeneratePlanRequest req) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ApiResponse.success(planService.generateDailyPlan(userId, req));
+    }
+
+    @PostMapping("/advance")
+    public ApiResponse<PlanResponse> advanceDay() {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ApiResponse.success(planService.advanceDay(userId));
+    }
+
+    @PutMapping("/current-wordbook")
+    public ApiResponse<PlanResponse> setCurrentWordBook(@Valid @RequestBody SetCurrentWordBookRequest req) {
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ApiResponse.success(planService.setCurrentWordBook(userId, req.getWordBookId(), req.getStrategyId(), req.getDailyCount()));
     }
 }

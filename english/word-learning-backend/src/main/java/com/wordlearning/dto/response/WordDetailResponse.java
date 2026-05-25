@@ -1,5 +1,6 @@
 package com.wordlearning.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -113,6 +114,7 @@ public class WordDetailResponse {
         private int consecutiveCorrect;
         private Integer frequency;
         private List<FavoriteRefDTO> favorites;
+        @JsonProperty("isKeyPoint") private boolean isKeyPoint;
         private NoteDTO notes;
         private List<TagDTO> tags;
         private Integer rating;

@@ -191,4 +191,7 @@ function nextCard() {
 .spelling-result.correct { color: var(--color-success); }
 .spelling-result.wrong { color: var(--color-danger); }
 .review-stats { display: flex; gap: 20px; justify-content: center; font-size: 14px; color: var(--color-text-secondary); }
+@media (max-width: 768px) {
+  .quiz-options { grid-template-columns: 1fr; }
+}
 </style>

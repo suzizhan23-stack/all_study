@@ -142,4 +142,13 @@ function startReview(item) {
 .quick-icon { font-size: 32px; margin-bottom: 8px; }
 .quick-label { font-size: 15px; font-weight: 600; }
 .quick-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 2px; }
+@media (max-width: 768px) {
+  .stats-row { grid-template-columns: 1fr; gap: 12px; }
+  .stat-card { padding: 16px; }
+  .stat-value { font-size: 22px; }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .quick-card { padding: 16px; }
+  .recommend-item { flex-wrap: wrap; gap: 8px; }
+  .recommend-info { width: 100%; }
+}
 </style>

@@ -7,19 +7,19 @@
       <h3>进行中</h3>
       <div class="plan-header">
         <div>
-          <div class="plan-name">{{ activePlan.name }}</div>
+          <div class="plan-name">{{ activePlan.wordBook?.name || activePlan.name || '学习计划' }}</div>
           <div class="plan-sub">
-            第 {{ activePlan.current_day }} 天 / 共 {{ activePlan.duration }} 天
-            <span class="plan-meta" style="margin-left:8px">· {{ activePlan.bookName }} · {{ strategyName(activePlan.strategyId) }}</span>
+            第 {{ activePlan.currentDay }} 天 / 共 {{ activePlan.totalDays }} 天
+            <span v-if="activePlan.wordBook" class="plan-meta" style="margin-left:8px">· {{ activePlan.wordBook.name }} · {{ activePlan.strategy?.name }}</span>
           </div>
           <div class="progress-bar" style="margin-top:8px;max-width:400px">
             <div class="progress-bar-fill" :style="{ width: activePlan.pct + '%' }"></div>
           </div>
           <div class="plan-today" style="margin-top:8px">
-            今日任务: {{ activePlan.daily }} 词 | 已完成 {{ activePlan.done }} 词
+            今日任务: {{ activePlan.todayWords }} 词 | 已完成 {{ activePlan.todayCompleted }} 词
           </div>
         </div>
-        <router-link to="/review" class="btn btn-primary">继续学习 →</router-link>
+        <router-link to="/learn" class="btn btn-primary">继续学习 →</router-link>
       </div>
     </div>
 
@@ -80,8 +80,8 @@
     <div v-if="templates.length" class="grid-3">
       <div v-for="p in templates" :key="p.id" class="card plan-card">
         <div class="plan-card-name">{{ p.name }}</div>
-        <div class="plan-card-detail">{{ p.duration }} 天 · 每日 {{ p.dailyCount }} 词</div>
-        <div class="plan-card-target" v-if="p.target">{{ p.target }}</div>
+        <div class="plan-card-detail">{{ p.durationDays }} 天 · 每日 {{ p.dailyWordCount }} 词</div>
+        <div class="plan-card-target" v-if="p.targetLevel">{{ p.targetLevel }}</div>
         <p class="plan-card-desc">{{ p.description }}</p>
         <button class="btn btn-primary btn-sm" style="margin-top:12px" @click="applyRecommended(p)">使用此配置</button>
       </div>
@@ -118,27 +118,22 @@ async function createPlan() {
 
   loading.value = true
   try {
-    const plan = await planApi.generate({
+    const plan = await planApi.create({
       wordBookId: newPlanBook.value,
       strategyId: newPlanStrategy.value,
-      count: newPlanDaily.value,
+      dailyCount: newPlanDaily.value,
     })
     activePlan.value = plan
-    router.push('/review')
+    router.push('/learn')
   } finally {
     loading.value = false
   }
 }
 
-function strategyName(strategyId) {
-  const s = store.strategies.find(s => s.id === strategyId)
-  return s ? s.name : ''
-}
-
 function applyRecommended(p) {
-  newPlanBook.value = p.wordBookId
-  newPlanStrategy.value = p.strategyId
-  newPlanDaily.value = p.dailyCount
+  newPlanBook.value = p.wordBookId || ''
+  newPlanStrategy.value = p.strategyId || (store.strategies[0]?.id || '')
+  newPlanDaily.value = p.dailyWordCount || 10
 }
 
 onMounted(async () => {
@@ -152,9 +147,11 @@ onMounted(async () => {
     ])
     activePlan.value = active
     templates.value = tmpl || []
-    if (store.books.length && templates.value.length) {
+    if (!newPlanBook.value && store.books.length) {
       newPlanBook.value = store.books[0].id
-      newPlanStrategy.value = store.strategies[0]?.id || ''
+    }
+    if (!newPlanStrategy.value && store.strategies.length) {
+      newPlanStrategy.value = store.strategies[0].id
     }
   } catch {
     templates.value = []

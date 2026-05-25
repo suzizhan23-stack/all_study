@@ -76,12 +76,18 @@ export const planApi = {
   getActive: () => api.get('/plans/active'),
   getTemplates: () => api.get('/plans/templates'),
   join: (planId) => api.post('/plans/join', { planId }),
+  create: (data) => api.post('/plans/create', data),
   getDailyWords: (date) => api.get('/plans/daily/words', { date }),
   getDailyDates: (limit) => api.get('/plans/daily/dates', { limit }),
   addEntry: (data) => api.post('/plans/daily/entries', data),
+  batchAddEntries: (data) => api.post('/plans/daily/entries/batch', data),
   deleteEntry: (id) => api.delete(`/plans/daily/entries/${id}`),
   completeEntry: (id) => api.put(`/plans/daily/entries/${id}/complete`),
+  toggleKeyPoint: (id) => api.put(`/plans/daily/entries/${id}/key-point`),
+  toggleKeyPointByWord: (wordId) => api.put(`/plans/daily/entries/by-word/${wordId}/key-point`),
   generate: (data) => api.post('/plans/daily/generate', data),
+  advanceDay: () => api.post('/plans/advance'),
+  setCurrentWordBook: (data) => api.put('/plans/current-wordbook', data),
 }
 
 export const dashboardApi = {
@@ -121,4 +127,8 @@ export const adminApi = {
   deleteWord: (id) => api.delete(`/admin/words/${id}`),
   batchImport: (data) => api.post('/admin/words/batch-import', data),
   getFeedback: (params) => api.get('/admin/feedback', params),
+  updateCollocation: (id, data) => api.put(`/admin/collocations/${id}`, data),
+  deleteCollocation: (id) => api.delete(`/admin/collocations/${id}`),
+  updatePrepPattern: (id, data) => api.put(`/admin/prep-patterns/${id}`, data),
+  deletePrepPattern: (id) => api.delete(`/admin/prep-patterns/${id}`),
 }

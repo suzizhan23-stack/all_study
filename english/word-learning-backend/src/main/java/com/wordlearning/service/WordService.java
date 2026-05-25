@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class WordService {
     private final WordTagRepository wordTagRepository;
     private final ContentRatingRepository contentRatingRepository;
     private final UserTagRepository userTagRepository;
+    private final UserDailyPlanEntryRepository userDailyPlanEntryRepository;
     private final UserEntityTagRepository userEntityTagRepository;
 
     @PersistenceContext
@@ -139,6 +141,11 @@ public class WordService {
                     .build());
         });
 
+        boolean isKeyPoint = userDailyPlanEntryRepository
+                .findByUserIdAndPlanDateAndWordId(uid, LocalDate.now(), wid)
+                .map(UserDailyPlanEntry::isKeyPoint)
+                .orElse(false);
+
         var userNotes = userNoteRepository.findByUserIdAndEntityTypeAndEntityId(uid, "word", wid);
         WordDetailResponse.NoteDTO noteDTO = userNotes.stream().findFirst()
                 .map(n -> WordDetailResponse.NoteDTO.builder()
@@ -196,6 +203,7 @@ public class WordService {
                         .consecutiveCorrect(word.getConsecutiveCorrect())
                         .frequency(userFreq != null ? userFreq.getFrequency() : null)
                         .favorites(favoriteDTOs)
+                        .isKeyPoint(isKeyPoint)
                         .notes(noteDTO)
                         .tags(tagDTOs)
                         .rating(rating != null ? rating.getRating() : null)

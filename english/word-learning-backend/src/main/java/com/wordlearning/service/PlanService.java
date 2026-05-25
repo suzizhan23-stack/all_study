@@ -1,10 +1,12 @@
 package com.wordlearning.service;
 
 import com.wordlearning.dto.request.GeneratePlanRequest;
+import com.wordlearning.dto.request.BatchPlanEntryRequest;
 import com.wordlearning.dto.request.PlanEntryRequest;
 import com.wordlearning.dto.response.DailyPlanResponse;
 import com.wordlearning.dto.response.PageResponse;
 import com.wordlearning.dto.response.PlanDatesResponse;
+import com.wordlearning.dto.response.PlanResponse;
 import com.wordlearning.entity.*;
 import com.wordlearning.exception.BusinessException;
 import com.wordlearning.exception.ResourceNotFoundException;
@@ -42,38 +44,112 @@ public class PlanService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public PlanResponse createPlan(String userId, String wordBookId, String strategyId, int dailyCount) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        WordBook wordBook = wordBookRepository.findByUuid(wordBookId)
+                .orElseThrow(() -> new ResourceNotFoundException("WordBook not found"));
+        StudyStrategy strategy = studyStrategyRepository.findByUuid(strategyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Strategy not found"));
+
+        List<UserPlan> activePlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(user.getId());
+        if (!activePlans.isEmpty()) {
+            throw BusinessException.conflict("User already has an active plan");
+        }
+
+        int totalWordsInBook = ((Number) entityManager.createNativeQuery(
+                        "SELECT COUNT(*) FROM word_book_entries WHERE word_book_id = ?1")
+                .setParameter(1, wordBook.getId())
+                .getSingleResult()).intValue();
+        if (totalWordsInBook == 0) {
+            throw BusinessException.badRequest("Word book is empty");
+        }
+
+        UserPlan userPlan = UserPlan.builder()
+                .userId(user.getId())
+                .wordBookId(wordBook.getId())
+                .strategyId(strategy.getId())
+                .startedAt(LocalDateTime.now())
+                .currentDay(1)
+                .dailyCount(dailyCount)
+                .build();
+        userPlanRepository.save(userPlan);
+
+        generateDailyWords(user.getId(), wordBook, strategy, dailyCount, LocalDate.now(), 0);
+
+        return buildPlanResponse(userPlan, wordBook, strategy, dailyCount);
+    }
+
     @Transactional(readOnly = true)
-    public Map<String, Object> getActivePlan(String userId) {
+    public PlanResponse getActivePlan(String userId) {
         User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         List<UserPlan> userPlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(user.getId());
         if (userPlans.isEmpty()) {
-            return Collections.emptyMap();
+            return null;
         }
         UserPlan userPlan = userPlans.get(0);
-        LearningPlan plan = learningPlanRepository.findById(userPlan.getPlanId())
-                .orElse(null);
 
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put("id", userPlan.getUuid());
-        result.put("userId", user.getUuid());
-        result.put("planId", plan != null ? plan.getUuid() : null);
-        result.put("currentDay", userPlan.getCurrentDay());
-        result.put("startedAt", userPlan.getStartedAt() != null ? userPlan.getStartedAt().toString() : null);
-        result.put("completedAt", userPlan.getCompletedAt() != null ? userPlan.getCompletedAt().toString() : null);
+        int dailyCount = userPlan.getDailyCount() != null ? userPlan.getDailyCount() : 10;
 
-        if (plan != null) {
-            Map<String, Object> planDetail = new LinkedHashMap<>();
-            planDetail.put("id", plan.getUuid());
-            planDetail.put("name", plan.getName());
-            planDetail.put("description", plan.getDescription());
-            planDetail.put("targetLevel", plan.getTargetLevel());
-            planDetail.put("durationDays", plan.getDurationDays());
-            planDetail.put("dailyWordCount", plan.getDailyWordCount());
-            result.put("plan", planDetail);
+        if (userPlan.getWordBookId() != null) {
+            WordBook wordBook = wordBookRepository.findById(userPlan.getWordBookId()).orElse(null);
+            StudyStrategy strategy = userPlan.getStrategyId() != null
+                    ? studyStrategyRepository.findById(userPlan.getStrategyId()).orElse(null)
+                    : null;
+
+            int totalWordsInBook = 0;
+            if (wordBook != null) {
+                totalWordsInBook = ((Number) entityManager.createNativeQuery(
+                                "SELECT COUNT(*) FROM word_book_entries WHERE word_book_id = ?1")
+                        .setParameter(1, wordBook.getId())
+                        .getSingleResult()).intValue();
+            }
+
+            LocalDate today = LocalDate.now();
+            int todayWords = countTodayWords(user.getId(), today);
+            int todayCompleted = countTodayCompleted(user.getId(), today);
+            int totalDays = dailyCount > 0 ? (int) Math.ceil((double) totalWordsInBook / dailyCount) : 0;
+
+            return PlanResponse.builder()
+                    .id(userPlan.getUuid())
+                    .type("wordbook")
+                    .wordBook(wordBook != null ? PlanResponse.WordBookInfo.builder()
+                            .id(wordBook.getUuid())
+                            .name(wordBook.getName())
+                            .wordCount(totalWordsInBook)
+                            .difficultyLevel(wordBook.getDifficultyLevel())
+                            .build() : null)
+                    .strategy(strategy != null ? PlanResponse.StrategyInfo.builder()
+                            .id(strategy.getUuid())
+                            .name(strategy.getName())
+                            .description(strategy.getDescription())
+                            .build() : null)
+                    .dailyCount(dailyCount)
+                    .currentDay(userPlan.getCurrentDay())
+                    .totalDays(totalDays)
+                    .pct(totalDays > 0 ? (double) (userPlan.getCurrentDay() - 1) / totalDays * 100 : 0)
+                    .todayWords(todayWords)
+                    .todayCompleted(todayCompleted)
+                    .totalWords(totalWordsInBook)
+                    .startedAt(userPlan.getStartedAt() != null ? userPlan.getStartedAt().toString() : null)
+                    .completed(false)
+                    .build();
         }
 
-        return result;
+        LearningPlan plan = userPlan.getPlanId() != null
+                ? learningPlanRepository.findById(userPlan.getPlanId()).orElse(null)
+                : null;
+
+        return PlanResponse.builder()
+                .id(userPlan.getUuid())
+                .type("template")
+                .dailyCount(dailyCount)
+                .currentDay(userPlan.getCurrentDay())
+                .totalDays(plan != null ? plan.getDurationDays() : 0)
+                .startedAt(userPlan.getStartedAt() != null ? userPlan.getStartedAt().toString() : null)
+                .completed(false)
+                .build();
     }
 
     @Transactional(readOnly = true)
@@ -97,6 +173,7 @@ public class PlanService {
                 .planId(plan.getId())
                 .startedAt(LocalDateTime.now())
                 .currentDay(1)
+                .dailyCount(plan.getDailyWordCount())
                 .build();
         userPlanRepository.save(userPlan);
     }
@@ -121,46 +198,53 @@ public class PlanService {
         for (UserDailyPlanEntry entry : userEntries) {
             DailyPlanResponse.WordEntry we = buildWordEntry(
                     entry.getUuid(), entry.getWordId(), entry.isCompleted(),
-                    entry.getSortOrder(), "manual", planDate);
+                    entry.isKeyPoint(), entry.getSortOrder(), "manual", planDate);
             if (we != null) words.add(we);
         }
 
         for (DailyPlanItem item : planItems) {
             DailyPlanResponse.WordEntry we = buildWordEntry(
                     item.getUuid(), item.getWordId(), item.isCompleted(),
-                    item.getSortOrder(), "auto", planDate);
+                    item.isKeyPoint(), item.getSortOrder(), "auto", planDate);
             if (we != null) words.add(we);
         }
 
         words.sort(Comparator.comparingInt(DailyPlanResponse.WordEntry::getSortOrder));
 
-        return DailyPlanResponse.builder()
+        DailyPlanResponse.DailyPlanResponseBuilder builder = DailyPlanResponse.builder()
                 .date(date)
                 .total(total)
                 .completed(completed)
-                .words(words)
-                .build();
+                .words(words);
+
+        List<UserPlan> activePlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(user.getId());
+        if (!activePlans.isEmpty() && activePlans.get(0).getWordBookId() != null) {
+            wordBookRepository.findById(activePlans.get(0).getWordBookId()).ifPresent(wb ->
+                    builder.wordBook(new DailyPlanResponse.WordBookRef(wb.getUuid(), wb.getName())));
+        }
+
+        return builder.build();
     }
 
     private DailyPlanResponse.WordEntry buildWordEntry(String id, Long wordId, boolean completed,
-                                                        int sortOrder, String source, LocalDate planDate) {
+                                                        boolean keyPoint, int sortOrder, String source, LocalDate planDate) {
         Word word = wordRepository.findById(wordId).orElse(null);
         if (word == null) return null;
 
         List<DailyPlanResponse.CollocationCompact> collocations = collocationRepository
                 .findByWordIdOrderByFrequencyDesc(wordId).stream()
-                .limit(3)
                 .map(c -> DailyPlanResponse.CollocationCompact.builder()
                         .text(c.getCollocation())
+                        .translation(c.getTranslation())
                         .frequency(c.getFrequency())
                         .build())
                 .collect(Collectors.toList());
 
         List<DailyPlanResponse.PrepCompact> preps = prepPatternRepository
                 .findByWordIdOrderByFrequencyDesc(wordId).stream()
-                .limit(3)
                 .map(p -> DailyPlanResponse.PrepCompact.builder()
                         .pattern(p.getPattern())
+                        .translation(p.getTranslation())
                         .preposition(p.getPreposition())
                         .build())
                 .collect(Collectors.toList());
@@ -173,6 +257,7 @@ public class PlanService {
                 .pos(word.getPos())
                 .meaningCn(word.getMeaningCn())
                 .isCompleted(completed)
+                .isKeyPoint(keyPoint)
                 .entrySource(source)
                 .sortOrder(sortOrder)
                 .collocations(collocations)
@@ -269,6 +354,42 @@ public class PlanService {
         userDailyPlanEntryRepository.save(entry);
     }
 
+    @Transactional
+    public void addBatchPlanEntries(String userId, BatchPlanEntryRequest req) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        LocalDate planDate = LocalDate.parse(req.getPlanDate());
+
+        Integer maxSort = entityManager.createQuery(
+                        "SELECT MAX(e.sortOrder) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date", Integer.class)
+                .setParameter("userId", user.getId())
+                .setParameter("date", planDate)
+                .getSingleResult();
+        int nextSort = maxSort != null ? maxSort + 1 : 0;
+
+        for (String wordUuid : req.getWordIds()) {
+            Word word = wordRepository.findByUuid(wordUuid)
+                    .orElseThrow(() -> new ResourceNotFoundException("Word", wordUuid));
+
+            long existing = entityManager.createQuery(
+                            "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date AND e.wordId = :wordId", Long.class)
+                    .setParameter("userId", user.getId())
+                    .setParameter("date", planDate)
+                    .setParameter("wordId", word.getId())
+                    .getSingleResult();
+            if (existing > 0) continue;
+
+            UserDailyPlanEntry entry = UserDailyPlanEntry.builder()
+                    .userId(user.getId())
+                    .planDate(planDate)
+                    .wordId(word.getId())
+                    .sortOrder(nextSort++)
+                    .isCompleted(false)
+                    .build();
+            userDailyPlanEntryRepository.save(entry);
+        }
+    }
+
     public void removePlanEntry(String userId, String entryId) {
         User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", userId));
@@ -293,6 +414,59 @@ public class PlanService {
         userDailyPlanEntryRepository.save(entry);
     }
 
+    public void toggleKeyPointByWordId(String userId, String wordUuid) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        Word word = wordRepository.findByUuid(wordUuid)
+                .orElseThrow(() -> new ResourceNotFoundException("Word", wordUuid));
+        LocalDate today = LocalDate.now();
+        var planEntry = userDailyPlanEntryRepository
+                .findByUserIdAndPlanDateAndWordId(user.getId(), today, word.getId());
+        if (planEntry.isPresent()) {
+            UserDailyPlanEntry e = planEntry.get();
+            e.setKeyPoint(!e.isKeyPoint());
+            userDailyPlanEntryRepository.save(e);
+            return;
+        }
+        List<DailyPlanItem> items = dailyPlanItemRepository
+                .findByUserIdAndPlanDateOrderBySortOrder(user.getId(), today).stream()
+                .filter(i -> i.getWordId().equals(word.getId()))
+                .collect(Collectors.toList());
+        if (!items.isEmpty()) {
+            DailyPlanItem item = items.get(0);
+            item.setKeyPoint(!item.isKeyPoint());
+            dailyPlanItemRepository.save(item);
+            return;
+        }
+        throw new ResourceNotFoundException("Plan entry not found");
+    }
+
+    public void toggleKeyPoint(String userId, String entryId) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        var planEntry = userDailyPlanEntryRepository.findByUuid(entryId);
+        if (planEntry.isPresent()) {
+            UserDailyPlanEntry e = planEntry.get();
+            if (!e.getUserId().equals(user.getId())) {
+                throw new ResourceNotFoundException("Plan entry not found");
+            }
+            e.setKeyPoint(!e.isKeyPoint());
+            userDailyPlanEntryRepository.save(e);
+            return;
+        }
+        var planItem = dailyPlanItemRepository.findByUuid(entryId);
+        if (planItem.isPresent()) {
+            DailyPlanItem item = planItem.get();
+            if (!item.getUserId().equals(user.getId())) {
+                throw new ResourceNotFoundException("Plan entry not found");
+            }
+            item.setKeyPoint(!item.isKeyPoint());
+            dailyPlanItemRepository.save(item);
+            return;
+        }
+        throw new ResourceNotFoundException("Plan entry not found");
+    }
+
     public int generateDailyPlan(String userId, GeneratePlanRequest req) {
         User user = userRepository.findByUuid(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", userId));
@@ -300,9 +474,62 @@ public class PlanService {
                 .orElseThrow(() -> new ResourceNotFoundException("Strategy not found"));
         WordBook wordBook = wordBookRepository.findByUuid(req.getWordBookId())
                 .orElseThrow(() -> new ResourceNotFoundException("WordBook not found"));
-        LocalDate planDate = LocalDate.parse(req.getDate());
+        LocalDate planDate = req.getDate() != null ? LocalDate.parse(req.getDate()) : LocalDate.now();
         int count = req.getCount() != null ? req.getCount() : 10;
 
+        return generateDailyWords(user.getId(), wordBook, strategy, count, planDate, 0);
+    }
+
+    public PlanResponse advanceDay(String userId) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        List<UserPlan> activePlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(user.getId());
+        if (activePlans.isEmpty()) {
+            throw BusinessException.badRequest("No active plan");
+        }
+        UserPlan userPlan = activePlans.get(0);
+        if (userPlan.getWordBookId() == null) {
+            throw BusinessException.badRequest("Plan is not bound to a word book");
+        }
+
+        WordBook wordBook = wordBookRepository.findById(userPlan.getWordBookId())
+                .orElseThrow(() -> new ResourceNotFoundException("WordBook not found"));
+        StudyStrategy strategy = userPlan.getStrategyId() != null
+                ? studyStrategyRepository.findById(userPlan.getStrategyId()).orElse(null)
+                : null;
+        if (strategy == null) {
+            throw BusinessException.badRequest("Plan has no strategy");
+        }
+
+        int dailyCount = userPlan.getDailyCount() != null ? userPlan.getDailyCount() : 10;
+        int totalWords = ((Number) entityManager.createNativeQuery(
+                        "SELECT COUNT(*) FROM word_book_entries WHERE word_book_id = ?1")
+                .setParameter(1, wordBook.getId())
+                .getSingleResult()).intValue();
+
+        int wordsGeneratedSoFar = (userPlan.getCurrentDay() - 1) * dailyCount;
+
+        if (wordsGeneratedSoFar >= totalWords) {
+            userPlan.setCompletedAt(LocalDateTime.now());
+            userPlanRepository.save(userPlan);
+            throw BusinessException.badRequest("Word book completed");
+        }
+
+        int startOffset = wordsGeneratedSoFar;
+        int newDay = userPlan.getCurrentDay() + 1;
+        int wordsLeft = totalWords - wordsGeneratedSoFar;
+        int todayCount = Math.min(dailyCount, wordsLeft);
+
+        generateDailyWords(user.getId(), wordBook, strategy, todayCount, LocalDate.now(), startOffset);
+
+        userPlan.setCurrentDay(newDay);
+        userPlanRepository.save(userPlan);
+
+        return buildPlanResponse(userPlan, wordBook, strategy, dailyCount);
+    }
+
+    private int generateDailyWords(Long userId, WordBook wordBook, StudyStrategy strategy,
+                                    int count, LocalDate planDate, int offset) {
         List<WordBookEntry> entries = wordBookEntryRepository
                 .findByWordBookIdOrderBySortOrder(wordBook.getId(), Pageable.unpaged());
         if (entries.isEmpty()) return 0;
@@ -329,22 +556,21 @@ public class PlanService {
                 break;
         }
 
-        List<Word> selected = words.stream()
-                .limit(count)
-                .collect(Collectors.toList());
+        int end = Math.min(offset + count, words.size());
+        List<Word> selected = words.subList(offset, end);
 
         int generated = 0;
         for (Word w : selected) {
             long exists = entityManager.createQuery(
                             "SELECT COUNT(d) FROM DailyPlanItem d WHERE d.userId = :userId AND d.planDate = :date AND d.wordId = :wordId", Long.class)
-                    .setParameter("userId", user.getId())
+                    .setParameter("userId", userId)
                     .setParameter("date", planDate)
                     .setParameter("wordId", w.getId())
                     .getSingleResult();
             if (exists > 0) continue;
 
             DailyPlanItem item = DailyPlanItem.builder()
-                    .userId(user.getId())
+                    .userId(userId)
                     .wordBookId(wordBook.getId())
                     .planDate(planDate)
                     .wordId(w.getId())
@@ -356,5 +582,114 @@ public class PlanService {
         }
 
         return generated;
+    }
+
+    private PlanResponse buildPlanResponse(UserPlan userPlan, WordBook wordBook, StudyStrategy strategy, int dailyCount) {
+        int totalWordsInBook = ((Number) entityManager.createNativeQuery(
+                        "SELECT COUNT(*) FROM word_book_entries WHERE word_book_id = ?1")
+                .setParameter(1, wordBook.getId())
+                .getSingleResult()).intValue();
+
+        LocalDate today = LocalDate.now();
+        int todayWords = countTodayWords(userPlan.getUserId(), today);
+        int todayCompleted = countTodayCompleted(userPlan.getUserId(), today);
+        int totalDays = dailyCount > 0 ? (int) Math.ceil((double) totalWordsInBook / dailyCount) : 0;
+
+        return PlanResponse.builder()
+                .id(userPlan.getUuid())
+                .type("wordbook")
+                .wordBook(PlanResponse.WordBookInfo.builder()
+                        .id(wordBook.getUuid())
+                        .name(wordBook.getName())
+                        .wordCount(totalWordsInBook)
+                        .difficultyLevel(wordBook.getDifficultyLevel())
+                        .build())
+                .strategy(PlanResponse.StrategyInfo.builder()
+                        .id(strategy.getUuid())
+                        .name(strategy.getName())
+                        .description(strategy.getDescription())
+                        .build())
+                .dailyCount(dailyCount)
+                .currentDay(userPlan.getCurrentDay())
+                .totalDays(totalDays)
+                .pct(totalDays > 0 ? (double) (userPlan.getCurrentDay() - 1) / totalDays * 100 : 0)
+                .todayWords(todayWords)
+                .todayCompleted(todayCompleted)
+                .totalWords(totalWordsInBook)
+                .startedAt(userPlan.getStartedAt() != null ? userPlan.getStartedAt().toString() : null)
+                .completed(false)
+                .build();
+    }
+
+    public PlanResponse setCurrentWordBook(String userId, String wordBookId, String strategyId, int dailyCount) {
+        User user = userRepository.findByUuid(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        WordBook wordBook = wordBookRepository.findByUuid(wordBookId)
+                .orElseThrow(() -> new ResourceNotFoundException("WordBook not found"));
+        StudyStrategy strategy = studyStrategyRepository.findByUuid(strategyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Strategy not found"));
+
+        int totalWordsInBook = ((Number) entityManager.createNativeQuery(
+                        "SELECT COUNT(*) FROM word_book_entries WHERE word_book_id = ?1")
+                .setParameter(1, wordBook.getId())
+                .getSingleResult()).intValue();
+        if (totalWordsInBook == 0) {
+            throw BusinessException.badRequest("Word book is empty");
+        }
+
+        List<UserPlan> activePlans = userPlanRepository.findByUserIdAndCompletedAtIsNull(user.getId());
+        UserPlan userPlan;
+        if (activePlans.isEmpty()) {
+            userPlan = UserPlan.builder()
+                    .userId(user.getId())
+                    .wordBookId(wordBook.getId())
+                    .strategyId(strategy.getId())
+                    .startedAt(LocalDateTime.now())
+                    .currentDay(1)
+                    .dailyCount(dailyCount)
+                    .build();
+            userPlanRepository.save(userPlan);
+        } else {
+            userPlan = activePlans.get(0);
+            userPlan.setWordBookId(wordBook.getId());
+            userPlan.setStrategyId(strategy.getId());
+            userPlan.setDailyCount(dailyCount);
+            userPlanRepository.save(userPlan);
+        }
+
+        dailyPlanItemRepository.deleteByUserIdAndPlanDate(user.getId(), LocalDate.now());
+        userDailyPlanEntryRepository.deleteByUserIdAndPlanDate(user.getId(), LocalDate.now());
+
+        generateDailyWords(user.getId(), wordBook, strategy, dailyCount, LocalDate.now(), 0);
+
+        return buildPlanResponse(userPlan, wordBook, strategy, dailyCount);
+    }
+
+    private int countTodayWords(Long userId, LocalDate date) {
+        long ud = entityManager.createQuery(
+                        "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date", Long.class)
+                .setParameter("userId", userId)
+                .setParameter("date", date)
+                .getSingleResult();
+        long dp = entityManager.createQuery(
+                        "SELECT COUNT(e) FROM DailyPlanItem e WHERE e.userId = :userId AND e.planDate = :date", Long.class)
+                .setParameter("userId", userId)
+                .setParameter("date", date)
+                .getSingleResult();
+        return (int) (ud + dp);
+    }
+
+    private int countTodayCompleted(Long userId, LocalDate date) {
+        long ud = entityManager.createQuery(
+                        "SELECT COUNT(e) FROM UserDailyPlanEntry e WHERE e.userId = :userId AND e.planDate = :date AND e.isCompleted = true", Long.class)
+                .setParameter("userId", userId)
+                .setParameter("date", date)
+                .getSingleResult();
+        long dp = entityManager.createQuery(
+                        "SELECT COUNT(e) FROM DailyPlanItem e WHERE e.userId = :userId AND e.planDate = :date AND e.isCompleted = true", Long.class)
+                .setParameter("userId", userId)
+                .setParameter("date", date)
+                .getSingleResult();
+        return (int) (ud + dp);
     }
 }

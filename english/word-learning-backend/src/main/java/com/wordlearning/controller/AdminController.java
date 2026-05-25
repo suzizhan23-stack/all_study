@@ -3,6 +3,8 @@ package com.wordlearning.controller;
 import com.wordlearning.dto.response.AdminOverviewResponse;
 import com.wordlearning.dto.response.ApiResponse;
 import com.wordlearning.dto.response.PageResponse;
+import com.wordlearning.entity.Collocation;
+import com.wordlearning.entity.PrepPattern;
 import com.wordlearning.entity.Word;
 import com.wordlearning.repository.WordRepository;
 import com.wordlearning.service.AdminService;
@@ -70,6 +72,35 @@ public class AdminController {
     @DeleteMapping("/words/{id}")
     public ApiResponse<Void> deleteWord(@PathVariable("id") String uuid) {
         adminService.deleteWord(uuid);
+        return ApiResponse.success();
+    }
+
+    @PutMapping("/collocations/{id}")
+    public ApiResponse<Collocation> updateCollocation(@PathVariable("id") String uuid, @RequestBody Map<String, Object> body) {
+        return ApiResponse.success(adminService.updateCollocation(uuid,
+                (String) body.get("collocation"),
+                (String) body.get("translation"),
+                body.containsKey("frequency") ? ((Number) body.get("frequency")).intValue() : null));
+    }
+
+    @DeleteMapping("/collocations/{id}")
+    public ApiResponse<Void> deleteCollocation(@PathVariable("id") String uuid) {
+        adminService.deleteCollocation(uuid);
+        return ApiResponse.success();
+    }
+
+    @PutMapping("/prep-patterns/{id}")
+    public ApiResponse<PrepPattern> updatePrepPattern(@PathVariable("id") String uuid, @RequestBody Map<String, Object> body) {
+        return ApiResponse.success(adminService.updatePrepPattern(uuid,
+                (String) body.get("pattern"),
+                (String) body.get("translation"),
+                (String) body.get("preposition"),
+                body.containsKey("frequency") ? ((Number) body.get("frequency")).intValue() : null));
+    }
+
+    @DeleteMapping("/prep-patterns/{id}")
+    public ApiResponse<Void> deletePrepPattern(@PathVariable("id") String uuid) {
+        adminService.deletePrepPattern(uuid);
         return ApiResponse.success();
     }
 

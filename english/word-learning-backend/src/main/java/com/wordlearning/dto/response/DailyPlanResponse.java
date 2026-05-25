@@ -1,5 +1,6 @@
 package com.wordlearning.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,14 @@ public class DailyPlanResponse {
     private String date;
     private int total;
     private int completed;
+    private WordBookRef wordBook;
     private List<WordEntry> words;
+
+    @Data @Builder @NoArgsConstructor @AllArgsConstructor
+    public static class WordBookRef {
+        private String id;
+        private String name;
+    }
 
     @Data
     @NoArgsConstructor
@@ -29,7 +37,8 @@ public class DailyPlanResponse {
         private String pos;
         private String posLabel;
         private String meaningCn;
-        private boolean isCompleted;
+        @JsonProperty("isCompleted") private boolean isCompleted;
+        @JsonProperty("isKeyPoint") private boolean isKeyPoint;
         private String entrySource;
         private int sortOrder;
         private List<CollocationCompact> collocations;
@@ -42,6 +51,7 @@ public class DailyPlanResponse {
     @Builder
     public static class CollocationCompact {
         private String text;
+        private String translation;
         private int frequency;
     }
 
@@ -51,6 +61,7 @@ public class DailyPlanResponse {
     @Builder
     public static class PrepCompact {
         private String pattern;
+        private String translation;
         private String preposition;
     }
 }

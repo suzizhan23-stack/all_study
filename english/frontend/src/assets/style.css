@@ -88,6 +88,25 @@ a:hover { text-decoration: underline; }
 
 .phonetic { color: var(--color-accent); font-family: 'IPA', serif; font-size: 15px; }
 
+/* Mobile responsive */
+@media (max-width: 768px) {
+  body { font-size: 15px; }
+  .card { padding: 14px; border-radius: 10px; }
+  .btn { padding: 10px 16px; font-size: 15px; }
+  .btn-sm { padding: 6px 10px; font-size: 13px; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table th, .table td { padding: 8px 10px; white-space: nowrap; }
+  .input { font-size: 16px; padding: 10px 12px; } /* prevent iOS zoom */
+  h2 { font-size: 18px; }
+  h3 { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  .grid-4 { grid-template-columns: 1fr; }
+}
+
 /* Star rating */
 .stars { display: inline-flex; gap: 2px; }
 .star { color: #d1d5db; cursor: pointer; font-size: 18px; }
