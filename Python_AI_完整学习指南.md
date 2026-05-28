@@ -1171,28 +1171,254 @@ sys.setrecursionlimit(2000)
 
 ### 1.4.13 文档字符串（docstring）
 
-**下面是 文档字符串（docstring） 的代码示例：**
+#### 一句话核心本质
+
+**文档字符串（docstring）是定义在模块/函数/类/方法开头的字符串字面量——Python 编译器在编译时将其存入对象的 `__doc__` 属性，供 `help()`、IDE 提示、文档生成工具使用。注释被编译器丢弃，docstring 保留在运行时。**
+
+#### Java vs Python 对比
+
+| 维度 | Java | Python |
+|------|------|--------|
+| 文档形式 | Javadoc 注释 `/** ... */` | docstring `"""..."""` |
+| 存储方式 | 编译到 `.class` 文件的可选 `@Deprecated` 等注解 | 运行时 `__doc__` 属性 |
+| 生成工具 | Javadoc | Sphinx / pydoc |
+| 类型信息 | `@param name description` | Google/NumPy/Sphinx 三种风格 |
+| 访问方式 | IDE 悬停读源码 | `help(obj)` / `obj.__doc__` |
+| 编译时 | 默认不保留注释 | 必须保留（运行时可用） |
+
+#### 技术原理：`__doc__` 是如何产生的
+
+```
+Python 编译器处理 def/class/module 时：
+
+源码:                      字节码:
+def foo():                  LOAD_CONST 0 (<code object foo>)
+    """Do stuff"""          LOAD_CONST 1 ('foo')
+    return 42               MAKE_FUNCTION
+                            STORE_NAME 'foo'
+
+编译阶段（CPython/compile.c）：
+1. 解析器生成 AST，看到 def 节点的第一个子节点是 Expr(Str)
+2. 编译器将该字符串存入 code object 的 co_consts[0]
+3. MAKE_FUNCTION 指令会检查 co_consts[0]
+4. 如果是字符串，自动设置 func.__doc__ = co_consts[0]
+
+运行时真相：
+>>> def f():
+...     """hello"""
+...     pass
+>>> f.__doc__
+'hello'
+>>> f.__code__.co_consts   # ('hello', None)
+('hello', None)
+
+关键区别：
+- # 注释：词法分析阶段直接被丢弃，不存在于字节码中
+- """docstring"""：被编译为常量，是字节码的一部分
+```
+
+#### 三种主流格式
+
 ```python
-def calculate_ber(bit_rate: float, noise: float) -> float:
+# ─── Google Style（推荐，简洁清晰） ───
+def calculate_snr(signal_power: float, noise_power: float) -> float:
+    """计算信噪比 (SNR)。
+
+    Args:
+        signal_power: 信号功率 (mW)
+        noise_power: 噪声功率 (mW)
+
+    Returns:
+        SNR 值 (dB)
+
+    Raises:
+        ValueError: 如果噪声功率 <= 0
+
+    Example:
+        >>> calculate_snr(100, 1)
+        20.0
     """
-    计算误比特率 (BER)。
+    if noise_power <= 0:
+        raise ValueError("噪声功率必须大于 0")
+    return 10 * math.log10(signal_power / noise_power)
 
-    参数:
-        bit_rate (float): 比特率 (bps)
-        noise (float): 噪声功率 (dB)
-
-    返回:
-        float: 误比特率
-
-    示例:
-        >>> calculate_ber(1e6, -20)
-        0.001
+# ─── NumPy Style（AI/科学计算社区常用） ───
+def calculate_snr_numpy(signal_power, noise_power):
     """
-    return 0.001
+    Calculate Signal-to-Noise Ratio.
 
-# 查看文档
-print(calculate_ber.__doc__)
-help(calculate_ber)
+    Parameters
+    ----------
+    signal_power : float
+        信号功率 (mW)
+    noise_power : float
+        噪声功率 (mW)
+
+    Returns
+    -------
+    float
+        SNR in dB
+
+    Raises
+    ------
+    ValueError
+        If noise_power <= 0
+    """
+    return 10 * math.log10(signal_power / noise_power)
+
+# ─── Sphinx/reST Style（Java 开发者最熟悉） ───
+def calculate_snr_sphinx(signal_power, noise_power):
+    """计算信噪比。
+
+    :param signal_power: 信号功率 (mW)
+    :type signal_power: float
+    :param noise_power: 噪声功率 (mW)
+    :type noise_power: float
+    :returns: SNR 值 (dB)
+    :rtype: float
+    :raises ValueError: 噪声功率 <= 0
+    """
+    return 10 * math.log10(signal_power / noise_power)
+```
+
+#### 进阶用法
+
+```python
+# ─── 模块级 docstring ───
+"""AI 通信模块。
+
+该模块提供无线通信系统的信噪比、误比特率等计算函数。
+
+典型用法:
+    >>> from ai_comm import calculate_snr
+    >>> calculate_snr(100, 1)
+    20.0
+"""
+
+# ─── 类 docstring ───
+class Modem:
+    """调制解调器基类。
+
+    Attributes:
+        modulation: 调制方式 ('QPSK', '16QAM', '64QAM')
+        bit_rate: 比特率 (bps)
+
+    Todo:
+        - 支持 OFDM
+        - 添加 MIMO 支持
+    """
+
+# ─── __doc__ 是可变属性 ───
+def func():
+    """原始文档"""
+    pass
+
+func.__doc__ = "动态修改的文档"
+print(func.__doc__)  # "动态修改的文档"
+
+# ─── inspect.getdoc() 自动清理缩进 ───
+import inspect
+
+class Outer:
+    class Inner:
+        """内层类文档"""
+        pass
+
+print(Outer.Inner.__doc__)            # "内层类文档"
+print(repr(inspect.getdoc(Outer.Inner)))  # 自动去除多余缩进
+
+# ─── dataclass 自动生成 docstring ───
+from dataclasses import dataclass
+
+@dataclass
+class Config:
+    """AI 模型配置"""
+    model_name: str = "gpt-4"
+    temperature: float = 0.7
+
+print(Config.__doc__)  # "AI 模型配置"
+```
+
+#### 常见错误
+
+**错误 1：用注释代替 docstring**
+
+```python
+# ❌ 错误：注释无法被 help() 读取
+def calculate(x, y):
+    # 计算两个数的和  ← 这是注释，运行时不存在
+    return x + y
+
+help(calculate)  # 只显示函数签名，没有说明
+
+# ✅ 正确：用 docstring
+def calculate(x, y):
+    """返回 x 和 y 的和"""
+    return x + y
+
+help(calculate)  # 显示完整文档
+```
+
+**错误 2：docstring 不是第一个语句**
+
+```python
+# ❌ 错误：print 在 docstring 之前
+def bad():
+    print("start")  # 这不是第一个语句了！
+    """这是文档？不，这是个无用的字符串表达式"""
+    return 42
+
+print(bad.__doc__)  # None  ← Python 不会把它当 docstring
+
+# ✅ 正确：docstring 必须是第一个表达式
+def good():
+    """这是真正的文档"""
+    print("start")
+    return 42
+```
+
+**错误 3：字符串字面量而非三引号字符串**
+
+```python
+# ❌ 错误：单引号字符串作为 docstring 也可以，但不推荐
+def f():
+    'short doc'  # 语法正确，但可读性差
+    pass
+
+print(f.__doc__)  # 'short doc'
+
+# ✅ 正确：统一用 """ 三引号
+def f():
+    """推荐写法，支持换行"""
+    pass
+```
+
+#### AI 场景案例：自动生成 API 文档
+
+```python
+import ast
+import inspect
+
+def auto_document(obj) -> str:
+    """从对象及其 docstring 生成 Markdown 文档。"""
+    doc = inspect.getdoc(obj) or "无文档"
+    source = inspect.getsource(obj)
+    return f"## {obj.__name__}\n\n{doc}\n\n```python\n{source}\n```"
+
+def train_model(data: list, epochs: int = 10) -> float:
+    """训练 AI 模型。
+
+    Args:
+        data: 训练数据列表
+        epochs: 训练轮数，默认 10
+
+    Returns:
+        训练后的准确率
+    """
+    return 0.95
+
+# 生成文档
+print(auto_document(train_model))
 ```
 
 ### 1.4.14 常见错误
@@ -1202,11 +1428,144 @@ help(calculate_ber)
 # 1. lambda 闭包陷阱
 funcs = [lambda: i for i in range(5)]
 print([f() for f in funcs])  # [4,4,4,4,4] ← 所有函数都返回最后一个 i
+```
 
-# 原因：lambda 捕获的是变量 i 的引用，循环结束时 i=4
-# 正确：
+**这行代码是每个 Python 开发者都会踩的坑，本质是"闭包捕获变量引用而非值"：**
+
+#### 先理解 cell 是什么——它是 Python 闭包的"桥接对象"
+
+```python
+def outer():
+    x = 42
+    def inner():
+        return x
+    return inner
+
+f = outer()
+print(f.__closure__)       # (<cell at 0x...: int object at 0x...>,)
+print(f.__closure__[0])    # <cell at 0x...: int object at 0x...>
+print(f.__closure__[0].cell_contents)  # 42 ← 真正存的值
+```
+
+`cell` 是 CPython 内部的一个**中间容器**，用于在嵌套函数之间传递自由变量。当 `outer()` 执行 `def inner()` 时，`inner` 引用了外部变量 `x`，CPython 不会把变量值直接复制给 `inner`——它创建一个 `cell` 对象，`inner` 通过 `__closure__` 拿到 cell，调用时从 cell 读取当前值。
+
+回到 `funcs = [lambda: i for i in range(5)]`，问题出在**作用域**上：
+
+```
+Python 作用域规则：
+列表推导式 [] 在 Python 3 中不是新作用域！
+（生成器推导式 () 才是）
+
+所以变量 i 不属于推导式，而属于外层函数/模块的同一个作用域
+
+内存模型：
+外层作用域的变量 i
+         │
+         ▼
+    ┌──────────────────┐
+    │  cell 对象        │ ←── 只创建了 1 个 cell！
+    │  cell_contents: 4 │ ←── lambda_0.__closure__[0]
+    │                   │ ←── lambda_1.__closure__[0]
+    │                   │ ←── lambda_2.__closure__[0]
+    │                   │ ←── lambda_3.__closure__[0]
+    │                   │ ←── lambda_4.__closure__[0]
+    └──────────────────┘
+         │
+  for i in range(5):
+      i → 0 → 1 → 2 → 3 → 4（每次都修改同一个 cell 的内容）
+                            ↑
+                     循环结束时 i=4，cell 里存的是 4
+
+所有 5 个 lambda 的 __closure__[0] 指向的是同一个 cell 对象！
+调用时读取 cell_contents，得到的是最新的 i=4
+```
+
+**验证：**
+
+```python
+funcs = [lambda: i for i in range(3)]
+# 所有 lambda 共享同一个 cell
+print(funcs[0].__closure__[0] is funcs[1].__closure__[0])  # True
+print(funcs[1].__closure__[0] is funcs[2].__closure__[0])  # True
+print(funcs[0].__closure__[0].cell_contents)  # 2
+```
+
+**对比 `make_lambda(i)` 修复版——为什么函数调用能创建独立 cell？**
+
+```python
+def make_lambda(x):        # ① x 是形参，属于 make_lambda 的局部作用域
+    return lambda: x       # ② lambda 捕获的 x 是当前的 x
+
+funcs = [make_lambda(i) for i in range(3)]
+#         ↑ 每次调用 make_lambda，都创建一个新的栈帧
+```
+
+```
+循环调用过程（重点对比变量绑定）：
+
+错误版（列表推导式直接 lambda）：
+[同一个作用域]  变量 i
+    ├─ 迭代0: 创建 lambda#0，闭包引用 i（同一个变量）
+    ├─ 迭代1: 创建 lambda#1，闭包引用 i（同一个变量）
+    ├─ 迭代2: 创建 lambda#2，闭包引用 i（同一个变量）
+    └─ 循环结束: i = 2，所有 lambda 读到 2
+
+修复版（make_lambda(i) 调用）：
+[外层作用域]  i ← 循环变量
+    ├─ 迭代0: make_lambda(0) 被调用
+    │          ┌─ [新栈帧 #0]  形参 x 绑定到值 0  ← 创建新 cell#0，内容=0
+    │          └─ 返回 lambda: x  → 捕获 cell#0
+    ├─ 迭代1: make_lambda(1) 被调用
+    │          ┌─ [新栈帧 #1]  形参 x 绑定到值 1  ← 创建新 cell#1，内容=1
+    │          └─ 返回 lambda: x  → 捕获 cell#1
+    ├─ 迭代2: make_lambda(2) 被调用
+    │          ┌─ [新栈帧 #2]  形参 x 绑定到值 2  ← 创建新 cell#2，内容=2
+    │          └─ 返回 lambda: x  → 捕获 cell#2
+    └─ 循环结束: 但 cell#0=0, cell#1=1, cell#2=2 互相独立
+```
+
+**关键区别一句话**：`for` 循环不创建新作用域——所有迭代共享同一个变量 `i`。但**函数调用一定创建新作用域**——每次 `make_lambda(i)` 都新开一个栈帧，形参 `x` 属于那个栈帧，每个栈帧的 `x` 是不同的绑定。CPython 为每个绑定创建独立的 cell 对象。
+
+```python
+# 验证：每个 lambda 拥有独立的 cell
+print(funcs[0].__closure__[0] is funcs[1].__closure__[0])  # False ← 不同 cell！
+print(funcs[0].__closure__[0].cell_contents)  # 0
+print(funcs[1].__closure__[0].cell_contents)  # 1
+```
+
+**Java 为什么没这问题？**
+
+```java
+// Java：lambda 要求变量是 effectively final，编译就禁止修改
+for (int i = 0; i < 5; i++) {
+    // IntSupplier s = () -> i;  // 编译错误！i 不是 final
+    int finalI = i;
+    IntSupplier s = () -> finalI;  // 正确：拷贝到 final 局部变量
+}
+```
+
+每次循环用 `int finalI = i` 创建了新的局部变量（栈上的新槽位），lambda 捕获的是这块新内存——每个 lambda 捕获不同的槽位，互不干扰。
+
+**Python 的三种正确写法：**
+
+```python
+# 写法1：默认参数绑定（最常用）
 funcs = [lambda x=i: x for i in range(5)]
-print([f() for f in funcs])  # [0,1,2,3,4]
+# 原理：def 执行时，默认参数立即求值，x 得到 i 的当前值副本
+#       不再通过闭包引用 i
+
+# 写法2：闭包+工厂函数
+def make_lambda(x):
+    return lambda: x
+funcs = [make_lambda(i) for i in range(5)]
+# 原理：每次调用 make_lambda(i) 创建新作用域，
+#       新 cell 对象保存 x 的当前值
+
+# 写法3：functools.partial
+from functools import partial
+funcs = [partial(lambda x: x, i) for i in range(5)]
+
+print([f() for f in funcs])  # [0,1,2,3,4] 三种写法都正确
 
 # 2. 可变默认参数
 def add_item(item, lst=[]):
@@ -2915,43 +3274,76 @@ greet("Python", greeting="Hi")
 
 ### 2.1.5 带参数装饰器
 
-带参数的装饰器需要三层嵌套：外层接收参数 → 中层接收函数 → 内层 wrapper：
+#### 为什么必须 3 层？——因为 `@repeat(3)` 等价于 `repeat(3)(greet)`
 
 ```python
-def repeat(n: int):
-    """带参数装饰器：重复执行 n 次"""
-    def decorator(func):              # 中层：接收被装饰函数
-        def wrapper(*args, **kwargs):  # 内层：接收实际参数
-            for i in range(n):
+@repeat(3)    # ① 先求值 repeat(3)，结果必须是一个可调用对象
+def greet():  # ② 该可调用对象被调用，参数是 greet
+    pass
+# 等价于：greet = repeat(3)(greet)
+```
+
+`repeat(3)` 先执行，所以 `repeat` 必须接收参数（而不是函数）；它的返回值再被调用、接收函数。这自然需要两层：一层接收参数，一层接收函数。加上 wrapper 总共 3 层。
+
+#### 3 层结构的职责划分
+
+```python
+def repeat(n: int):                    # 【第 1 层】接收装饰器参数
+    """n 在此被捕获到闭包中"""
+    def decorator(func):               # 【第 2 层】接收被装饰函数
+        """func 在此被捕获到闭包中"""
+        def wrapper(*args, **kwargs):  # 【第 3 层】接收实际调用参数，替换原函数
+            for _ in range(n):
                 result = func(*args, **kwargs)
             return result
         return wrapper
-    return decorator                  # 返回中层
+    return decorator
 
-@repeat(3)
-def greet(name):
-    print(f"Hello {name}")
-
-greet("World")
-# Hello World
-# Hello World
-# Hello World
-
-# 等价于：
-# greet = repeat(3)(greet)
+# 调用链：
+# repeat(3) → decorator → wrapper
+# greet = repeat(3)(greet)  → decorator(greet) → wrapper
+# greet("World")  → wrapper("World")
 ```
 
-**执行流程分解：**
+```
+内存布局：
+┌─────────────────────────────────────────────────┐
+│  repeat(3) 的闭包                                │
+│  ┌─────┐                                        │
+│  │ n=3 │  ← 第 1 层捕获                          │
+│  └─────┘                                        │
+│  ┌──────────────────────────────────────────┐    │
+│  │ decorator(greet) 的闭包                   │    │
+│  │  ┌──────┐                               │    │
+│  │  │func= │  ← 第 2 层捕获                  │    │
+│  │  │greet │                               │    │
+│  │  └──────┘                               │    │
+│  │  ┌───────────────────────────────────┐  │    │
+│  │  │ wrapper(*args) 的闭包              │  │    │
+│  │  │  (无需额外捕获，n 和 func 来自外层) │  │    │
+│  │  └───────────────────────────────────┘  │    │
+│  └──────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────┘
+```
 
+#### 如果只用 2 层会怎样？
+
+```python
+# 尝试：合并第 1 层和第 2 层
+def repeat(func, n=1):
+    def wrapper(*args, **kwargs):
+        for _ in range(n):
+            func(*args, **kwargs)
+    return wrapper
+
+@repeat(3)     # ❌ 相当于 repeat(3) → func=3, n=1，根本不是函数！
+def greet(): pass
+
+@repeat        # ✅ 相当于 repeat(greet) → func=greet, n=1，只支持无参形式
+def greet(): pass
 ```
-@repeat(3) def greet(name):
-                          ↓
-1. repeat(3) 执行 → 返回 decorator 函数（闭包，n=3 已捕获）
-                 ↓
-2. decorator(greet) 执行 → 返回 wrapper 函数（闭包，func=原始greet 已捕获）
-                 ↓
-3. greet 现在指向 wrapper
-```
+
+`@repeat(3)` 中 `repeat(3)` 被调用时只传了 `3`，Python 把 `3` 当作第一个参数 `func`。它期望的是函数，结果拿到整数 3，运行时报错。所以必须用第 1 层专门接收参数，保证第 2 层一定能拿到函数。
 
 ### 2.1.6 functools.wraps 原理
 
@@ -3177,7 +3569,7 @@ def greet(): ...
 def greet(): ...
 ```
 
-**错误 4：类装饰器中 `self` 处理错误**
+**错误 4：类装饰器用于方法时，`__call__` 收到意外参数**
 
 ```python
 class Echo:
@@ -3185,35 +3577,133 @@ class Echo:
         self.func = func
 
     def __call__(self, *args, **kwargs):
-        print(f"Echo: {args}")   # 实例方法中 args 不包含 self
+        print(f"Echo: {args}")       # args 里有什么？
         return self.func(*args, **kwargs)
 
+# ─── 场景 A：装饰普通函数（没问题） ───
 @Echo
-def process(self, data):  # 如果是方法装饰器，self 会出现在 args[0]
-    return data
+def greet(name):                     # greet = Echo(greet)，greet 是 Echo 实例
+    return f"Hello {name}"
 
+greet("World")  # args = ("World",), self.func("World") → "Hello World" ✓
+
+# ─── 场景 B：装饰类方法（陷阱！） ───
 class Service:
     @Echo
-    def run(self, data):  # __call__ 收到 (self实例, data)
+    def run(self, data):             # run = Echo(原始函数)
         return data
+
+s = Service()
+s.run("test")
+# 调用链：s.run("test")
+#   → Python 发现 s.run 是 Echo 实例
+#   → 调用 Echo.__call__(echo_inst, s, "test")
+#   → args = (s, "test")  ← 多了一个 s！开发者可能没料到
+#   → self.func(s, "test")  → 原始 run(self, data) 收到 self=s ✓ 碰巧正确
+
+# ─── 真正出错的场景：装饰普通函数但参数签名不匹配 ───
+@Echo
+def process(self, data):   # 函数定义了 self 参数（看起来像方法）
+    return data
+
+process("test")            # ❌ args = ("test",)
+                           #    self.func("test") → 原始 process(self, data)
+                           #    收到 self="test", data 缺失 → TypeError
 ```
 
-**错误 5：装饰器执行时机误解**
+**错误本质**：用类做装饰器时，类实例的 `__call__` 不参与 Python 的方法绑定机制。当装饰的方法是 `s.run("test")`，Python 不自动注入 `s` 到 `self`——`s` 直接出现在 `args` 里。开发者常误以为 `__call__` 的 `self` 就是被装饰方法的 `self`，其实 `__call__` 的 `self` 是 **Echo 实例自己**，被装饰实例在 `args[0]` 里。**解决方案：用函数装饰器代替类装饰器，或明确处理好 `*args`。**
+
+**错误 5：装饰器执行时机误解——`@` 在定义时执行，不是调用时！**
+
+Java 开发者最容易犯的错。Java 的 `@Override` 是元数据（编译时读取），Python 的 `@decorator` 是**可执行代码**——它在 `def` 语句执行时**当场调用**。
 
 ```python
-# 装饰器在 import/定义时执行，不是调用时！
 import time
 
 def timestamp(func):
-    print(f"装饰器执行于: {time.time()}")  # ← import 时打印
+    print(f"[装饰器执行] {time.strftime('%H:%M:%S')}")
     return func
+
+print("1. 开始导入模块")
 
 @timestamp
 def f():
-    pass
+    print("2. 函数被调用了")
 
-# 即使不调用 f，上面的 print 已经执行了
+print("3. 模块导入完成")
+
+f()
+print("4. 函数返回")
 ```
+
+```
+输出：
+  [装饰器执行] 10:00:00    ← @timestamp 在 def f 时就执行了！
+  1. 开始导入模块          ← 但实际上 print("1.") 在 def 之后
+  3. 模块导入完成          ← 注意：1 和 3 的顺序取决于 def 的位置
+  2. 函数被调用了          ← f() 调用时才执行函数体
+  4. 函数返回
+```
+
+**为什么顺序是这样？**
+
+```
+@timestamp                 ← ① @ 是语法糖
+def f():                   ← def f() 先被处理
+    pass                   ← 函数对象被创建，赋值给变量 f
+                           ← ② 然后 timestamp(f) 立即执行！
+                           ← ③ 结果重新赋值给 f
+
+等价于：
+def f():
+    pass
+f = timestamp(f)           ← 定义完 f 后立即执行 timestamp(f)
+                           ③   ①       ②
+```
+
+**实际影响：装饰器里的耗时操作（加载模型、连接数据库）会卡住模块导入！**
+
+```python
+# ❌ AI 项目常见错误：在装饰器里加载大模型
+MODEL_CACHE = {}
+
+def load_ai_model(model_name):
+    print(f"正在加载 {model_name}...")
+    MODEL_CACHE[model_name] = HeavyModel(model_name)  # 耗时 10 秒！
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            model = MODEL_CACHE[model_name]
+            return func(model, *args, **kwargs)
+        return wrapper
+    return decorator
+
+@load_ai_model("gpt-4")     # ← 导入模块时就执行！
+def chat(model, prompt):
+    return model.generate(prompt)
+
+# 用户只是想导入你写的库，结果被卡了 10 秒！
+
+# ✅ 正确：用懒加载，在第一次调用时再加载
+MODEL_CACHE = {}
+
+def lazy_load(model_name):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            if model_name not in MODEL_CACHE:
+                print(f"首次调用时加载 {model_name}")
+                MODEL_CACHE[model_name] = HeavyModel(model_name)
+            model = MODEL_CACHE[model_name]
+            return func(model, *args, **kwargs)
+        return wrapper
+    return decorator
+
+@lazy_load("gpt-4")         # 只返回 wrapper，不加载模型
+def chat(model, prompt):
+    return model.generate(prompt)
+```
+
+**总结**：`@` 的本质就是 `f = decorator(f)`，它在 `def` 语句执行时立即求值。Java 的 `@` 是声明式元数据，Python 的 `@` 是命令式函数调用——这两个名字一样但行为截然不同。
 
 ### 2.1.10 AI 场景案例
 
