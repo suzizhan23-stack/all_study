@@ -215,9 +215,10 @@ def hello():
 int a = 10;              // 栈上分配，值类型
 Integer b = new Integer(10);  // 堆上分配
 ```
-```
 
-**Python 对应代码：所有变量都是堆上 PyObject 引用。`a = 10` 创建一个 PyLongObject(10) 对象，`b = "hello"` 创建一个 PyUnicodeObject，`c = [1,2,3]` 创建一个 PyListObject。每个赋值都在堆上分配新对象，变量只保存指向这些对象的指针（引用）。**
+
+**Python 对应代码：所有变量都是堆上 PyObject 引用。**
+`a = 10` 创建一个 PyLongObject(10) 对象，`b = "hello"` 创建一个 PyUnicodeObject，`c = [1,2,3]` 创建一个 PyListObject。每个赋值都在堆上分配新对象，变量只保存指向这些对象的指针（引用）。
 
 ```python
 a = 10                   # PyLongObject, 堆上分配
@@ -238,7 +239,7 @@ int a = 10;       // 栈帧: [a = 10]
 int b = a;        // 栈帧: [a = 10, b = 10] ← 复制值
 b = 20;           // a=10, b=20 ← 互不影响
 ```
-```
+
 
 **Python 内存模型对比代码：Python 变量是引用（指针），`a = 10` 在栈上存指针指向堆上的 PyLongObject，`b = a` 复制指针让两个变量指向同一对象，`b = 20` 创建新对象并让 b 指向它，a 不受影响。这种"对象在堆、引用在栈"的模型与 Java 引用类型一致，但与 Java 基本类型完全不同。**
 
@@ -273,7 +274,7 @@ b = 20 之后                      b = 20 之后
 
 **结论：** Java `int` 在栈上直接存值，`b = a` 复制值；Python 所有变量都是栈上的指针（引用），`b = a` 复制指针，两变量指向同一对象，赋值给 `b` 只是让 `b` 指向新对象。
 
-### 1.3.3 技术原理
+### 1.3.3 内存原理
 
 ```
 每个 Python 对象在内存中：
@@ -310,114 +311,1319 @@ b = 20 之后                      b = 20 之后
   int           →  type             →  type  ← 闭环
 ```
 
-**核心规则：** 每个对象的 `ob_type` 指向它的类型，类型的类型是 `type`，`type` 的类型是它自己。
+**核心规则：** 每个对象的 `ob_type` 指向它的类型PyTypeObject（即类的 C 层结构体），类型的类型是 `type`，`type` 的类型是它自己。
+
 
 ```
 内存中完整关系图：
 
 a = 42（实例对象）
-  ┌──────────────┐      ob_type
-  │ ob_refcnt: 3 │────────────┐
-  │ ob_type ─────┼─┐          │
-  │ ob_digit: 42 │ │          │
-  └──────────────┘ │          │
-                   │          ▼
-                   │   ┌──────────────────────┐
-                   │   │ PyTypeObject ("int")  │  ← 类的实例
-                   │   │ tp_name: "int"        │
-                   │   │ tp_basicsize: 28      │
-                   │   │ tp_dealloc: ...       │
-                   │   │ tp_repr: int_repr     │
-                   │   │ tp_str: int_to_str    │
-                   │   │ tp_as_number: + - *   │  ← 数值运算函数表
-                   │   │ ob_type ────────┐     │
-                   │   └──────────────────│─────┘
-                   │                      │
-                   │                      ▼
-                   │            ┌──────────────────────┐
-                   │            │ PyTypeObject ("type") │  ← 元类
-                   │            │ tp_name: "type"       │
-                   └────────────│ tp_basicsize: ...     │
-                                │ tp_call: type_call    │  ← type() 函数
-                                │ tp_new: type_new      │
-                                │ ob_type ────────┐     │
-                                └──────────────────│─────┘
-                                                   │
-                                                   ▼
-                                ┌──────────────────────┐
-                                │ PyTypeObject ("type") │  ← 指向自己
-                                │ (同上对象)            │
-                                └──────────────────────┘
+  ┌──────────────┐
+  │ ob_refcnt: 3 │
+  │ ob_type ─────┼─────────────────────────┐
+  │ ob_digit: 42 │                         │
+  └──────────────┘                         │
+                                           ▼
+                               ┌──────────────────────┐
+                               │ PyTypeObject ("int")  │  ← a 的类型
+                               │ tp_name: "int"        │
+                               │ tp_basicsize: 28      │
+                               │ tp_dealloc: ...       │
+                               │ tp_repr: int_repr     │
+                               │ tp_str: int_to_str    │
+                               │ tp_as_number: + - *   │  ← 数值运算函数表
+                               │ ob_type ──────────────┼───────┐
+                               └──────────────────────┘       │
+                                                               ▼
+                                                   ┌──────────────────────┐
+                                                   │ PyTypeObject ("type") │  ← int 的类型（元类）
+                                                   │ tp_name: "type"       │
+                                                   │ tp_basicsize: ...     │
+                                                   │ tp_call: type_call    │  ← type() 函数
+                                                   │ tp_new: type_new      │
+                                                   │ ob_type ────────┐     │
+                                                   └──────────────────│─────┘
+                                                                      │
+                                                                      ▼
+                                                   ┌──────────────────────┐
+                                                   │ PyTypeObject ("type") │  ← 指向自己
+                                                   │ (同一个对象)          │
+                                                   └──────────────────────┘
 ```
 
 
-**`PyTypeObject` 内部结构（简化）：**
+#### 1.3.3.2 PyTypeObject 每个属性白话详解
+
+`PyTypeObject` 可以理解成 Python 类在 C 层的"户口本"——这个类型叫什么名字、它的实例占多大内存、支持哪些运算、怎么创建和销毁、继承谁，全记在这个结构体里。下面分组讲每个字段是干什么的，以及你在 Python 层怎么看到它。
+
+**字段总览（约 9 组）：**
 
 ```
-PyTypeObject 模板结构（所有类型共享此布局）：
-
-  +-------------------------------+
-  | PyObject_VAR_HEAD             |  ← ob_refcnt + ob_type + ob_size
-  +-------------------------------+
-  | tp_name (const char*)         |  ← 类型名
-  +-------------------------------+
-  | tp_basicsize / tp_itemsize    |  ← 实例大小
-  +-------------------------------+
-  | tp_dealloc / tp_repr         |  ← 析构 / __repr__
-  | tp_str / tp_hash / tp_compare|  ← __str__ / __hash__ / __eq__
-  +-------------------------------+
-  | tp_as_number / tp_as_sequence|  ← 数值 / 序列 操作函数表
-  | tp_as_mapping                 |  ← 映射操作函数表
-  +-------------------------------+
-  | tp_call / tp_new / tp_init   |  ← 调用 / 创建 / 初始化
-  +-------------------------------+
-  | tp_mro / tp_bases / tp_dict   |  ← MRO / 基类 / 属性字典
-  +-------------------------------+
+┌─────────────────────────────────────────┐
+│ ① PyObject_VAR_HEAD  ← 公用头部          │  ← 每个 Python 对象都有的东西
+├─────────────────────────────────────────┤
+│ ② tp_name            ← 类型名            │  ← "int", "str", "Dog"
+├─────────────────────────────────────────┤
+│ ③ tp_basicsize       ← 实例多大（字节）   │  ← sys.getsizeof(x)
+├─────────────────────────────────────────┤
+│ ④ tp_dealloc         ← 销毁逻辑          │  ← 引用归零时怎么清理
+├─────────────────────────────────────────┤
+│ ⑤ tp_repr/tp_str/tp_hash               │
+│    ← 打印 / 转字符串 / 哈希 / 比较       │  ← repr() / str() / hash() / ==
+├─────────────────────────────────────────┤
+│ ⑥ tp_as_number/tp_as_sequence          │
+│    /tp_as_mapping  ← 运算符函数表         │  ← + - * [] 这些操作
+├─────────────────────────────────────────┤
+│ ⑦ tp_new/tp_init/tp_call               │
+│    ← 创建、初始化、可调用                 │  ← __new__ / __init__ / obj()
+├─────────────────────────────────────────┤
+│ ⑧ tp_getattro/tp_setattro              │
+│    ← 属性读取和赋值                      │  ← obj.x = 1 底层怎么工作
+├─────────────────────────────────────────┤
+│ ⑨ tp_mro/tp_bases/tp_dict              │
+│    ← 继承链、基类、属性字典               │  ← __mro__ / __bases__ / __dict__
+└─────────────────────────────────────────┘
 ```
 
-内置类型 `int` 实例：                        用户自定义类 `Dog` 实例：
+**① `PyObject_VAR_HEAD`——所有 Python 对象的公用头**
+
+这不是 `PyTypeObject` 独有的，是每个 Python 对象内存布局的前几个字段：
 
 ```
-  +-------------------------------+          +-------------------------------+
-  | ob_refcnt: 42                 |          | ob_refcnt: 3                  |
-  | ob_type ───→ type            |          | ob_type ───→ type            |
-  | ob_size: 0 (定长)            |          | ob_size: 0 (定长)            |
-  +-------------------------------+          +-------------------------------+
-  | tp_name: "int"                |          | tp_name: "Dog"                |
-  +-------------------------------+          +-------------------------------+
-  | tp_basicsize: 28              |          | tp_basicsize: 16              |
-  | tp_itemsize: 0                |          | tp_itemsize: 0                |
-  +-------------------------------+          +-------------------------------+
-  | tp_dealloc: int_dealloc       |          | tp_dealloc: subtype_dealloc   |
-  | tp_repr: int_repr             |          | tp_repr: object_repr          |
-  | tp_hash: int_hash             |          | tp_hash: PyObject_HashNotImpl |
-  +-------------------------------+          +-------------------------------+
-  | tp_as_number:                  |          | tp_as_number: NULL            |
-  |   nb_add → int_add           |          | tp_as_sequence: NULL          |
-  |   nb_sub → int_sub           |          | tp_as_mapping: NULL           |
-  |   nb_mul → int_mul           |          |                               |
-  | tp_as_sequence: NULL          |          |                               |
-  | tp_as_mapping: NULL           |          |                               |
-  +-------------------------------+          +-------------------------------+
-  | tp_new: int_new                |          | tp_new: type_new              |
-  | tp_init: NULL (int 无需)      |          | tp_init: Dog.__init__ (默认)  |
-  +-------------------------------+          +-------------------------------+
-  | tp_mro: [int, object]          |          | tp_mro: [Dog, object]         |
-  | tp_dict: {__add__: slot...}   |          | tp_dict: {bark: <func>}       |
-  +-------------------------------+          +-------------------------------+
+每个 Python 对象的开头：
+┌──────────────┐
+│ ob_refcnt    │  8 字节  ← 引用计数（有多少变量在引用我）
+│ ob_type      │  8 字节  ← 指向我的类型的 PyTypeObject
+│ ob_size      │  8 字节  ← 如果是变长对象（list/str），这里存长度
+└──────────────┘
+
+说白了：Python 里任何对象，内存前 24 字节都是这 3 个东西。
+ob_type 指向的就是我们正在讲的 PyTypeObject。
 ```
 
-**关键区别：**
-- `int` 是 C 实现的**内置类型**，`tp_as_number` 挂载了 C 函数指针，性能高
-- `Dog` 是 Python 代码的**用户类**，`tp_dict` 直接存储 Python 函数对象，无 tp_as_number
-- 两者都是 `PyTypeObject` 实例，`ob_type` 都指向 `type`——元类统一了所有类型
-- `type` 自身也是 `PyTypeObject`，它的 `tp_name = "type"`, `ob_type` 指向自己
+Python 层对应：你看不到 `ob_refcnt`（`sys.getrefcount()` 能看到近似值），但 `type(x)` 读的就是 `ob_type`，`len(x)` 读的是 `ob_size`。
 
-#### 1.3.3.2 `type` 是什么？
-- `type` 是 Python 的**元类**（metaclass），是所有类的类
-- `type` 本身是一个 `PyTypeObject` 实例
-- `type` 的 `ob_type` 指向它自己（闭环）
-- `type(name, bases, dict)` 可以**动态创建类**
+**② `tp_name`——类型名字符串**
+
+```
+C 字段: const char *tp_name;    ← 就是一个字符串指针
+Python: type(x).__name__
+
+int 的 tp_name = "int"
+str 的 tp_name = "str"
+Dog 的 tp_name = "Dog"
+```
+
+作用：错误消息里显示 `<class 'int'>`、`repr()` 输出、`__name__` 属性，都来自这里。
+
+**③ `tp_basicsize` / `tp_itemsize`——我的实例占多大内存**
+
+```
+C 字段: Py_ssize_t tp_basicsize;    ← 每个实例基础大小（字节）
+       Py_ssize_t tp_itemsize;     ← 每多一个元素加多少（变长对象用）
+Python: sys.getsizeof(x)
+
+各类型的尺寸：
+  int:   basicsize=28, itemsize=0    → int 实例总是 28 字节
+  str:   basicsize=48, itemsize=1    → "hello" = 48 + 5*1 = 53
+  list:  basicsize=56, itemsize=8    → [1,2,3] = 56 + 3*8 + 额外缓冲区
+```
+
+```python
+import sys
+print(sys.getsizeof(42))        # 28  ← 就是 tp_basicsize
+print(sys.getsizeof("hello"))   # 54  ← 48 + 6（含 \0）
+print(sys.getsizeof([1,2,3]))   # 88  ← 56 + 3*8 + 多分配的空间
+```
+
+**④ `tp_dealloc`——对象怎么被销毁**
+
+```
+C 字段: destructor tp_dealloc;    ← 一个函数指针
+Python: __del__() 方法（但不常用）
+
+当对象的 ob_refcnt 降到 0 时，CPython 调用 tp_dealloc：
+1. 先释放资源（关闭文件、释放锁）
+2. 然后调用 tp_free 把内存还给 CPython 的内存池
+```
+
+内置类型（int/str）的 `tp_dealloc` 很简单——直接释放内存。自定义类的 `tp_dealloc` 是通用的 `subtype_dealloc`，它会调用你的 `__del__` 方法（如果定义了）。
+
+**⑤ `tp_repr` / `tp_str` / `tp_hash` / `tp_richcompare`——打印、哈希、比较**
+
+```
+字段             作用                Python 层对应
+────────────────  ─────              ─────────────
+tp_repr           repr(obj)          obj.__repr__()
+tp_str            str(obj)           obj.__str__()
+tp_hash           哈希值              obj.__hash__()
+tp_richcompare    比较（== < >）      obj.__eq__() / __lt__()
+```
+
+**`repr` 和 `str` 的核心区别——`repr` 给开发者看，`str` 给用户看：**
+
+```python
+import datetime
+now = datetime.datetime(2025, 1, 1, 10, 30, 0)
+
+print(str(now))   # 2025-01-01 10:30:00       ← 用户友好，干净
+print(repr(now))  # datetime.datetime(2025, 1, 1, 10, 30)  ← 开发友好，可重现
+
+# repr 的黄金法则：eval(repr(x)) == x  （尽量成立）
+print(eval(repr(now)) == now)  # True
+```
+
+**两者在 PyTypeObject 里是独立的两个 C 函数指针：**
+
+| 角度 | `tp_repr` | `tp_str` |
+|------|-----------|----------|
+| Python 调用 | `repr(x)` / `f"{x!r}"` | `str(x)` / `print(x)` / `f"{x}"` |
+| 设计目标 | 精确、无歧义、可调试 | 可读、美观、用户友好 |
+| 默认行为 | `object_repr` → `<类名 object at 地址>` | `object_str` → 回退到 `tp_repr` |
+| `int` 实现 | `int_repr` → `"42"` | `tp_str = NULL`（直接用 tp_repr） |
+| 字符串自身 | `repr("a")` → `"'a'"`（带引号！） | `str("a")` → `"a"`（不带） |
+
+```python
+# 自定义类演示区别
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __repr__(self):
+        # 返回可重现的表达式
+        return f"Person('{self.name}', {self.age})"
+
+    def __str__(self):
+        # 返回用户友好的描述
+        return f"{self.name} ({self.age}岁)"
+
+p = Person("小明", 25)
+print(repr(p))   # Person('小明', 25)   ← 开发调试用
+print(str(p))    # 小明 (25岁)          ← 用户看
+print(p)         # 小明 (25岁)          ← print 调 str
+```
+
+`tp_hash` 和 `tp_richcompare`：
+```python
+print(hash(42))        # 42     ← int.tp_hash 直接把值当哈希
+print(hash("hello"))   # 大整数  ← str.tp_hash 算字符的哈希
+print(42 == 42)        # True   ← int.tp_richcompare
+print(42 < 100)        # True
+```
+
+**⑥ `tp_as_number` / `tp_as_sequence` / `tp_as_mapping`——运算符函数表**
+
+这是 PyTypeObject 里最重要的设计之一：**函数指针表**。
+
+```
+字段                     作用                 Python 层对应
+──────────────────       ─────               ─────────────
+tp_as_number             + - * / 等数值运算    __add__, __sub__ 等
+tp_as_sequence           [] 索引、切片、len    __getitem__, __len__
+tp_as_mapping            字典键操作            __getitem__, keys()
+```
+
+每个字段指向一个结构体，里面全是函数指针：
+
+```
+tp_as_number 指向的 PyNumberMethods（数值运算函数表）：
+┌────────────────────┐
+│ nb_add   → int_add  │  ← a + b 时调用
+│ nb_sub   → int_sub  │  ← a - b 时调用
+│ nb_mul   → int_mul  │  ← a * b 时调用
+│ nb_true_div → ...   │  ← a / b 时调用
+│ nb_floor_div → ...  │  ← a // b 时调用
+│ nb_negative → ...   │  ← -a 时调用
+│ nb_absolute → ...   │  ← abs(a) 时调用
+│ ... 一共约 30 个槽位  │
+└────────────────────┘
+```
+
+`int` 的 `tp_as_number` 填满了所有数值运算函数，所以 `int` 支持完整算术。用户自定义类默认 `tp_as_number = NULL`，所以两个 `Dog` 实例 `d + d` 会报错——除非你在类里定义了 `__add__`，Python 会在类定义完成后把 `__add__` 注册到 `tp_as_number.nb_add`。
+
+**用人生经验类比 `tp_as_number`：**
+
+```
+int 类型就像一个全科医生，什么手术都能做（+ - * / 都预装了）。
+Dog 类就像一个普通人，没学过做手术（没装加减乘除），
+但如果你让 Dog 去学（定义 __add__），它也能做特定运算。
+```
+
+**⑦ `tp_new` / `tp_init` / `tp_call`——对象怎么创建和调用**
+
+```
+字段             作用                   Python 层对应
+────              ────                  ─────────────
+tp_new           分配内存、创建原始对象    __new__()
+tp_init          初始化字段              __init__()
+tp_call          让实例可调用            obj(args) 走 __call__()
+```
+
+`a = int(42)` 的执行过程：
+
+```
+step 1: int.__new__(int, 42) 被调用
+        → tp_new (C 函数 int_new)
+        → 分配 28 字节内存
+        → 填 ob_type = &PyInt_Type（指向 int 的 PyTypeObject）
+        → 填 ob_digit = 42（实际数字）
+        → 返回新 int 对象
+
+step 2: 检查 int.__init__ 是否存在
+        → int 的 tp_init = NULL（int 不需要初始化，new 就够了）
+        → 跳过
+
+step 3: 赋值给 a
+
+自定义类 Dog：
+step 1: Dog.__new__(Dog) → tp_new = type_new（通用分配器）
+step 2: Dog.__init__(self, ...) → tp_init 调用你写的 __init__
+```
+
+`tp_call` 让你能把实例当函数调用。`class A: def __call__(self): ...` 就是设置了 `A` 的 `tp_call`。
+
+**⑧ `tp_getattro` / `tp_setattro`——属性访问**
+
+```
+字段              作用                  Python 层对应
+────               ────                ─────────────
+tp_getattro       读取属性              getattr(obj, "x") 或 obj.x
+tp_setattro       写入属性              setattr(obj, "x", v) 或 obj.x = v
+```
+
+默认的 `tp_getattro` 是 `PyObject_GenericGetAttr`，它的工作流程就是 Python 属性查找的完整逻辑：
+
+```
+查找 obj.attr_name：
+1. 查 obj 的类型（obj.ob_type）的 tp_dict  →  有没有 attr_name？
+   → 有？返回
+2. 查 obj 自己有没有 __dict__  →  实例属性？
+   → 有？返回
+3. 沿 tp_mro 往父类找  →  基类有没有？
+   → 有？返回
+4. 都没找到 → 抛出 AttributeError
+
+整个过程 C 代码就在几十行，比 Python 层用 getattr() 快得多。
+```
+
+**⑨ `tp_mro` / `tp_bases` / `tp_dict`——继承和属性存储**
+
+```
+字段        作用                     Python 层对应
+────         ────                   ─────────────
+tp_mro      方法解析顺序（元组）       cls.__mro__
+tp_bases    直接基类（元组）           cls.__bases__
+tp_dict     类型的属性字典             cls.__dict__
+```
+
+- `tp_mro` 就是 `int.__mro__` 返回的内容，Python 用这个列表决定方法查找顺序（C3 线性化算法）
+- `tp_dict` 就是 `int.__dict__`，存着所有类属性：方法、类变量、`__add__` 等
+
+```
+int 的继承链（tp_mro）：[int, object]
+
+查找 a.__repr__ 的 C 层路径：
+a.ob_type → &PyInt_Type → 查 PyInt_Type.tp_dict
+  → tp_dict 里没有 __repr__
+  → 沿 tp_mro 找到 object
+  → 查 object.tp_dict → 找到 __repr__
+  → 调用 object.__repr__(a)
+```
+
+**int（内置类型）vs Dog（自定义类）对比表：**
+
+```
+字段              int                              Dog
+────              ───                              ───
+tp_name           "int"                            "Dog"
+tp_basicsize      28                               56（obj头+空dict）
+tp_dealloc        int_dealloc（简单释放）             subtype_dealloc（通用，会调__del__）
+tp_repr           int_repr（C函数，直接拼字符串）     object_repr（调 Python 层 __repr__）
+tp_hash           int_hash（C函数，直接返回值）       默认不能被哈希
+tp_as_number      {nb_add: int_add, ...}            NULL（除非你定义 __add__）
+tp_new            int_new（C函数，直接设值）           type_new（解析 Python 类，通用）
+tp_init           NULL（int 不需要初始化）            调用 Python 的 __init__
+tp_mro            [int, object]                     [Dog, object]
+tp_dict           {"__add__": 槽位指针, ...}          {"bark": <function>, ...}
+
+本质区别：int 的运算直接走 C 函数指针（tp_as_number.nb_add），CPU 零开销。
+         Dog 的运算走 Python 解释器（查 tp_dict → 调 Python 函数），有解释器循环开销。
+两者相同：都是 PyTypeObject 实例，ob_type 都指向 type。
+```
+
+#### 补充：函数的 PyTypeObject 长什么样
+
+函数（`def` 定义的）也有自己的类型——`function`。它的 PyTypeObject 和类的结构不同：
+
+```
+Python 里每个函数也是一个对象，类型是 <class 'function'>：
+>>> def f(): pass
+>>> type(f)
+<class 'function'>
+
+function 的 PyTypeObject 特点：
+┌─────────────────────────────────────┐
+│ tp_name = "function"                 │
+│ tp_call = function_call              │  ← f() 时调用
+│ tp_repr = func_repr                  │  ← 显示 <function f at 0x...>
+│ tp_dict = {"__annotations__": ...}   │  ← 函数属性字典
+│ tp_new = function_new                │  ← 创建函数
+│ tp_dealloc = func_dealloc            │
+│ 注意：没有 tp_as_number！             │  函数不能直接做加减法
+│       没有 tp_as_sequence！           │
+└─────────────────────────────────────┘
+
+函数对象本身（不是 PyTypeObject，而是 PyFunctionObject）：
+┌──────────────────────────────┐
+│ ob_refcnt / ob_type → function│
+│ func_code                    │  ← 编译后的字节码
+│ func_globals                 │  ← 全局变量字典
+│ func_defaults                │  ← 默认参数值
+│ func_closure                 │  ← 闭包 cell 对象元组
+│ func_dict                    │  ← 函数属性字典（f.attr = 1）
+│ func_name                    │  ← 函数名
+└──────────────────────────────┘
+```
+
+```python
+def f(a, b=10):
+    """doc"""
+    return a + b
+
+print(type(f))                # <class 'function'>
+print(f.__name__)             # "f"
+print(f.__code__)             # <code object f at ...>
+print(f.__defaults__)         # (10,)  ← 默认参数
+print(f.__closure__)          # None   ← 没有闭包
+```
+
+#### 补充：可以自己修改 PyTypeObject 的属性吗？
+
+**① 自定义类可以改，但有限度：**
+
+```python
+class Dog:
+    def bark(self):
+        return "Woof!"
+
+# 可以改
+Dog.name = "Rex"              # 加到 tp_dict
+Dog.bark = lambda self: "Hav!"  # 替换 tp_dict 里的函数
+del Dog.bark                  # 从 tp_dict 删除
+
+d = Dog()
+print(d.bark())  # AttributeError  bark 被删了
+
+# 可以加运算符
+Dog.__add__ = lambda self, other: Dog()
+print(d + d)  # 虽然不报错，但不会注册到 tp_as_number！
+# 实际上 __add__ 只是进了 tp_dict，调用时走解释器查找，
+# 不会变成 C 级 tp_as_number.nb_add，所以性能不如内置类型
+```
+
+**② 内置类型基本不能改——CPython 在启动时冻结了：**
+
+```python
+# ❌ 不能给 int 加属性
+# int.foo = 42  # TypeError: cannot set 'foo' attribute of immutable type 'int'
+
+# ❌ 不能删内置类型的属性
+# del int.__add__  # TypeError: cannot delete 'nb_add' attribute of immutable type 'int'
+
+# ✅ 唯一能做的事情：monkey-patch 内置类型的方法（不推荐）
+# 注意：这不是改 PyTypeObject，而是改 Python 层的包装
+# 实际上大多数内置类型的槽位是只读的
+```
+
+```python
+# 例外情况：通过子类扩展
+class MyInt(int):
+    """可以继承 int，然后自由修改"""
+    def describe(self):
+        return f"值={self}"
+
+x = MyInt(42)
+print(x.describe())  # "值=42"
+
+# 但 MyInt 的 PyTypeObject 是全新的，不是修改 int 本身的
+```
+
+**③ 函数对象可以自由修改属性：**
+
+```python
+def f():
+    pass
+
+f.custom_attr = "anything"    # ✅ 函数可以当属性字典用
+f.__dict__["key"] = 42        # 等价
+print(f.custom_attr)          # "anything"
+```
+
+**总结：可修改性规则**
+
+```
+对象类型          可以改属性？        可以改方法？        可以加新属性？
+────────          ──────────         ──────────         ───────────
+自定义类实例       ✅                 通过类改 ✅         ✅
+自定义类本身       ✅（加到 tp_dict）    ✅                 ✅
+内置类型（int）    ❌（不可变类型）      ❌（冻结）          ❌
+内置类型实例       ❌（int 没 __dict__） 通过类改 ❌        ❌
+函数               ✅                  ✅                 ✅
+模块               ✅                  ✅                 ✅
+```
+
+#### 补充：PyTypeObject 的字段什么时候、怎么被调用的？
+
+这些字段不是摆着看的——Python 每执行一行代码都会用到它们。下面按执行场景分组说明：
+
+**场景 1：`a + b`——运算符走 `tp_as_number`**
+
+```python
+result = a + b
+```
+
+```
+CPython 执行 a + b 时的调用链：
+
+1. 解析成字节码：BINARY_OP (+)
+
+2. CPython 执行 BINARY_OP：
+   → 读 a.ob_type → 拿到 a 的 PyTypeObject
+   → 读 tp_as_number → 拿到 PyNumberMethods 结构体
+   → 读 nb_add → 拿到 C 函数指针
+   → 调用 nb_add(a, b)
+
+3. 如果是自定义类（没有 tp_as_number）：
+   → 回退到 Python 层：在 a 的 tp_dict 里找 __add__
+   → 找不到？在 tp_mro 链的父类里找
+   → 找不到？抛 TypeError: unsupported operand type
+
+什么时候调用？  → 执行 a + b 的那一瞬间
+谁调用的？     → CPython 的字节码执行引擎（eval_frame.c）
+```
+
+**场景 2：`print(x)`——显示走 `tp_str` / `tp_repr`**
+
+```python
+print(x)       # 走 tp_str
+repr(x)        # 走 tp_repr
+f"{x}"         # 走 tp_str
+f"{x!r}"       # 走 tp_repr
+```
+
+```
+CPython 执行 print(x) 时的调用链：
+
+print(x) → x.__str__() → tp_str(x)
+
+1. CPython 调用 PyObject_Str(x)
+2. 读 x.ob_type → 拿到 PyTypeObject
+3. 读 tp_str
+   → 如果 tp_str != NULL：直接调用 tp_str(x)
+   → 如果 tp_str == NULL（比如 int）：回退到 tp_repr(x)
+
+自定义类：
+4. 如果 tp_str == NULL 且 tp_repr == NULL：
+   → 在 tp_dict 里找 __str__
+   → 在 tp_mro 链上找 __str__
+   → 都找不到 → 用 object_repr（<对象名 at 地址>）
+```
+
+**场景 3：`a.b`——属性访问走 `tp_getattro`**
+
+```python
+value = obj.attr
+```
+
+```
+CPython 执行 obj.attr 的调用链：
+
+1. 解析成字节码：LOAD_ATTR
+2. 执行 LOAD_ATTR：
+   → 读 obj.ob_type → 拿到 PyTypeObject
+   → 读 tp_getattro → 调用 PyObject_GenericGetAttr(obj, "attr")
+
+3. PyObject_GenericGetAttr 内部：
+   a) 查 obj.ob_type.tp_dict 有没有 "attr"？（类属性/方法）
+      → 找到？如果是 descriptor（如函数），触发 descriptor 协议，返回绑定方法
+   b) 查 obj 自身的 __dict__ 有没有 "attr"？（实例属性）
+   c) 沿 tp_mro 向父类查找
+   d) 都没有 → AttributeError
+```
+
+**场景 4：`MyClass()`——创建对象走 `tp_new` + `tp_init`**
+
+```python
+obj = MyClass(args)
+```
+
+```
+CPython 执行 MyClass(args) 的调用链：
+
+1. MyClass 是一个 PyTypeObject（假设 MyClass 是自定义类）
+   → MyClass.ob_type = type
+   → type 的 tp_call → type_call() 被调用
+
+2. type_call 内部：
+   a) 调 MyClass.tp_new(args) — 分配内存，返回空对象
+   b) 调 MyClass.tp_init(obj, args) — 初始化字段
+   c) 返回 obj
+
+什么时候调用？  → MyClass(args) 执行时
+谁调用？       → type.tp_call（即 type_call 函数）
+```
+
+**场景 5：`del obj`——销毁走 `tp_dealloc`**
+
+```python
+del obj  # 或 obj 离开作用域，引用归零
+```
+
+```
+CPython 的引用计数归零时：
+
+1. 检查 ob_refcnt
+   → 如果降为 0
+   → 调 obj.ob_type.tp_dealloc(obj)
+
+2. tp_dealloc 做什么：
+   → 释放资源（关文件、释放锁等）
+   → 调 tp_free(obj) 把内存还给 CPython
+
+什么时候调用？  → 引用计数归零时，不是马上也不是定时
+谁调用的？     → CPython 的引用计数机制（Objects/object.c）
+```
+
+**一句话总结 PyTypeObject 的调用时机：**
+
+| 你写的 Python 代码 | PyTypeObject 字段 | 什么时候触发 |
+|---|---|---|
+| `a + b` | `tp_as_number.nb_add` | 执行加法运算时 |
+| `a[b]` | `tp_as_sequence.sq_item` | 执行索引时 |
+| `print(x)` | `tp_str` 或 `tp_repr` | 转字符串时 |
+| `obj.attr` | `tp_getattro` | 读取属性时 |
+| `obj.attr = v` | `tp_setattro` | 写入属性时 |
+| `MyClass()` | `tp_call` → `tp_new` + `tp_init` | 创建实例时 |
+| `del obj` | `tp_dealloc` | 引用归零销毁时 |
+| `hash(x)` | `tp_hash` | 计算哈希时 |
+| `a == b` | `tp_richcompare` | 比较时 |
+| `isinstance(x, int)` | `tp_mro` | 检查类型时 |
+| `len(x)` | `tp_as_sequence.sq_length` | 取长度时 |
+
+**核心规律**：PyTypeObject 的字段就是 Python 语法和 C 实现之间的**映射表**——**你写一句 Python，CPython 去读一个对应字段的 C 函数指针来执行。**
+
+#### 1.3.3.2b 实战：int 运行时的完整 PyTypeObject 调用流程
+
+下面以 `a = 42; b = a + 8; print(b); del b` 这四行代码为例，逐行展示 `int` 的 PyTypeObject 是如何参与工作的。
+
+```
+内存初始状态：
+
+a ──→ ┌───────────────────┐
+       │ PyObject (int)    │      PyTypeObject (int)
+       │ ob_refcnt = 1     │      ┌─────────────────────────────┐
+       │ ob_type ──────────┼─────→│ tp_name = "int"              │
+       │ ob_digit = 42     │      │ tp_basicsize = 28            │
+       └───────────────────┘      │ tp_repr   → int_repr         │
+                                  │ tp_str    → NULL(用repr)     │
+b ──→ ?                          │ tp_hash   → int_hash         │
+                                  │ tp_dealloc→ int_dealloc      │
+                                  │ tp_as_number:                │
+                                  │   nb_add  → int_add          │
+                                  │   nb_sub  → int_sub          │
+                                  │   nb_mul  → int_mul          │
+                                  │ tp_new    → int_new          │
+                                  │ tp_init   → NULL             │
+                                  │ tp_mro    → [int, object]    │
+                                  └─────────────────────────────┘
+```
+
+**第 1 行：`a = 42`**
+
+```
+CPython 执行步骤：
+
+① CPython 遇到字面量 42，调 int.tp_new(int, 42)
+   → int_new() 在堆上分配 28 字节（tp_basicsize = 28）
+   → 写 ob_refcnt = 1
+   → 写 ob_type = &PyInt_Type（即 int 的 PyTypeObject 地址）
+   → 写 ob_digit = 42
+
+② 检查 tp_init → NULL，跳过（int 不需要初始化）
+
+③ 赋值给 a：
+   a 是 PyObject* 指针，存的是步骤①分配的对象的地址
+   → a 只是指向这个 PyObject 的指针
+```
+
+```
+执行完后内存：
+
+a ──→ ┌───────────────────┐
+       │ ob_refcnt = 1     │
+       │ ob_type ───→ &PyInt_Type
+       │ ob_digit = 42     │
+       └───────────────────┘
+```
+
+**第 2 行：`b = a + 8`**
+
+```
+① CPython 编译 a + 8 为字节码 BINARY_OP (+)
+
+② 执行引擎处理 BINARY_OP：
+   → 从栈顶取两个对象：a（PyObject*）和 8（也是 PyObject*）
+   → 读 a.ob_type → 拿到 &PyInt_Type
+   → 读 PyInt_Type.tp_as_number → 拿到 PyNumberMethods*
+   → 读 PyNumberMethods.nb_add → 拿到 int_add 函数指针
+   → 调用 int_add(a, 8)
+
+③ int_add 内部：
+   → 取 a.ob_digit = 42
+   → 取 8.ob_digit = 8
+   → 计算 42 + 8 = 50
+   → 调 int.tp_new(int, 50) 创建新 int 对象（ob_digit=50, ob_refcnt=1）
+   → 返回新 PyObject*
+
+④ 赋值给 b：
+   b 指向这个新 int 对象（ob_digit=50）
+```
+
+```
+执行完后内存：
+
+a ──→ ┌───────────────────┐
+       │ refcnt=1, val=42  │
+       └───────────────────┘
+
+b ──→ ┌───────────────────┐
+       │ refcnt=1, val=50  │  ← int_add 返回的新对象
+       └───────────────────┘
+```
+
+**第 3 行：`print(b)`**
+
+```
+① CPython 编译 print(b) → 调 PyObject_Str(b)
+
+② PyObject_Str(b)：
+   → 读 b.ob_type → &PyInt_Type
+   → 读 tp_str → NULL（int 的 tp_str 是 NULL）
+
+③ 因为 tp_str == NULL，回退到 tp_repr：
+   → 读 tp_repr → int_repr 函数指针
+   → 调 int_repr(b) → int_repr 读 b.ob_digit = 50
+   → 将 50 转为字符串 "50"
+   → 返回 PyUnicodeObject（Python 字符串）
+
+④ print 把 "50" 写出到 stdout
+```
+
+**第 4 行：`del b`**
+
+```
+① del b 移除变量 b 对 int 对象的引用
+   → 该 int 对象的 ob_refcnt 从 1 降到 0
+
+② CPython 检查 ob_refcnt == 0：
+   → 读 ob_type → &PyInt_Type
+   → 读 tp_dealloc → int_dealloc
+   → 调 int_dealloc(b)
+   → 释放 28 字节内存
+
+③ 如果此时 a 也被 del 或离开作用域：
+   → 42 对象的 ob_refcnt 归零
+   → 同样走 int_dealloc 释放
+```
+
+**完整流程图：**
+
+```
+你写：a = 42
+                 │
+                 ▼
+         int.__new__(int, 42)
+                 │
+                 ▼
+         tp_new → int_new()
+           ├─ allocate 28 bytes (tp_basicsize)
+           ├─ ob_refcnt = 1
+           ├─ ob_type = &PyInt_Type  ────→  PyTypeObject(int)
+           └─ ob_digit = 42
+                 │
+                 ▼
+         检查 tp_init → NULL(跳过)
+                 │
+                 ▼
+         a 指向该 PyObject
+
+
+你写：b = a + 8
+                 │
+                 ▼
+         读 a.ob_type → &PyInt_Type
+                 │
+                 ▼
+         读 PyInt_Type.tp_as_number
+                 │
+                 ▼
+         读 tp_as_number.nb_add → int_add
+                 │
+                 ▼
+         int_add(42, 8) → 50
+                 │
+                 ▼
+         调 int_new(int, 50) → 新 PyObject(ob_digit=50)
+                 │
+                 ▼
+         b 指向该新对象
+
+
+你写：print(b)
+                 │
+                 ▼
+         PyObject_Str(b)
+           ├─ 读 b.ob_type → &PyInt_Type
+           ├─ 读 tp_str → NULL → 回退
+           └─ 读 tp_repr → int_repr(b) → "50"
+                 │
+                 ▼
+         输出 "50"
+
+
+你写：del b
+                 │
+                 ▼
+         ob_refcnt 从 1 降为 0
+                 │
+                 ▼
+         读 ob_type → &PyInt_Type
+                 │
+                 ▼
+         读 tp_dealloc → int_dealloc(b)
+                 │
+                 ▼
+         释放 28 字节内存
+```
+
+**如果没有 PyTypeObject，这一切会怎样？**
+
+> 如果没有 `ob_type` 指针和 `PyTypeObject`，CPython 就不知道 `a` 是什么类型。加法的 `int_add` 没法找到，打印的 `int_repr` 没法找到，连 `a` 占多大内存都不知道。
+>
+> **`PyTypeObject` 的存在意义就是：给每个对象挂一个"类型说明书"，CPython 执行任何操作时先查说明书，再决定怎么做。这就是"一切皆对象"的底层实现——对象本身只存数据，怎么操作这些数据全在 PyTypeObject 里。**
+
+#### 1.3.3.2c 实战：函数的完整底层流程
+
+函数虽然也是对象，但它的内部比 `int` 复杂得多——函数有自己的 `PyFunctionObject` 结构体，执行时涉及栈帧创建、参数绑定、字节码执行、闭包处理。
+
+**① 函数定义：`def` 是执行语句，不是声明**
+
+```python
+def square(x):
+    return x * x
+```
+
+```
+Python 源码:                       字节码序列:
+def square(x):          ──→        LOAD_CONST  (<code object>)
+    return x * x                    LOAD_CONST  ('square')
+                                    MAKE_FUNCTION
+                                    STORE_NAME  ('square')
+
+CPython 执行 MAKE_FUNCTION 时的步骤：
+① 编译函数体 → 生成 code object（字节码 + 常量表 + 变量名表）
+② 从常量栈取出 code object
+③ 创建 PyFunctionObject（堆分配）
+④ 设置函数属性：
+   func_name     = "square"
+   func_code     = 步骤①的 code object
+   func_globals  = 当前全局变量 dict（引用，不复制）
+   func_defaults = None
+   func_closure  = None
+⑤ STORE_NAME 将函数对象赋值给变量 'square'
+```
+
+**`PyFunctionObject` 内存结构：**
+
+```
+┌─────────────────────────────────────────────┐
+│ PyFunctionObject                             │
+├─────────────────────────────────────────────┤
+│ PyObject_HEAD (ob_refcnt + ob_type→function) │
+├─────────────────────────────────────────────┤
+│ func_name       → "square"                   │  函数名
+│ func_code       → <code object>              │  编译好的字节码
+│ func_globals    → {...}                      │  全局变量 dict（引用，不复制）
+│ func_defaults   → None / (10, 20)            │  默认参数值元组
+│ func_closure    → None / (<cell>, ...)       │  闭包 cell 元组
+│ func_dict       → {}                         │  函数属性字典（可自由扩展）
+│ func_module     → "__main__"                 │  定义模块名
+│ func_annotations→ {"x": int, "return": int}  │  类型注解
+├─────────────────────────────────────────────┤
+│ 函数自己的 PyTypeObject:                      │
+│   tp_name = "function"                       │
+│   tp_call → function_call（C 函数）           │
+│   tp_repr → func_repr                        │
+│   没有 tp_as_number（函数不能加减）            │
+└─────────────────────────────────────────────┘
+```
+
+```python
+# 验证：函数对象和 int 对象一样，都是堆上的 PyObject
+def square(x):
+    return x * x
+
+print(type(square))               # <class 'function'>
+print(square.__name__)            # "square"
+print(square.__code__)            # <code object square at 0x...>
+print(square.__globals__)         # {...}
+print(square.__defaults__)        # None
+print(square.__closure__)         # None
+```
+
+**② 函数调用：`square(5)` 的完整执行链**
+
+```
+执行 square(5)：
+
+① 变量名 'square' 取到 PyFunctionObject 指针
+
+② 读 square.ob_type → &PyFunction_Type
+   读 tp_call → function_call（C 函数）
+   调用 function_call(square, (5,), {})
+
+③ function_call 内部：
+   → 分配新的 PyFrameObject（栈帧）
+   ┌───────────────────────────────────────────┐
+   │ f_back → 调用者的栈帧                      │
+   │ f_code → square.__code__                  │
+   │ f_locals → {"x": 5}（参数绑定）            │
+   │ f_globals → square.__globals__            │
+   │ f_builtins → __builtins__ dict            │
+   └───────────────────────────────────────────┘
+
+④ 参数绑定：位置参数 5 写入 f_locals["x"]
+
+⑤ 字节码执行引擎启动（PyEval_EvalFrameDefault）：
+   LOAD_FAST    0 (x)     → 从 f_locals 读 x → 5
+   LOAD_FAST    0 (x)     → 从 f_locals 读 x → 5
+   BINARY_MULTIPLY        → 5 * 5 = 25
+                            （这里走 int.tp_as_number.nb_mul！）
+   RETURN_VALUE           → 返回值 25
+
+⑥ 销毁栈帧，返回值 25 压入调用者栈
+```
+
+```
+调用 square(5) 时的内存状态：
+
+[调用者栈帧]                      [堆]
+  square ──────────────────→   PyFunctionObject
+  a = 10                        func_code → <code object>
+                                func_globals → 全局 dict
+  ↑
+  │ f_back                      [新栈帧 (PyFrameObject)]
+  └──────────────────────────   f_code → square.__code__
+                                f_locals → {"x": 5}
+                                f_globals → 同一全局 dict
+
+  步骤⑤中 x * x 执行时：
+   → 读 x.ob_type → &PyInt_Type
+   → 读 PyInt_Type.tp_as_number.nb_mul → int_mul
+   → int_mul(5, 5) → 新 int 对象 (ob_digit=25)
+```
+
+**③ 闭包：cell 对象如何让局部变量"起死回生"**
+
+```python
+def outer(x):
+    def inner(y):
+        return x + y
+    return inner
+
+fn = outer(10)
+print(fn(5))  # 15
+```
+
+```
+执行 outer(10) 时的底层过程：
+
+① 创建 outer 栈帧，绑定 x=10
+
+② 编译 inner 时，CPython 检测到 inner 引用了 x：
+   → x 不在 inner 的参数中
+   → x 不在 inner 的局部变量中
+   → x 来自 outer 的局部作用域
+   → CPython 标记 x 为"自由变量"（free variable）
+   → 编译 inner 时生成 LOAD_DEREF x（不是 LOAD_FAST！）
+
+③ 创建 inner 的 PyFunctionObject：
+   → 检测到自由变量 x
+   → 在堆上创建 cell 对象：cell_x.cell_contents = 10
+   → 设置 inner.func_closure = (cell_x,)
+
+④ outer(10) 返回 inner：
+   → inner 对象被返回（包含 func_closure 元组）
+   → outer 栈帧销毁，但 cell 对象在堆上存活
+```
+
+```
+闭包的内存状态（outer(10) 返回后）：
+
+[模块作用域]
+fn ──────────────────────────┐
+                              │
+                              ▼
+                    ┌─────────────────────┐
+                    │ PyFunctionObject     │
+                    │ func_closure = (──,) │──┐
+                    │ func_code → inner    │  │
+                    └─────────────────────┘  │
+                                             │
+                                             ▼
+                                      ┌──────────┐
+                                      │ cell 对象  │
+                                      │ contents  │
+                                      │ = 10      │ ← outer 的 x，
+                                      └──────────┘   但 outer 栈帧已销毁！
+
+调用 fn(5) 时：
+                    LOAD_DEREF x → cell.cell_contents → 10（从堆读！）
+                    LOAD_FAST y → 5
+                    BINARY_ADD → 15
+```
+
+```python
+# 验证 cell 对象
+fn = outer(10)
+print(fn.__closure__)                      # (<cell at 0x...: int object at 0x...>,)
+print(fn.__closure__[0].cell_contents)     # 10
+```
+
+**④ 高阶函数：本质就是指针传递**
+
+```python
+def apply_twice(f, value):
+    return f(f(value))
+
+def inc(x):
+    return x + 1
+
+print(apply_twice(inc, 5))  # 7
+```
+
+```
+执行 apply_twice(inc, 5)：
+
+apply_twice 的栈帧 f_locals = {"f": PyFunctionObject(inc), "value": 5}
+
+执行 f(f(value))：
+① value → 5
+② f(5) → 读 f（PyFunctionObject 指针）→ tp_call → inc(5) → 6
+③ f(6) → 读 f（同一指针）→ tp_call → inc(6) → 7
+④ return 7
+
+"函数作为参数"的底层本质：
+  变量 f 里存的就是 PyFunctionObject 的内存地址，
+  f(5) 就是读这个地址，走 tp_call。
+  和传递 int 42 在底层没有本质区别——都是复制一个值/指针。
+```
+
+**⑤ 函数 vs int：PyObject 家族对比**
+
+```
+对比维度           int (42)                   function (square)
+────────           ───────                   ─────────────────
+C 结构体           PyLongObject               PyFunctionObject
+ob_type 指向       PyTypeObject("int")         PyTypeObject("function")
+数据存在哪         ob_digit 字段              func_code + func_closure
+创建方式           int_new() → 直接赋值        MAKE_FUNCTION → 编译+打包
+tp_call?           NULL（int 不可调用）         function_call（调函数）
+tp_as_number?      {nb_add, nb_mul, ...}       NULL（函数不能加减）
+可加属性？         ❌ int 实例没有 __dict__    ✅ func_dict 是标准字段
+```
+
+**核心结论：函数和 int 一样是堆上的 PyObject，通过 ob_type 找到自己的"说明书"。区别在于函数存的是字节码（func_code）和环境（func_closure/globals），int 存的是数值。`f(5)` 调用的本质就是 `f.ob_type.tp_call(f, (5,), {})`。**
+
+#### 1.3.3.2d 实战：class 的完整底层流程
+
+class 的定义和实例化比 int 和 function 更复杂——因为涉及**类型创建**（`type.__call__`）、**方法绑定**（descriptor 协议）、**实例字典**（`__dict__`）。
+
+**① 类定义：`class Dog:` 执行时发生了什么**
+
+```python
+class Dog:
+    """A friendly dog"""
+    species = "Canine"
+
+    def __init__(self, name):
+        self.name = name
+
+    def bark(self):
+        return f"{self.name} says Woof!"
+```
+
+```
+class 语句的执行流程（和 def 一样是运行时执行的！）：
+
+[Python 源码]                         [字节码]
+class Dog:                     ──→    LOAD_BUILD_CLASS
+    species = "Canine"                 LOAD_CONST  ('Dog')
+    def __init__(self, name):          LOAD_CONST  (<code object __init__>)
+        self.name = name               MAKE_FUNCTION
+    def bark(self):                    LOAD_CONST  (<code object bark>)
+        return "Woof!"                 MAKE_FUNCTION
+                                       LOAD_CONST  (...)
+                                       BUILD_CLASS（核心！）
+
+执行 BUILD_CLASS 时的完整步骤：
+
+① 收集类体代码（class body）中定义的所有名字：
+   → species = "Canine"               → 命名空间 {"species": "Canine"}
+   → def __init__ → PyFunctionObject  → 命名空间 {"__init__": <function>}
+   → def bark     → PyFunctionObject  → 命名空间 {"bark": <function>}
+
+② 调 type.__call__("Dog", (object,), namespace)：
+   → type.tp_call → type_call() 被调用
+
+③ type_call 内部：
+   a) 调 type.__new__(type, "Dog", (object,), namespace)
+      → tp_new → type_new() 在堆上分配 PyTypeObject
+      ├─ 设置 tp_name = "Dog"
+      ├─ 设置 tp_basicsize = 56（obj头+空__dict__）
+      ├─ 设置 tp_dict = namespace
+      ├─ 设置 tp_mro = [Dog, object]
+      ├─ 设置 tp_bases = (object,)
+      ├─ 设置 tp_dealloc = subtype_dealloc
+      ├─ 设置 tp_new = type_new（继承）
+      ├─ 设置 tp_init = slot_tp_init（自动生成）
+      └─ 检查 namespace 里的特殊方法（__init__, __repr__ 等）
+         → 如果找到 __init__，注册到 tp_init
+         → 如果找到 __add__，注册到 tp_as_number.nb_add（这就是协议）
+   b) 调 type.__init__(Dog, "Dog", (object,), namespace)
+      → 实际上 type_new 已经完成了所有工作，__init__ 基本是空操作
+
+④ Dog 变量指向这个新创建的 PyTypeObject
+```
+
+**类定义后的内存状态：**
+
+```
+[堆上的 PyTypeObject("Dog")]           [int 的 PyTypeObject 做对比]
+┌──────────────────────────────┐      ┌──────────────────────────────┐
+│ PyObject_HEAD                │      │ PyObject_HEAD                │
+│   ob_type → &PyType_Type     │      │   ob_type → &PyType_Type     │
+├──────────────────────────────┤      ├──────────────────────────────┤
+│ tp_name = "Dog"              │      │ tp_name = "int"              │
+│ tp_basicsize = 56            │      │ tp_basicsize = 28            │
+├──────────────────────────────┤      ├──────────────────────────────┤
+│ tp_dealloc = subtype_dealloc │      │ tp_dealloc = int_dealloc     │
+│ tp_new = type_new            │      │ tp_new = int_new             │
+│ tp_init = slot_tp_init       │      │ tp_init = NULL               │
+│ tp_call = NULL               │      │ tp_call = NULL               │
+├──────────────────────────────┤      ├──────────────────────────────┤
+│ tp_dict:                     │      │ tp_dict:                     │
+│   ├─ "species" → "Canine"   │      │   ├─ "__add__" → 槽位指针    │
+│   ├─ "__init__" → <function> │      │   ├─ "__sub__" → 槽位指针    │
+│   ├─ "bark" → <function>    │      │   └─ ...                     │
+├──────────────────────────────┤      ├──────────────────────────────┤
+│ tp_as_number → NULL          │      │ tp_as_number → {nb_add, ...}│
+│ tp_as_sequence → NULL        │      │ tp_as_sequence → NULL        │
+│ tp_mro → [Dog, object]       │      │ tp_mro → [int, object]       │
+│ tp_bases → (object,)         │      │ tp_bases → (object,)         │
+└──────────────────────────────┘      └──────────────────────────────┘
+
+核心区别：
+  int 的 tp_new = int_new（C函数，直接写 ob_digit）
+  Dog 的 tp_new = type_new（通用，解析 Python 类定义 → 创建实例）
+
+  int 的 tp_as_number 装满了 C 函数指针（int_add 等）
+  Dog 的 tp_as_number = NULL（除非定义了 __add__，Python 会自动注册）
+```
+
+```python
+# 验证：class 就是创建一个 PyTypeObject
+class Dog:
+    species = "Canine"
+    def bark(self):
+        return "Woof!"
+
+print(type(Dog))               # <class 'type'> ← Dog 是 type 的实例！
+print(type(type))               # <class 'type'>
+print(Dog.__name__)             # "Dog"
+print(Dog.__dict__)             # {'species': 'Canine', 'bark': <function>, ...}
+print(Dog.__mro__)              # (<class '__main__.Dog'>, <class 'object'>)
+print(Dog.__bases__)            # (<class 'object'>,)
+```
+
+**② 实例化：`d = Dog("小白")` 的完整流程**
+
+```
+执行 d = Dog("小白")：
+
+① Dog("小白") 等价于 type.__call__(Dog, ("小白",), {})
+   → Dog 是 PyTypeObject，它的 ob_type = &PyType_Type
+   → 读 PyType_Type.tp_call → type_call（C 函数）
+
+② type_call 内部：
+   a) 调 Dog.tp_new(Dog, "小白") → type_new(Dog, "小白")
+      ├─ 分配 56 字节内存（tp_basicsize = 56）
+      ├─ 设置 ob_type = &Dog（指向类的 PyTypeObject！）
+      ├─ 设置 ob_refcnt = 1
+      ├─ 创建空 __dict__（实例属性字典）
+      └─ 返回"空"的 Dog 实例
+
+   b) 调 Dog.tp_init(实例, "小白")
+      → slot_tp_init 被调用
+      → 在 Dog.tp_dict 里找 __init__
+      → 找到 __init__ = <function>
+      → 调 __init__(实例, "小白")
+      → 执行 self.name = name
+      → 在实例的 __dict__ 写入 {"name": "小白"}
+
+③ d 变量指向这个 Dog 实例
+```
+
+**实例化后的内存状态：**
+
+```
+             ┌─────────────────────────────┐
+d ──────────→│ Dog 实例（PyObject）          │
+             │   ob_refcnt = 1              │
+             │   ob_type ──────────────┐     │
+             │   __dict__:             │     │
+             │     "name" → "小白"     │     │
+             └─────────────────────────┘     │
+                                             │
+                                             ▼
+                                  ┌─────────────────────────────┐
+                                  │ PyTypeObject("Dog")          │
+                                  │   tp_name = "Dog"            │
+                                  │   tp_dict:                   │
+                                  │     "species" → "Canine"     │
+                                  │     "__init__" → <function>  │
+                                  │     "bark" → <function>      │
+                                  │   tp_mro → [Dog, object]     │
+                                  └─────────────────────────────┘
+```
+
+**③ 方法调用：`d.bark()` 的隐藏步骤——descriptor 协议**
+
+这是 Python 最精妙的设计之一：`d.bark()` 不是直接调 `Dog.__dict__["bark"](d)`，中间有个**方法绑定**步骤。
+
+```
+d.bark() 的完整执行链：
+
+① LOAD_ATTR 指令：读 d.bark
+   → 读 d.ob_type → &Dog（PyTypeObject）
+   → 读 tp_getattro → PyObject_GenericGetAttr
+   → 在 Dog.tp_dict 里查找 "bark"
+   → 找到 bark = <function object>（一个 PyFunctionObject）
+
+② 关键步骤：检查 bark 是"descriptor"！！
+   → PyFunctionObject 实现了 __get__ 方法
+   → 因为 bark 有 __get__，触发 descriptor 协议
+   → 调 bark.__get__(d, Dog) → 返回"绑定方法"对象
+
+③ "绑定方法"（PyMethodObject）：
+   ┌─────────────────────────┐
+   │ im_func → bark 函数     │  ← 原始函数
+   │ im_self → d（实例）     │  ← 绑定的实例
+   │ im_class → Dog          │
+   └─────────────────────────┘
+   → 这个对象就是 d.bark 的结果
+   → 它已经"记住"了 self=d
+
+④ CALL 指令：执行 ()
+   → 调绑定方法的 tp_call
+   → 绑定方法把 im_self（d）作为第一个参数传给 im_func
+   → 等价于 bark(d) → self=d
+   → 执行 return f"{self.name} says Woof!" → "小白 says Woof!"
+```
+
+```
+d.bark() 可视化流程：
+
+        d.bark()
+           │
+           ▼
+    d.ob_type.tp_getattro(d, "bark")
+           │
+           ▼
+    Dog.tp_dict["bark"] → <function bark>
+           │
+           ▼
+    bark 是函数 → 有 __get__ → 调 __get__(d, Dog)
+           │
+           ▼
+    返回 PyMethodObject(im_func=bark, im_self=d)
+           │
+           ▼
+    () 调这个绑定方法 → im_func(im_self) → bark(d)
+           │
+           ▼
+    "小白 says Woof!"
+```
+
+```python
+# 验证 d.bark 返回的是什么
+d = Dog("小白")
+print(d.bark)                  # <bound method Dog.bark of <__main__.Dog object at 0x...>>
+print(type(d.bark))            # <class 'method'>
+
+# 解开绑定方法的内部
+print(d.bark.__func__)         # <function Dog.bark at 0x...> ← 原始函数
+print(d.bark.__self__)         # <__main__.Dog object at 0x...> ← d 实例
+print(d.bark.__self__.name)    # "小白"
+
+# 等价调用方式
+print(Dog.bark(d))             # "小白 says Woof!" ← 显式传 self
+print(d.bark())                # "小白 says Woof!" ← 自动绑定 self
+```
+
+**④ 属性查找：`d.name` 和 `d.species` 的路径**
+
+```
+d.name 的查找路径：
+① d.ob_type → Dog
+② Dog.tp_dict → 查 "name" → 没有
+③ 查 d.__dict__ → {"name": "小白"} → 找到了！返回 "小白"
+
+d.species 的查找路径：
+① d.ob_type → Dog
+② Dog.tp_dict → 查 "species" → 找到了 "Canine"！返回
+   （注意：实例的 __dict__ 里没有 species，它是类属性）
+
+d.bark 的查找路径：
+① d.ob_type → Dog
+② Dog.tp_dict → 查 "bark" → 找到 <function>
+③ 函数是 descriptor → 触发 __get__ → 绑定方法
+   返回 <bound method Dog.bark of d>
+
+三者的路径差异 built into tp_getattro（PyObject_GenericGetAttr）：
+   tp_dict（类属性）→ __dict__（实例属性）→ tp_mro 父类
+```
+
+**⑤ int vs function vs class：三种 PyObject 对比**
+
+```
+对比维度         int(42)            function(square)     class Dog 的实例 d
+────────         ───────            ─────────────────    ──────────────────
+C 结构体         PyLongObject       PyFunctionObject     PyObject + __dict__
+ob_type 指向     PyType("int")      PyType("function")   PyType("Dog")
+数据存在哪       ob_digit           func_code            __dict__（字典）
+创建方式         int_new            MAKE_FUNCTION        type_new + tp_init
+tp_call?         NULL               调 function_call     NULL（默认不可调用）
+tp_as_number?    {nb_add, ...}      NULL                 NULL（除非定义__add__）
+属性访问         无 __dict__         func_dict           实例 __dict__
+方法调用         无                  tp_call 直接执行     descriptor → 绑定方法
+
+底层统一性：
+  三者都是 PyObject*，前 16 字节都是 ob_refcnt + ob_type
+  type(x) 就是读 ob_type → 返回对应的 PyTypeObject
+  isinstance(x, int) 就是沿着 tp_mro 查 int 在不在链上
+```
 
 ```python
 # type 的角色 1：获取类型（等价于 .__class__）
@@ -487,7 +1693,7 @@ print(isinstance(d, Animal))# True ← 认父类
 ```
 
 
-#### 1.3.3.3 为什么 Python 对象模型比 Java 更灵活？
+#### 1.3.3.4 为什么 Python 对象模型比 Java 更灵活？
 所有类型信息存储在堆上的 `PyTypeObject` 中，运行时可修改：
 
 ```python
@@ -519,7 +1725,7 @@ b = a
 print(id(a) == id(b))  # True，同一个对象
 ```
 
-#### 1.3.3.4 mutable vs immutable
+#### 1.3.3.5 mutable vs immutable
 
 ```python
 # immutable
@@ -537,7 +1743,7 @@ lst.append(4)  # 修改原对象
 
 **关键说明：** Python 的"一切皆对象"体现在每个值都是 `PyObject` 结构体，`id()` 返回其在堆上的内存地址，`type()` 返回其 `ob_type` 指针指向的类型对象。`b = a` 不复制对象，只复制指向该对象的指针（引用计数+1）。immutable 对象的"修改"实际是创建新对象，这是 Python 内存模型的核心设计。
 
-#### 1.3.3.5 Python 内存大小逻辑与对齐
+#### 1.3.3.6 Python 内存大小逻辑与对齐
 
 **一个空对象占多少字节？**
 
@@ -912,7 +2118,279 @@ print(foo.__name__)       # "foo"
 print(foo.__code__)       # 字节码对象
 ```
 
-### 1.4.6 函数内存模型与运行流程
+### 1.4.5b 方法的秘密：函数怎么变成方法的？
+
+**小白版：`obj.method()` 背后发生了什么**
+
+当你在 Python 里写 `s.run("test")`，这不是直接调 `run(s, "test")`——中间有个隐藏步骤把"函数"变成了"方法"。下面从零讲清楚。
+
+#### ① 函数 vs 方法——区别在哪？
+
+```python
+# 函数：定义在类外面的，直接调
+def greet(name):
+    return f"Hello {name}"
+
+greet("Tom")  # 直接调，传一个参数
+
+# 方法：定义在类里面的，通过实例调
+class Service:
+    def run(self, data):
+        return f"{self} 处理 {data}"
+
+s = Service()
+s.run("test")  # 传了一个参数"test"，但 run 要两个参数（self, data）？
+               # 谁传了 self？答案是 Python 自动传的
+```
+
+**问题：** `run(self, data)` 需要 2 个参数，你只传了 `"test"` 一个，为什么没报错？
+
+答案藏在 `s.run` 和 `Service.run` 的区别里：
+
+```python
+class Service:
+    def run(self, data):
+        return f"{self} 处理 {data}"
+
+s = Service()
+
+# 通过类访问 run → 原始函数
+print(Service.run)  # <function Service.run at 0x...>
+print(type(Service.run))  # <class 'function'>
+
+# 通过实例访问 run → 绑定方法
+print(s.run)       # <bound method Service.run of <__main__.Service object at 0x...>>
+print(type(s.run)) # <class 'method'>
+
+# 区别就在这里！
+print(Service.run(s, "test"))  # 手动传 self → 3 个参数"函数"调用
+print(s.run("test"))           # 自动传 self → 1 个参数"方法"调用，结果一样
+```
+
+**结论：** `s.run` 返回的不是原始函数，而是一个"绑定方法"对象，它已经记住了 `s` 就是 `self`。
+
+#### ② 绑定方法长什么样？——`im_self` 和 `im_func`
+
+绑定方法对象（`PyMethodObject`）内部只有两个关键东西：
+
+```python
+class Service:
+    def run(self, data):
+        return f"{self} 处理 {data}"
+
+s = Service()
+bound_method = s.run
+
+# 绑定方法内部：
+print(bound_method.__func__)   # <function Service.run at 0x...> ← 原始函数
+print(bound_method.__self__)   # <__main__.Service object at 0x...> ← s 实例
+```
+
+```
+内存里：
+s.run 返回的这个"绑定方法"对象：
+┌──────────────────────────────────┐
+│ PyMethodObject                   │
+├──────────────────────────────────┤
+│ im_func (__func__) ──→ run 函数  │  ← 真正的函数体（字节码）
+│ im_self (__self__) ──→ s 实例    │  ← 被绑定的实例
+└──────────────────────────────────┘
+
+当你调 s.run("test")：
+① Python 看到这是绑定方法
+② 调 im_func(im_self, "test")  → 就是 run(s, "test")
+③ im_self → s, "test" → data
+```
+
+验证：
+```python
+s = Service()
+bm = s.run
+
+# 手动模拟绑定方法的工作方式
+original_func = bm.__func__    # 取出原始函数
+instance = bm.__self__         # 取出绑定的实例
+
+# 下面两行完全等价：
+original_func(instance, "test")  # 手动传 self
+bm("test")                       # 自动传 self（绑定方法干的）
+```
+
+#### ③ 关键问题：为什么 `s.run` 能返回绑定方法？——descriptor 协议
+
+`run` 是定义在类里的函数，`s.run` 怎么知道要返回绑定方法而不是原始函数？
+
+答案在**函数的 `__get__` 方法**——所有函数都自带 `__get__`：
+
+```python
+def my_func():
+    pass
+
+# 函数也有 __get__ 方法！
+print(hasattr(my_func, "__get__"))  # True
+
+# 有 __get__ 的对象叫"descriptor"（描述符）
+# 当它被作为类属性访问时，Python 触发 __get__
+```
+
+**descriptor 协议**是 Python 属性查找的核心机制，只有 3 个方法：
+
+```
+descriptor 协议：
+  obj.attr 访问时，如果 attr 的值有 __get__ 方法，就调它
+
+__get__(self, instance, owner)
+  self    → 属性本身（这里是函数）
+  instance → 访问属性的实例（如果是类访问则为 None）
+  owner   → 实例的类
+
+三种情况：
+  s.run   → 触发 __get__(run, s, Service) → 返回绑定方法（im_self=s）
+  Service.run → 触发 __get__(run, None, Service) → 返回原始函数
+  run      → 不触发 __get__（直接访问变量）
+```
+
+```
+s.run 的完整查找链：
+
+① s.run
+   → s.ob_type → Service（PyTypeObject）
+   → Service.tp_getattro → PyObject_GenericGetAttr
+   → 在 Service.tp_dict（就是 Service.__dict__）里查 "run"
+      ┌─────────────────────────────┐
+      │ Service.__dict__            │  ← 这就是 tp_dict 在 Python 层的名字
+      │   "run" → <function>        │
+      │   "__init__" → <function>   │
+      │   ...                       │
+      └─────────────────────────────┘
+   → 找到 run = <function>
+
+② 检查 run 是不是 descriptor：
+   → run 有 __get__ 方法 ✓（所有函数都有）
+   → 调 run.__get__(s, Service)
+   → 返回 PyMethodObject(im_func=run, im_self=s)
+
+③ s.run 现在指向这个绑定方法对象
+```
+
+```python
+# 手动模拟 descriptor 协议
+class Service:
+    def run(self, data):
+        return f"{self} 处理 {data}"
+
+s = Service()
+
+# 第 1 步：从类里取出 run
+raw_func = Service.__dict__["run"]
+print(raw_func)       # <function Service.run at 0x...>
+
+# 第 2 步：手动调 __get__ 模拟绑定
+bound = raw_func.__get__(s, Service)
+print(bound)          # <bound method Service.run of <__main__.Service object at 0x...>>
+print(bound("test"))  # 和 s.run("test") 完全一样
+```
+
+#### ④ `tp_dict` 到底是什么？
+
+`tp_dict` 是 `PyTypeObject` 结构体里的一个字段（1.3.3.2 讲过的），对应 Python 层的 `类.__dict__`。它就是一个**字典**，存着类的所有属性和方法：
+
+```python
+class Service:
+    cls_var = 42
+    def run(self):
+        pass
+
+# Service.__dict__ 就是 tp_dict 在 Python 层的窗口
+print(type(Service.__dict__))     # <class 'mappingproxy'>
+print(dict(Service.__dict__))     # 转成普通 dict 看
+
+# 输出：
+# {
+#   "__module__": "__main__",
+#   "cls_var": 42,
+#   "run": <function Service.run at 0x...>,
+#   "__dict__": <attribute '__dict__' of 'Service' objects>,
+#   "__weakref__": <attribute '__weakref__' of 'Service' objects>,
+#   "__doc__": None
+# }
+```
+
+`Service.__dict__` 就是 C 层的 `Service.tp_dict`。当 Python 查找 `s.run` 时，它先在这个字典里找 `"run"`，找到后检查它是不是 descriptor。
+
+#### ⑤ 完整流程图：`s.run("test")` 从头到尾
+
+```
+你写：s.run("test")
+
+Step 1 [属性查找]:
+  Python 找 s.run
+  → s.ob_type → Service（PyTypeObject）
+  → Service.__dict__（tp_dict）→ 找 "run"
+  → 找到 <function run at 0x...>
+
+Step 2 [descriptor 检查]:
+  run 有 __get__ 吗？有（所有函数都有）
+  → 调 run.__get__(s, Service)
+  → 返回 PyMethodObject(im_func=run, im_self=s)
+
+Step 3 [调用]:
+  Python 看到这是绑定方法
+  → 等价于调 run(s, "test")
+  → self=s, data="test"
+```
+
+```
+内存里完整的样子：
+
+Service (PyTypeObject)
+  ┌────────────────────────────┐
+  │ tp_dict ("__dict__")       │
+  │   "run" ───────────────────┼────┐
+  └────────────────────────────┘    │
+                                    ▼
+                            ┌───────────────┐
+                            │ <function run> │  ← 原始函数
+                            │ 有 __get__ ✓  │
+                            └───────┬───────┘
+                                    │
+          s.run("test") ──→ run.__get__(s, Service)
+                                    │
+                                    ▼
+                            ┌───────────────────────┐
+                            │ PyMethodObject         │
+                            │   im_func → run        │
+                            │   im_self → s          │
+                            └───────────────────────┘
+                                    │
+                          调 im_func(im_self, "test")
+                          → run(s, "test")
+                          → s 收到 self, "test" 收到 data
+```
+
+#### ⑥ 用 Java 类比理解
+
+```java
+// Java 里没有"绑定方法"这种东西
+class Service {
+    String run(String data) {
+        return this + " 处理 " + data;
+    }
+}
+
+Service s = new Service();
+s.run("test");
+// 编译期就确定了：invokevirtual Service.run
+// JVM 自动把 s 压到局部变量 0（this）
+// 不需要"绑定方法"对象，编译时就已经安排好了
+
+// Python 不同：
+// s.run 是运行时从 dict 里查出来的
+// 查出来的是原始函数，需要"包一层"记住 s 是谁
+// 这层包装就是绑定方法（PyMethodObject）
+```
+
+**Python 要绑定方法根本原因：** Java 编译时就确定了 `s.run` 就是 `Service.run`、`this=s` 是 JVM 自动压栈的。Python 里 `s.run` 是**运行时**从类的 `tp_dict` 里查出来的——查出来的是原始函数，不知道 `s` 是谁。所以需要 descriptor 协议在中间包一层绑定方法，把 `s` 记住。这是动态语言的代价，也是为什么 `s.run` 比直接调函数慢一点的原因。
 
 ```
 Python 执行 def 语句时，不是"声明"，而是"执行"：
@@ -1136,7 +2614,7 @@ labels = ["even" if n % 2 == 0 else "odd" for n in numbers]
 pairs = [(x, y) for x in range(3) for y in range(3)]
 # [(0,0), (0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,1), (2,2)]
 
-# 字典推导式
+# 字典推导式，n自动作为key
 squares_dict = {n: n**2 for n in range(5)}
 # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 
@@ -1620,6 +3098,101 @@ print(x, y)  # 1, 2 ← 没变！
 
 **一切 `.py` 文件都是模块（module），模块也是对象（`<class 'module'>`）；含 `__init__.py` 的目录是包（package），用于组织模块命名空间。**
 
+### 1.5.1b 命名空间（namespace）到底是什么
+
+命名空间是 Python 最核心但最容易模糊的概念。一句话：
+
+> **命名空间就是一个名字 → 对象的映射表。Python 里每个变量名查找，本质上就是去某个 dict 里查 key。**
+
+```
+命名空间 = 字典（dict）
+  名字（字符串）   →  对象（任何 Python 对象）
+  ────────────       ─────────────────────
+  "PI"              →  3.14159
+  "greet"           →  <function greet at 0x...>
+  "Calculator"      →  <class 'Calculator'>
+  "math"            →  <module 'math'>
+```
+
+**Python 有 4 种命名空间，按查找顺序（LEGB 规则）：**
+
+```
+当你写 print(x) 时，Python 按这个顺序查：
+① Local（局部）      → 当前函数内的局部变量 dict
+② Enclosing（外层）  → 外层函数的局部变量 dict（闭包）
+③ Global（全局）     → 当前模块的全局变量 dict（module.__dict__）
+④ Builtins（内置）   → builtins 模块的 dict（print, len, int 等）
+```
+
+```
+内存中的命名空间：
+
+[模块 my_module.py 的全局命名空间]
+┌───────────────────────────────────┐
+│ my_module.__dict__（就是一个字典！） │
+├───────────────────────────────────┤
+│ "PI"          → 3.14159           │
+│ "greet"       → <function>        │
+│ "Calculator"  → <class>           │
+│ "__name__"    → "my_module"       │
+│ "__doc__"     → "..."             │
+│ "math"        → <module 'math'>   │  ← import math 后，math 模块也在这里
+└───────────────────────────────────┘
+
+[调用 greet("AI") 时的局部命名空间]
+┌───────────────────────────────────┐
+│ greet 栈帧的 f_locals              │
+├───────────────────────────────────┤
+│ "name"       → "AI"               │
+└───────────────────────────────────┘
+```
+
+**模块和命名空间的关系——每个模块的全局变量就是一个独立命名空间：**
+
+```python
+# a.py
+x = 10
+def f():
+    print(x)  # 这里 x 是 a.py 的全局命名空间里的 x
+
+# b.py
+import a
+x = 20        # b.py 有自己的全局命名空间，和 a 的 x 互不干扰
+a.f()         # 调 a.f()，f 内部查的是 a 的全局命名空间 → 10
+print(x)      # 20 ← b 自己的 x
+```
+
+```python
+# 验证：module.__dict__ 就是它的命名空间
+import math
+print(type(math.__dict__))      # <class 'dict'>
+print("sqrt" in math.__dict__)  # True
+print(math.__dict__["sqrt"])    # <built-in function sqrt>
+print(math.sqrt)                # 等价
+
+# global 和 local 命名空间也在函数里可见
+def demo():
+    x = 42
+    print(globals())   # 全局命名空间（当前模块的 __dict__）
+    print(locals())    # 局部命名空间（当前函数的 f_locals）
+```
+
+**Java 类比：**
+
+```
+Java 的"命名空间"：
+  - package 是命名空间（com.example.utils）
+  - 类名必须全路径，编译器静态解析
+  - 没有运行时"查 dict"的过程
+
+Python 的"命名空间"：
+  - 每个模块就是一个独立的 dict
+  - 变量名解析 = 在嵌套的 dict 里逐层查 key
+  - import 的本质 = 把模块对象的引用放入当前模块的 dict
+```
+
+**关键区别**：Java 的变量名在编译期就确定了地址（栈偏移量或方法区地址），Python 的变量名在**运行时查 dict**——这就是动态语言的核心代价，也是动态语言灵活性的来源（可以动态加属性、替换函数、热更新）。
+
 ### 1.5.2 模块基础
 
 **以下是 模块 的基本用法：**
@@ -1677,18 +3250,18 @@ json = importlib.import_module(module_name)
 data = json.loads('{"key": "value"}')
 ```
 
-### 1.5.4 导入流程
+### 1.5.4 导入流程（ABC 三步详解）
 
 ```
 用户写: import requests
               ↓
 1. 检查 sys.modules（模块缓存）
-   → 如果已导入，直接复用
+   → 如果已导入，直接复用（模块只加载一次！）
               ↓
 2. 搜索 sys.path 列表找到模块文件
               ↓
-3. 找到文件后：
-   a. 创建 Module 对象（类型为 module）
+3. 找到文件后，执行 ABC 三步：
+   a. 创建 Module 对象（PyModuleObject）
    b. 编译源码为字节码 (.pyc)
    c. 执行模块代码（填充模块的 __dict__）
               ↓
@@ -1697,33 +3270,246 @@ data = json.loads('{"key": "value"}')
 5. 当前命名空间绑定 "requests" 变量
 ```
 
-**代码演示：通过 `sys.path` 查看 Python 模块搜索路径列表，顺序为：当前脚本目录 → PYTHONPATH 环境变量 → 标准库 → site-packages。通过 `sys.modules` 查看已导入模块缓存字典，可验证模块只加载一次的机制。这是排查 import 错误的基础工具。**
+#### 步骤 A：创建 Module 对象
+
+CPython 调用 `module_new()` 在堆上创建一个空模块对象：
+
+```
+┌──────────────────────────────────┐
+│ PyModuleObject                   │
+├──────────────────────────────────┤
+│ PyObject_HEAD                    │
+│   ob_refcnt = 1                  │
+│   ob_type → &PyModule_Type       │
+├──────────────────────────────────┤
+│ md_dict → 空 dict（PyDictObject） │ ← 这就是 __dict__ 的出生地！
+│ md_name = "requests"             │
+│ md_code = <code object>          │
+└──────────────────────────────────┘
+
+此时 __dict__ 是空的——还没往里面放任何东西。
+```
+
+**`md_dict` 就是模块的 `__dict__`**。它在模块对象创建时作为空字典分配，后续执行模块代码时往里填充内容。
+
+#### 步骤 B：编译源码为字节码
+
+```
+CPython 读 .py 文件 → 编译成字节码：
+① 词法分析：源码字符串 → token 流
+   "def get(): pass" → NAME('def'), NAME('get'), OP('('), OP(')'), OP(':'), NAME('pass')
+
+② 语法分析：token 流 → AST（抽象语法树）
+   Module(body=[FunctionDef(name='get', ...)])
+
+③ 生成字节码：AST → code object
+   <code object get at 0x...>
+   ├── co_code: 字节码指令 (LOAD_CONST, RETURN_VALUE)
+   ├── co_consts: (None,)
+   ├── co_names: ()
+   └── co_varnames: ()
+
+④ 结果：code object 存入模块对象的 md_dict["__code__"]
+```
+
+#### 步骤 C：执行字节码——填充 `__dict__`
+
+这是最终键的一步——**执行模块的顶层代码**，把所有定义的名字写入 `__dict__`：
 
 ```python
-import sys
+# 假如 requests.py 内容如下：
+VERSION = "2.28.1"
 
-# 查看模块搜索路径
-print(sys.path)
-# ['当前目录', 'PYTHONPATH', '标准库', 'site-packages']
+def get(url):
+    return "response"
 
-# 查看已导入的模块
-print(list(sys.modules.keys())[:10])
+class Session:
+    pass
 
-# 模块缓存验证
-import random
-print("random" in sys.modules)  # True ← 第二次 import 直接复用
-
-# 重新加载模块（开发调试时使用）
-import importlib
-importlib.reload(random)
+print("requests loaded")
 ```
 
-**`sys.path` 搜索顺序：**
+执行这段代码时，CPython 逐条执行字节码，`__dict__` 一步步被填充：
+
 ```
-1. 执行脚本所在目录（或当前目录）
-2. PYTHONPATH 环境变量中的路径
-3. Python 标准库路径（如 /usr/lib/python3.11/）
-4. site-packages 第三方包路径（如 /usr/lib/python3.11/site-packages/）
+执行前：           requests.__dict__ = {}  ← 空字典
+
+第 1 行：VERSION = "2.28.1"
+                 ↓
+    STORE_NAME "VERSION"
+    → __dict__["VERSION"] = "2.28.1"
+
+第 2 行：def get(url):
+                 ↓
+    MAKE_FUNCTION → 创建 PyFunctionObject
+    STORE_NAME "get"
+    → __dict__["get"] = <function get>
+
+第 3 行：class Session:
+                 ↓
+    BUILD_CLASS → 创建 PyTypeObject("Session")
+    STORE_NAME "Session"
+    → __dict__["Session"] = <class 'Session'>
+
+第 4 行：print("requests loaded")
+                 ↓
+    LOAD_NAME "print" → 从 builtins 取 print 函数
+    LOAD_CONST "requests loaded"
+    CALL_FUNCTION → 执行 print
+    → 不写 __dict__（只是副作用）
+
+执行后：           requests.__dict__ = {
+                      "VERSION": "2.28.1",
+                      "get": <function>,
+                      "Session": <class>,
+                      "__name__": "requests",
+                      "__doc__": None,
+                      "__package__": None,
+                      "__loader__": <...>,
+                      "__spec__": <...>,
+                      "__file__": "/path/to/requests.py",
+                  }
+```
+
+#### `__dict__` 到底是什么？——完整讲解
+
+**① 本质：就是一个普通字典**
+
+```python
+import requests
+print(type(requests.__dict__))    # <class 'dict'> ← 就是字典！
+print(isinstance(requests.__dict__, dict))  # True
+```
+
+`__dict__` 就是一个 `PyDictObject`，存着 **变量名（字符串）→ 对象** 的映射。和你在代码里写的 `d = {"a": 1}` 没有区别。
+
+**② 怎么来的？**
+
+```
+模块创建时（步骤 A）：
+  module.__init__ → md_dict = PyDict_New()  ← 空字典
+
+模块执行时（步骤 C）：
+  每个赋值语句 → __dict__[名字] = 值
+  每个 def     → __dict__[名字] = PyFunctionObject
+  每个 class   → __dict__[名字] = PyTypeObject
+
+模块导入后：
+  __dict__ 的内容就是模块里定义的所有名字
+```
+
+**③ 有哪些值？**
+
+```python
+import requests
+
+# 你写的代码里的东西
+print("VERSION" in requests.__dict__)    # True  ← 变量
+print("get" in requests.__dict__)        # True  ← 函数
+print("Session" in requests.__dict__)    # True  ← 类
+
+# Python 自动加的东西（每个模块都有）
+print("__name__" in requests.__dict__)   # True
+print("__file__" in requests.__dict__)   # True  ← .py 文件路径
+print("__doc__" in requests.__dict__)    # True  ← 模块文档字符串
+print("__builtins__" in requests.__dict__) # True ← print, len 等
+```
+
+**④ 什么时候用？**
+
+```python
+# 场景 1：调试——查看模块里有什么
+import math
+print(list(math.__dict__.keys()))  # 列出 math 所有属性
+
+# 场景 2：动态访问——名字是字符串
+attr_name = "sqrt"
+print(math.__dict__[attr_name](16))  # 4.0
+# 等价于：
+print(getattr(math, attr_name)(16))  # 4.0
+
+# 场景 3：动态注入（不推荐，但某些框架需要）
+import my_module
+my_module.__dict__["new_var"] = 42
+print(my_module.new_var)  # 42
+# 等价于：
+setattr(my_module, "new_var", 42)
+
+# 场景 4：检查模块是否定义了某个东西
+if "get" in requests.__dict__:
+    print("模块有 get 函数")
+```
+
+**⑤ 实例、类、函数的 `__dict__` 都是什么？**
+
+```python
+class Dog:
+    species = "Canine"     # 存在 Dog.__dict__ 里
+    def __init__(self, name):
+        self.name = name   # 存在实例的 __dict__ 里
+
+d = Dog("小白")
+
+# 类的 __dict__（PyTypeObject.tp_dict）
+print(Dog.__dict__)
+# mappingproxy({
+#   'species': 'Canine',
+#   '__init__': <function>,
+#   '__module__': '__main__',
+#   ...
+# })  ← 注意是 mappingproxy（只读包装），不是普通 dict
+
+# 实例的 __dict__
+print(d.__dict__)
+# {'name': '小白'}  ← 普通 dict！
+
+# 函数的 __dict__
+def f(): pass
+f.attr = "hello"
+print(f.__dict__)
+# {'attr': 'hello'}  ← 函数可以当字典用
+```
+
+```
+各种 __dict__ 对比：
+              内容                       类型              来源
+──────        ────                       ────              ────
+模块.__dict__  模块里所有变量/函数/类       dict             步骤 C 执行时填充
+类.__dict__    类属性、方法                mappingproxy      class 语句执行时由 type_new 填充
+实例.__dict__  实例属性（self.xxx）        dict              __init__ 执行时写入
+函数.__dict__  函数自定义属性              dict              默认空，可自由添加
+```
+
+**⑥ 一句话总结 `__dict__`：**
+
+> **`__dict__` 就是一个普通字典，存着"名字 → 对象"的映射。模块的 `__dict__` 就是它里面定义的所有东西，类的 `__dict__` 就是它的属性和方法，实例的 `__dict__` 就是它的字段。Python 的变量名查找本质上就是在这些 dict 里查 key。**
+
+```python
+# 终极验证：obj.attr 就是 obj.__dict__["attr"]
+import math
+
+# 模块属性访问
+print(math.pi)                    # 3.14159...
+print(math.__dict__["pi"])        # 3.14159...  ← 完全一样！
+
+# 实例属性访问
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+p = Point(3, 4)
+print(p.x)                        # 3
+print(p.__dict__["x"])            # 3  ← 完全一样！
+
+# 类属性访问
+print(Point.__init__)             # <function Point.__init__ at ...>
+print(Point.__dict__["__init__"]) # <function Point.__init__ at ...>  ← 一样
+
+# 所以 obj.attr 底层就是：
+# 1. 如果 obj 是实例 → 先查 type(obj).__dict__（类属性），再查 obj.__dict__（实例属性）
+# 2. 如果 obj 是类   → 查 obj.__dict__，再沿 __mro__ 往上查
+# 3. 如果 obj 是模块 → 查 obj.__dict__
 ```
 
 ### 1.5.5 `__name__` 和 `__main__`
@@ -1786,7 +3572,11 @@ my_project/
     └── request.py
 ```
 
-**代码演示：Python 包的四种核心导入方式。`import my_project.utils.helpers` 使用完整路径导入；`from my_project.utils import helpers` 直接导入子模块到当前命名空间；`from my_project.utils.helpers import format_date` 直接导入具体函数；`from my_project import models` 导入子包。`__init__.py` 标记目录为包，可在其中定义 `__all__` 控制 `from package import *` 的行为，或做包的初始化工作。**
+**代码演示：Python 包的四种核心导入方式。**
++ `import my_project.utils.helpers` 使用完整路径导入；
++ `from my_project.utils import helpers` 直接导入子模块到当前命名空间；
++ `from my_project.utils.helpers import format_date` 直接导入具体函数；
++ `from my_project import models` 导入子包。`__init__.py` 标记目录为包，可在其中定义`__all__` 控制 `from package import *` 的行为，或做包的初始化工作。
 
 ```python
 # 各种导入方式
@@ -1865,6 +3655,195 @@ config.model = "gpt-4-turbo"  # 所有引用都看到这个修改
 # 虚拟环境（venv）为每个项目创建独立的 site-packages
 # python -m venv .venv
 # source .venv/bin/activate  # 激活后 pip install 安装到此环境
+```
+
+#### 运行原理图
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       第三方包管理 —— 运行原理                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+一、pip install 的完整流程
+═══════════════════════════════════════════════════════════════════════════════
+
+  你敲: pip install requests
+        │
+        ▼
+  ┌─────────────┐     HTTPS      ┌───────────────────┐
+  │ pip 客户端   │ ──────────▶    │ PyPI 服务器        │
+  │ (你的机器)   │ ◀──────────    │ pypi.org          │
+  └──────┬──────┘     .whl       └───────────────────┘
+         │
+         ▼ 下载 .whl 文件到本地缓存 ( ~/cache/pip/ )
+         │
+         ▼ 解压 .whl → 复制到 site-packages/
+         │
+  ┌──────┴─────────────────────────────────────────────────────┐
+  │  site-packages/  (以 Linux 为例)                           │
+  │  ┌──────────────────────────────────────────────────────┐  │
+  │  │  /usr/lib/python3.11/site-packages/                  │  │
+  │  │  ├── requests/                    ← 包本体           │  │
+  │  │  │   ├── __init__.py                                 │  │
+  │  │  │   ├── api.py                                      │  │
+  │  │  │   └── models.py                                   │  │
+  │  │  ├── requests-2.28.1.dist-info/  ← 元数据（版本等）   │  │
+  │  │  │   ├── METADATA                                    │  │
+  │  │  │   └── RECORD                                      │  │
+  │  │  └── urllib3/                    ← 依赖包也自动装上  │  │
+  │  └──────────────────────────────────────────────────────┘  │
+  └─────────────────────────────────────────────────────────────┘
+
+  .whl 其实就是 zip 包，解压后就是 Python 源码目录：
+  requests-2.28.1-py3-none-any.whl
+         │
+         ▼ 改名（去掉版本号）
+    requests/  ← 改名后就是包名
+
+二、import 时的查找路径（sys.path）
+═══════════════════════════════════════════════════════════════════════════════
+
+  import requests
+         │
+         ▼ 搜索 sys.path，找到第一个匹配的目录
+         │
+  sys.path 的内容（按顺序查找）：
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  [0] 当前脚本所在目录           /home/me/my_project/                │
+  │  [1] PYTHONPATH 环境变量        /home/me/lib/                       │
+  │  [2] 标准库                     /usr/lib/python3.11/                │
+  │  [3] site-packages              /usr/lib/python3.11/site-packages/  │  ← 在这里找到 requests/
+  └──────────────────────────────────────────────────────────────────────┘
+                                                    │
+                                                    ▼
+                          加载 /usr/lib/python3.11/site-packages/requests/__init__.py
+
+三、虚拟环境 venv 的原理（隔离机制）
+═══════════════════════════════════════════════════════════════════════════════
+
+  场景：同时开发项目 A 和项目 B，依赖不同版本
+
+                          ┌─────────────────────┐
+                          │     系统 Python       │
+                          │  /usr/bin/python3.11  │
+                          │  site-packages:       │
+                          │    requests==2.28.0   │
+                          └──────────┬────────────┘
+                                     │
+                 ┌───────────────────┼───────────────────┐
+                 │                   │                   │
+                 ▼                   ▼                   ▼
+  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+  │  项目 A（无 venv）   │  │  项目 B（有 venv）   │  │  项目 C（有 venv）   │
+  │                     │  │                     │  │                     │
+  │  import requests    │  │  import requests    │  │  import requests    │
+  │       │             │  │       │             │  │       │             │
+  │       ▼ 用系统级     │  │       ▼ 用 venv 级  │  │       ▼ 用 venv 级  │
+  │  requests==2.28.0   │  │  requests==2.29.0   │  │  requests==1.0.0    │
+  └─────────────────────┘  └─────────────────────┘  └─────────────────────┘
+
+  venv 工作原理（以项目 B 为例）：
+  ┌─────────────────────────────────────────────────────────────────┐
+  │  my_project_B/                                                  │
+  │  ├── .venv/                         ← 虚拟环境目录               │
+  │  │   ├── bin/                                                    │
+  │  │   │   ├── python                ← 软链接 → /usr/bin/python3.11│
+  │  │   │   ├── pip                   ← 和系统是同一个 pip          │
+  │  │   │   └── activate              ← 激活脚本（设环境变量）       │
+  │  │   ├── lib/                                                    │
+  │  │   │   └── python3.11/                                         │
+  │  │   │       └── site-packages/    ← 独立的！初始为空             │
+  │  │   │           ├── requests/     ← pip install 装到这里         │
+  │  │   │           └── ...                                        │
+  │  │   └── pyvenv.cfg                 ← 指向系统 Python             │
+  │  ├── main.py                       ← 项目代码                    │
+  │  └── ...                                                         │
+  └─────────────────────────────────────────────────────────────────┘
+
+  激活 venv 后发生了什么？——只是改了 PATH 和 sys.prefix！
+  ┌─────────────────────────────────────────────────────────────────┐
+  │  source .venv/bin/activate                                      │
+  │         │                                                       │
+  │         ▼                                                       │
+  │  ① PATH 前插：/home/me/my_project_B/.venv/bin                  │
+  │     → 现在敲 python，先找到 .venv/bin/python（软链到系统）      │
+  │     → 敲 pip，找到 .venv/bin/pip（也是软链）                       │
+  │  ② sys.prefix 变为 .venv 路径                                    │
+  │     → site-packages 查找路径变为 .venv/.../site-packages/        │
+  │  ③ pip install 的目标变为 .venv 的 site-packages                 │
+  │     → 不污染系统！                                               │
+  └─────────────────────────────────────────────────────────────────┘
+
+四、pip freeze 与 requirements.txt（依赖管理）
+═══════════════════════════════════════════════════════════════════════════════
+
+  pip freeze                        pip install -r requirements.txt
+       │                                       │
+       ▼                                       ▼
+  requests==2.28.1                 读取 requirements.txt
+  flask==2.3.0                     逐行 pip install
+  numpy==1.24.0                    │
+       │                           ├─ requests==2.28.1
+       ▼                           ├─ flask==2.3.0
+  输出到 requirements.txt          └─ numpy==1.24.0
+       │                                       │
+       ▼                                       ▼
+  ┌────────────────┐                ┌──────────────────────┐
+  │ requirements    │                │  site-packages/      │
+  │ .txt            │                │  ├── requests/       │
+  │ requests==2.    │                │  ├── flask/          │
+  │ 28.1            │                │  ├── Werkzeug/       │  ← flask 的依赖
+  │ ...             │                │  ├── Jinja2/         │  ← flask 的依赖
+  └────────────────┘                │  └── numpy/          │
+                                    └──────────────────────┘
+  （记录清单）                         （实际安装的目录树）
+
+五、site-packages 目录结构实例
+═══════════════════════════════════════════════════════════════════════════════
+
+  site-packages/
+  ├── requests/                    ← 包代码（import requests 找这里）
+  │   ├── __init__.py
+  │   ├── api.py
+  │   └── models.py
+  ├── requests-2.28.1.dist-info/   ← pip 管理的元数据
+  │   ├── METADATA                 ← 版本、作者、依赖信息
+  │   ├── RECORD                   ← 安装的文件列表和哈希
+  │   ├── INSTALLER                ← 安装工具（pip）
+  │   └── LICENSE                  ← 许可证
+  ├── urllib3/                     ← requests 的依赖
+  ├── pip/                         ← pip 自己也是第三方包！
+  ├── pip-23.0.dist-info/
+  ├── setuptools/                  ← 打包工具
+  └── _virtualenv.pth              ← venv 标记文件（标记这是虚拟环境）
+
+  .dist-info 里没有代码，只有元数据！
+  pip list / pip show / pip uninstall 全靠这些目录识别：
+
+  pip list          → 扫描 site-packages/ 所有 *.dist-info/
+  pip show requests → 读 METADATA 文件
+  pip uninstall     → 读 RECORD 文件，删除所有列出的文件
+
+六、常见操作的数据流向
+═══════════════════════════════════════════════════════════════════════════════
+
+  pip install requests
+       │
+       ├─▶ 查询 PyPI 最新版本
+       ├─▶ 下载 .whl 到缓存
+       ├─▶ 解压到 site-packages/
+       │   ├─ requests/            （代码）
+       │   └─ requests-2.28.1.dist-info/  （元数据）
+       ├─▶ 安装依赖（urllib3, charset 等，递归）
+       └─▶ 完成
+
+  import requests
+       │
+       ├─▶ sys.path 顺序搜索
+       ├─▶ 找到 site-packages/requests/
+       ├─▶ 加载 __init__.py
+       ├─▶ 递归加载其 import 的子模块
+       └─▶ 当前命名空间绑定 requests
 ```
 
 ### 1.5.10 常见错误
@@ -1957,22 +3936,433 @@ puppy = Dog.create_puppy("Puppy")
 print(puppy.age)       # 0
 ```
 
-**类创建流程：**
+#### `cls` 参数的作用（类方法中的第一个参数）
+
+`cls` 就是类本身——和实例方法的 `self` 是完全对称的概念：
+
 ```
+实例方法          def method(self, ...):    # self → 当前实例
+类方法 @classmethod def method(cls, ...):   # cls  → 当前类（不是实例！）
+```
+
+`cls` 的六大用途：
+
+**① 创建实例（工厂方法）**
+```python
+class Dog:
+    @classmethod
+    def create_puppy(cls, name: str) -> "Dog":
+        return cls(name, age=0)
+        # 等价于 Dog(...)，但如果被继承，cls 指向子类！
+
+class Puppy(Dog):
+    pass
+
+p = Puppy.create_puppy("小白")
+print(type(p))  # <class 'Puppy'>  ← cls 是 Puppy，不是 Dog！
+# 如果写的是 Dog(name, age=0)，这里就是 Dog 了，工厂就错了
+```
+
+**② 访问/修改类属性**
+```python
+class Counter:
+    total = 0
+    
+    @classmethod
+    def increment(cls):
+        cls.total += 1  # cls.total 等价于 Counter.total
+        # 但如果被继承，cls.total 指向子类的 total
+    
+    @classmethod
+    def show(cls):
+        return f"{cls.__name__}: {cls.total}"
+
+Counter.increment()
+print(Counter.show())  # Counter: 1
+```
+
+**③ 读取类级别的配置/注册表**
+```python
+class Plugin:
+    registry = {}  # 类字典，所有子类共享（但可覆盖）
+
+    @classmethod
+    def register(cls):
+        Plugin.registry[cls.__name__] = cls
+        # cls.__name__ → 自动取当前类的名字
+
+class Loader(Plugin): pass
+class Saver(Plugin): pass
+
+Loader.register()
+Saver.register()
+print(Plugin.registry)  # {'Loader': <class Loader>, 'Saver': <class Saver>}
+```
+
+**④ 替代构造器（多个构造方式）**
+```python
+from datetime import datetime, date
+
+class Person:
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+
+    @classmethod
+    def from_birth_year(cls, name: str, birth_year: int) -> "Person":
+        age = datetime.now().year - birth_year
+        return cls(name, age)  # ← 调用 __init__
+
+    @classmethod
+    def from_string(cls, data: str) -> "Person":
+        name, age = data.split(",")
+        return cls(name.strip(), int(age.strip()))
+
+# 三种不同的创建方式
+p1 = Person("Alice", 30)
+p2 = Person.from_birth_year("Bob", 1994)
+p3 = Person.from_string("Charlie, 25")
+```
+
+**⑤ 在继承中动态绑定正确的类**
+```python
+class Shape:
+    @classmethod
+    def create(cls, *args):
+        return cls(*args)  # cls 自动指向调用者的类
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+class Square(Shape):
+    def __init__(self, side):
+        self.side = side
+
+c = Circle.create(5)   # cls → Circle，等价于 Circle(5)
+s = Square.create(4)   # cls → Square，等价于 Square(4)
+```
+
+**⑥ 替代全局变量（命名空间隔离）**
+```python
+# 不好的做法：
+GLOBAL_CONFIG = {"debug": True}
+
+class App:
+    def run(self):
+        print(GLOBAL_CONFIG["debug"])  # 依赖全局变量
+
+# 好的做法：把配置放在类属性里，用类方法访问
+class App:
+    config = {"debug": True}
+    
+    @classmethod
+    def set_debug(cls, value: bool):
+        cls.config["debug"] = value
+    
+    @classmethod
+    def is_debug(cls) -> bool:
+        return cls.config["debug"]
+    
+    def run(self):
+        print(self.is_debug())
+```
+
+`cls` 和 `self` 的本质对比：
+
+```
+参数    指向谁            传入方式                    调用方式
+────    ────              ────                        ────
+self    当前实例           Python 自动传入             instance.method() 或 Class.method(instance)
+cls     当前类（不是实例）  Python 自动传入             Class.method() 或 instance.method()
+                                                                      ↑ 实例调类方法时，
+                                                                        cls 仍是类，不是实例！
+
+验证：
+d = Dog("Buddy", 3)
+print(Dog.create_puppy("P"))   # cls → Dog
+print(d.create_puppy("P"))     # cls → Dog（不是 d！cls 永远是类）
+```
+
+#### 类创建流程 —— 内存图逐步演示
+
+当 Python 执行 `class Dog:` 语句时，背后发生了以下 8 步：
+
+```
+源代码：
 class Dog:
     species = "Canine"
-    def bark(self): ...
-        ↓
-1. 收集类定义体中的所有名称 → namespace dict
-        ↓
-2. 确定元类（默认为 type）
-        ↓
-3. 调用 type.__new__(type, "Dog", (object,), namespace)
-   → 创建 Dog 类对象（PyTypeObject 实例）
-        ↓
-4. 调用 type.__init__(Dog, ...)
-        ↓
-5. 将 Dog 绑定到当前命名空间
+    def bark(self):
+        return "Woof!"
+```
+
+**第 1 步：收集类体代码 → 创建独立命名空间**
+
+```
+class Dog:                      Python 内部：
+    species = "Canine"  ──────▶ 创建临时 namespace = {}
+                                namespace["species"] = "Canine"
+                                namespace["bark"] = <function bark>
+```
+
+内存状态：
+```
+┌──────────────────────────┐
+│ 临时 namespace（dict）    │
+│  ┌──────────────────────┐│
+│  │ "species" → "Canine" ││
+│  │ "bark"    → <func>   ││
+│  └──────────────────────┘│
+└──────────────────────────┘
+```
+
+**第 2 步：确定元类（metaclass）**
+
+```
+查找顺序：
+① class Dog(metaclass=...)       → 显式指定的元类
+② class Dog(metaclass=ABCMeta)   → 父类的元类
+③ 无指定                         → 默认元类 type
+```
+
+```
+                                       ┌──────────┐
+type  ←─ 一切元类的根源 ───────────────▶│  type    │
+                                       │ (元类)   │
+                                       └──────────┘
+                                            ▲
+                                       ┌────┴─────┐
+                                       │ object    │
+                                       │ (最基类)  │
+                                       └──────────┘
+```
+
+**第 3 步：确定基类（bases）**
+
+```
+class Dog:                  → 隐式继承 object
+class Dog(Animal):          → 显式继承 Animal
+class Dog(Animal, Pet):     → 多继承
+```
+
+```
+                      ┌──────────┐
+                      │  object  │
+                      └────┬─────┘
+                           ▲
+                      ┌────┴─────┐
+                      │   Dog    │  ← 还没有创建出来
+                      └──────────┘
+```
+
+**第 4 步：调用 `type.__new__` — 申请内存，创建 PyTypeObject**
+
+```
+type.__new__(type, "Dog", (object,), namespace)
+      │
+      ├─ 参数1: type           → 元类自己
+      ├─ 参数2: "Dog"          → 类名（字符串）
+      ├─ 参数3: (object,)      → 基类元组
+      └─ 参数4: namespace      → 第 1 步收集的 dict
+
+      │
+      ▼  CPython 内部：type_new()
+
+      ① PyType_Type.tp_alloc(type, 0)
+         → 在堆上分配 PyTypeObject 大小的内存
+         → 全部初始化为 0（ob_refcnt = 1）
+
+      ② 关键字段填充：
+         tp_name     = "Dog"                    ← 类名
+         tp_basicsize = sizeof(PyObject)         ← 实例大小
+         tp_dict     = namespace（取出内容后打包为 mappingproxy）
+         tp_base     = &PyBaseObject_Type        ← object
+         tp_mro      = (Dog, object) 的元组      ← 方法解析顺序
+         tp_flags    = Py_TPFLAGS_DEFAULT | ...
+```
+
+内存中的 PyTypeObject：
+
+```
+  堆内存：PyTypeObject for "Dog"
+  ┌──────────────────────────────────────────────┐
+  │ PyObject_HEAD                                │
+  │   ob_refcnt = 1                              │
+  │   ob_type → &PyType_Type  ←── 元类是 type！  │
+  ├──────────────────────────────────────────────┤
+  │ tp_name  = "Dog"                             │
+  │ tp_basicsize = 32（sizeof(PyObject)）         │
+  │ tp_dict   → mappingproxy({                   │  ← 第1步的 namespace 转换而来
+  │     "species": "Canine",                     │
+  │     "bark": <function>,                      │
+  │     "__module__": "__main__",                │  ← Python 自动添加
+  │     "__qualname__": "Dog",                   │  ← Python 自动添加
+  │ })                                           │
+  │ tp_base   → &PyBaseObject_Type  → object     │
+  │ tp_mro    → (Dog, object)                    │
+  │ tp_bases  → (<class 'object'>,)              │
+  │ tp_init   → &type_init                       │
+  │ tp_new    → &type_new                        │
+  │ tp_alloc  → &PyType_GenericAlloc             │
+  │ tp_dealloc→ &type_dealloc                    │
+  └──────────────────────────────────────────────┘
+```
+
+**第 5 步：调用 `type.__init__` — 初始化类对象**
+
+```
+type.__init__(Dog, "Dog", (object,), namespace)
+
+CPython 内部：type_init()
+→ 设置 __module__, __doc__ 等
+→ 将方法包装为 descriptor（绑定机制）
+→ 检查基类兼容性
+→ 计算 tp_mro
+```
+
+```
+重点：bark 函数被包装为 descriptor！
+
+在 namespace 里，bark 是一个普通函数：
+  namespace["bark"] = <function bark at 0x...>
+
+在 type.__init__ 之后，tp_dict 里的 bark 仍是函数，
+但 Python 的函数实现了 __get__ 方法（descriptor 协议），
+所以当通过实例访问时，会自动绑定为 bound method。
+
+验证：
+print(Dog.bark)                     # <function Dog.bark at 0x...>
+print(Dog.__dict__["bark"])         # <function Dog.bark at 0x...>
+print(Dog("A",1).bark)              # <bound method Dog.bark of <Dog object>>
+```
+
+**第 6 步：设置 `__dict__` 为映射代理（mappingproxy）**
+
+```
+namespace 被包装为只读的 mappingproxy：
+    普通的 dict：  可以增删改
+    mappingproxy： 读操作正常，写操作抛出 TypeError
+
+为什么？
+→ 防止外部乱改类属性，破坏 type 的内部一致性
+→ type 内部用自己的 tp_dict 指针操作，不需要经过 __dict__ 的 __setitem__
+
+验证：
+Dog.__dict__["species"] = "Feline"  # TypeError: 'mappingproxy' object does not support item assignment
+Dog.species = "Feline"              # ✅ 正确方式（通过 type.__setattr__）
+```
+
+**第 7 步：处理装饰器和 `__init_subclass__`**
+
+```
+class Dog:
+    ...
+
+# 如果 object 或其父类定义了 __init_subclass__，在此调用
+# object.__init_subclass__(cls=Dog)
+# 这是 PEP 487 的机制，让父类在子类创建时执行自定义逻辑
+
+# 例：
+class PluginBase:
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls.registered = True
+
+class MyPlugin(PluginBase):
+    pass
+
+print(MyPlugin.registered)  # True  ← 创建 MyPlugin 时自动触发了 __init_subclass__
+```
+
+**第 8 步：将 Dog 绑定到当前命名空间**
+
+```
+class Dog:
+    ...
+
+# 执行完 class 语句后，等价于：
+# Dog = type("Dog", (object,), namespace)
+# 当前命名空间（模块或函数作用域）多了一个名字 "Dog" → 指向新创建的 PyTypeObject
+```
+
+当前命名空间绑定后的内存全貌：
+
+```
+模块的 __dict__
+┌───────────────────────────────────────────┐
+│ ...                                        │
+│ "Dog": → PyTypeObject  "Dog"              │
+│           ├── tp_dict: mappingproxy       │
+│           │   ├── "species" → "Canine"    │
+│           │   ├── "bark"    → <function>  │
+│           │   ├── "__init__" → <function> │
+│           │   └── ...                     │
+│           ├── tp_base: object             │
+│           └── tp_mro: (Dog, object)       │
+│                                           │
+│ "d":   → PyObject 实例                     │
+│           ├── ob_type → &PyTypeObject Dog  │
+│           ├── __dict__                     │
+│           │   ├── "name": "Buddy"         │
+│           │   └── "age": 3                │
+│           └── ...                         │
+└───────────────────────────────────────────┘
+```
+
+**完整类创建流程总结图：**
+
+```
+源代码                       CPython 内部
+───────                      ────────────
+                              ┌──────────┐
+class Dog:                    │ 扫描所有 │
+    species = "Canine"  ──▶   │  类体语句 │
+    def bark(self): ...       └────┬─────┘
+                                   │
+                                   ▼ namespace dict
+                              ┌──────────────┐
+                              │ species→"Can" │
+                              │ bark→<func>  │
+                              └──────┬───────┘
+                                     │
+               ┌─────────────────────┼─────────────────────┐
+               │  确定元类           │                     │
+               ▼                    ▼                     ▼
+         ┌──────────┐       ┌──────────────┐      ┌──────────────┐
+         │ type     │       │ (object,)    │      │ namespace    │
+         │ (元类)   │       │ (基类元组)    │      │ (名字空间)    │
+         └────┬─────┘       └──────┬───────┘      └──────┬───────┘
+              │                    │                      │
+              └────────────────────┼──────────────────────┘
+                                   │
+                                   ▼
+                    type.__new__(type, "Dog", (object,), namespace)
+                                   │
+                                   ▼
+                          ┌──────────────────┐
+                          │ 分配 PyTypeObject │
+                          │ 内存（堆上）      │
+                          │ tp_dict←namespace│
+                          │ tp_base←object   │
+                          │ tp_mro←(Dog,obj) │
+                          └──────┬───────────┘
+                                   │
+                                   ▼
+                    type.__init__(Dog, "Dog", (object,), namespace)
+                                   │
+                                   ├─ 设置 __module__
+                                   ├─ 包装 descriptor
+                                   ├─ 调用 __init_subclass__
+                                   └─ 其他初始化
+                                   │
+                                   ▼
+                          ┌──────────────────┐
+                          │ mappingproxy 包装 │
+                          │ （只读保护）      │
+                          └──────┬───────────┘
+                                   │
+                                   ▼
+                    当前模块命名空间: Dog = <PyTypeObject>
 ```
 
 ### 1.6.3 Java vs Python OOP 对比
@@ -2086,43 +4476,257 @@ print(d.who())       # "B" ← 按 MRO 顺序 B 优先于 C
 print(D.__mro__)     # D → B → C → A → object
 ```
 
+#### MRO 是什么？
+
+**MRO = Method Resolution Order（方法解析顺序）**，就是 Python 在 `d.who()` 时查找 `who` 方法的顺序。
+
 ```
-D 的 MRO 计算（C3 线性化）：
-
-class D(B, C):
-  ┌─────┐ ┌─────┐ ┌─────┐
-  │  D  │ │  B  │ │  C  │ ┌───────┐
-  │     │→│who=B│→│who=C│→│object │
-  └─────┘ └──┬──┘ └──┬──┘ └───────┘
-              │       │
-              ▼       ▼
-            ┌──────────┐
-            │    A     │
-            │  who=A   │
-            └──────────┘
-
-规则：D(B, C) 的 MRO =
-  1. D 本身
-  2. B 的 MRO（不含 D 已出现的类）
-  3. C 的 MRO（不含 D 已出现的类）
-  4. object
-结果: D → B → C → A → object
+d.who()
+  │
+  ├─▶ 1. 查 d.__class__.__dict__ (D)           → 没有 who
+  ├─▶ 2. 查 D.__mro__[0]  (D)                  → 没有 who
+  ├─▶ 3. 查 D.__mro__[1]  (B)                  → 有 who！→ 返回 "B"
+  ├─▶ 4. 查 D.__mro__[2]  (C)                  → 有，但不用了（B 已经找到了）
+  ├─▶ 5. 查 D.__mro__[3]  (A)                  → 跳过
+  └─▶ 6. 查 D.__mro__[4]  (object)             → 跳过
 ```
 
-**代码演示：`super()` 的正确用法。Python 的 `super()` 不是调用"父类"，而是调用 MRO 中的下一个类。在菱形继承 `D(MixinA, MixinB, Base)` 中，`MixinA.__init__` 里的 `super().__init__()` 会跳过 MixinA 本身，调用 MRO 链中的下一个 `MixinB.__init__`，再通过 `super()` 到达 `Base.__init__`。这种"协作式多重继承"要求所有类都调用 `super().__init__()` 才能正确串联初始化链。**
+MRO 保证三条原则：
+```
+① 单调性：子类的 MRO 不会违反父类的 MRO 顺序
+② 局部优先：父类列表中的顺序被保留（D(B, C) → B 在 C 前）
+③ 单调性延伸：某类始终在它的子类之后出现
+```
+
+#### MRO 是怎么算出来的？—— C3 线性化算法
+
+C3 是 Python 2.3 引入的算法，取代了之前的深度优先搜索（DFS），解决了菱形继承中的不一致问题。
+
+**算法定义：**
+
+```
+L[C] = C + merge(L[B1], L[B2], ..., L[Bn], (B1, B2, ..., Bn))
+
+其中：
+  L[C]   = 类 C 的 MRO 列表
+  C      = 当前类
+  B1..Bn = C 的直接父类（按声明顺序）
+  merge  = 合并算法（核心！）
+```
+
+**`merge` 算法步骤：**
+
+```
+merge(列表1, 列表2, ..., 列表N):
+  while 还有未处理元素:
+      取每个列表的第 0 个元素（候选类）
+      如果此候选类不在任何列表的尾部（第 1 个及之后）中出现：
+          → 把它加入结果，并从所有列表中移除
+      否则：
+          → 尝试下一个候选类
+  如果循环结束后还有未处理元素：报错（继承不合法）
+```
+
+**逐步计算 D(B, C) 的 MRO：**
+
+首先要知道 B 和 C 自己的 MRO：
+
+```
+L[A] = A, object        （单继承很简单）
+
+L[B(A)] = B + merge(L[A], (A))
+        = B + merge(A, object, A)
+        → 候选 A：不在任何列表尾部 → 取出
+        = B, A + merge(object)
+        → 候选 object：不在尾部 → 取出
+        = B, A, object
+
+L[C(A)] = C + merge(L[A], (A))
+        = C + merge(A, object, A)
+        → 同上
+        = C, A, object
+```
+
+现在计算 L[D(B, C)]：
+
+```
+L[D] = D + merge(L[B], L[C], (B, C))
+     = D + merge(B, A, object,   ← L[B]
+                C, A, object,   ← L[C]
+                B, C)           ← 父类列表
+```
+
+merge 合并过程（5 轮）：
+
+```
+第 1 轮：取每个列表头元素
+        列表1 头 = B    列表2 头 = C    列表3 头 = B
+        B 是否在其他列表尾部？检查：
+          C, A, object 的尾部 = A, object     → B 不在里面
+          B, C 的尾部 = C                     → B 不在里面
+        ✅ B 不在任何尾部 → 取出 B
+
+        结果: [D, B]
+        剩余: merge(A, object,   ← L[B] 去掉了头 B
+                     C, A, object,   ← L[C] 不变
+                     C)              ← 父类列表去掉了头 B
+
+第 2 轮：取每个列表头元素
+        列表1 头 = A    列表2 头 = C    列表3 头 = C
+        C 是否在其他列表尾部？检查：
+          A, object 的尾部 = object         → C 不在里面
+          C 的尾部为空                     → 安全
+        ✅ C 不在任何尾部 → 取出 C
+
+        结果: [D, B, C]
+        剩余: merge(A, object,   ← L[B] 不变
+                     A, object,   ← L[C] 去掉了头 C
+                     )            ← 父类列表为空了
+
+第 3 轮：取每个列表头元素
+        列表1 头 = A    列表2 头 = A
+        A 是否在其他列表尾部？检查：
+          A, object 的尾部 = object       → A 不在里面
+          A, object 的尾部 = object       → A 不在里面
+        ✅ A 不在任何尾部 → 取出 A
+
+        结果: [D, B, C, A]
+        剩余: merge(object,   ← L[B] 去掉了头 A
+                     object)   ← L[C] 去掉了头 A
+
+第 4 轮：取每个列表头元素
+        列表1 头 = object    列表2 头 = object
+        object 不在任何尾部 → 取出 object
+
+        结果: [D, B, C, A, object]
+
+第 5 轮：所有列表为空 ✅ 完成！
+```
+
+```
+最终 MRO：
+    ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌────────┐
+    │  D  │→│  B  │→│  C  │→│  A  │→│ object │
+    └─────┘ └─────┘ └─────┘ └─────┘ └────────┘
+       ▲       ▲       ▲       ▲       ▲
+       │       │       │       │       │
+       who()  who=B   who=C   who=A  谁都没有
+       不写   先找到  被跳过  被跳过
+```
+
+**验证结果：** `D.__mro__` = `(D, B, C, A, object)`。和代码输出一致。
+
+#### 复杂的 MRO 例子——验证单调性
 
 ```python
-# super() 的正确使用
+class O: pass
+class A(O): pass
+class B(O): pass
+class C(O): pass
+class D(O): pass
+class E(O): pass
+class K1(A, B, C): pass
+class K2(D, B, E): pass
+class K3(D, A): pass
+class Z(K1, K2, K3): pass
+
+print(Z.__mro__)
+# Z → K1 → K2 → K3 → D → A → B → C → E → O → object
+```
+
+我们来验证这个 MRO 的单调性：
+
+```
+检查局部顺序：
+  K1(A, B, C)  → A 在 B 前，B 在 C 前。Z 的 MRO：...A→B→C... ✅
+  K2(D, B, E)  → D 在 B 前，B 在 E 前。Z 的 MRO：...D→...→B→...→E... ✅
+  K3(D, A)     → D 在 A 前。Z 的 MRO：...D→A... ✅
+
+检查父类 MRO 保留：
+  L[K1] = K1, A, B, C, O, object
+  L[K2] = K2, D, B, E, O, object
+  L[K3] = K3, D, A, O, object
+
+  L[Z] 中：K1 在 K2 前 ✅，K2 在 K3 前 ✅
+  A 在 B 前，B 在 C 前 ✅（继承自 K1 的顺序）
+  D 在 A 前 ✅（继承自 K3 的顺序）
+```
+
+#### 为什么 Python 要抛弃 DFS 改用 C3？
+
+**DFS 的问题 —— 菱形继承中的方法覆盖失败：**
+
+```
+class A:
+    def who(self): return "A"
+
+class B(A):
+    def who(self): return "B"
+
+class C(A):
+    pass                    # 没有重写 who
+
+class D(B, C):
+    pass
+
+# DFS（Python 2 的旧算法）：
+# D → B → A → C → object
+# d.who() → B ✅（本来正确，但只是运气好）
+
+# 如果换成：
+class A:
+    def who(self): return "A"
+
+class B(A):
+    pass                    # B 没有重写
+
+class C(A):
+    def who(self): return "C"  # C 重写了
+
+class D(B, C):
+    pass
+
+# DFS：D → B → A → C → object
+# d.who() → A ❌（应该用 C 的！C 更具体！）
+# 因为 DFS 先走 B 这条线到 A 找到了 who，永远不会走到 C
+
+# C3：D → B → C → A → object
+# d.who() → C ✅（C 在 A 之前，正确！）
+```
+
+#### MRO 在继承设计中怎么用？
+
+**用法 1：用 `.__mro__` 或 `.mro()` 查看解析顺序**
+
+```python
+class Base: pass
+class MixinA(Base): pass
+class MixinB(Base): pass
+class Derived(MixinA, MixinB): pass
+
+# 两种查看方式
+print(Derived.__mro__)
+# (<class 'Derived'>, <class 'MixinA'>, <class 'MixinB'>, <class 'Base'>, <class 'object'>)
+
+print(Derived.mro())
+# [<class 'Derived'>, <class 'MixinA'>, <class 'MixinB'>, <class 'Base'>, <class 'object'>]
+```
+
+**用法 2：`super()` 遵循 MRO 链**
+
+```python
 class Base:
     def __init__(self):
         print("Base.__init__")
 
-class MixinA:
+class MixinA(Base):
     def __init__(self):
         print("MixinA.__init__")
-        super().__init__()  # 不是调用父类！是调用 MRO 中的下一个！
+        super().__init__()
+        # super() 不是找父类 Base！
+        # 是在 MRO 链中找 MixinA 的下一个 → 看 MRO 决定
 
-class MixinB:
+class MixinB(Base):
     def __init__(self):
         print("MixinB.__init__")
         super().__init__()
@@ -2136,12 +4740,126 @@ d = Derived()
 print(Derived.__mro__)
 # Derived → MixinA → MixinB → Base → object
 
+# 执行流程：
+# Derived.__init__      → 打印 "Derived.__init__"
+#   → super().__init__() 在 MRO 中找 Derived 的下一个：MixinA
+#      → MixinA.__init__  → 打印 "MixinA.__init__"
+#        → super().__init__() 在 MRO 中找 MixinA 的下一个：MixinB
+#           → MixinB.__init__  → 打印 "MixinB.__init__"
+#             → super().__init__() 在 MRO 中找 MixinB 的下一个：Base
+#                → Base.__init__  → 打印 "Base.__init__"
+```
+
+**用法 3：手动显式指定 MRO 中的类**
+
+```python
+class A:
+    def who(self): return "A"
+
+class B(A):
+    def who(self): return "B"
+
+class C(A):
+    def who(self): return "C"
+
+class D(B, C):
+    def who(self):
+        # 显式跳过 B 直接调用 C 的 who
+        return C.who(self)  # ❌ 硬编码，破坏了 MRO
+
+    def who_proper(self):
+        # 正确方式：调用 MRO 中 B 的下一个
+        return super().who()  # → C.who() 按 MRO 链走
+
+d = D()
+print(d.who())         # "C"（硬编码指定）
+print(d.who_proper())  # "C"（通过 MRO 自动找到 C）
+
+# 当继承改变时，super() 自动适配，硬编码会错：
+class E(C, B):  # 调换了顺序
+    pass
+
+e = E()
+print(E.__mro__)  # E → C → B → A → object
+
+# 如果 E 里用 C.who(self) 还是 "C"，但 MRO 中 C 本来就是第一个
+# 问题出在更复杂的继承中，硬编码会忽略 MRO 的调整
+```
+
+**用法 4：MRO 不合法的情况——算法会报错**
+
+```python
+# ❌ 无法构建合法的 MRO
+class X: pass
+class Y: pass
+class A(X, Y): pass
+class B(Y, X): pass
+
+class C(A, B): pass  # TypeError: Cannot create a consistent method resolution
+# 原因：A 要求 X 在 Y 前，B 要求 Y 在 X 前，矛盾！
+```
+
+**用法 5：设计 Mixin 时要确保所有类都调用 `super().__init__()`**
+
+```python
+class PluginBase:
+    def __init__(self, **kwargs):
+        print("PluginBase.__init__")
+        super().__init__()  # 最终继承链的末端是 object
+
+class LogMixin:
+    def __init__(self, **kwargs):
+        print("LogMixin.__init__")
+        super().__init__(**kwargs)
+
+class AuthMixin:
+    def __init__(self, **kwargs):
+        print("AuthMixin.__init__")
+        super().__init__(**kwargs)
+
+class MyPlugin(LogMixin, AuthMixin, PluginBase):
+    def __init__(self, **kwargs):
+        print("MyPlugin.__init__")
+        super().__init__(**kwargs)
+
+p = MyPlugin()
+print(MyPlugin.__mro__)
+# MyPlugin → LogMixin → AuthMixin → PluginBase → object
+
 # 输出：
-# Derived.__init__
-# MixinA.__init__
-# MixinB.__init__
-# Base.__init__
-# super() 沿着 MRO 链调用下一个类！
+# MyPlugin.__init__
+# LogMixin.__init__
+# AuthMixin.__init__
+# PluginBase.__init__
+
+# 如果任何一个类没有调用 super().__init__()，链就断了！
+class BrokenMixin:
+    def __init__(self, **kwargs):
+        print("BrokenMixin.__init__")
+        # 没有 super().__init__() ← 链断了
+        # AuthMixin 和 PluginBase 都不会被调用！
+
+class BadPlugin(LogMixin, BrokenMixin, PluginBase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+bp = BadPlugin()
+# 输出只有：
+# LogMixin.__init__
+# BrokenMixin.__init__
+# ❌ AuthMixin 和 PluginBase 永远不执行！
+```
+
+#### MRO 速查表
+
+```
+场景                    MRO 结果                          说明
+────                    ────────                          ────
+class A:                A → object                       没有父类就是 object
+class B(A):             B → A → object                   单继承，简单线性
+class C(A, B):          C → A → B → object               保持父类顺序
+菱形 D(B,C), B(A),C(A)  D → B → C → A → object          C3 保证 B 在 C 前
+复杂多继承              根据 C3 算法自动计算              使用 .__mro__ 查看
 ```
 
 ### 1.6.6 封装与属性
@@ -2560,7 +5278,7 @@ except AIAPIError as e:
 
 ### 1.7.6 raise 与异常链
 
-**下面是 raise 与异常链 的代码示例：**
+**raise 手动抛出异常，异常链 就是抛出异常时，附带原异常信息**
 ```python
 # 基本 raise
 def divide(a, b):
@@ -2631,29 +5349,373 @@ def set_age(age):
 
 ### 1.7.8 上下文管理器与异常
 
-**下面是 上下文管理器与异常 的代码示例：**
+#### 上下文管理器是什么
+
+```
+上下文管理器 = 定义了 __enter__ 和 __exit__ 方法的对象
+
+用途：自动管理资源（文件、锁、数据库连接、网络请求），保证无论是否发生异常都能正确清理。
+
+with open("file.txt") as f:    ← open 返回的文件对象是上下文管理器
+    data = f.read()             ← 使用资源
+                                ← 离开 with 块自动关闭文件（即使发生异常）
+```
+
+#### `with` 语句的执行逻辑（伪代码）
+
+```
+with EXPR as VAR:
+    BLOCK
+
+等价于：
+
+管理器 = EXPR                  # 1. 计算表达式，得到上下文管理器对象
+VAR = 管理器.__enter__()       # 2. 调用 __enter__，返回值赋给 VAR
+try:
+    BLOCK                      # 3. 执行代码块
+except Exception as e:
+    抑制 = 管理器.__exit__(type(e), e, e.__traceback__)
+                               # 4. 发生异常时调用 __exit__
+    if not 抑制:
+        raise                  # 5. 不抑制 → 继续传播异常
+else:
+    管理器.__exit__(None, None, None)
+                               # 6. 没有异常也调用 __exit__
+```
+
+#### `__exit__` 的三个参数
+
+```
+def __exit__(self, exc_type, exc_val, exc_tb):
+    # exc_type: 异常的类型（class）       → 比如 ValueError
+    # exc_val:  异常的实例（object）       → 比如 ValueError("xxx")
+    # exc_tb:   异常的堆栈追踪（traceback）→ 用于调试
+    #
+    # 没有异常时：三个参数都是 None
+    # 有异常时：三个参数都有值
+    #
+    # 返回值：
+    #   False → 不抑制异常，异常继续传播（默认行为）
+    #   True  → 抑制异常，with 块正常结束，异常不往外抛
+
+    return False  # 默认不抑制
+```
+
+#### 逻辑全流程图
+
+```
+开始 with
+    │
+    ▼
+r = __enter__()        ← 打开资源，返回资源对象
+    │
+    ▼
+as VAR                 ← VAR = r，拿到资源
+    │
+    ▼
+    执行 with 代码块
+    │
+    ├──── 正常完成 ──────────────────┐
+    │                                │
+    ▼                                ▼
+__exit__(None,None,None)         遇到异常 → __exit__(exc_type, exc_val, exc_tb)
+    │                                │
+    ▼                                ├── return False ──▶ 异常继续往外抛
+结束 with（正常）                    │
+                                    ├── return True  ──▶ 异常被吃掉
+                                    │                   with 块后面继续执行
+                                    ▼
+                              结束 with（异常被抑制 或 被传播）
+```
+
+#### 异常处理四种场景
+
+**场景 1：没有异常（最理想）**
+
 ```python
-# with 语句的本质是异常安全的资源管理
-# __exit__ 接收异常信息
-
-class DatabaseConnection:
+class Demo:
     def __enter__(self):
-        print("连接数据库")
+        print("进入")
         return self
+    def __exit__(self, *args):
+        print(f"退出，异常参数: {args}")
+        return False
 
+with Demo():
+    print("干活")
+# 输出：
+# 进入
+# 干活
+# 退出，异常参数: (None, None, None)
+```
+
+**场景 2：发生异常，不抑制（`return False`）**
+
+```python
+class NoSuppress:
+    def __enter__(self):
+        print("打开连接")
+        return self
     def __exit__(self, exc_type, exc_val, exc_tb):
-        # exc_type: 异常类型（没有异常则为 None）
-        # exc_val:  异常实例
-        # exc_tb:   堆栈跟踪
-        print("关闭连接")
-        if exc_type is not None:
-            print(f"发生异常: {exc_val}")
-            # return False  → 不抑制异常（默认）
-            # return True   → 抑制异常，不传播
-        return False  # 不抑制异常
+        print(f"关闭连接")
+        print(f"异常类型: {exc_type.__name__}")
+        print(f"异常信息: {exc_val}")
+        return False  # ← 不抑制，异常往外传
 
-with DatabaseConnection() as conn:
-    raise ValueError("查询失败")  # 先执行 __exit__，再传播异常
+with NoSuppress() as conn:
+    print("执行查询")
+    raise ValueError("数据损坏")
+    print("这行不会执行")  # ← 永远不会执行
+
+print("这里也不会执行")  # ← 异常已传播到这里
+# 输出：
+# 打开连接
+# 执行查询
+# 关闭连接
+# 异常类型: ValueError
+# 异常信息: 数据损坏
+# Traceback (most recent call last):
+#   ...
+# ValueError: 数据损坏
+```
+
+**场景 3：发生异常，主动抑制（`return True`）**
+
+```python
+class SuppressAll:
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is ValueError:
+            print(f"压住异常: {exc_val}")
+            return True  # ← 抑制！异常不传播
+        return False
+
+with SuppressAll():
+    print("开始")
+    raise ValueError("小问题，不管了")
+    print("这行不会执行")  # ← 确实不会（raise 之后的代码不执行）
+
+print("但这里会执行！")  # ← 因为异常被抑制了！
+# 输出：
+# 开始
+# 压住异常: 小问题，不管了
+# 但这里会执行！
+```
+
+**场景 4：在 `__exit__` 中自己抛出异常**
+
+```python
+class CloseFail:
+    def __enter__(self):
+        return self
+    def __exit__(self, *args):
+        raise RuntimeError("关闭失败！")
+
+try:
+    with CloseFail():
+        print("正常干活")
+except RuntimeError as e:
+    print(f"捕获: {e}")
+# 输出：
+# 正常干活
+# 捕获: 关闭失败！
+
+# 如果 with 块本身就有异常，__exit__ 又抛出新异常：
+class DoubleFail:
+    def __enter__(self):
+        return self
+    def __exit__(self, *args):
+        raise RuntimeError("关闭炸了")
+        return True  # ← 这行不会执行，上面已经抛了
+
+try:
+    with DoubleFail():
+        raise ValueError("干活炸了")
+except RuntimeError as e:
+    print(f"外层只看到 __exit__ 的异常: {e}")
+    # ValueError 被替代了！原始异常丢失
+    # Python 3.11+ 会链式附加 __context__
+```
+
+#### `contextlib` 工具
+
+**`@contextmanager` 装饰器——用生成器写上下文管理器：**
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def database_connection(dsn: str):
+    # 相当于 __enter__
+    print(f"连接: {dsn}")
+    conn = {"dsn": dsn}
+    try:
+        yield conn  # ← 这里的值就是 as 后面的变量
+    except Exception as e:
+        print(f"异常处理: {e}")
+        # 如果想抑制：不重新 raise
+        # 如果想传播：重新 raise
+        raise
+    finally:
+        # 相当于 __exit__（无论如何都执行）
+        print("关闭连接")
+
+# 使用
+with database_connection("postgres://...") as conn:
+    print(f"使用连接: {conn}")
+# 输出：
+# 连接: postgres://...
+# 使用连接: {'dsn': 'postgres://...'}
+# 关闭连接
+```
+
+`@contextmanager` 的等价实现逻辑：
+
+```
+def database_connection(dsn):
+    # 前半段 → __enter__
+    conn = open_connection(dsn)
+    try:
+        yield conn
+    except:
+        # 中间 → 异常处理
+        ...
+    finally:
+        # 后半段 → __exit__（保证执行）
+        close_connection(conn)
+
+等价于：
+class Wrapper:
+    def __enter__(self):
+        gen = database_connection(dsn)
+        self.gen = gen
+        try:
+            return next(gen)   # 执行到 yield，返回 yield 的值
+        except StopIteration:
+            raise RuntimeError("生成器没 yield")
+
+    def __exit__(self, *exc_info):
+        try:
+            if exc_info[0] is None:
+                next(self.gen)  # 无异常 → 继续生成器（到末尾）
+            else:
+                self.gen.throw(*exc_info)  # 有异常 → 注入异常到生成器
+        except StopIteration:
+            return True  # 生成器正常结束 → 相当于抑制
+        except:
+            raise        # 生成器抛出了其他异常 → 传播
+        return False
+```
+
+**`contextlib.suppress`——抑制指定异常：**
+
+```python
+from contextlib import suppress
+
+# 不用 suppress 的写法：
+try:
+    os.remove("temp.txt")
+except FileNotFoundError:
+    pass
+
+# 用 suppress：
+with suppress(FileNotFoundError):
+    os.remove("temp.txt")
+# 等价，更简洁
+```
+
+**`contextlib.closing`——确保调用 `close()`：**
+
+```python
+from contextlib import closing
+import urllib.request
+
+# 不用 closing：
+resp = urllib.request.urlopen("http://example.com")
+try:
+    data = resp.read()
+finally:
+    resp.close()
+
+# 用 closing：
+with closing(urllib.request.urlopen("http://example.com")) as resp:
+    data = resp.read()
+# 自动 resp.close()
+```
+
+**`contextlib.redirect_stdout`——临时重定向输出：**
+
+```python
+from contextlib import redirect_stdout
+import io
+
+buf = io.StringIO()
+with redirect_stdout(buf):
+    print("这是一段偷偷收集的文字")
+    print("不会显示在屏幕上")
+
+print(buf.getvalue())  # '这是一段偷偷收集的文字\n不会显示在屏幕上\n'
+```
+
+#### with 嵌套的真正用途——资源栈
+
+```python
+# 连续打开多个资源：
+with open("a.txt") as f1:
+    with open("b.txt") as f2:
+        data1 = f1.read()
+        data2 = f2.read()
+
+# 等价于（Python 3.1+ 单行写法）：
+with open("a.txt") as f1, open("b.txt") as f2:
+    data1 = f1.read()
+    data2 = f2.read()
+
+# 执行顺序（资源的释放是反序的！）：
+# 1. 打开 a.txt（__enter__）
+# 2. 打开 b.txt（__enter__）
+# 3. 读取数据
+# 4. 关闭 b.txt（__exit__）← 后打开的，先关闭
+# 5. 关闭 a.txt（__exit__）← 先打开的，后关闭
+#
+# 类似栈：后进先出
+```
+
+#### 真实世界的例子
+
+```python
+import sqlite3
+from contextlib import contextmanager
+
+@contextmanager
+def transaction(db_path: str):
+    """自动提交/回滚的事务上下文"""
+    conn = sqlite3.connect(db_path)
+    try:
+        yield conn
+        conn.commit()          # 正常 → 提交
+    except Exception as e:
+        conn.rollback()        # 异常 → 回滚
+        raise                  # 继续传播异常
+    finally:
+        conn.close()           # 无论如何关闭连接
+
+# 使用：
+with transaction("app.db") as conn:
+    conn.execute("INSERT INTO users VALUES (?, ?)", ("Alice", 30))
+    # 如果这里出错，自动回滚，不污染数据库
+```
+
+```
+上下文管理器总结：
+                     without with                    with
+                     ────────────                    ────
+必须写 try/finally   ✅                            自动处理
+忘记释放资源         ⚠️ 常见 bug                    ✅ 不可能
+异常安全            ✅ 写对了就安全                  ✅ 天然安全
+代码行数            N 行                            N-3 行
+可读性              try/finally 分散注意力          专注于主逻辑
 ```
 
 ### 1.7.9 EAFP vs LBYL
@@ -2895,32 +5957,325 @@ with open("data.bin", "rb") as f:
 
 ### 1.8.5 JSON 读写
 
-**下面是 JSON 读写 的代码示例：**
+#### 类型映射表
+
+```
+Python                     JSON
+──────                     ────
+dict                       object
+list, tuple                array
+str                        string
+int, float (incl. NaN)     number
+True / False               true / false
+None                       null
+```
+
+#### 核心接口一览
+
 ```python
 import json
 
-# 写 JSON
 data = {
     "model": "gpt-4",
-    "parameters": {
-        "temperature": 0.7,
-        "max_tokens": 2048
-    },
+    "parameters": {"temperature": 0.7, "max_tokens": 2048},
     "tools": ["search", "calculate"]
 }
 
+# ──── 写入 ────
 with open("config.json", "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2, ensure_ascii=False)
-    # indent=2 → 格式化缩进
-    # ensure_ascii=False → 保留非 ASCII 字符
 
-# 读 JSON
+json_str = json.dumps(data)       # → str
+json_str = json.dumps(data, indent=2)
+
+# ──── 读取 ────
 with open("config.json", "r", encoding="utf-8") as f:
     loaded = json.load(f)
 
-# 字符串 ↔ Python 对象
-json_str = json.dumps(data, indent=2)
-parsed = json.loads(json_str)
+parsed = json.loads(json_str)     # ← 从 str 解析
+```
+
+#### `json.dumps()` 全部参数详解
+
+```python
+json.dumps(
+    obj,                          # 要序列化的 Python 对象
+    *,
+    skipkeys=False,               # True → 跳过非 str 的 key（否则 TypeError）
+    ensure_ascii=True,            # True → 非 ASCII 转 \uXXXX；False → 保留中文等
+    check_circular=True,          # True → 检测循环引用（否则 RecursionError）
+    allow_nan=True,               # True → NaN/Infinity/-Infinity 转 JavaScript 格式
+    cls=None,                     # 自定义 JSONEncoder 子类
+    indent=None,                  # None → 紧凑输出；0 → 换行不缩进；N → N 格缩进
+    separators=None,              # (",", ":") → 紧凑；默认 (", ", ": ")
+    default=None,                 # 遇到不可序列化类型时调用的函数
+    sort_keys=False,              # True → 按 key 字母排序输出
+)
+```
+
+**参数实战：**
+
+```python
+d = {"name": "小明", "score": 95, "active": True}
+
+# 默认（紧凑、ASCII 转义）
+print(json.dumps(d))
+# {"name": "\u5c0f\u660e", "score": 95, "active": true}
+
+# 保留中文
+print(json.dumps(d, ensure_ascii=False))
+# {"name": "小明", "score": 95, "active": true}
+
+# 格式化输出
+print(json.dumps(d, ensure_ascii=False, indent=2))
+# {
+#   "name": "小明",
+#   "score": 95,
+#   "active": true
+# }
+
+# 按 key 排序 + 最紧凑
+print(json.dumps(d, sort_keys=True, separators=(",", ":")))
+# {"active":true,"name":"小明","score":95}
+
+# 跳过非法 key
+d2 = {(1, 2): "tuple_key", "name": "hello"}
+json.dumps(d2)                            # TypeError: keys must be str
+json.dumps(d2, skipkeys=True)             # {"name": "hello"}  ← 跳过 tuple key
+```
+
+#### `json.loads()` 全部参数详解
+
+```python
+json.loads(
+    s,                            # JSON 字符串
+    *,
+    cls=None,                     # 自定义 JSONDecoder 子类
+    object_hook=None,             # 每个 dict 解析后调用（可改对象）
+    parse_float=None,             # 浮点数解析函数（默认 float）
+    parse_int=None,               # 整数解析函数（默认 int）
+    parse_constant=None,          # NaN/Infinity/-Infinity 处理
+    object_pairs_hook=None,       # 有序 dict 回调（比 object_hook 优先）
+)
+```
+
+**参数实战：**
+
+```python
+# object_hook → dict 解析后自动转换
+def as_complex(dct):
+    if "__complex__" in dct:
+        return complex(dct["real"], dct["imag"])
+    return dct
+
+data = '{"__complex__": true, "real": 1, "imag": 2}'
+result = json.loads(data, object_hook=as_complex)
+print(result, type(result))  # (1+2j) <class 'complex'>
+
+# parse_float → 自定义浮点数（比如全用 Decimal）
+from decimal import Decimal
+data = '{"price": 19.99, "ratio": 0.333}'
+result = json.loads(data, parse_float=Decimal)
+print(type(result["price"]))   # <class 'decimal.Decimal'>
+
+# object_pairs_hook → 保留 key 顺序
+items = json.loads('{"b": 1, "a": 2}', object_pairs_hook=list)
+print(items)  # [('b', 1), ('a', 2)]
+```
+
+#### 处理不可序列化的类型
+
+```python
+import json
+from datetime import datetime
+from pathlib import Path
+
+# ❌ 默认会失败
+json.dumps({"time": datetime.now()})
+# TypeError: Object of type datetime is not JSON serializable
+
+# ✅ 方案 1：default 回调
+def json_default(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    if isinstance(obj, Path):
+        return str(obj)
+    if isinstance(obj, set):
+        return list(obj)
+    if isinstance(obj, bytes):
+        return obj.hex()
+    raise TypeError(f"不能序列化 {type(obj)}: {obj}")
+
+data = {
+    "time": datetime.now(),
+    "path": Path("/tmp/data"),
+    "tags": {"py", "js", "go"},
+}
+print(json.dumps(data, default=json_default, indent=2))
+# {
+#   "time": "2026-05-31T10:30:00.123456",
+#   "path": "/tmp/data",
+#   "tags": ["py", "js", "go"]
+# }
+
+# ✅ 方案 2：继承 JSONEncoder（适合复用）
+class CustomEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        if isinstance(obj, Path):
+            return str(obj)
+        if isinstance(obj, set):
+            return list(obj)
+        if isinstance(obj, bytes):
+            return obj.hex()
+        if isinstance(obj, Decimal):
+            return float(obj)
+        return super().default(obj)
+
+json.dumps(data, cls=CustomEncoder, indent=2)
+
+# ✅ 方案 3：先转成可序列化的中间结构
+def serialize_for_json(obj):
+    match obj:
+        case datetime() as dt:    return {"$type": "datetime", "value": dt.isoformat()}
+        case Path() as p:         return {"$type": "path", "value": str(p)}
+        case set() as s:          return [*s]
+        case _:                   raise TypeError(f"不支持: {type(obj)}")
+```
+
+#### 自定义反序列化（恢复原始类型）
+
+```python
+class SmartDecoder(json.JSONDecoder):
+    def __init__(self):
+        super().__init__(object_hook=self.object_hook)
+
+    def object_hook(self, dct):
+        if "$type" in dct:
+            match dct["$type"]:
+                case "datetime":
+                    return datetime.fromisoformat(dct["value"])
+                case "path":
+                    return Path(dct["value"])
+        return dct
+
+raw = '{"time": {"$type": "datetime", "value": "2026-05-31T10:30:00"}}'
+obj = json.loads(raw, cls=SmartDecoder)
+print(obj["time"], type(obj["time"]))  # 2026-05-31 10:30:00  <class 'datetime'>
+```
+
+#### 性能调优
+
+```python
+import json
+
+# 紧凑输出（省带宽）
+data = [{"id": i, "name": f"item_{i}"} for i in range(1000)]
+
+# 默认 ≈ 慢（有空格）
+s1 = json.dumps(data)
+
+# 紧凑 ≈ 快 20-30%
+s2 = json.dumps(data, separators=(",", ":"))
+
+print(len(s1), len(s2))  # 默认更长
+
+# 大文件逐行处理（避免一次性加载全部）
+def iter_json_lines(filepath: str):
+    """逐行读取 JSON Lines 格式（每行一个 JSON 对象）"""
+    with open(filepath, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                yield json.loads(line)
+
+# 写入 JSON Lines
+def write_json_lines(filepath: str, items: list):
+    with open(filepath, "w", encoding="utf-8") as f:
+        for item in items:
+            f.write(json.dumps(item, ensure_ascii=False) + "\n")
+```
+
+#### AI 项目中的 JSON 读写模式
+
+```python
+# ──── 保存/加载对话历史 ────
+def save_conversation(history: list, path: str = "chat_history.json"):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
+
+def load_conversation(path: str) -> list:
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+# ──── API 请求/响应的 JSON 处理 ────
+import httpx
+
+async def call_llm(prompt: str) -> dict:
+    payload = {
+        "model": "gpt-4",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7,
+    }
+    async with httpx.AsyncClient() as client:
+        resp = await client.post(
+            "https://api.openai.com/v1/chat/completions",
+            json=payload,            # httpx 自动 json.dumps
+        )
+        return resp.json()           # httpx 自动 json.loads
+
+# ──── 配置文件管理 ────
+DEFAULT_CONFIG = {
+    "model": "gpt-4",
+    "temperature": 0.7,
+    "max_tokens": 2048,
+}
+
+def load_config(path: str = "config.json") -> dict:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        save_config(path, DEFAULT_CONFIG)
+        return DEFAULT_CONFIG
+
+def save_config(path: str, config: dict):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(config, f, indent=2, ensure_ascii=False)
+    print(f"配置文件已保存: {path}")
+
+# ──── 处理 API 返回的 JSON 流（SSE 事件流） ────
+async def stream_json_events(url: str):
+    async with httpx.AsyncClient() as client:
+        async with client.stream("GET", url) as resp:
+            async for line in resp.aiter_lines():
+                if line.startswith("data: "):
+                    yield json.loads(line[6:])  # 去掉 "data: " 前缀
+```
+
+#### 常见错误
+
+```python
+# ❌ 忘记 ensure_ascii=False → 中文变成转义
+json.dumps({"name": "张三"})        # {"name": "\u5f20\u4e09"}
+json.dumps({"name": "张三"}, ensure_ascii=False)  # {"name": "张三"} ✅
+
+# ❌ 忘记 indent → 文件一坨，不可读
+json.dump(data, f)                  # 一行
+json.dump(data, f, indent=2)        # 格式化 ✅
+
+# ❌ JSON key 必须是双引号
+json.loads("{'name': 'hello'}")      # ❌ json.decoder.JSONDecodeError
+json.loads('{"name": "hello"}')      # ✅
+
+# ❌ JSON 不允许末尾逗号
+json.loads('[1, 2, 3,]')             # ❌
+json.loads('[1, 2, 3]')              # ✅
+
+# ❌ 混合类型 key 的 dict
+json.dumps({1: "a", "1": "b"})       # ❌ 会丢数据（1 → "1" 覆盖）
+# dumps 会先把所有 key 转 str，1 和 "1" 冲突
 ```
 
 ### 1.8.6 pathlib（推荐）
@@ -2975,6 +6330,103 @@ if not config_path.exists():
 # 替换 os.path 旧写法
 # 旧: os.path.join(os.path.dirname(__file__), "data", "config.json")
 # 新: Path(__file__).parent / "data" / "config.json"
+```
+
+#### `Path.read_text()` vs `open()`：区别与选择
+
+```
+                    Path.read_text() / Path.write_text()          open()
+                    ─────────────────────────────────────         ────
+本质                Path 的便捷方法                                Python 内置函数
+返回值              read_text → str（整个文件）                     read() → str 或 逐行迭代
+                    write_text → None（写整个文件）                 write() → 可多次写入
+文件打开          自动打开和关闭                                 需要 with 手动管理
+一次性读写         ✅ 是（整个文件一次读完/写完）                  ❌ 不是（可逐行/逐块）
+大文件处理         ❌ 不适合（全量加载到内存）                     ✅ 适合（循环 readline / 迭代）
+写入模式          仅覆盖写（"w"）                                  "w" / "a" / "x" / "r+" 全支持
+编码              必须显式 encoding=                              必须显式 encoding=
+异常处理          无特殊（FileNotFoundError 等）                  同左
+链式调用          可以：p.read_text().strip().upper()             不行（open 返回文件对象）
+代码行数          1 行                                            3 行（with open + 缩进块）
+```
+
+**`Path.read_text()` 适合——纯读/写，一步到位：**
+
+```python
+# ✅ 配置文件一次性读取
+config = json.loads(Path("config.json").read_text(encoding="utf-8"))
+
+# ✅ 小文件快速读取
+prompt = Path("prompt.txt").read_text(encoding="utf-8")
+
+# ✅ 覆盖写入
+Path("output.txt").write_text("Hello", encoding="utf-8")
+
+# ✅ 链式操作
+words = Path("text.txt").read_text(encoding="utf-8").split()
+```
+
+**`open()` 适合——需要精细控制或处理大文件：**
+
+```python
+# ✅ 大文件逐行读（不占内存）
+with open("big_file.log", "r", encoding="utf-8") as f:
+    for line in f:
+        process(line)  # 一次只处理一行
+
+# ✅ 追加写入
+with open("log.txt", "a", encoding="utf-8") as f:
+    f.write("新的一行\n")
+
+# ✅ 混合读写模式
+with open("data.txt", "r+", encoding="utf-8") as f:
+    content = f.read()
+    f.seek(0)
+    f.write("修改后的内容")
+
+# ✅ 二进制流处理
+with open("image.jpg", "rb") as f:
+    chunk = f.read(4096)  # 按块读
+```
+
+**它们不是重复——是不同抽象层次：**
+
+```
+抽象层次：
+  Path.read_text()      ← 最上层：路径 → 字符串，一句搞定
+       │
+  open() + read()       ← 中间层：文件对象 → 字符串，可控
+       │
+  os.open() + os.read() ← 最底层：文件描述符 → bytes，最灵活
+
+选择标准：
+  整个文件小（< 100MB） 且 一次性操作         → Path.read_text()
+  需要追加/逐行/精细控制/处理大文件            → open()
+  只是读/写，不做别的事                       → Path.read_text()
+  又要读又要写，或者要 seek                   → open()
+```
+
+**混合使用也是最常见的模式：**
+
+```python
+# 用 pathlib 处理路径，用 open 处理文件
+data_dir = Path("data")
+data_dir.mkdir(exist_ok=True)
+
+file_path = data_dir / "records.json"
+
+# pathlib 帮忙构建路径和检查
+if not file_path.exists():
+    raise FileNotFoundError(f"文件不存在: {file_path}")
+
+# open 负责大文件逐行处理
+with open(file_path, "r", encoding="utf-8") as f:
+    for line in f:
+        record = json.loads(line)
+        process(record)
+```
+
+**一句话：`Path.read_text()` 是 `open().read()` 的语法糖，省掉 3 行模板代码，但失去控制权。小文件用 pathlib，大文件用 open，不冲突。**
 ```
 
 ### 1.8.7 CSV 读写
@@ -3274,7 +6726,7 @@ greet("Python", greeting="Hi")
 
 ### 2.1.5 带参数装饰器
 
-#### 为什么必须 3 层？——因为 `@repeat(3)` 等价于 `repeat(3)(greet)`
+ **`@repeat(3)` 等价于 `repeat(3)(greet)`**
 
 ```python
 @repeat(3)    # ① 先求值 repeat(3)，结果必须是一个可调用对象
@@ -3285,7 +6737,7 @@ def greet():  # ② 该可调用对象被调用，参数是 greet
 
 `repeat(3)` 先执行，所以 `repeat` 必须接收参数（而不是函数）；它的返回值再被调用、接收函数。这自然需要两层：一层接收参数，一层接收函数。加上 wrapper 总共 3 层。
 
-#### 3 层结构的职责划分
+**3 层结构的职责划分**
 
 ```python
 def repeat(n: int):                    # 【第 1 层】接收装饰器参数
@@ -3326,24 +6778,8 @@ def repeat(n: int):                    # 【第 1 层】接收装饰器参数
 └─────────────────────────────────────────────────┘
 ```
 
-#### 如果只用 2 层会怎样？
 
-```python
-# 尝试：合并第 1 层和第 2 层
-def repeat(func, n=1):
-    def wrapper(*args, **kwargs):
-        for _ in range(n):
-            func(*args, **kwargs)
-    return wrapper
 
-@repeat(3)     # ❌ 相当于 repeat(3) → func=3, n=1，根本不是函数！
-def greet(): pass
-
-@repeat        # ✅ 相当于 repeat(greet) → func=greet, n=1，只支持无参形式
-def greet(): pass
-```
-
-`@repeat(3)` 中 `repeat(3)` 被调用时只传了 `3`，Python 把 `3` 当作第一个参数 `func`。它期望的是函数，结果拿到整数 3，运行时报错。所以必须用第 1 层专门接收参数，保证第 2 层一定能拿到函数。
 
 ### 2.1.6 functools.wraps 原理
 
@@ -3424,22 +6860,46 @@ print(process("world"))  # 调用 process 第 2 次\nWORLD
 print(process.calls)     # 2  ← 状态存储在类实例中
 ```
 
-**二、装饰器类（带参数的类装饰器，在类上使用）：**
+**二、带参数的类装饰器：**
 
 ```python
-def add_method(cls):
-    """类装饰器：给类动态添加方法"""
-    def new_method(self):
-        return "我是动态添加的方法"
-    cls.new_method = new_method
-    return cls
+def add_method(method_name: str):
+    """带参数的类装饰器：给类动态添加指定名字的方法"""
+    def decorator(cls):
+        def new_method(self):
+            return f"这是动态添加的方法 '{method_name}'"
+        setattr(cls, method_name, new_method)
+        return cls
+    return decorator
 
-@add_method
+@add_method("greet")
 class MyClass:
     pass
 
 obj = MyClass()
-print(obj.new_method())  # "我是动态添加的方法"
+print(obj.greet())  # "这是动态添加的方法 'greet'"
+
+# 等价于：add_method("greet")(MyClass)
+#                              ↑
+#          add_method("greet") 返回 decorator
+#          decorator(MyClass)  执行修改
+
+# 也可以用类实现（装饰器类）：
+class AddProperty:
+    """类装饰器的类实现"""
+    def __init__(self, name: str, value):
+        self.name = name
+        self.value = value
+
+    def __call__(self, cls):
+        setattr(cls, self.name, self.value)
+        return cls
+
+@AddProperty("version", "1.0")
+class Config:
+    pass
+
+print(Config.version)  # "1.0"
 ```
 
 **三、装饰器在类上的特殊行为：**
@@ -3533,7 +6993,7 @@ say("Hello")
 
 ### 2.1.9 常见错误
 
-**错误 1：忘记返回 wrapper**
+#### 错误 1：忘记返回 wrapper
 
 ```python
 def wrong_decorator(func):
@@ -3543,7 +7003,7 @@ def wrong_decorator(func):
     # 没有 return wrapper！← 装饰后 func 变成 None
 ```
 
-**错误 2：不使用 `@wraps` 造成调试困难**
+#### 错误 2：不使用 `@wraps` 造成调试困难**
 
 ```python
 def no_wraps(func):
@@ -3559,7 +7019,7 @@ def important():
 help(important)  # 函数名变成 wrapper，文档丢失
 ```
 
-**错误 3：装饰器参数忘记加括号**
+#### 错误 3：装饰器参数忘记加括号
 
 ```python
 @repeat      # ← 错误：没有加括号，等价于 repeat(greet)
@@ -3569,51 +7029,139 @@ def greet(): ...
 def greet(): ...
 ```
 
-**错误 4：类装饰器用于方法时，`__call__` 收到意外参数**
+#### 错误 4：类装饰器用于方法时，`__call__` 收到意外参数
+
+先理解正常方法调用——Python 会自动把实例传给 `self`：
+
+```python
+class Service:
+    def run(self, data):
+        return f"self={self}, data={data}"
+
+s = Service()
+s.run("test")
+```
+
+```
+正常方法调用机制：
+① s.run → Service.tp_dict 找到 run（函数对象）
+② 函数是 descriptor → 触发 __get__ → 返回绑定方法
+③ 绑定方法已记住 im_self=s
+④ ("test") → 实际调 run(s, "test")
+⑤ self=s, data="test"  ✓
+```
+
+现在看类装饰器的问题——`@Echo` 把方法变成了 Echo 实例：
 
 ```python
 class Echo:
     def __init__(self, func):
         self.func = func
-
     def __call__(self, *args, **kwargs):
-        print(f"Echo: {args}")       # args 里有什么？
+        print(f"[Echo] args={args}")
         return self.func(*args, **kwargs)
 
-# ─── 场景 A：装饰普通函数（没问题） ───
-@Echo
-def greet(name):                     # greet = Echo(greet)，greet 是 Echo 实例
+@Echo                         # greet = Echo(greet)
+def greet(name):              # greet 是 Echo 实例
     return f"Hello {name}"
 
-greet("World")  # args = ("World",), self.func("World") → "Hello World" ✓
+greet("World")
+# 输出：[Echo] args=('World',)
+# 返回："Hello World"  ✓
+# 调用链：Echo.__call__(echo_inst, "World")
+# → self.func("World") → greet("World")  ✓
+```
 
-# ─── 场景 B：装饰类方法（陷阱！） ───
+但如果用 `@Echo` 装饰**类的方法**：
+
+```python
 class Service:
-    @Echo
-    def run(self, data):             # run = Echo(原始函数)
-        return data
+    @Echo                     # run = Echo(原始 run 函数)
+    def run(self, data):      # run 是 Echo 实例，不是函数！
+        return f"self={self}, data={data}"
 
 s = Service()
 s.run("test")
-# 调用链：s.run("test")
-#   → Python 发现 s.run 是 Echo 实例
-#   → 调用 Echo.__call__(echo_inst, s, "test")
-#   → args = (s, "test")  ← 多了一个 s！开发者可能没料到
-#   → self.func(s, "test")  → 原始 run(self, data) 收到 self=s ✓ 碰巧正确
-
-# ─── 真正出错的场景：装饰普通函数但参数签名不匹配 ───
-@Echo
-def process(self, data):   # 函数定义了 self 参数（看起来像方法）
-    return data
-
-process("test")            # ❌ args = ("test",)
-                           #    self.func("test") → 原始 process(self, data)
-                           #    收到 self="test", data 缺失 → TypeError
 ```
 
-**错误本质**：用类做装饰器时，类实例的 `__call__` 不参与 Python 的方法绑定机制。当装饰的方法是 `s.run("test")`，Python 不自动注入 `s` 到 `self`——`s` 直接出现在 `args` 里。开发者常误以为 `__call__` 的 `self` 就是被装饰方法的 `self`，其实 `__call__` 的 `self` 是 **Echo 实例自己**，被装饰实例在 `args[0]` 里。**解决方案：用函数装饰器代替类装饰器，或明确处理好 `*args`。**
+```
+调用链：
+① s.run → Python 找 Service.tp_dict["run"]
+   → 发现值是一个 Echo 实例（不是函数）
+   → Echo 实例没有 __get__ 方法（不是 descriptor）
+   → 所以不触发方法绑定！直接返回 Echo 实例本身
 
-**错误 5：装饰器执行时机误解——`@` 在定义时执行，不是调用时！**
+② ( ) 调用 Echo 实例
+   → Echo.__call__(echo_inst, "test")
+   → args = ("test",)     ← 没有 s！Python 没有把 s 传进来！
+   → print args → ('test',)
+
+③ self.func("test")
+   → 原始函数 run(self, data)
+   → 收到 self="test", data 缺失
+   → TypeError: run() missing 1 required positional argument: 'data'
+
+根因：类装饰器把方法变成了"非函数"对象，破坏了 Python 的方法绑定机制。
+     正常函数的 __get__ 会自动注入实例，但 Echo 实例没有 __get__。
+```
+
+**那 `Service.run(s, "test")` 能工作吗？**
+
+```python
+Service.run(s, "test")
+# 调用链：
+# Service.run → 取到 Echo 实例
+# (s, "test") → Echo.__call__(echo_inst, s, "test")
+# → args = (s, "test")
+# → self.func(s, "test") → run(self=s, data="test")  ✓ 碰巧正确
+
+# 但这不是你想要的 s.run("test") 语法！
+```
+
+**解决方案：**
+
+```python
+# 方案1：用函数装饰器代替类装饰器（推荐）
+def echo(func):
+    def wrapper(*args, **kwargs):
+        print(f"[Echo] args={args}")
+        return func(*args, **kwargs)
+    return wrapper
+
+class Service:
+    @echo                    # 函数装饰器，保留 descriptor 特性
+    def run(self, data):
+        return f"self={self}, data={data}"
+
+s = Service()
+s.run("test")                # ✓ 正常！函数装饰器返回的是函数
+# 输出：[Echo] args=(<Service object>, 'test')
+
+# 方案2：类装饰器手动实现 __get__（让 Echo 变成 descriptor）
+class Echo:
+    def __init__(self, func):
+        self.func = func
+    def __call__(self, *args, **kwargs):
+        return self.func(*args, **kwargs)
+    def __get__(self, obj, objtype=None):
+        """让 Echo 实例也支持方法绑定"""
+        if obj is None:
+            return self
+        import functools
+        return functools.partial(self, obj)  # 绑定 obj 到第一个参数
+
+class Service:
+    @Echo
+    def run(self, data):
+        return f"self={self}, data={data}"
+
+s = Service()
+s.run("test")                # ✓ 现在正常了！__get__ 自动绑定实例
+```
+
+**一句话总结**：类装饰器把函数变成了类实例，而类实例不是 descriptor，所以 Python 不触发方法绑定、不自动传 `self`。用函数装饰器（返回函数的）可以避免这个问题，因为函数本身就是 descriptor。
+
+#### 错误 5：装饰器执行时机误解——`@` 在定义时执行，不是调用时！
 
 Java 开发者最容易犯的错。Java 的 `@Override` 是元数据（编译时读取），Python 的 `@decorator` 是**可执行代码**——它在 `def` 语句执行时**当场调用**。
 
@@ -3707,7 +7255,7 @@ def chat(model, prompt):
 
 ### 2.1.10 AI 场景案例
 
-**场景一：重试 + 退避 + 监控（AI 服务调用标配）**
+#### 场景一：重试 + 退避 + 监控（AI 服务调用标配）
 
 ```python
 import time
@@ -3746,7 +7294,7 @@ def call_llm_api(prompt: str) -> str:
     )
 ```
 
-**场景二：性能监控装饰器**
+#### 场景二：性能监控装饰器
 
 ```python
 import time
@@ -3792,7 +7340,7 @@ class EmbeddingService:
 # embed: 调用 42 次, 平均 231.5ms
 ```
 
-**场景三：输入验证/缓存装饰器**
+#### 场景三：输入验证/缓存装饰器
 
 ```python
 import functools
@@ -3974,45 +7522,88 @@ for num in count_up_to(5):
 
 生成器不只是"发出数据"，还可以从外部接收数据——这是 Python 协程的基础。
 
-```python
-def echo():
-    """回声生成器：接收值并修改行为"""
-    print("生成器启动")
-    try:
-        while True:
-            received = yield  # 不产出值，只接收
-            print(f"收到: {received}")
-    except GeneratorExit:
-        print("生成器关闭")
+#### 基本原理：生成器 = 可暂停/恢复的函数
 
-gen = echo()
-next(gen)          # 启动生成器，执行到第一个 yield
-# "生成器启动"
+```
+普通函数：                生成器函数：
+def f():                  def gen():
+    x = 1                      x = 1
+    y = 2                      y = yield  ← 挂起点
+    return x + y               z = yield
+                               return x + y + z
 
-gen.send("Hello")  # 从外部发送值给 yield 表达式
-# "收到: Hello"    ← yield 表达式求值为 "Hello"
+调用 f():                调用 gen():
+  分配栈帧 → 执行 → 返回      分配栈帧 → 执行到 yield → 冻结栈帧
+                               │
+                               └── 栈帧保留在堆上（gi_frame != None）
+                                  等待被 next() / send() 恢复
 
-gen.send("World")
-# "收到: World"
+yield 做了三件事：
+  ① 暂停当前执行，保存栈帧（局部变量、指令指针等）
+  ② 将 yield 右边的值返回给调用者
+  ③ 等待被再次唤醒（通过 next() 或 send()）
 
-gen.close()        # 注入 GeneratorExit 异常
-# "生成器关闭"
+send(value) 恢复时：
+  ① 恢复 gi_frame（从堆上拿回栈帧，还原局部变量）
+  ② 将 value 赋给 yield 表达式（作为 yield 的返回值）
+  ③ 继续执行直到下一个 yield 或函数结束
 ```
 
-**`send()` 的完整执行流程：**
+**所以 `gen.send(value)` 的完整执行流程：**
 
 ```
 gen.send(value):
-1. 恢复 gi_frame（冻结的栈帧）
-2. 将 value 赋值给 yield 表达式（yield 表达式的返回值 = value）
-3. 继续执行直到下一个 yield 或函数结束
-4. 再次冻结栈帧，返回 yield 的值
-
-注意：第一次初始化必须用 next(gen) 或 gen.send(None)
-因为生成器尚未执行到 yield，没有表达式可以接收值
+1. 检查生成器状态：
+   - 未启动（尚未执行到 yield）→ 只能 send(None)，否则 TypeError
+   - 已暂停（yeild 挂起中）    → 正常恢复
+   - 已结束                    → 抛出 StopIteration
+2. 恢复 gi_frame（从堆上取出冻结的栈帧）
+3. 将 value 写入 yield 所在局部变量（yield 表达式的返回值 = value）
+4. 继续执行字节码，直到下一个 yield 或 return
+5. 遇到 yield → 再次冻结栈帧，返回 yield 的值
+6. 遇到 return → 设置 GeneratorExit，抛出 StopIteration
 ```
 
-**实际工程用法：`send()` 实现协程（预激模式）：**
+#### 为什么第一次必须 `next(gen)` 或 `gen.send(None)`？
+
+```
+生成器刚创建时：
+  gen = echo()
+  │
+  ├── gen.gi_frame = None     ← 还没分配栈帧
+  ├── gen.gi_running = False
+  └── gen.gi_yieldfrom = None
+      这个生成器是"空的"，函数体一行都没执行！
+
+调用 next(gen) 后：
+  next(gen)  → 执行到第一个 yield 后暂停
+  │
+  ├── gen.gi_frame = <frame>  ← 有了！栈帧冻结在 yield 处
+  ├── gen.gi_frame.f_lasti = 指令索引  ← 停在哪条字节码
+  └── gen.gi_frame.f_locals = {}       ← 局部变量（如果有）
+
+此时 yield 表达式等在那里，准备接收值。
+现在才能 send("Hello")——yield 表达式的返回值 = "Hello"
+
+所以结论：第一次必须 next(gen) 是为了"把生成器推到第一个 yield 处"
+在那之前，没有 yield 等着接收值，send(value) 无处可放。
+```
+
+#### 预激（priming）模式——就是提前调一次 next
+
+```python
+# 如果不预激：
+gen = running_average()
+gen.send(10)  # TypeError: can't send non-None value to a just-started generator
+               # 生成器还没跑到 yield，没法接收值！
+
+# 预激：
+gen = running_average()
+next(gen)     # 跑到第一个 yield，现在可以接收了
+gen.send(10)  # ✅ 正常工作
+```
+
+**`@coroutine` 装饰器的作用就是自动调这一次 `next()`：**
 
 ```python
 def coroutine(func):
@@ -4021,26 +7612,136 @@ def coroutine(func):
     @wraps(func)
     def primer(*args, **kwargs):
         gen = func(*args, **kwargs)
-        next(gen)  # 预激
+        next(gen)  # ★ 就是这一句：把生成器推到 yield 处
         return gen
     return primer
+```
 
-@coroutine
-def running_average():
-    """计算运行平均值——接收数值，产出当前平均"""
-    total = 0.0
-    count = 0
-    average = None
+**所以回到你的问题——"注解的作用就是为了提前调一次 next 吗？"**
+
+**对，就是这一个目的。**
+
+没有这个装饰器，每次创建生成器后都得手动写一行 `next(gen)`，容易忘。忘了就报 `TypeError`，这是很常见的 bug。装饰器把"预激"这个步骤自动化了，让使用者可以立即 `send()`。
+
+```
+使用装饰器前：                     使用装饰器后：
+gen = running_average()            gen = running_average()
+next(gen)         ← 手动，易忘    gen.send(10)    ← 直接用
+gen.send(10)                       gen.send(20)
+gen.send(20)
+```
+
+**`throw()`——从外部注入异常到生成器内部：**
+
+```python
+def injectable():
+    i = 0
     while True:
-        value = yield average
-        total += value
-        count += 1
-        average = total / count
+        try:
+            received = yield i
+            i += 1
+        except ValueError as e:
+            print(f"注入异常: {e}，重置计数器")
+            i = 0
+        except GeneratorExit:
+            print("被关闭了")
+            break
 
-avg = running_average()
-print(avg.send(10))    # 10.0
-print(avg.send(20))    # 15.0
-print(avg.send(30))    # 20.0
+gen = injectable()
+next(gen)          # 预激
+print(gen.send(1)) # 1
+print(gen.send(2)) # 2
+gen.throw(ValueError, "手动重置")  # 注入异常 → 输出 "注入异常: 手动重置，重置计数器"
+# 然后执行回 while，遇到下一个 yield → 0
+print(gen.send(1)) # 1  ← 重置后从 0 重新计数
+gen.close()
+# "被关闭了"
+
+# throw 的内部流程：
+# gen.throw(ExceptionType, value)
+# 1. 恢复 gi_frame
+# 2. 在 yield 表达式位置抛出指定异常（就像 yield 那行代码 raise 了一样）
+# 3. 如果生成器内部捕获了 → 继续执行到下一个 yield，返回 yield 的值
+# 4. 如果没捕获 → 异常传播到外部调用者
+```
+
+**`close()`——优雅关闭生成器：**
+
+```python
+def closable():
+    try:
+        while True:
+            yield
+    except GeneratorExit:
+        print("清理资源：关闭文件、释放连接")
+        raise  # 必须重新抛出，否则 RuntimeError
+
+gen = closable()
+next(gen)
+gen.close()
+# "清理资源：关闭文件、释放连接"
+
+# close() 的内部流程：
+# gen.close()
+# 1. 在 yield 处注入 GeneratorExit 异常（和 throw 类似）
+# 2. 如果生成器捕获后重新抛出 → 正常结束
+# 3. 如果产生器产生下一个值 → RuntimeError（close 不应该 yield）
+# 4. 如果生成器没捕获 → 自动传播，生成器结束
+# 5. 生成器状态变为 GEN_CLOSED
+```
+
+#### 三种方法对比总结
+
+```
+方法        触发方式                效果                      必须预激？
+────        ─────                  ────                      ────────
+next(gen)   调用内置 next()         恢复执行到下一个 yield      N/A（它就是预激）
+gen.send(v) 调用 send(value)       恢复 + 传值到 yield 表达式   ✅ 必须
+gen.throw(e)在 yield 处抛异常       注入异常到生成器内部         ✅ 必须
+gen.close() 注入 GeneratorExit      触发清理、关闭生成器         ✅ 建议
+
+底层统一机制：
+所有四种方法都在做同一件事——恢复 gi_frame，让冻结的栈帧继续跑字节码。
+区别只在于：
+  next()    → 传递 None
+  send(v)   → 传递 value
+  throw(e)  → 在恢复点抛异常
+  close()   → 抛 GeneratorExit
+```
+
+#### 生成器状态机
+
+```
+           ┌──────────┐
+           │ GEN_CREATED  │  ← 刚创建，还没执行任何代码
+           └─────┬──────┘
+                 │ next(gen) 或 gen.send(None)
+                 ▼
+           ┌──────────┐
+           │ GEN_RUNNING │  ← 正在执行中（不可从外部操作）
+           └─────┬──────┘
+                 │ 遇到 yield 暂停
+                 ▼
+           ┌──────────┐
+           │ GEN_SUSPENDED│  ← 冻结在 yield 处，等待恢复
+           └─────┬──────┘
+                 │ next / send / throw / close
+                 ├──────────────────────────────
+                 ▼
+           ┌──────────┐
+           │ GEN_CLOSED  │  ← 函数 return 或 close() 调用后
+           └──────────┘
+            不能再恢复，再调用 throw StopIteration
+
+验证生成器状态（Python 3.5+）：
+from inspect import getgeneratorstate
+
+gen = echo()
+print(getgeneratorstate(gen))  # GEN_CREATED
+next(gen)
+print(getgeneratorstate(gen))  # GEN_SUSPENDED
+gen.close()
+print(getgeneratorstate(gen))  # GEN_CLOSED
 ```
 
 ### 2.2.7 yield from——委托给子生成器
@@ -4302,20 +8003,27 @@ Python 迭代器协议完整工作流：
 
 可迭代对象 (Iterable) vs 迭代器 (Iterator)：
 
-┌───────────────┐         __iter__()         ┌─────────────────┐
-│  Iterable     │ ──────────────────────────→ │  Iterator       │
+      __iter__()
+      ──────────→
+┌───────────────┐                              ┌─────────────────┐
+│  Iterable     │                              │  Iterator       │
 │  (可迭代对象)  │                              │  (迭代器)        │
 │               │                              │                  │
-│  __iter__()   │         __next__()          │  __iter__()      │
-│  返回迭代器    │ ←────────────────────────── │  返回自身 (self) │
-│               │                              │  __next__()      │
-│               │                              │  返回下一个元素   │
-│  list, tuple, │                              │  或 StopIteration│
-│  dict, set,   │                              │                  │
-│  str, file    │                              │  generator,      │
-│               │                              │  zip, map,       │
-│               │                              │  enumerate       │
+│  __iter__()   │                              │  __iter__()      │
+│  返回迭代器    │                              │  返回自身 (self) │
+│               │                              │                  │
+│  list, tuple, │                              │  __next__()      │
+│  dict, set,   │                              │  返回下一个元素   │
+│  str, file    │                              │  或 StopIteration│
+│               │                              │                  │
+│               │                              │  generator,      │
+│               │             __next__()        │  zip, map,       │
+│               │     元素 ────────             │  enumerate       │
+│               │     (取出元素，不是可迭代对象)   │                  │
 └───────────────┘                              └─────────────────┘
+
+注：__next__() 返回的是集合中的单个元素（int/str/object），
+    不是可迭代对象！旧版箭头方向容易误解，已修正。
 ```
 
 **CPython 中 `for` 循环的实际执行（`ceval.c`）：**
@@ -4386,6 +8094,169 @@ class CountDown:
 c = CountDown(3)
 print(list(c))  # [3, 2, 1, 0]
 print(list(c))  # []  ← 已耗尽！因为 __iter__ 重置了状态
+```
+
+#### 双类 vs 单类：各自场景
+
+```
+特性              双类模式                           单类模式
+────              ──────                             ──────
+类数量            2 个（可迭代对象 + 迭代器）          1 个（自己是迭代器）
+多次 for 循环     每次迭代创建新迭代器                必须手动重置状态
+                  ✅ 每次都是全新的从头迭代            ⚠️ 依赖 __iter__ 重置
+
+状态隔离          每个迭代器独立状态                  同一实例共享状态
+                  ✅ 并行多个循环互不干扰              ❌ 嵌套循环会打架
+
+内存              每次 for 创建新对象                 无额外对象
+                  ⚠️ 多一次分配                       ✅ 零开销
+
+使用难度          稍复杂（两个类）                    简单直观
+
+典型场景          标准库全部采用此模式                简单的一次性迭代
+                  容器类（list, dict, set）           生成器函数
+                  任何需要多次独立遍历的对象            自定义迭代器快速实现
+```
+
+**双类不总是更好的——看具体需求：**
+
+```python
+# ──── 场景 1：需要多次独立遍历 → 双类模式 ✅ ────
+class Playlist:
+    """歌曲列表：多次遍历各不影响"""
+    def __init__(self, songs):
+        self.songs = songs
+
+    def __iter__(self):
+        return PlaylistIterator(self.songs)
+
+class PlaylistIterator:
+    def __init__(self, songs):
+        self.songs = songs
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.songs):
+            raise StopIteration
+        song = self.songs[self.index]
+        self.index += 1
+        return song
+
+pl = Playlist(["A", "B", "C"])
+
+# 两个 for 循环独立运行，互不干扰
+for s in pl:           # 第一次：创建 Iterator #1
+    print(s)           # A, B, C
+for s in pl:           # 第二次：创建 Iterator #2
+    print(s)           # A, B, C  ← 能再次从头遍历
+
+# ──── 场景 2：只需遍历一次 → 单类模式 ✅ ────
+class LogReader:
+    """逐行读取日志文件：一次性的流式读取"""
+    def __init__(self, path: str):
+        self.path = path
+
+    def __iter__(self):
+        self.f = open(self.path, "r")
+        return self
+
+    def __next__(self):
+        line = self.f.readline()
+        if not line:
+            self.f.close()
+            raise StopIteration
+        return line.rstrip("\n")
+
+    def __del__(self):
+        if hasattr(self, "f") and not self.f.closed:
+            self.f.close()
+
+# 日志文件通常只遍历一次，没必要双类
+
+# ──── 场景 3：单类模式嵌套循环的问题 ────
+class BadSingle:
+    def __init__(self, data):
+        self.data = data
+
+    def __iter__(self):
+        self.i = 0
+        return self
+
+    def __next__(self):
+        if self.i >= len(self.data):
+            raise StopIteration
+        val = self.data[self.i]
+        self.i += 1
+        return val
+
+b = BadSingle([1, 2, 3])
+# 嵌套循环：
+for x in b:      # 外部循环
+    for y in b:  # 内部循环 —— 共享同一个 self.i！
+        print(x, y)
+# 实际输出：
+# 1, 1
+# 1, 2
+# 1, 3
+# 外部循环只执行了一次！因为内层循环把 self.i 耗尽了
+
+# 要修复就得在 __iter__ 中创建新迭代器 → 退化成双类模式
+
+# ──── 场景 4：生成器 = 天然的单类迭代器 ────
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+# 生成器函数每次调用都创建新生成器对象
+# 所以它看起来是"单类"，但每次 for 都调一次 fibonacci(n)
+# → 每次都是新对象，天然隔离
+for x in fibonacci(5): print(x)  # 0 1 1 2 3
+for x in fibonacci(5): print(x)  # 0 1 1 2 3  ← 又能从头
+```
+
+**标准库的选择（权威参考）：**
+
+```python
+# 双类模式：
+list      → list.__iter__()  → list_iterator
+dict      → dict.__iter__()  → dict_keyiterator
+str       → str.__iter__()   → str_iterator
+tuple     → tuple.__iter__() → tuple_iterator
+set       → set.__iter__()   → set_iterator
+range     → range.__iter__() → range_iterator
+
+# 单类模式或生成器：
+open()    → file object 自身就是迭代器
+zip()     → zip object 自身就是迭代器
+map()     → map object 自身就是迭代器
+enumerate → enumerate 自身就是迭代器
+reversed  → reversed 自身就是迭代器
+
+# 规律：
+# 容器类（存数据的）→ 双类模式 ✅ 保证多次遍历
+# 流/视图类（算数据的）→ 单类模式 ✅ 一次性使用
+```
+
+**结论：**
+
+```
+使用双类的场景：                          使用单类的场景：
+• 容器/集合类（底层有数据存储）             • 流式数据（文件、网络、传感器）
+• 需要多次 for 循环遍历                     • 只遍历一次就丢弃
+• 需要并行/嵌套循环                         • 计算型迭代器（每次重新计算）
+• 需要独立迭代状态                         • 生成器函数和表达式
+
+双类是"正确"的做法，但不是"总更好"的做法。
+单类在以下情况下更合适：
+1. 数据是一次性的（文件流、网络包）
+2. 每次迭代都重新计算（斐波那契、素数生成）
+3. 代码极简优先（生成器一行搞定）
+4. 迭代器本身很轻量（创建新对象的开销 > 状态重置的开销）
 ```
 
 **方式三：利用 `__getitem__` 实现迭代（Python 的备选协议）**
@@ -4464,48 +8335,563 @@ for_loop([1, 2, 3], print)
 
 ### 2.3.6 itertools 标准库详解
 
-**下面是 itertools 标准库详解 的代码示例：**
+#### itertools 是什么？
+
+`itertools` 是 **Python 标准库**（stdlib）自带的模块——"标准库"就是安装 Python 时自带的模块，不需要 `pip install`，`import itertools` 直接用。它提供了一组 **生成器函数**，专门用于构建高效的迭代器链，不占额外内存。
+
+```
+为什么叫 itertools？
+  iter   = iterator（迭代器）
+  tools  = 工具集
+  → "迭代器的工具集"——用来创建和操作迭代器的函数集合
+```
+
+#### 三大分类
+
+```
+itertools 函数           无限迭代器         有限终止迭代器         组合生成器
+                        ────────          ──────────            ────────
+                        count()           chain()               product()
+                        cycle()           compress()            permutations()
+                        repeat()          dropwhile()           combinations()
+                                           takewhile()           combinations_with_replacement()
+                                           filterfalse()
+                                           groupby()
+                                           islice()
+                                           starmap()
+                                           accumulate()
+                                           zip_longest()
+                                           pairwise()
+                                           batched()  (3.12+)
+                                           tee()
+```
+
+---
+
+#### 无限迭代器（Infinite Iterators）
+
+**`count(start=0, step=1)` —— 无限等差数列**
+
 ```python
-from itertools import (
-    chain,          # 串联多个可迭代对象
-    cycle,          # 无限循环
-    count,          # 无限递增
-    repeat,         # 重复一个值
-    islice,         # 切片（惰性）
-    takewhile,      # 条件为真时取值
-    dropwhile,      # 条件为真时跳过
-    filterfalse,    # 反过滤
-    accumulate,     # 累积（prefix sum / reduce 中间值）
-    product,        # 笛卡尔积
-    permutations,   # 排列
-    combinations,   # 组合
-    groupby,        # 分组
-    starmap,        # 解包映射
-)
+from itertools import count
 
-# ─── chain ───
-list(chain([1, 2], [3, 4], [5]))        # [1, 2, 3, 4, 5]
+# 基本用法：0, 1, 2, 3, ...
+for i in count():
+    if i > 3: break
+    print(i)  # 0 1 2 3
 
-# ─── cycle ───
-cycled = cycle("AB")
-next(cycled), next(cycled), next(cycled)  # ('A', 'B', 'A')
+# 指定起点和步长
+for i in count(10, 2):
+    if i > 16: break
+    print(i)  # 10 12 14 16
 
-# ─── islice ───
-list(islice(range(1_000_000_000), 5))    # [0, 1, 2, 3, 4] 不占内存
+# AI 场景：自动生成序列 ID
+def generate_batch_id():
+    for i in count(1):
+        yield f"batch_{i:04d}"
 
-# ─── takewhile ───
-list(takewhile(lambda x: x < 5, count()))  # [0, 1, 2, 3, 4]
+gen = generate_batch_id()
+print(next(gen))  # batch_0001
+print(next(gen))  # batch_0002
+```
 
-# ─── groupby ───
+**`cycle(iterable)` —— 无限循环重复**
+
+```python
+from itertools import cycle
+
+# 基本用法：A, B, C, A, B, C, ...
+limited = 0
+for item in cycle("ABC"):
+    if limited >= 5: break
+    print(item, end=" ")  # A B C A B
+    limited += 1
+
+# AI 场景：轮询 API key
+api_keys = ["key1", "key2", "key3"]
+key_pool = cycle(api_keys)
+
+def get_next_key():
+    return next(key_pool)
+
+for _ in range(5):
+    print(get_next_key(), end=" ")  # key1 key2 key3 key1 key2
+
+# AI 场景：交替使用不同模型做负载均衡
+models = cycle(["gpt-4", "claude-3", "gemini-pro"])
+tasks = ["翻译", "总结", "分类", "翻译", "总结"]
+for task in tasks:
+    model = next(models)
+    print(f"{task} → {model}")
+    # 翻译 → gpt-4
+    # 总结 → claude-3
+    # 分类 → gemini-pro
+    # 翻译 → gpt-4
+    # 总结 → claude-3
+```
+
+**`repeat(object, times=None)` —— 重复同一个值**
+
+```python
+from itertools import repeat
+
+# 重复 3 次
+print(list(repeat("hello", 3)))  # ['hello', 'hello', 'hello']
+
+# times=None → 无限重复（极少用，配合 map/zip 才实用）
+
+# AI 场景：给 batch 数据打固定标签
+data = ["文本1", "文本2", "文本3"]
+labeled = list(zip(data, repeat("训练集")))
+print(labeled)  # [('文本1', '训练集'), ('文本2', '训练集'), ('文本3', '训练集')]
+```
+
+---
+
+#### 有限终止迭代器（Terminating Iterators）
+
+**`chain(*iterables)` —— 串联多个可迭代对象**
+
+```python
+from itertools import chain
+
+# 串联列表
+print(list(chain([1, 2], [3, 4], [5])))    # [1, 2, 3, 4, 5]
+
+# 串联不同类型的可迭代对象
+print(list(chain("abc", [1, 2], (3, 4))))  # ['a', 'b', 'c', 1, 2, 3, 4]
+
+# 展平嵌套列表
+nested = [[1, 2], [3, 4], [5]]
+flattened = list(chain.from_iterable(nested))  # chain.from_iterable 专门展平
+print(flattened)  # [1, 2, 3, 4, 5]
+
+# 等价于：
+flattened = [x for sub in nested for x in sub]
+
+# AI 场景：合并多轮对话的 token
+messages = [
+    ["用户", "你好"],
+    ["助手", "你好！有什么可以帮你"],
+    ["用户", "帮我翻译"],
+]
+all_tokens = list(chain.from_iterable(messages))
+print(all_tokens)  # ['用户', '你好', '助手', '你好！有什么可以帮你', '用户', '帮我翻译']
+```
+
+**`compress(data, selectors)` —— 按选择器过滤**
+
+```python
+from itertools import compress
+
+data = ["a", "b", "c", "d", "e"]
+selector = [1, 0, 1, 1, 0]
+print(list(compress(data, selector)))  # ['a', 'c', 'd']
+
+# AI 场景：根据置信度过滤预测结果
+predictions = ["猫", "狗", "猫", "鸟", "狗"]
+confidence = [0.95, 0.3, 0.88, 0.92, 0.2]
+high_conf = [c > 0.5 for c in confidence]
+print(list(compress(predictions, high_conf)))  # ['猫', '猫', '鸟']
+```
+
+**`dropwhile(predicate, iterable)` —— 跳过开头满足条件的元素**
+
+```python
+from itertools import dropwhile
+
+# 跳过小于 5 的元素
+print(list(dropwhile(lambda x: x < 5, [1, 4, 6, 3, 7])))
+# [6, 3, 7]  ← 遇到第一个不满足条件的 6 之后，后面的 3 也保留！
+
+# ❌ 不是过滤！dropwhile 只在开头生效，一旦条件不成立，后面全收
+# ✅ filter(lambda x: x >= 5, ...) → [6, 7] 才是过滤
+
+# AI 场景：跳过日志文件的 header 行
+log_lines = [
+    "# 日志文件",
+    "# 生成时间: 2026-01-01",
+    "# =============",
+    "INFO: 开始训练",
+    "INFO: epoch 1/10",
+]
+for line in dropwhile(lambda x: x.startswith("#"), log_lines):
+    print(line)
+# INFO: 开始训练
+# INFO: epoch 1/10
+```
+
+**`takewhile(predicate, iterable)` —— 取出开头满足条件的元素**
+
+```python
+from itertools import takewhile
+
+# 取出小于 5 的元素（遇到第一个不满足的就停）
+print(list(takewhile(lambda x: x < 5, [1, 4, 6, 3, 7])))
+# [1, 4]  ← 遇到 6 不满足条件，立即停止，后面的 3、7 不要
+
+# AI 场景：读取配置文件中连续的 key=value
+config = [
+    "model=gpt-4",
+    "temperature=0.7",
+    "",
+    "# 以下是推理配置",
+    "max_tokens=2048",
+]
+settings = list(takewhile(lambda x: "=" in x, config))
+print(settings)  # ['model=gpt-4', 'temperature=0.7']
+```
+
+**`filterfalse(predicate, iterable)` —— 反过滤（保留条件为 False 的）**
+
+```python
+from itertools import filterfalse
+
+# 等价于 filter(lambda x: not pred(x), iterable)
+print(list(filterfalse(lambda x: x % 2 == 0, [1, 2, 3, 4, 5])))
+# [1, 3, 5]  ← 保留奇数（偶数的条件为 True，被反过滤掉）
+
+# AI 场景：过滤掉空字符串
+texts = ["hello", "", "world", "", "!"]
+print(list(filterfalse(lambda x: not x, texts)))
+# ['hello', 'world', '!']
+```
+
+**`groupby(iterable, key=None)` —— 相邻元素分组**
+
+```python
+from itertools import groupby
+
+# ⚠️ groupby 只对相邻的相同 key 生效！必须先排序！
 data = [("A", 1), ("A", 2), ("B", 3), ("B", 4)]
 for key, group in groupby(data, key=lambda x: x[0]):
-    print(key, list(group))
-# A [('A', 1), ('A', 2)]
-# B [('B', 3), ('B', 4)]
+    print(f"{key}: {list(group)}")
+# A: [('A', 1), ('A', 2)]
+# B: [('B', 3), ('B', 4)]
 
-# ─── product ───
-list(product([1, 2], ['a', 'b']))
+# 如果不排序：
+data2 = [("B", 1), ("A", 2), ("A", 3), ("B", 4)]
+for key, group in groupby(data2, key=lambda x: x[0]):
+    print(f"{key}: {list(group)}")
+# B: [('B', 1)]
+# A: [('A', 2), ('A', 3)]    ← B 在后面又出现，但已经是新一组了
+# B: [('B', 4)]               ← 没有聚合到上面的 B
+
+# 正确用法：先排序，再分组
+sorted_data = sorted(data2, key=lambda x: x[0])
+for key, group in groupby(sorted_data, key=lambda x: x[0]):
+    print(f"{key}: {list(group)}")
+# A: [('A', 2), ('A', 3)]
+# B: [('B', 1), ('B', 4)]
+
+# AI 场景：按日期分组日志
+logs = [
+    ("2026-01-01", "10:00", "启动"),
+    ("2026-01-01", "11:00", "训练"),
+    ("2026-01-02", "09:00", "启动"),
+]
+for day, entries in groupby(logs, key=lambda x: x[0]):
+    times = [e[1] for e in entries]
+    print(f"{day}: {times}")
+# 2026-01-01: ['10:00', '11:00']
+# 2026-01-02: ['09:00']
+```
+
+**`islice(iterable, stop)` / `islice(iterable, start, stop, step=1)` —— 惰性切片**
+
+```python
+from itertools import islice
+
+# 取前 5 个
+print(list(islice(range(1_000_000_000), 5)))  # [0, 1, 2, 3, 4]
+
+# 切片 [2:5]
+print(list(islice(range(10), 2, 5)))  # [2, 3, 4]
+
+# 步长
+print(list(islice(range(10), 0, 10, 3)))  # [0, 3, 6, 9]
+
+# ⚠️ islice 是惰性的！range(1_000_000_000) 根本不占内存
+# ✅ 普通切片 range(1_000_000_000)[:5] 会先创建巨量列表 → 内存爆炸
+
+# AI 场景：从大文件中读取前 N 行
+def read_lines(path: str):
+    with open(path, "r") as f:
+        for line in f:
+            yield line.rstrip("\n")
+
+first_10 = list(islice(read_lines("huge.log"), 10))
+
+# AI 场景：数据集抽样——每隔 100 条取 1 条
+sampled = list(islice(dataset, 0, None, 100))  # [0, 100, 200, ...]
+```
+
+**`starmap(function, iterable)` —— 解包映射**
+
+```python
+from itertools import starmap
+
+# starmap 把每个元素解包后传给函数
+# 等价于：[func(*item) for item in iterable]
+
+def power(base, exp):
+    return base ** exp
+
+pairs = [(2, 3), (3, 2), (4, 2)]
+print(list(starmap(power, pairs)))  # [8, 9, 16]
+
+# 对比普通 map：
+# map(power, bases, exps)          → 需要两个可迭代对象
+# starmap(power, pairs)            → 从元组列表解包
+
+# AI 场景：批量调用 API（参数已打包）
+api_calls = [
+    ("gpt-4", "翻译这段文本", {"temperature": 0.3}),
+    ("claude-3", "总结这篇文章", {"max_tokens": 100}),
+]
+
+def call_api(model, prompt, **kwargs):
+    return f"{model} 处理: {prompt[:10]}..."
+
+results = list(starmap(call_api, api_calls))
+```
+
+**`accumulate(iterable, func=operator.add)` —— 累积计算**
+
+```python
+from itertools import accumulate
+import operator
+
+# 默认累加
+print(list(accumulate([1, 2, 3, 4])))  # [1, 3, 6, 10]
+
+# 累乘
+print(list(accumulate([1, 2, 3, 4], operator.mul)))  # [1, 2, 6, 24]
+
+# 最大值（记录历史最大值）
+print(list(accumulate([3, 1, 4, 1, 5], max)))  # [3, 3, 4, 4, 5]
+
+# AI 场景：计算模型训练的累积损失
+losses = [2.5, 1.8, 1.2, 0.9, 0.7]
+cumulative_avg = []
+for i, total in enumerate(accumulate(losses), 1):
+    cumulative_avg.append(round(total / i, 2))
+print(cumulative_avg)  # [2.5, 2.15, 1.83, 1.6, 1.42]
+
+# AI 场景：生成 mini-batch 的累积梯度
+gradients = [0.1, -0.05, 0.2, -0.1]
+acc_grad = list(accumulate(gradients))
+print(acc_grad)  # [0.1, 0.05, 0.25, 0.15]
+```
+
+**`zip_longest(*iterables, fillvalue=None)` —— 长 zip（补齐短的）**
+
+```python
+from itertools import zip_longest
+
+# zip 以最短为准
+print(list(zip([1, 2, 3], "ab")))       # [(1, 'a'), (2, 'b')]
+
+# zip_longest 以最长为准，短的填充 fillvalue
+print(list(zip_longest([1, 2, 3], "ab", fillvalue="?")))
+# [(1, 'a'), (2, 'b'), (3, '?')]
+
+# AI 场景：对齐不同长度的序列标签
+tokens = ["我", "爱", "Python", "编程"]
+labels = ["O", "O"]   # 短了
+aligned = list(zip_longest(tokens, labels, fillvalue="O"))
+print(aligned)  # [('我', 'O'), ('爱', 'O'), ('Python', 'O'), ('编程', 'O')]
+```
+
+**`pairwise(iterable)` —— 相邻元素配对（Python 3.10+）**
+
+```python
+from itertools import pairwise
+
+print(list(pairwise([1, 2, 3, 4])))  # [(1, 2), (2, 3), (3, 4)]
+
+# 等价于 zip(s, s[1:]) 但不创建新列表
+
+# AI 场景：计算时间序列的变化量
+prices = [100, 102, 98, 105, 103]
+changes = [b - a for a, b in pairwise(prices)]
+print(changes)  # [2, -4, 7, -2]
+
+# AI 场景：文本中的 n-gram 特征
+text = "自然语言处理"
+chars = list(text)
+bigrams = [a + b for a, b in pairwise(chars)]
+print(bigrams)  # ['自然', '然语', '语言', '言处', '处理']
+```
+
+**`batched(iterable, n)` —— 批量分组（Python 3.12+）**
+
+```python
+from itertools import batched
+
+print(list(batched([1, 2, 3, 4, 5, 6, 7], 3)))
+# [(1, 2, 3), (4, 5, 6), (7,)]
+
+# AI 场景：将数据集分批送入模型
+rows = range(100)  # 100 条数据
+for batch in batched(rows, 32):  # 每批 32 条
+    process_batch(batch)         # 最后一批可能不足 32
+```
+
+**`tee(iterable, n=2)` —— 复制迭代器为 n 个**
+
+```python
+from itertools import tee
+
+# 把一个迭代器变成 n 个独立的副本
+original = [1, 2, 3, 4, 5]
+it1, it2 = tee(original, 2)
+
+print(list(it1))  # [1, 2, 3, 4, 5]
+print(list(it2))  # [1, 2, 3, 4, 5]  ← 独立副本，互不影响
+
+# ⚠️ tee 内部用队列缓存未被消费的元素
+# 如果 it1 消费了 3 个但 it2 才消费 1 个，中间 2 个元素缓存在内存
+# 所以：如果两个迭代器消费速度不同，可能占用大量内存
+
+# AI 场景：同一份数据同时做两件事
+data = range(10)
+
+# 同时计算平均值和最大值
+it_avg, it_max = tee(data, 2)
+
+avg = sum(it_avg) / 10
+mx = max(it_max)
+print(avg, mx)  # 4.5 9
+
+# 等价但更慢的做法：list() 两次（但 tee 避免了全量拷贝）
+```
+
+#### 组合生成器（Combinatoric Iterators）
+
+**`product(*iterables, repeat=1)` —— 笛卡尔积**
+
+```python
+from itertools import product
+
+# 两个集合的笛卡尔积
+print(list(product([1, 2], ["a", "b"])))
 # [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')]
+
+# repeat 参数：自身多次乘积
+print(list(product([0, 1], repeat=2)))
+# [(0, 0), (0, 1), (1, 0), (1, 1)]  ← 等价于 product([0,1], [0,1])
+
+print(list(product([0, 1], repeat=3)))
+# 8 个组合 —— 等价于二进制 000～111
+
+# AI 场景：超参数网格搜索
+param_grid = {
+    "lr": [1e-3, 1e-4],
+    "batch_size": [32, 64],
+    "dropout": [0.1, 0.3],
+}
+keys, values = zip(*param_grid.items())
+for combo in product(*values):
+    config = dict(zip(keys, combo))
+    print(config)
+# {'lr': 0.001, 'batch_size': 32, 'dropout': 0.1}
+# {'lr': 0.001, 'batch_size': 32, 'dropout': 0.3}
+# ...总共 2×2×2 = 8 种组合
+```
+
+**`permutations(iterable, r=None)` —— 排列**
+
+```python
+from itertools import permutations
+
+# 所有排列（r=len 时即全排列）
+print(list(permutations("ABC", 2)))
+# [('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')]
+# 顺序有关：('A', 'B') ≠ ('B', 'A')
+
+# AI 场景：计算序列的所有可能顺序
+items = ["a", "b", "c"]
+for perm in permutations(items, 2):
+    print(perm)
+# ('a', 'b'), ('a', 'c'), ('b', 'a'), ('b', 'c'), ('c', 'a'), ('c', 'b')
+```
+
+**`combinations(iterable, r)` —— 组合**
+
+```python
+from itertools import combinations
+
+# 所有 2-组合
+print(list(combinations("ABC", 2)))
+# [('A', 'B'), ('A', 'C'), ('B', 'C')]
+# 顺序无关：('A', 'B') 和 ('B', 'A') 是同一个，只出现一次
+
+# AI 场景：特征组合
+features = ["年龄", "收入", "教育"]
+pairs = list(combinations(features, 2))
+print(pairs)  # [('年龄', '收入'), ('年龄', '教育'), ('收入', '教育')]
+```
+
+**`combinations_with_replacement(iterable, r)` —— 可重复组合**
+
+```python
+from itertools import combinations_with_replacement
+
+# 允许同一个元素重复选取
+print(list(combinations_with_replacement("ABC", 2)))
+# [('A', 'A'), ('A', 'B'), ('A', 'C'), ('B', 'B'), ('B', 'C'), ('C', 'C')]
+# 对比 combinations: [('A', 'B'), ('A', 'C'), ('B', 'C')] 少了 ('A','A'), ('B','B'), ('C','C')
+```
+
+---
+
+#### AI 工程中 itertools 的使用模式
+
+```python
+from itertools import *
+
+# 模式 1：无限循环 + 惰性切片 = 可控无限流
+def generate_data():
+    for i in count():
+        yield {"id": i, "value": f"data_{i}"}
+
+for item in islice(generate_data(), 100):
+    process(item)
+
+# 模式 2：串联多个数据源
+train_data = chain(load_jsonl("part1.jsonl"), load_jsonl("part2.jsonl"))
+
+# 模式 3：分组聚合
+def analyze_logs(logs):
+    sorted_logs = sorted(logs, key=lambda x: x["level"])
+    for level, group in groupby(sorted_logs, key=lambda x: x["level"]):
+        count = len(list(group))
+        yield {"level": level, "count": count}
+
+# 模式 4：分批处理流式数据
+def batched_stream(stream, batch_size=32):
+    """通用的流式分批工具"""
+    it = iter(stream)
+    while True:
+        batch = list(islice(it, batch_size))
+        if not batch:
+            break
+        yield batch
+
+# 模式 5：tee 实现多路复用
+def eval_model(model, data):
+    data_tee = tee(data, 3)
+    preds = (model.predict(x) for x in data_tee[0])
+    truths = (x["label"] for x in data_tee[1])
+    features = (x["feature"] for x in data_tee[2])
+    return zip(preds, truths, features)
+```
+
+```
+一句话总结：
+itertools 就是 Python 自带的"迭代器瑞士军刀"
+——用生成器组合替代 for 循环，省内存、更声明式、更高效。
 ```
 
 ### 2.3.7 常见错误
@@ -4756,7 +9142,132 @@ obj.__method__()           ← 错误！会绕过类型查找
 CPython 直接在类型的 tp_* 槽位中查找，速度快 10x。
 ```
 
-**CPython 底层查找（`Objects/typeobject.c` slot lookup）：**
+#### 你的问题："都在类型上查，那重载魔术方法还有意义吗？"
+
+**有意义——但不是在单个实例上重载，而是在类定义中重载。**
+
+```python
+# ─── 你理解的"重载"（对单个实例）—— 对魔术方法无效！───
+class A:
+    def __len__(self):
+        return 10
+
+obj = A()
+obj.__len__ = lambda: 999  # 在实例上定义 __len__
+
+print(obj.__len__())       # 999  ← 直接属性访问，走实例 __dict__
+print(len(obj))            # 10   ← len() 走 type(obj).__len__！无视实例上的定义！
+
+# 对比：普通方法可以在实例上重载
+obj.自定义方法 = lambda: 999
+print(obj.自定义方法())    # 999  ← 普通方法可以！因为普通方法走实例 __dict__ 查找
+```
+
+**为什么这么设计？**
+
+```python
+# 场景：如果魔术方法也走实例查找
+class Vector:
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+
+v1 = Vector(1, 2)
+v2 = Vector(3, 4)
+
+# 如果不小心在某处设置了实例属性：
+v1.__add__ = "not a function"  # 意外赋值
+
+# 如果 __add__ 走实例查找：
+# v1 + v2 → v1.__add__  → "not a function" → 崩溃！
+# 但是如果走类型查找：
+# v1 + v2 → type(v1).__add__ → Vector.__add__ → 正常工作 ✅
+```
+
+**所以规则很清晰：**
+
+```
+普通方法（走实例 __dict__ → 类型 tp_dict）：
+  obj.foo()
+  → 先查 obj.__dict__ 有没有 "foo"
+  → 再查 type(obj).__dict__ 有没有 "foo"
+  → ✅ 可以在单个实例上重载
+
+魔术方法（直接走类型 tp_* 槽位）：
+  len(obj), obj + other, obj[key]
+  → 直接从 type(obj) 的 tp_* 槽位取
+  → ❌ 在单个实例上定义无效
+  → ✅ 在类定义中定义有效——这就是重载的意义！
+```
+
+**那什么时候魔术方法会在实例上搜索？——极少特殊情况：**
+
+```python
+# 例外 1：__class__（实例可以指向另一个类）
+class FakeList:
+    def __len__(self):
+        return 3
+
+class RealList:
+    def __len__(self):
+        return 999
+
+obj = RealList()
+print(len(obj))        # 999
+obj.__class__ = FakeList
+print(len(obj))        # 3  ← __class__ 被改了，type() 变了！
+
+# 例外 2：__dict__ 本身
+class WithDict:
+    pass
+obj = WithDict()
+print(obj.__dict__)    # {}  ← 这是实例属性，不是类型属性
+
+# 例外 3：显式调用 obj.__len__()（走普通属性查找）
+obj.__len__ = lambda: 42
+print(obj.__len__())   # 42  ← 直接调用，走实例属性查找
+# 但 len(obj) 仍然走 Type 查找，和刚才的不一样！
+print(len(obj))        # 看类有没有定义 __len__
+
+# 例外 4：Python 3.12+ —— __class_getitem__ 在类上查找
+# list[int] → type(list).__class_getitem__(int)
+
+# 例外 5：__init__ 和 __new__ 特殊处理
+class Meta(type):
+    def __call__(cls, *args, **kwargs):
+        print("拦截创建")
+        return super().__call__(*args, **kwargs)
+
+# 总结例外：都是特殊情况，99% 的魔术方法严格走类型查找
+```
+
+#### 实例方法 vs 魔术方法：查找链对比
+
+```python
+# ─── 普通方法查找链 ───
+class Demo:
+    def method(self):
+        return "class method"
+
+obj = Demo()
+obj.method()        # "class method"
+
+obj.method = lambda: "instance method"
+obj.method()        # "instance method"  ← 实例覆盖了类方法
+
+# ─── 魔术方法查找链 ───
+class Demo2:
+    def __len__(self):
+        return 100
+
+obj2 = Demo2()
+len(obj2)           # 100  ← 走类型
+
+obj2.__len__ = lambda: 200
+len(obj2)           # 100  ← 还是走类型！实例上挂的 __len__ 没用
+obj2.__len__()      # 200  ← 只有显式调用时才走实例
+```
+
+#### CPython 底层查找（`Objects/typeobject.c` slot lookup）：
 
 ```
 Python 的 slot 查找链（以 __add__ 为例）：
@@ -4773,7 +9284,15 @@ type(a) → PyTypeObject
 1. 尝试 type(a).tp_as_number.nb_add(a, b)    ← 快速路径
 2. 如果为 NULL，尝试 type(b).tp_as_number.nb_add(b, a)  ← 反向操作
 3. 如果都失败 → TypeError
+
+注意：tp_* 是 C 层面的函数指针数组，不是 Python dict！
+所以查找速度是 O(1) 指针解引用，而不是 dict 哈希查找。
+这是为什么魔术方法必须在类型上查找——C 层面没有为实例预留槽位。
 ```
+
+#### 一句话
+
+> **魔术方法的重载意义在于"为你的类定义运算符行为"，而不是"为某个实例临时修改行为"。类的所有实例共享运算符实现保证了代码的确定性和性能。你要修改单个实例的行为，用普通方法或属性，魔术方法不适合干这个。**
 
 ### 2.4.4 运算符重载
 
@@ -4984,82 +9503,822 @@ obj.attr 的查找链：
    99% 的情况下不需要重写 __getattribute__，用 __getattr__ 就够了
 ```
 
-### 2.4.7 可调用对象（`__call__`）
+#### `@property` vs `__getattr__` 区别
 
-**下面是 可调用对象（`__call__`） 的代码示例：**
+这两个经常被混淆，但它们是完全不同的机制：
+
+```
+                    @property                         __getattr__
+                    ─────────                         ──────────
+本质              描述符（descriptor）                实例方法的兜底钩子
+触发时机          属性存在时触发                      属性查找失败时触发
+查找链位置        在正常查找链中（类 __dict__）         在查找链最末尾
+声明方式          显式命名每个属性                     动态处理任意属性
+作用域           作用于特定属性名                     作用于所有未定义的属性
+
+obj.attr 的完整查找链中，它们的位置：
+
+obj.attr
+  │
+  ├─ type(obj).__getattribute__(obj, "attr")  ← __getattribute__ 接管全部
+  │    │
+  │    ├─ @property（如果类中定义了同名的 property）← 在这里拦截！
+  │    │    → 返回 property.fget() 的值
+  │    │    → 不继续往下搜了！
+  │    │
+  │    ├─ 类 __dict__ → 父类 __dict__ → ...  ← 普通属性查找
+  │    ├─ obj.__dict__                         ← 实例属性
+  │    ├─ 非数据描述符的 __get__               ← 方法绑定等
+  │    │
+  │    └─ 找不到属性 → __getattr__(obj, "attr")  ← 兜底！只有上面都失败了才到这
+  │
+  └─ 最终：返回结果或 AttributeError
+```
+
+**关键区别一：触发条件不同**
+
 ```python
-from collections import defaultdict
+class Demo:
+    def __getattr__(self, name):
+        return f"兜底: {name}"
 
-class DefaultDict:
-    """带统计功能的可调用对象——记录每个键被访问的次数"""
-    def __init__(self, default_factory):
-        self.default_factory = default_factory
-        self.stats = defaultdict(int)
+    @property
+    def color(self):
+        return "red"
+
+d = Demo()
+
+# @property 触发的场景：
+print(d.color)      # red  ← @property 正常触发
+
+# __getattr__ 触发的场景：
+print(d.size)       # 兜底: size  ← color 不存在，走 __getattr__
+print(d.xxx)        # 兜底: xxx   ← 任何不存在的属性都走这里
+
+# __getattr__ 不会被调用的场景：
+d.color = "blue"    # 给了实例属性
+print(d.color)      # blue  ← 现在 obj.__dict__["color"] = "blue"
+                    #        查找链在 __dict__ 阶段就找到了，不会到 __getattr__
+```
+
+**关键区别二：@property 是具名的，__getattr__ 是通配的**
+
+```python
+class WithProperty:
+    @property
+    def name(self):
+        return "固定的名字"
+
+    @property
+    def age(self):
+        return 25
+
+    # 每个属性都要写一个 @property → 具名
+
+class WithGetattr:
+    def __getattr__(self, name):
+        if name.startswith("_"):
+            raise AttributeError(name)
+        if name in self._db:
+            return self._db[name]
+        raise AttributeError(name)
+
+    # 一个 __getattr__ 处理所有 → 通配
+```
+
+**关键区别三：@property 是类级别的，__getattr__ 不受实例属性影响**
+
+```python
+class A:
+    @property
+    def x(self):
+        return 1
+
+    def __getattr__(self, name):
+        return 999
+
+a = A()
+print(a.x)        # 1    ← @property 永远在类 __dict__ 里
+
+# 在实例上覆盖 x：
+a.__dict__["x"] = 100
+print(a.x)        # 1    ← @property 是数据描述符，优先于实例 __dict__！
+                  #        这体现了描述符的优先级规则
+
+# 对比：普通方法可以在实例上覆盖
+class B:
+    def get_x(self):
+        return 1
+
+b = B()
+b.get_x = lambda: 100
+print(b.get_x())  # 100  ← 实例属性覆盖了类方法
+```
+
+**关键区别四：写入行为不同**
+
+```python
+class Demo:
+    @property
+    def readonly(self):
+        return 42
+
+    def __getattr__(self, name):
+        return f"动态: {name}"
+
+d = Demo()
+
+# @property 默认只读
+d.readonly = 100  # AttributeError: can't set attribute
+# 解决方法：加 @readonly.setter
+
+# __getattr__ 不影响写入，__setattr__ 才是负责写入的
+d.anything = 100  # ✅ 正常写入到 __dict__
+print(d.anything) # 100  ← 现在 it's in __dict__, __getattr__ 不会被触发
+
+# 但先有 __setattr__ 可以拦截：
+class Demo2:
+    def __setattr__(self, name, value):
+        if name == "locked":
+            raise RuntimeError("locked!")
+        super().__setattr__(name, value)
+```
+
+**什么时候用哪个？**
+
+```
+选 @property：                               选 __getattr__：
+─────────────                                ──────────────
+• 已知的具体属性，有明确的计算逻辑              • 动态属性名（从 DB/API/config 查询）
+• 需要 getter/setter/deleter                  • 属性名在运行时才确定
+• 想要只读属性（不写 setter）                   • 对象的属性数量不确定
+• 属性名固定、数量少                            • 做代理/包装对象
+• 需要类型检查或数据转换                        • 实现 Dict2Obj 等动态访问模式
+
+【典型场景对比】
+
+@propery 场景：                                     __getattr__ 场景：
+
+class Circle:                                       class DynamicConfig:
+    def __init__(self, radius):                         def __init__(self, data: dict):
+        self._radius = radius                               self._data = data
+
+    @property                                         def __getattr__(self, name):
+    def radius(self):                                       if name in self._data:
+        return self._radius                                     return self._data[name]
+                                                             raise AttributeError(name)
+    @property
+    def area(self):                                     # 不存在的 key 自动变成属性
+        return 3.14 * self._radius ** 2                 cfg = DynamicConfig({"host": "localhost"})
+                                                        print(cfg.host)  # localhost ✅
+    @property                                           print(cfg.port)  # AttributeError ❌
+    def diameter(self):
+        return self._radius * 2
+
+# 固定三个属性，每个都有自己的逻辑
+# 不能写 c.area = xxx（只读计算属性）
+```
+
+**一句话总结：**
+
+> **`@property` 是"精确拦截"——针对特定已知属性定制 getter/setter。`__getattr__` 是"最终兜底"——所有找不到的属性统一处理，适合动态场景。前者用于已知属性名的计算逻辑，后者用于未知属性名的动态分发。**
+
+### 2.4.7 `__dict__` 与 `__slots__`
+
+#### `__dict__` 是什么——对象的属性存储区
+
+每个 Python 对象内部都有一个字典 `__dict__`，存着该对象的所有实例属性。
+
+```python
+class Dog:
+    species = "Canine"  # 类属性（存在 Dog.__dict__ 里）
+
+    def __init__(self, name, age):
+        self.name = name  # 实例属性（存在 self.__dict__ 里）
+        self.age = age    # 同上
+
+d = Dog("小白", 3)
+
+print(d.__dict__)       # {'name': '小白', 'age': 3}  ← 实例属性
+print(Dog.__dict__)     # mappingproxy({...})         ← 类属性（只读包装）
+
+# 本质：obj.attr = value 就是在操作 obj.__dict__["attr"] = value
+d.__dict__["color"] = "white"
+print(d.color)          # white  ← 等价于 d.__dict__["color"]
+```
+
+#### 对象的内存布局
+
+```
+实例对象的内存：
+
+┌────────────────────────────┐
+│ PyObject_HEAD              │
+│   ob_refcnt = 1            │
+│   ob_type → &PyType_Dog    │  ← 指向类对象
+├────────────────────────────┤
+│ __dict__ (PyDictObject*) ──┼──→ {"name": "小白", "age": 3}
+│                            │      ↑  这就是 __dict__
+└────────────────────────────┘      ↑
+                                    ↑
+当你写 d.name 时：                   ↑
+  type(d).__getattribute__(d, "name")
+  → 先搜类型（Dog.__dict__ "species" 在这找到）
+  → 再搜实例（d.__dict__ "name" 在这找到）
+  → 返回 "小白"
+```
+
+#### 类、实例、函数各自的 `__dict__` 对比
+
+```python
+class Demo:
+    cls_attr = "类级别的"
+
+    def __init__(self):
+        self.inst_attr = "实例级别的"
+
+    def method(self):
+        pass
+
+d = Demo()
+
+print(type(d.__dict__))          # <class 'dict'>          ← 普通 dict，可读写
+print(type(Demo.__dict__))       # <class 'mappingproxy'>  ← 只读包装，防乱改
+
+# mappingproxy 和 dict 的区别：
+Demo.__dict__["cls_attr"] = "??"  # TypeError: 'mappingproxy' object does not support item assignment
+Demo.cls_attr = "改了"             # OK：Python 内部走 type.__setattr__，不走 __dict__
+
+# 函数的 __dict__：
+def f(): pass
+f.custom_attr = "函数属性"
+print(f.__dict__)  # {'custom_attr': '函数属性'}
+```
+
+```
+           __dict__ 类型       是否可写          存储内容
+          ────────────         ───────          ────────
+实例       dict                可读写            实例属性（self.xxx）
+类         mappingproxy        只读              类属性、方法、描述符
+函数       dict                可读写            自定义属性（极少用）
+模块       dict                可读写            模块中定义的所有名字
+```
+
+#### `__dict__` 的三大用途
+
+**用途 1：内省（introspection）——查看对象有什么**
+
+```python
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self._hidden = True
+
+p = Point(3, 4)
+
+# 列出所有实例属性名
+print(list(p.__dict__.keys()))     # ['x', 'y', '_hidden']
+
+# 列出所有实例属性值
+print(list(p.__dict__.values()))   # [3, 4, True]
+
+# 遍历所有属性
+for key, val in p.__dict__.items():
+    print(f"{key} = {val}")
+# x = 3
+# y = 4
+# _hidden = True
+
+# vars(obj) 是访问 __dict__ 的推荐方式
+print(vars(p))  # {'x': 3, 'y': 4, '_hidden': True}
+```
+
+**用途 2：批量赋值/更新属性**
+
+```python
+class Config:
+    def __init__(self):
+        self.host = "localhost"
+        self.port = 8080
+        self.debug = False
+
+    def update(self, **kwargs):
+        """批量更新属性"""
+        for key, value in kwargs.items():
+            if key in self.__dict__:  # 只允许更新已有属性
+                self.__dict__[key] = value
+            else:
+                raise AttributeError(f"未知配置项: {key}")
+
+cfg = Config()
+cfg.update(port=9090, debug=True)
+print(cfg.port)   # 9090
+print(cfg.debug)  # True
+# cfg.update(unknown=1)  # AttributeError: 未知配置项: unknown
+```
+
+**用途 3：实现动态对象（属性即 dict key）**
+
+```python
+class DynamicObject:
+    """类似 JavaScript 对象——任意属性随意设"""
+    def __getattr__(self, name):
+        if name.startswith("_"):
+            raise AttributeError(name)
+        # 属性不存在时，默认返回 None 而不是报错
+        return None
+
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+
+    def __delattr__(self, name):
+        if name in self.__dict__:
+            del self.__dict__[name]
+
+    def to_dict(self):
+        return dict(self.__dict__)
+
+obj = DynamicObject()
+obj.name = "动态"
+obj.value = 42
+print(obj.name)   # 动态
+print(obj.xxx)    # None  ← 不报错
+print(obj.to_dict())  # {'name': '动态', 'value': 42}
+```
+
+#### 面试常考：obj.__dict__ 和 type(obj).__dict__ 不是一个东西
+
+```python
+class A:
+    x = 100  # A.__dict__["x"] = 100
+
+a = A()
+a.x = 200   # a.__dict__["x"] = 200
+
+print(a.x)            # 200  ← 实例属性优先于类属性
+print(A.x)            # 100  ← 类属性不变
+print(a.__dict__)     # {'x': 200}
+print(A.__dict__)     # {'x': 100, ...}
+
+# 删除实例属性后，类属性就暴露出来了
+del a.x
+print(a.x)            # 100  ← 实例的 x 删了，现在看到类的 x
+
+# 关键理解：
+# obj.attr 查找链：
+# 1. type(obj).__getattribute__(obj, "attr")
+# 2. 先看类型（类属性、描述符）
+# 3. 再看实例（__dict__）
+# 4. 实例属性遮住类属性，但两者独立存储
+```
+
+#### `__slots__`——没有 __dict__ 的对象
+
+```python
+class Point:
+    """用 __slots__ 限制只能有 x, y 两个属性"""
+    __slots__ = ("x", "y")
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+p = Point(3, 4)
+print(p.x)           # 3
+print(p.y)           # 4
+
+# p.z = 5  # AttributeError: 'Point' object has no attribute 'z'
+
+print(p.__dict__)    # AttributeError: 'Point' object has no attribute '__dict__'！
+# ⚠️ __slots__ 的类没有 __dict__！
+
+# 好处 1：省内存（一个空 dict 占 ~56 字节，1 亿个实例省 5.6GB）
+# 好处 2：属性访问更快（C 层面的固定偏移访问，不是 dict 哈希查找）
+
+# __slots__ 和 __dict__ 对比：
+class WithDict:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class WithSlots:
+    __slots__ = ("x", "y")
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+import sys
+d = WithDict(1, 2)
+s = WithSlots(1, 2)
+print(sys.getsizeof(d.__dict__))  # 56 bytes（dict 本体）
+print(sys.getsizeof(d))           # 56 bytes（对象 + dict 指针）
+print(sys.getsizeof(s))           # 32 bytes（只有 x, y 两个指针，无 dict）
+
+# 什么时候用 __slots__？
+# - 需要创建大量对象（百万级），内存敏感
+# - 属性名固定，不会动态添加
+# - 大多数情况用普通类就好，__slots__ 是优化手段
+```
+
+#### 一句话总结
+
+> **`__dict__` 是 Python 对象的"属性背包"——所有实例属性都存在里面。类也有 `__dict__` 但被 mappingproxy 保护。`vars(obj)` 是读 `__dict__` 的推荐写法。追求极致省内存时用 `__slots__` 干掉 `__dict__`，代价是不能动态加属性。**
+
+### 2.4.8 可调用对象（`__call__`）
+
+#### 核心概念：让实例像函数一样调用
+
+```python
+class Adder:
+    def __init__(self, n):
+        self.n = n
+
+    def __call__(self, x):
+        """实例(...) → 触发 __call__"""
+        return self.n + x
+
+add5 = Adder(5)      # 创建实例
+print(add5(3))       # 8  ← 实例当函数用！等价于 add5.__call__(3)
+print(add5(10))      # 15 ← 每次调用都加 5
+
+# 没有 __call__ 会怎样？
+class NonCallable:
+    pass
+
+obj = NonCallable()
+# obj()  # TypeError: 'NonCallable' object is not callable
+```
+
+**实现原理：**
+
+```
+obj(args)  →  type(obj).__call__(obj, args)
+
+和所有魔术方法一样，__call__ 在类型上查找：
+- obj()  → type(obj).__call__(obj)
+- 本质上和 len(obj)、obj[key] 是同一机制
+```
+
+#### 判断对象是否可调用
+
+```python
+callable(Adder(5))   # True  ← 定义了 __call__
+callable(42)         # False ← 整数不可调用
+callable(print)      # True  ← 函数当然可调用
+callable(int)        # True  ← 类型也可调用（int("42")）
+
+# 检查类有没有 __call__：
+print(hasattr(Adder, "__call__"))  # True
+print(hasattr(NonCallable, "__call__"))  # False
+```
+
+#### 场景 1：替代函数工厂（保存状态的可调用对象）
+
+```python
+# ─── 函数方式 ───
+def make_counter():
+    count = 0
+    def counter():
+        nonlocal count
+        count += 1
+        return count
+    return counter
+
+c1 = make_counter()
+print(c1())  # 1
+print(c1())  # 2
+
+# ─── __call__ 方式（更清楚）───
+class Counter:
+    def __init__(self):
+        self.count = 0
 
     def __call__(self):
-        """每次调用返回一个新的默认值"""
-        self.stats["total"] += 1
-        return self.default_factory()
+        self.count += 1
+        return self.count
 
-    def report(self):
-        print(f"已生成 {self.stats['total']} 个默认值")
+    def reset(self):
+        self.count = 0
 
-# 使用：替代 lambda
-factory = DefaultDict(list)
-d = defaultdict(factory)  # factory 是可调用对象
+c2 = Counter()
+print(c2())     # 1  ← 实例当函数用
+print(c2())     # 2
+c2.reset()      # 额外功能：重置（闭包做不到）
+print(c2())     # 1
 
-# 可以用作装饰器
-class CountCalls:
+# 两种方法等价，但类方式可读性更好，还能加额外方法
+```
+
+#### 场景 2：偏函数（固定参数）
+
+```python
+class Partial:
+    """手写偏函数：固定某些参数"""
+    def __init__(self, func, *args, **kwargs):
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
+
+    def __call__(self, *args, **kwargs):
+        all_args = self.args + args
+        all_kwargs = {**self.kwargs, **kwargs}
+        return self.func(*all_args, **all_kwargs)
+
+def power(base, exp):
+    return base ** exp
+
+square = Partial(power, exp=2)  # 固定 exp=2
+cube = Partial(power, exp=3)    # 固定 exp=3
+
+print(square(5))    # 25   ← 等价于 power(5, exp=2)
+print(cube(5))      # 125  ← 等价于 power(5, exp=3)
+```
+
+#### 场景 3：可调用对象做装饰器
+
+```python
+import time
+
+class Timer:
+    """装饰器：统计函数调用次数和耗时"""
     def __init__(self, func):
         self.func = func
         self.count = 0
+        self.total_time = 0
 
     def __call__(self, *args, **kwargs):
         self.count += 1
-        print(f"调用 {self.func.__name__} 第 {self.count} 次")
-        return self.func(*args, **kwargs)
+        start = time.time()
+        result = self.func(*args, **kwargs)
+        elapsed = time.time() - start
+        self.total_time += elapsed
+        print(f"{self.func.__name__} 第 {self.count} 次调用，耗时 {elapsed:.3f}s")
+        return result
+
+@Timer
+def slow_add(a, b):
+    time.sleep(0.1)
+    return a + b
+
+print(slow_add(1, 2))  # slow_add 第 1 次调用，耗时 0.100s → 3
+print(slow_add(3, 4))  # slow_add 第 2 次调用，耗时 0.101s → 7
 ```
 
-### 2.4.8 序列化相关魔术方法
+#### 场景 4：AI 中的可调用对象
 
-**下面是 序列化相关魔术方法 的代码示例：**
+```python
+class LLMWrapper:
+    """把 API 调用包装成可调用对象，方便传参"""
+    def __init__(self, model: str, temperature: float = 0.7):
+        self.model = model
+        self.temperature = temperature
+        self.call_count = 0
+
+    def __call__(self, prompt: str) -> str:
+        self.call_count += 1
+        # 实际会调用 API
+        return f"[{self.model}] 回复: {prompt[:20]}..."
+
+llm = LLMWrapper("gpt-4", 0.3)
+print(llm("翻译这段文本"))   # 就像调用函数一样
+print(llm("总结这篇文章"))
+print(f"共调用 {llm.call_count} 次")
+```
+
+#### 一句话总结
+
+> **`__call__` 让类的实例像函数一样调用 `obj()`。本质和 `__len__`、`__getitem__` 一样是魔术方法——查 `type(obj).__call__(obj)`。适合做有状态的函数替代品（计数器、偏函数、装饰器、API 封装）。**
+
+### 2.4.9 序列化相关魔术方法
+
+#### 核心概念：把对象转成字符串/字节
+
+序列化相关魔术方法控制对象在以下场景的字符串/字节表示：
+
+```
+str(obj)   → obj.__str__()        # 用户可读
+repr(obj)  → obj.__repr__()       # 开发者可读（调试用）
+f"{obj}"   → obj.__format__("")   # 格式化
+bytes(obj) → obj.__bytes__()      # 字节序列（极少用）
+```
+
+#### `__repr__` vs `__str__` —— 最常用的两个
+
+```python
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    # __repr__：调试用，目标是"能还原出这个对象"
+    def __repr__(self):
+        return f"Point({self.x}, {self.y})"
+
+    # __str__：展示用，目标是"用户看得懂"
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+p = Point(3, 4)
+
+print(str(p))    # (3, 4)       ← 用户友好的
+print(repr(p))   # Point(3, 4)  ← 开发者友好的
+print(p)         # (3, 4)       ← print() 优先调 __str__
+
+# 在容器中，显示 __repr__：
+print([p, p])    # [Point(3, 4), Point(3, 4)]
+
+# 只定义 __repr__ 时，__str__ 会复用 __repr__：
+class OnlyRepr:
+    def __repr__(self):
+        return "OnlyRepr()"
+
+obj = OnlyRepr()
+print(str(obj))   # OnlyRepr()  ← 没有 __str__，fallback 到 __repr__
+```
+
+**经验法则：**
+
+```
+__repr__ → 开发者看，尽可能包含足够信息，最好能被 eval() 还原
+           repr(Point(3,4)) → "Point(3, 4)"  ← 复制到代码里就能用
+__str__  → 用户看，简洁漂亮
+           str(Point(3,4)) → "(3, 4)"  ← 用户直接看
+```
+
+#### `__format__` —— 自定义格式化
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __format__(self, format_spec):
+        """f"{obj}" 和 format(obj) 调用
+           format_spec 是冒号后面的部分
+        """
+        if format_spec == "v":
+            # 详细格式
+            return f"Person: {self.name}, 年龄: {self.age}"
+        elif format_spec == "s":
+            # 简短格式
+            return f"{self.name}({self.age})"
+        else:
+            # 默认
+            return f"{self.name} (age {self.age})"
+
+p = Person("Alice", 30)
+
+print(f"{p}")        # Alice (age 30)     ← format_spec = ""
+print(f"{p:v}")      # Person: Alice, 年龄: 30  ← format_spec = "v"
+print(f"{p:s}")      # Alice(30)          ← format_spec = "s"
+print(format(p, "v")) # Person: Alice, 年龄: 30  ← format() 函数
+
+# 对于数值类型，format_spec 有标准语法：
+# f"{3.14159:.2f}" → "3.14"  ← .2f 是 format_spec
+# f"{100:x}"       → "64"    ← x 是十六进制
+```
+
+#### `__bytes__` —— 转字节序列
+
+```python
+class Icon:
+    def __init__(self, data: bytes):
+        self.data = data
+
+    def __bytes__(self):
+        """bytes(obj) 调用"""
+        return self.data
+
+icon = Icon(b"\x89PNG\r\n\x1a\n")
+print(bytes(icon))  # b'\x89PNG\r\n\x1a\n'
+```
+
+#### 让自定义类支持 `json.dumps` —— 正确做法
+
 ```python
 import json
+from datetime import datetime
 
 class AIResponse:
-    def __init__(self, text, confidence, metadata=None):
+    def __init__(self, text: str, confidence: float, created_at: datetime = None):
         self.text = text
         self.confidence = confidence
-        self.metadata = metadata or {}
+        self.created_at = created_at or datetime.now()
 
-    # ─── JSON 序列化（json.dumps 调用）───
-    def __json__(self):
+    def __repr__(self):
+        """调试用：能看到所有字段"""
+        return f"AIResponse({self.text[:20]!r}, {self.confidence:.1%})"
+
+    def to_dict(self):
+        """序列化为 dict（json.dumps 用）"""
         return {
             "text": self.text,
             "confidence": self.confidence,
-            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat(),
         }
 
-    # ─── 自定义 JSONEncoder ───
-    class Encoder(json.JSONEncoder):
-        def default(self, obj):
-            if hasattr(obj, '__json__'):
-                return obj.__json__()
-            return super().default(obj)
-
-    # ─── 格式化输出 ───
-    def __format__(self, format_spec):
-        """f"{resp:.2}" 调用"""
-        if format_spec == "short":
-            return f"{self.text[:50]}... ({self.confidence:.1%})"
-        return f"AIResponse(text={self.text!r}, confidence={self.confidence})"
-
+# ─── 方式 1：手动转 dict 再 dumps（最简单）───
 resp = AIResponse("The answer is 42", 0.95)
-print(f"{resp:short}")
-# "The answer is 42... (95.0%)"
+print(json.dumps(resp.to_dict(), indent=2))
+# {
+#   "text": "The answer is 42",
+#   "confidence": 0.95,
+#   "created_at": "2026-05-31T10:30:00"
+# }
+
+# ─── 方式 2：自定义 JSONEncoder（一劳永逸）───
+class CustomEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # 只有 json.dumps 遇到"不认识"的类型时才调 default
+        if isinstance(obj, AIResponse):
+            return obj.to_dict()
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        # 还有不认识的 → 让父类报错
+        return super().default(obj)
+
+resp2 = AIResponse("Hello world", 0.88)
+print(json.dumps(resp2, cls=CustomEncoder, indent=2))
+# {
+#   "text": "Hello world",
+#   "confidence": 0.88,
+#   "created_at": "2026-05-31T10:30:00"
+# }
+
+# ─── 方式 3：用 default 参数（更简洁）───
+def json_default(obj):
+    if isinstance(obj, AIResponse):
+        return obj.to_dict()
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    raise TypeError(f"不能序列化 {type(obj)}")
+
+print(json.dumps(resp2, default=json_default, indent=2))
+# 同上
 ```
 
-### 2.4.9 完整魔术方法分类表
+#### `__json__` 是官方魔术方法吗？—— 不是！
+
+```python
+# ❌ Python 没有 __json__ 这个魔术方法！
+class Wrong:
+    def __json__(self):
+        return {"data": 123}
+
+# json.dumps(Wrong())  # TypeError: Object of type Wrong is not JSON serializable
+# ❌ json.dumps 不认识 __json__，还是会报错
+
+# 要在类里加 __json__ 并让 json.dumps 识别，必须写自定义 Encoder：
+class WithJson:
+    def __json__(self):
+        return {"data": 123}
+
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if hasattr(obj, "__json__"):
+            return obj.__json__()
+        return super().default(obj)
+
+print(json.dumps(WithJson(), cls=MyEncoder))  # {"data": 123}
+# __json__ 只是我们约定的一个普通方法名，不是 Python 的魔术方法
+```
+
+#### 常见的序列化/反序列化模式
+
+```python
+from dataclasses import dataclass, asdict
+import json
+
+@dataclass
+class Config:
+    """dataclass 自动生成 __repr__、__init__ 等"""
+    model: str
+    temperature: float
+    max_tokens: int = 2048
+
+    def save(self, path: str):
+        with open(path, "w") as f:
+            json.dump(asdict(self), f, indent=2)
+
+    @classmethod
+    def load(cls, path: str) -> "Config":
+        with open(path) as f:
+            data = json.load(f)
+        return cls(**data)
+
+cfg = Config("gpt-4", 0.7)
+cfg.save("config.json")
+loaded = Config.load("config.json")
+print(loaded)  # Config(model='gpt-4', temperature=0.7, max_tokens=2048)
+```
+
+#### 一句话总结
+
+> **序列化魔术方法控制对象如何转字符串：`__repr__` 给开发者调试、`__str__` 给用户展示、`__format__` 控制 `f"{obj}"` 格式。json.dumps 不认识任何魔术方法，要用 `default` 参数或自定义 `JSONEncoder`。dataclass + asdict 是最省事的 JSON 序列化方案。**
+
+### 2.4.10 完整魔术方法分类表
 
 **下面是 Python 所有魔术方法的完整分类速查表：**
 ```python
@@ -5110,7 +10369,7 @@ print(f"{resp:short}")
 # __class_getitem__(cls) 泛型订阅：SomeClass[T]
 ```
 
-### 2.4.10 常见错误
+### 2.4.11 常见错误
 
 **错误 1：魔术方法在实例上定义不在类上**
 
@@ -5183,7 +10442,7 @@ class Resource:
 # 不要依赖 __del__ 做关键清理，用上下文管理器 + with 语句
 ```
 
-### 2.4.11 AI 场景案例
+### 2.4.12 AI 场景案例
 
 **场景一：灵活配置类（点号访问 + 锁定机制）**
 
