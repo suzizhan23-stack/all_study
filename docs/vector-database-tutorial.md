@@ -1269,6 +1269,8 @@ Layer 0:
 
 搜索算法伪代码：
 ```
+
+```
 function search(q, efSearch, topK):
     # visited: 已访问集合 (防止重复)
     # candidates: 当前候选队列 (最小堆, 按距离排序)
@@ -1295,6 +1297,7 @@ function search(q, efSearch, topK):
                         results.pop()  # 移除最远的
     
     return results.top(topK)  # 返回最近的 topK 个
+
 ```
 
 ### 插入过程
@@ -1302,39 +1305,106 @@ function search(q, efSearch, topK):
 ```ascii
 插入新节点 new_node：
 
-输入：new_node 的向量, M (邻居数), M_max (最大邻居数)
+输入：new_node 的向量, M (每层最大邻居数), M_max (下层最大邻居数)
+
+          ┌──────────────────────────────────────────────────┐
+          │  关键：每一层（从 level 到 0）都要连接邻居！     │
+          │  不是只在 Level 0 连接！                         │
+          └──────────────────────────────────────────────────┘
 
 Step 1: 确定 new_node 的层数
   level = floor(-ln(random()) * mL)
-  其中 mL = 1/ln(M)  (通常约 0.5-1.0)
-  大多数节点在低层 (Level 0), 少数在高层
+  其中 mL = 1/ln(M) (通常约 0.5-1.0)
+  大多数节点在 Level 0, 少数在高层 (指数衰减)
 
-Step 2: 从最高层到 level+1 层搜索
-  找到每层的最近节点作为入口
+  概率分布:
+    Level 0: ~50% 的节点
+    Level 1: ~25% 的节点
+    Level 2: ~12.5% 的节点
+    Level 3: ~6.25% 的节点
 
-Step 3: 在 level 到 0 层:
-  a. 搜索 efConstruction 个最近邻居
-  b. 从最近邻居中选 M 个作为新节点的邻居
-  c. 连接新节点和这些邻居
-  d. 对每个邻居，检查是否超过 M_max 
-     如果超过，剪枝 (保留最近的 M_max 个)
+Step 2: 从最高层到 level+1 层搜索 (只找不连)
+  目的：从当前最高层开始，每层找到最近的节点
+        作为下一层搜索的入口点
+  
+  例如 new_node 的 level=1, 当前最高层=3:
+    Layer 3: 从 entry 搜索 → 找到最近节点 A
+    Layer 2: 从 A 往下搜索 → 找到最近节点 B
+    (Layer 1 和 0 留到 Step 3 处理)
 
-图示插入：
-  插入前:    A ─── B ─── C
+Step 3: 在每层连接邻居 (level 到 0 层)
   
-  插入 new_node X (Level 0):
-  
-  Step a: 找到最近的 M 个邻居
-          A (0.1), B (0.2)
-  
-  Step b: 建立双向连接
-          A ─── B
-           │    │
-           X ───┘
-  
-  Step c: 检查 A 的邻居数
-          原来有 {B}, 现在多了 X → {B, X}
-          不超过 M_max → 保留
+  对每一层 l = level, level-1, ..., 0:
+    a. 搜索 efConstruction 个最近邻居
+    b. 从这些候选中选出最近的 M 个
+    c. 建立双向连接:
+       - new_node 的 neighbors[l] 添加这 M 个邻居
+       - 每个邻居的 neighbors[l] 也添加 new_node
+    d. 检查每个邻居在 l 层的连接数
+       如果超过 M_max(l), 剪枝: 只保留最近的 M_max 个
+
+  注意: M_max(l) 在不同层可能不同
+    - 最底层 (l=0): M_max = 2*M
+    - 上层 (l>0):   M_max = M
+
+完整示例: 插入节点 X (level=1, M=2)
+
+  插入前已有图结构 (Layer 0 和 Layer 1):
+
+  Layer 1 (高层, 稀疏):
+      A ───── C
+       \
+        D
+
+  Layer 0 (底层, 稠密):
+      A ── B ── C
+      │    │    │
+      D ── E ── F
+       \
+        G
+
+  Step 1: level = 1 (假设随机决定)
+
+  Step 2: 从最高层(Layer 1)到 level+1(Layer 2不存在)
+          从 entry 出发 → 在 Layer 1 找到最近节点 A
+
+  Step 3: 处理 Layer 1 (level=1):
+          
+          搜索 efConstruction 个邻居:
+            在 Layer 1 找到最近的 M=2 个: A, C
+          
+          连接:  X → A, X → C  (双向)
+          
+          Layer 1 更新后:
+              A ───── C
+               \      /
+                \    /
+                  X
+               D (不变)
+
+  Step 3: 处理 Layer 0 (level=0):
+          
+          从 Layer 1 的入口 A 继续往下搜索
+          在 Layer 0 找到最近的 M=2 个: B, E
+          
+          连接:  X → B, X → E  (双向)
+          
+          检查 B 的邻居数: {A, E, C, X} = 4 ≤ M_max=4 ✓
+          检查 E 的邻居数: {B, F, D, X} = 4 ≤ M_max=4 ✓
+          
+          Layer 0 更新后:
+              A ── B ── C
+              │    │    │
+              D ── E ── F
+              │    │
+              G    X
+
+  关键理解:
+    - 节点 X 在 Layer 1 连接了 A, C (高层邻居)
+    - 节点 X 在 Layer 0 连接了 B, E (低层邻居)
+    - 搜索时从高层(Layer 1)进入 → 通过 A 或 C 快速定位
+    - 再到低层(Layer 0) → 通过 B 或 E 精确定位
+    - 每层各自独立维护邻居关系
 ```
 
 ### 为什么 HNSW 快？
@@ -1449,57 +1519,267 @@ PQ 压缩后 (1536 维 → 96 维 code):
 ### PQ 压缩原理
 
 ```ascii
-原始向量: [0.123, -0.456, 0.789, 0.012, 0.555, -0.333, 0.111, 0.888, ...]
-                          ↓           ↓           ↓           ↓
-分 M 段 (M=4):  [0.123, -0.456] | [0.789, 0.012] | [0.555, -0.333] | [0.111, 0.888]
-                  段 1             段 2             段 3             段 4
+PQ 的核心思想: 分而治之 + 聚类近似
 
-对每段做 K-Means 聚类 (K=256):
-  段1 聚类中心:
-    c0 = [-0.1, 0.2]
-    c1 = [0.5, -0.3]
-    c2 = [-0.4, -0.1]
-    ... 256 个聚类中心
+Step 1: 分 M 段 (Subspace Decomposition)
 
-  段2 聚类中心:
-    c0 = [0.3, 0.4]
-    c1 = [-0.2, 0.1]
+  原因：原始向量维度太高（如 1536 维），直接聚类需要
+        K-Means 在 1536 维空间做 K=256 聚类 → 不稳定、过拟合
+
+  解法：将 D 维向量切分成 M 段，每段 D' = D/M 维
+        在每个子空间（低维空间）独立聚类
+
+  示例: 8 维向量, M=4, 每段 D' = 8/4 = 2 维：
+  
+  [0.123, -0.456, | 0.789, 0.012, | 0.555, -0.333, | 0.111, 0.888]
+      段 1 (2维)       段 2 (2维)      段 3 (2维)      段 4 (2维)
+    子空间 1         子空间 2         子空间 3         子空间 4
+
+  注意：M 不必须使 D/M=2！这只是例子。
+  实际 D=1536, M=96 → 每段 D' = 1536/96 = 16 维
+
+Step 2: 训练阶段 — 在每个子空间做 K-Means 聚类
+
+  K-Means 是什么？
+    K-Means 是一种聚类算法，把一堆数据分成 K 个组（簇）。
+    每个组用一个"中心点"（centroid）表示，组内点离中心最近。
+
+  类比:
+    把全国学校按"人均GDP""教育资源"分成 256 个组
+    → 每个组有一个"典型学校"（中心点）
+    → 新学校只要说"我是第 5 组的"就够了
+
+  K-Means 算法步骤:
+    1. 随机选 K 个初始中心
+    2. 每个点归入最近的中心（形成 K 个簇）
+    3. 每个簇重新计算中心（取簇内所有点的平均值）
+    4. 重复 2-3 直到收敛（中心不再变化）
+
+  在 PQ 中的训练数据是哪里来的？
+    → 来自数据库中所有向量的各段子向量！
+    假设有 N=100 万条 1536 维向量, M=96:
+      - 段1 训练数据: 100 万个 16 维子向量
+      - 段2 训练数据: 100 万个 16 维子向量
+      - ...
+      - 段96 训练数据: 100 万个 16 维子向量
+    每个子空间独立做 K-Means (K=256)
+
+  训练结果 - 码本 (Codebook):
+    码本[0] = {c0_0, c0_1, ..., c0_255}  ← 段1的256个中心点 (16维)
+    码本[1] = {c1_0, c1_1, ..., c1_255}  ← 段2的256个中心点 (16维)
+    ...
+    码本[95] = {c95_0, ..., c95_255}      ← 段96的256个中心点 (16维)
+
+    总存储: 96 × 256 × 16 × 4 bytes = 1.5 MB
+    相比原始向量 6 GB → 码本极小！
+
+Step 3: 量化阶段 (Quantization) — 用码本索引替换原始向量
+
+  对每条向量:
+    段1: [x1..x16] → 找最近的中心 c0_i → 存 i (1 byte)
+    段2: [x17..x32] → 找最近的中心 c1_j → 存 j (1 byte)
     ...
 
-量化: 每个段用最近的聚类中心索引表示
-
-原始向量:                        量化后:
-段1: [0.123, -0.456] → 最近 c1  → 1 (1 byte)
-段2: [0.789, 0.012]  → 最近 c0  → 0 (1 byte)
-段3: [0.555, -0.333] → 最近 c1  → 1 (1 byte)
-段4: [0.111, 0.888]  → 最近 c3  → 3 (1 byte)
-
-压缩结果: [1, 0, 1, 3] (4 bytes)
-原始: 8 floats × 4 bytes = 32 bytes
-压缩比: 32/4 = 8 倍
+  原始: 1536 float32 = 6 KB
+  量化后: 96 bytes (96 段 × 1 byte/段)
+  压缩比: 6000/96 ≈ 62.5 倍
 ```
 
-### PQ 距离计算 (SDC/ADC)
+### PQ 距离计算 — 查表法 (SDC/ADC)
 
 ```ascii
-查询向量 q 与压缩后的向量 c 的距离计算：
+核心问题: 
+  查询向量 q (未压缩, float32) 和数据库向量 c (压缩后, 96 bytes)
+  如何快速计算距离？
 
-q = [q1, q2, q3, q4, q5, q6, q7, q8]
-c = [code0, code1, code2, code3]  (量化后)
+解法: 查表 (Lookup Table) — 不需要实时算浮点
 
-距离 ≈ sum( codebook[i][code_i] 中存储的距离 )
+Step 1: 预处理 — 对查询向量 q 计算距离表
 
-实际计算：
-  dist_q_c = 
-    L2(q_段1, 码本[0][code0]) +   ← 查表 O(1)
-    L2(q_段2, 码本[1][code1]) +   ← 查表 O(1)
-    L2(q_段3, 码本[2][code2]) +   ← 查表 O(1)
-    L2(q_段4, 码本[3][code3])     ← 查表 O(1)
+  查询向量 q (1536 维): [q1, q2, q3, ..., q1536]
+  分成 96 段, 每段 16 维:
+    段1: [q1..q16]
+    段2: [q17..q32]
+    ...
 
-注意：距离用查表法计算，不需要真正计算浮点运算！
+  对每段, 计算 q 的这段到该段所有 256 个中心点的距离:
 
-对称距离 (SDC): 查询和数据库都量化
-非对称距离 (ADC): 查询不量化，数据库量化 (更精确，推荐)
+  距离表[0] = [L2(q_段1, c0_0), L2(q_段1, c0_1), ..., L2(q_段1, c0_255)]
+              ↑ q的段1到段1的第0个中心     到第1个中心         到第255个中心
+  距离表[1] = [L2(q_段2, c1_0), L2(q_段2, c1_1), ..., L2(q_段2, c1_255)]
+  ...
+
+  每个距离表: 256 个 float32 = 1 KB
+  共 96 个表: 96 KB
+
+  注意: 这 96 KB 是每个查询向量都要算一次！
+        但比直接算 100 万次 L2 快得多。
+
+Step 2: 查表计算距离
+
+  对每条压缩后的数据库向量 c:
+    c 的量化编码: [code0, code1, ..., code95]
+                  其中 code[i] ∈ [0, 255] (1 byte)
+
+  距离(q, c) = 距离表[0][code0] + 距离表[1][code1] + ... + 距离表[95][code95]
+
+  代码示例:
+    float distance = 0;
+    for (int i = 0; i < 96; i++) {
+        distance += distanceTable[i][c.codes[i]];
+    }
+
+  这比直接算 L2 快在哪里？
+    直接 L2: 1536 次减法 + 1536 次乘法 + 1535 次加法 = ~4600 次浮点运算
+    查表法:  96 次加法 + 96 次查内存 = ~192 次操作
+    加速比: ~24 倍
+
+  为什么能近似？
+    因为每个段用最近的中心点代替了真实的子向量值
+    误差 = 子向量到其最近中心点的距离 (量化误差)
+
+对称距离 (SDC):
+  q 和 c 都量化 → 两边都用中心点近似 → 误差更大
+
+非对称距离 (ADC) — 推荐:
+  q 不量化 (保持 float32), c 量化
+  距离表用 q 的真实值计算 → 更精确
+  数据库端依然享受存储压缩的好处
+```
+
+### Python 代码示例
+
+```python
+# Python 实现 - PQ 量化和距离计算
+import numpy as np
+
+class ProductQuantizer:
+    def __init__(self, M: int = 96, K: int = 256):
+        self.M = M          # 段数
+        self.K = K          # 每段聚类数
+        self.codebook = None  # [M, K, D//M] 码本
+
+    def train(self, vectors: np.ndarray):
+        """训练: 对每段做 K-Means"""
+        N, D = vectors.shape
+        assert D % self.M == 0
+        sub_dim = D // self.M  # 每段维度
+
+        # 初始化码本
+        self.codebook = np.zeros((self.M, self.K, sub_dim))
+
+        for m in range(self.M):
+            # 提取第 m 段的所有子向量
+            sub_vectors = vectors[:, m * sub_dim : (m + 1) * sub_dim]
+
+            # K-Means 聚类 (简化版: 随机采样 K 个作为初始中心)
+            indices = np.random.choice(N, self.K, replace=False)
+            centroids = sub_vectors[indices].copy()
+
+            for _ in range(20):  # 迭代 20 次
+                # 每个点归入最近中心
+                dists = np.linalg.norm(
+                    sub_vectors[:, None, :] - centroids[None, :, :],
+                    axis=2
+                )
+                labels = np.argmin(dists, axis=1)
+
+                # 更新中心
+                for k in range(self.K):
+                    mask = labels == k
+                    if mask.any():
+                        centroids[k] = sub_vectors[mask].mean(axis=0)
+
+            self.codebook[m] = centroids
+        print(f"训练完成: 码本大小 {self.codebook.nbytes / 1024:.1f} KB")
+
+    def encode(self, vectors: np.ndarray) -> np.ndarray:
+        """量化: 向量 → 压缩编码"""
+        N, D = vectors.shape
+        sub_dim = D // self.M
+        codes = np.zeros((N, self.M), dtype=np.uint8)
+
+        for m in range(self.M):
+            sub_vectors = vectors[:, m * sub_dim : (m + 1) * sub_dim]
+            dists = np.linalg.norm(
+                sub_vectors[:, None, :] - self.codebook[m][None, :, :],
+                axis=2
+            )
+            codes[:, m] = np.argmin(dists, axis=1)
+
+        return codes  # shape: (N, M), 每个元素 0-255
+
+    def search(self, query: np.ndarray, codes: np.ndarray, top_k: int = 10):
+        """ADC 搜索: 查表法计算距离"""
+        # Step 1: 计算距离表 (96 KB)
+        sub_dim = query.shape[0] // self.M
+        dist_table = np.zeros((self.M, self.K))
+        for m in range(self.M):
+            sub_q = query[m * sub_dim : (m + 1) * sub_dim]
+            # 计算 query 段到码本所有中心的 L2 距离
+            dist_table[m] = np.linalg.norm(
+                self.codebook[m] - sub_q, axis=1
+            )
+
+        # Step 2: 查表求和 (每条向量 96 次加法)
+        N = codes.shape[0]
+        distances = np.sum(dist_table[np.arange(self.M)], codes], axis=1)
+
+        # Step 3: 取 Top-K
+        top_indices = np.argpartition(distances, top_k)[:top_k]
+        top_indices = top_indices[np.argsort(distances[top_indices])]
+
+        return top_indices, distances[top_indices]
+
+
+# 使用示例
+N, D = 10000, 1536
+M = 96  # 96 段, 每段 1536/96 = 16 维
+
+# 模拟数据
+vectors = np.random.randn(N, D).astype(np.float32)
+query = np.random.randn(D).astype(np.float32)
+
+# 训练和量化
+pq = ProductQuantizer(M=M)
+pq.train(vectors)
+
+codes = pq.encode(vectors)  # (10000, 96) = 960 KB
+print(f"压缩前: {vectors.nbytes / 1024:.0f} KB")
+print(f"压缩后: {codes.nbytes / 1024:.0f} KB")
+print(f"压缩比: {vectors.nbytes / codes.nbytes:.0f}x")
+
+# 搜索
+indices, dists = pq.search(query, codes, top_k=5)
+print(f"Top-5 索引: {indices}")
+print(f"Top-5 距离: {dists}")
+```
+
+```python
+# Python 实现 - K-Means 聚类可视化理解
+from sklearn.cluster import KMeans
+import numpy as np
+
+# 模拟子空间数据: 1000 个 16 维向量
+sub_vectors = np.random.randn(1000, 16)
+
+# K-Means 聚类 (K=256)
+kmeans = KMeans(n_clusters=256, random_state=42)
+kmeans.fit(sub_vectors)
+
+# 每个点所属的簇
+labels = kmeans.labels_  # 每个值 0-255
+# 簇中心
+centroids = kmeans.cluster_centers_  # (256, 16)
+
+print(f"第一个向量的簇标签: {labels[0]}")
+print(f"第一个向量的最近中心距离: "
+      f"{np.linalg.norm(sub_vectors[0] - centroids[labels[0]]):.4f}")
+
+# 编码: 原始 16×4=64 bytes → 1 byte
+code = labels[0]  # 只需要1个byte
+print(f"原始大小: {sub_vectors[0].nbytes} bytes → 压缩后: 1 byte")
+print(f"压缩比: {sub_vectors[0].nbytes}x")
 ```
 
 ### PQ 的精度与速度权衡
