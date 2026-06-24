@@ -445,23 +445,23 @@ in the box:
 ### ① 空间：在...里面
 
 ```
-in the room      在房间里
-in the box       在盒子里
-in the city      在城市里
-in the world     在世界上
-in the water     在水里
-in the forest    在森林里
+The book is in the room.    书在房间里。（空间包围→in）
+The pen is in the box.      笔在盒子里。（容器包围→in）
+She lives in the city.      她住在城市里。（空间包围→in）
+It is famous in the world.  它在世界上很有名。（范围包围→in）
+The fish swim in the water. 鱼在水里游。（空间包围→in）
+They walk in the forest.    他们在森林里散步。（空间包围→in）
 ```
 
 ### ② 时间：在...时间段内
 
 ```
-in the morning    在早上（时间段）
-in 2024           在2024年（年份）
-in summer         在夏天（季节）
-in January        在一月（月份）
-in an hour        一小时后（未来时间段）
-in the 21st century 在21世纪
+I work in the morning.         我在早上工作。（时间段→in）
+She was born in 2024.          她出生于2024年。（时间容器→in）
+We travel in summer.           我们在夏天旅行。（时间段→in）
+It snows in January.           一月下雪。（时间容器→in）
+He will come in an hour.       他一小时后到。（时间段→in）
+We live in the 21st century.   我们生活在21世纪。（时间容器→in）
 ```
 
 **注意：** `in` 用于"大时间段"，不是具体时间点。
@@ -469,13 +469,13 @@ in the 21st century 在21世纪
 ### ③ 状态：在...状态中
 
 ```
-in trouble        在麻烦中
-in danger         在危险中
-in love           在恋爱中
-in a hurry        匆忙中
-in pain           在痛苦中
-in good condition 状态良好
-in silence        在沉默中
+He is in trouble.             他遇到麻烦了。（状态容器→in）
+The dog is in danger.         那只狗处于危险中。（状态容器→in）
+She is in love.               她在恋爱中。（状态容器→in）
+I am in a hurry.              我很匆忙。（状态容器→in）
+The patient is in pain.       病人很痛苦。（状态容器→in）
+The car is in good condition. 这辆车状况良好。（状态容器→in）
+They sit in silence.          他们沉默地坐着。（状态容器→in）
 ```
 
 **思维方式：** 状态被想象为一个"容器"。
@@ -489,151 +489,115 @@ in trouble 的画面：
       +-------------------+
 ```
 
-### ④ 范围：在...领域内
+**in vs on vs at 状态区分：**
 
 ```
-in business       在商业领域
-in science        在科学领域
-in my opinion     在我看来
-in that way       以那种方式
-in English        用英语
+in  = 状态像"水"，你泡在里面 → 自己很难脱身
+      in trouble（被麻烦包围，爬不出来）
+
+on  = 状态像"平台"，你站在上面 → 自己能走下来
+      on vacation（站在假期平台上）
+      on duty（站在值班岗位上）
+
+at  = 状态像"坐标点"，你刚好在那个位置上 → 中性标记
+      at risk（刚好在风险这个坐标点上）
+      at work（坐标点标记为"工作中"）
 ```
 
-### ⑤ 穿戴：穿着
+### ④ 主题：关于...
 
 ```
-the man in the hat   戴帽子的男人
-the girl in red      穿红衣服的女孩
+I read a book on history.             我读了一本关于历史的书。（话题表面→on）
+He gave a lecture on physics.         他做了一个关于物理的讲座。（话题表面→on）
+She wrote an article on AI.           她写了一篇关于AI的文章。（话题表面→on）
 ```
 
-### ⑥ 短语动词搭配
+**为什么用 on？**
+
+`on` 比 `about` 更正式、更深入。
+
+`on` 的画面：说话者"站在"某个话题的"表面"上进行深入探讨。
+
+### ⑤ 设备 / 媒介：在...上
 
 ```
-believe in           相信
-result in            导致
-give in             屈服
-involve in           参与
-fill in             填写
-join in             参加
-take part in        参加
+She is on the phone.         她在打电话。（媒介平台→on）
+The news is on TV.           新闻在电视上。（媒介平台→on）
+I heard it on the radio.     我在收音机上听到的。（媒介平台→on）
+Find it on the internet.     在互联网上找。（媒介平台→on）
+I work on a computer.        我在电脑上工作。（媒介平台→on）
+The app runs on a device.    这个应用在设备上运行。（媒介平台→on）
 ```
 
-## 6. 大量例句（逐词解释）
-
-**例 1：**
+### ⑥ 固定搭配
 
 ```
-The book is in the bag.
-The  book  is  in  the  bag
-那   书    在   里  那   包
-
-为什么用 in？
-书被包的内部空间包围。
-```
-
-**例 2：**
-
-```
-She is in trouble.
-She   is   in   trouble
-她    是   在   麻烦中
-
-为什么用 in？
-她被"麻烦"这个状态包围。
-不是字面的"在麻烦里面"，而是"被麻烦包围"。
-```
-
-**例 3：**
-
-```
-I will finish it in two hours.
-I    will   finish   it   in   two   hours
-我    将     完成     它   在   两    小时
-
-为什么用 in？
-把"两小时"看作一个时间段容器。
-```
-
-**例 4：**
-
-```
-He is interested in music.
-He   is   interested   in   music
-他    是   感兴趣的     在   音乐
-
-为什么用 in？
-兴趣 = 被音乐"包围/吸引"。
+It depends on the weather.                  这取决于天气。（固定搭配→on）
+You can rely on me.                         你可以依赖我。（固定搭配→on）
+He insists on going.                        他坚持要去。（固定搭配→on）
+Focus on your work.                         专注于你的工作。（固定搭配→on）
+Please comment on this.                     请评论这个。（固定搭配→on）
+I congratulate you on your success.         我祝贺你的成功。（固定搭配→on）
+The movie is based on a true story.         这部电影基于真实故事。（固定搭配→on）
+Carry on with your work.                    继续你的工作。（固定搭配→on）
+Please go on.                               请继续。（固定搭配→on）
+Hold on, please.                            请稍等。（固定搭配→on）
 ```
 
 ## 7. 常见错误
 
-### 错误 1：混淆 in 和 on 的"树"
+### 错误 1：in / on / at 时间混淆
 
 ```
-❌ The bird is on the tree.
-✅ The bird is in the tree.
-✅ There are apples on the tree.（果实长在表面用 on）
+❌ I was born in June 1st.
+✅ I was born on June 1st.
+✅ I was born in June.
+
+规则：
+on = 具体某一天
+in = 月份/年份/季节
+at = 具体时间点
 ```
 
-**区分：**
-- `in the tree` = 鸟/猫等"在枝叶间"
-- `on the tree` = 果实/叶子"在树枝表面"
-
-### 错误 2：时间上的误用
+### 错误 2：交通工具误用
 
 ```
-❌ I will meet you in 3pm.
-✅ I will meet you at 3pm.
+❌ I am on a car.
+✅ I am in a car.
+
+❌ I am in the bus.（虽可以，但不自然）
+✅ I am on the bus.
+
+规则：
+on = 可以走动的公共交通工具（bus/train/plane/ship）
+in = 封闭的小型交通工具（car/taxi/helicopter）
 ```
 
-**为什么？**
-- 3pm 是一个时间**点** → `at`
-- 时间段 → `in`
-
-### 错误 3：交通工具
+### 错误 3：on the wall vs in the wall
 
 ```
-❌ I am on the car.（除非你在车顶）
-✅ I am in the car.（你在车内被包围）
+❌ The socket is on the wall.
+✅ The socket is in the wall.
 
-❌ I am in the bus.（虽然也可以，但更常见于小车）
-✅ I am on the bus.（公交车是"可站立"的交通工具）
+❌ The painting is in the wall.
+✅ The painting is on the wall.
+
+规则：
+on the wall = 接触墙面表面（画、钟）
+in the wall = 嵌入墙内（插座、洞）
 ```
-
-**区分规则：**
-- `in` = 你被交通工具包围（小车、出租车）
-- `on` = 你可以站立/行走的交通工具（公交车、火车、飞机）
 
 ### 错误 4：中文直译
 
 ```
-❌ In the morning of Monday
-✅ On the morning of Monday
-
-为什么？
-因为 Monday 是具体的"天"，用 on。
-即使 morning 通常用 in，一旦有具体日期，优先用 on。
+❌ in the street（英式英语中，英式用 in）
+✅ on the street（美式英语中，美式用 on）
 ```
 
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-in = 3D 包围
-
-当他们说 in，他们"感觉"到：
-- 一个空间
-- 边界
-- 被包围
-
-in the room → 感觉墙壁
-in love → 感觉被情感包裹
-in time → 感觉"在时间线里面"
-```
+- 英式：`in the street`（街道是"空间"）
+- 美式：`on the street`（街道是"路面"）
 
 ---
-
 # on
 
 ## 1. 一句话核心本质
@@ -694,28 +658,28 @@ on the wall:
 
 ## 5. 所有主要用法
 
-### ① 空间：接触表面
+### ① 空间：在...上面（接触表面）
 
 ```
-on the table        在桌子上
-on the floor        在地板上
-on the wall         在墙上
-on the ceiling      在天花板上
-on the page         在页面上
-on the screen       在屏幕上
-on the surface      在表面上
+The book is on the table.      书在桌子上。（表面接触→on）
+The cat sits on the floor.     猫坐在地板上。（表面接触→on）
+The picture is on the wall.    画在墙上。（表面接触→on）
+The lamp is on the ceiling.    灯在天花板上。（表面接触→on）
+The words are on the page.     字在页面上。（表面接触→on）
+The icon is on the screen.     图标在屏幕上。（表面接触→on）
+The dust is on the surface.    灰尘在表面上。（表面接触→on）
 ```
 
-### ② 时间：在某一天或特定时间
+### ② 时间：在...（某一天）
 
 ```
-on Monday           在周一
-on Christmas Day    在圣诞节那天
-on my birthday      在我生日那天
-on June 1st         在6月1日
-on the weekend      在周末（英式）
-on that day         在那天
-on arrival          到达时
+I will see you on Monday.       我周一见你。（时间平面→on）
+We meet on Christmas Day.       我们在圣诞节见面。（时间平面→on）
+I celebrate on my birthday.     我在生日那天庆祝。（时间平面→on）
+She was born on June 1st.       她出生在6月1日。（时间平面→on）
+We relax on the weekend.        我们周末放松。（时间平面→on）
+It happened on that day.        事情发生在那天。（时间平面→on）
+I will pay on arrival.          我到达时付款。（时间平面→on）
 ```
 
 **为什么？**
@@ -733,35 +697,54 @@ Monday  Tuesday  Wednesday
 on Monday = 站在周一这个"平面"上
 ```
 
-### ③ 状态 / 活动
+### ③ 状态 / 活动：在...中
 
 ```
-on fire             在着火
-on sale             在打折
-on vacation         在度假
-on business         在出差
-on purpose          故意地
-on duty             在值班
-on air              在直播
-on the way          在路上
+The house is on fire.       房子着火了。（状态表面→on）
+The item is on sale.        商品打折中。（状态表面→on）
+We are on vacation.         我们在度假。（状态表面→on）
+He is on business.          他在出差。（状态表面→on）
+I did it on purpose.        我故意的。（状态表面→on）
+The guard is on duty.       保安在值班。（状态表面→on）
+The show is on air.         节目在直播。（状态表面→on）
+She is on the way.          她在路上。（状态表面→on）
 ```
 
-**思维方式：** 状态被想象为一个"活动的表面"。
+**思维方式：** 为什么是 `on` 不是 `in`？关键区别是状态的性质：
 
 ```
-on fire 的画面：
+in  = 状态像"水"，你泡在里面 → 自己很难脱身
+      in trouble（被麻烦包围，爬不出来）
 
-       🔥🔥🔥🔥🔥
-       🔥 物体 🔥  ← 火焰覆盖物体表面
-       🔥🔥🔥🔥🔥
+on  = 状态像"平台/表面"，你和它接触 → 自己能走下来
+      on vacation（站在假期平台上）
+      on duty（站在值班岗位上）
+      on fire（火焰覆盖房子表面）
 ```
 
-### ④ 主题 / 关于
+
+
+**in vs on vs at 状态区分：**
 
 ```
-a book on history      一本关于历史的书
-a lecture on physics   关于物理的讲座
-an article on AI       关于AI的文章
+in  = 状态像"水"，你泡在里面 → 自己很难脱身
+      in trouble（被麻烦包围，爬不出来）
+
+on  = 状态像"平台"，你站在上面 → 自己能走下来
+      on vacation（站在假期平台上）
+      on duty（站在值班岗位上）
+
+at  = 状态像"坐标点"，你刚好在那个位置上 → 中性标记
+      at risk（刚好在风险这个坐标点上）
+      at work（坐标点标记为"工作中"）
+```
+
+### ④ 主题：关于...
+
+```
+I read a book on history.        我读了一本关于历史的书。（话题表面→on）
+She gave a lecture on physics.   她做了一个关于物理的讲座。（话题表面→on）
+He wrote an article on AI.       他写了一篇关于AI的文章。（话题表面→on）
 ```
 
 **为什么用 on？**
@@ -770,92 +753,30 @@ an article on AI       关于AI的文章
 
 `on` 的画面：说话者"站在"某个话题的"表面"上进行深入探讨。
 
-### ⑤ 设备 / 媒介
+### ⑤ 设备 / 媒介：在...上
 
 ```
-on the phone         在电话上
-on TV                在电视上
-on the radio         在收音机上
-on the internet      在互联网上
-on a computer        在电脑上
-on a device          在设备上
+She is on the phone.        她在打电话。（媒介平台→on）
+The news is on TV.          新闻在电视上。（媒介平台→on）
+I heard it on the radio.    我在收音机上听到的。（媒介平台→on）
+We met on the internet.     我们在互联网上认识的。（媒介平台→on）
+He works on a computer.     他在电脑上工作。（媒介平台→on）
+The app runs on a device.   应用在设备上运行。（媒介平台→on）
 ```
 
 ### ⑥ 固定搭配
 
 ```
-depend on            取决于
-rely on              依赖
-insist on            坚持
-focus on             专注于
-comment on           评论
-congratulate on      祝贺
-based on             基于
-carry on             继续
-go on                继续
-hold on              稍等
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-The cat is on the roof.
-The  cat   is   on   the   roof
-那   猫    是   在   那   屋顶
-
-为什么用 on？
-猫接触屋顶的表面。
-```
-
-**例 2：**
-
-```
-I will see you on Friday.
-I    will   see   you   on   Friday
-我    会     见    你    在   周五
-
-为什么用 on？
-周五被想象为一个"时间平面"。
-```
-
-**例 3：**
-
-```
-The house is on fire.
-The  house   is   on   fire
-那   房子    是   在   火
-
-为什么用 on？
-火焰像"表面"一样覆盖房子。
-
-不是 in fire！
-因为火是在表面燃烧，不是在房子内部。
-```
-
-**例 4：**
-
-```
-She is on the phone.
-She   is   on   the   phone
-她    是   在   那   电话
-
-为什么用 on？
-她在"使用"电话这个平台。
-
-画面：她在"站在"电话这一沟通平台上。
-```
-
-**例 5：**
-
-```
-He depends on his parents.
-He   depends   on   his   parents
-他    依赖      于   他的   父母
-
-抽象用法：
-依赖 = 把支撑的重心"放"在某个表面上。
+We depend on you.           我们取决于你。（固定搭配→on）
+You can rely on me.         你可以依赖我。（固定搭配→on）
+He insists on going.        他坚持要去。（固定搭配→on）
+Focus on your goal.         专注于你的目标。（固定搭配→on）
+She commented on the post.  她评论了帖子。（固定搭配→on）
+I congratulate on your success.  祝贺你的成功。（固定搭配→on）
+This is based on facts.     这是基于事实的。（固定搭配→on）
+Carry on with your work.    继续你的工作。（固定搭配→on）
+Go on, tell me more.        继续说，告诉我更多。（固定搭配→on）
+Hold on a moment.           稍等一下。（固定搭配→on）
 ```
 
 ## 7. 常见错误
@@ -910,25 +831,6 @@ in the wall = 嵌入墙内（插座、洞）
 
 - 英式：`in the street`（街道是"空间"）
 - 美式：`on the street`（街道是"路面"）
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-on = 接触 + 表面
-
-当他们说 on，他们"感觉"到：
-- 一个平面
-- 接触感
-- 支撑感
-- 覆盖感
-
-on the table → 感觉桌面的支撑
-on TV → 感觉"在屏幕表面"显示
-on Monday → 感觉"站在"那一天
-on fire → 感觉火焰覆盖表面
-```
 
 ---
 
@@ -1004,27 +906,27 @@ in the station → 车站是一个"建筑空间"（强调在里面）
 ### ① 空间：在一个点
 
 ```
-at the bus stop      在公交站（那个点）
-at the door          在门口处
-at the corner        在拐角处
-at the intersection  在十字路口
-at the entrance      在入口处
-at the top/bottom    在顶部/底部
-at the end           在末端
-at my desk           在我的书桌前
+I wait at the bus stop.          我在公交站等。（空间点→at）
+He is at the door.               他在门口。（空间点→at）
+The store is at the corner.      商店在拐角处。（空间点→at）
+Turn left at the intersection.   在十字路口左转。（空间点→at）
+Meet me at the entrance.         在入口处见我。（空间点→at）
+The name is at the top.          名字在顶部。（空间点→at）
+Sit at the end.                  坐在末端。（空间点→at）
+She sits at my desk.             她坐在我的书桌前。（空间点→at）
 ```
 
 ### ② 时间：在具体时间点
 
 ```
-at 3 o'clock         在3点
-at noon              在中午
-at midnight          在午夜
-at sunrise           在日出时
-at the moment        在此刻
-at present           目前
-at that time         在那时
-at night             在夜晚
+The class starts at 3 o'clock.   课在3点开始。（时间点→at）
+We eat lunch at noon.            我们在中午吃午饭。（时间点→at）
+The party ends at midnight.      派对在午夜结束。（时间点→at）
+I wake up at sunrise.            我在日出时起床。（时间点→at）
+He is busy at the moment.        他此刻很忙。（时间点→at）
+At present, she is away.         目前，她不在。（时间点→at）
+I was at school at that time.    那时我在上学。（时间点→at）
+They sleep at night.             他们在夜晚睡觉。（时间点→at）
 ```
 
 **规则：**
@@ -1038,17 +940,17 @@ on Monday    → 一天
 in June      → 时间段
 ```
 
-### ③ 状态 / 情况
+### ③ 状态 / 情况：在...状态
 
 ```
-at risk              在风险中
-at war               在战争中
-at peace             在和平中
-at work              在工作
-at play              在玩耍
-at rest              在休息
-at ease              在放松
-at a disadvantage    处于劣势
+The project is at risk.          项目处于风险中。（状态点→at）
+The country is at war.           这个国家在战争中。（状态点→at）
+The nations are at peace.        这些国家处于和平状态。（状态点→at）
+She is at work.                  她在工作。（状态点→at）
+The children are at play.        孩子们在玩耍。（状态点→at）
+The cat is at rest.              猫在休息。（状态点→at）
+He feels at ease.                他感到放松。（状态点→at）
+Our team is at a disadvantage.   我们队处于劣势。（状态点→at）
 ```
 
 **思维方式：** 状态被看作"一个点"。
@@ -1063,100 +965,63 @@ at risk 的画面：
       ● ← 你在这个"风险点"上
 ```
 
-### ④ 年龄 / 速度 / 价格
+**in vs on vs at 状态区分：**
 
 ```
-at the age of 18     在18岁时
-at 60 mph            以60英里/小时
-at a good price      以好价格
-at full speed        全速
-at least             至少
-at most              至多
+in  = 状态像"水"，你泡在里面 → 自己很难脱身
+      in trouble（被麻烦包围，爬不出来）
+
+on  = 状态像"平台"，你站在上面 → 自己能走下来
+      on vacation（站在假期平台上，假期结束就走下来）
+      on duty（站在值班岗位上，换班就走）
+
+at  = 状态像"坐标点"，你刚好在那个位置上 → 中性，不强调能否脱身
+      at risk（刚好在风险这个坐标点上）
+      at work（坐标点标记为"工作中"）
+      at rest（坐标点标记为"休息中"）
+      → at 只是告诉你"当前位置的标签是什么"，不像 in 那样困住你，
+        也不像 on 那样有"站上去/走下来"的活动感
 ```
 
-### ⑤ 能力 / 技能
+**一句话总结：**
 
 ```
-good at math         擅长数学
-bad at sports        不擅长运动
-expert at cooking    烹饪专家
-skill at             熟练于
+in trouble  = 你被麻烦困住了（在容器里）
+on vacation = 你站在假期平台上（随时可以计划结束）
+at risk     = 你的标签是"有风险"（只是一个位置标记）
+```
+
+### ④ 年龄 / 速度 / 价格：在...数值
+
+```
+He learned to drive at the age of 18.  他18岁时学会了开车。（数值点→at）
+The car runs at 60 mph.                这辆车以60英里/小时行驶。（数值点→at）
+I bought it at a good price.           我以好价格买到的。（数值点→at）
+She runs at full speed.                她全速奔跑。（数值点→at）
+You should drink at least 8 glasses of water.  你至少应该喝8杯水。（数值点→at）
+It costs at most ten dollars.          它至多十美元。（数值点→at）
+```
+
+### ⑤ 能力 / 技能：擅长...
+
+```
+She is good at math.         她擅长数学。（能力点→at）
+He is bad at sports.         他不擅长运动。（能力点→at）
+She is expert at cooking.    她是烹饪专家。（能力点→at）
+He has skill at painting.    他擅长绘画。（能力点→at）
 ```
 
 ### ⑥ 固定搭配
 
 ```
-at first             起初
-at last              终于
-at once              立刻
-at times             有时
-at all               完全（否定句）
-at least             至少
-at the same time     同时
-at the moment        此刻
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-I will meet you at the station.
-I    will   meet   you   at   the   station
-我    会     接    你    在   那   车站
-
-为什么用 at？
-车站被看作"会合地点"这个点。
-
-如果用 in：
-in the station = 在车站建筑内部
-at the station = 在车站那个地点（不一定是建筑内部）
-```
-
-**例 2：**
-
-```
-She is good at playing piano.
-She   is   good   at   playing   piano
-她    是   擅长    在   弹        钢琴
-
-为什么用 at？
-"在某一点上擅长"。
-
-画面：她的能力聚焦在"弹钢琴"这个点上。
-```
-
-**例 3：**
-
-```
-The meeting starts at 2pm.
-The  meeting   starts   at   2pm
-那   会议      开始     在   2点
-
-为什么用 at？
-2点是时间轴上的精确点。
-```
-
-**例 4：**
-
-```
-He is at work right now.
-He   is   at   work   right   now
-他    是   在   工作    此刻
-
-为什么用 at？
-"工作"被看作一个活动"点"。
-```
-
-**例 5：**
-
-```
-At first, I didn't understand.
-At   first   I   didn't   understand
-在   起初    我    没有     理解
-
-为什么用 at？
-"起初"被看作时间线上的"起点"。
+At first, I was nervous.              起初，我很紧张。（固定搭配→at）
+At last, we arrived.                  我们终于到了。（固定搭配→at）
+Come here at once.                    立刻过来。（固定搭配→at）
+At times, it rains heavily.           有时雨下得很大。（固定搭配→at）
+I do not like it at all.              我一点也不喜欢。（固定搭配→at）
+It costs at least five dollars.       它至少五美元。（固定搭配→at）
+They talk at the same time.           他们同时说话。（固定搭配→at）
+He is reading at the moment.          他此刻在读书。（固定搭配→at）
 ```
 
 ## 7. 常见错误
@@ -1214,24 +1079,6 @@ at + 小地点（车站、机场、学校等）
 飞机到达可以说：
 The flight arrives at Beijing Airport.（具体机场点）
 The flight arrives in Beijing.（进入城市空间）
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-at = 一个点（point）
-
-当他们说 at，他们"感觉"到：
-- 精确性
-- 定位
-- 没有范围
-- 聚焦
-
-at the corner → 精确到那个转角
-at 3 o'clock → 精确到那个时刻
-at risk → 正好在那个风险点上
 ```
 
 ---
@@ -1312,45 +1159,45 @@ I bought it FOR him.
 ### ① 方向 / 运动：到...去
 
 ```
-go to school         去学校
-walk to the park     走到公园
-drive to work        开车去上班
-fly to London        飞到伦敦
-return to home       回家
-come to me           到我这里来
-travel to Japan      去日本旅行
-move to the city     搬到城市
+I go to school every day.        我每天去学校。（方向到达→to）
+She walks to the park.           她走到公园。（运动方向→to）
+He drives to work every morning.    他每天早上开车去上班。（运动方向→to）
+They fly to London tomorrow.        他们明天飞到伦敦。（运动方向→to）
+She returns home at 6pm.            她下午6点回家。
+Come to me.                         到我这里来。（方向到达→to）
+She wants to travel to Japan.       她想去日本旅行。（运动方向→to）
+We moved to the city last year.     我们去年搬到了城市。（方向到达→to）
 ```
 
 ### ② 接收者：给...
 
 ```
-give it to me        把它给我
-send a letter to him 寄信给他
-tell a story to her  给她讲故事
-explain it to me     向我解释
-show it to us        展示给我们看
-offer help to them   向他们提供帮助
+Please give it to me.              请把它给我。（接收方向→to）
+I send a letter to him.            我寄信给他。（转移方向→to）
+She tells a story to her daughter.   她给女儿讲故事。（接收方向→to）
+Explain it to me, please.            请向我解释。（转移方向→to）
+Show it to us.                       展示给我们看。（转移方向→to）
+They offer help to them.             他们向他们提供帮助。（转移方向→to）
 ```
 
 ### ③ 时间：到...为止
 
 ```
-from Monday to Friday  从周一到周五
-work from 9 to 5       从9点工作到5点
-to this day            到今天为止
-ten minutes to five    差十分到五点
+The store is open from Monday to Friday.    商店从周一到周五营业。（时间方向→to）
+I work from 9 to 5.                         我从9点工作到5点。（时间方向→to）
+To this day, I still remember.              到今天为止，我还记得。（时间方向→to）
+It's ten minutes to five.                   现在差十分到五点。（时间方向→to）
 ```
 
-### ④ 变化 / 结果
+### ④ 变化 / 结果：变为...
 
 ```
-change to             改变为
-turn to               转变为
-change from A to B    从A变成B
-increase to 100       增加到100
-reduce to zero        减少到零
-bring to an end       带到终点
+The color changed to red.             颜色变成了红色。（变化方向→to）
+Water turns to ice below 0°C.           水在零度以下变成冰。（变化方向→to）
+The weather changed from sunny to rainy.  天气从晴转雨。（变化方向→to）
+The number increased to 100.             数量增加到100。（变化方向→to）
+The amount reduced to zero.              数量减少到零。（变化方向→to）
+They brought the meeting to an end.      他们结束了会议。（变化方向→to）
 ```
 
 ### ⑤ 目的：为了...
@@ -1362,104 +1209,28 @@ I came to help you.  我来是为了帮你。（不定式）
 I look forward to your reply. 我期待你的回复。（介词 to + 名词）
 ```
 
-### ⑥ 比较 / 关系
+### ⑥ 比较 / 关系：对...
 
 ```
-prefer A to B        比起B更喜欢A
-compare A to B        把A比作B
-similar to            类似于
-equal to              等于
-related to            与...相关
-important to          对...重要
-used to               习惯于
+I prefer tea to coffee.               比起咖啡我更喜欢茶。（指向关系→to）
+She compared the book to a movie.      她把这本书比作一部电影。（指向关系→to）
+This color is similar to blue.         这个颜色类似于蓝色。（指向关系→to）
+Two plus two is equal to four.         二加二等于四。（指向关系→to）
+This problem is related to money.      这个问题与钱相关。（指向关系→to）
+This is important to me.               这对我很重要。（指向关系→to）
+I am used to the cold weather.         我习惯了寒冷的天气。（指向关系→to）
 ```
 
 ### ⑦ 固定搭配
 
 ```
-look forward to       期待
-according to          根据
-due to                由于
-thanks to             多亏了
-lead to               导致
-belong to             属于
-add to                增加到
-```
-
-## 7. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-I go to school every day.
-I    go   to   school   every   day
-我    去   到   学校     每天
-
-为什么用 to？
-从家到学校，有方向和目的地。
-
-画面：
-家 -----→ 学校（每天重复的移动）
-```
-
-**例 2：**
-
-```
-Please give this book to Mary.
-Please   give   this   book   to   Mary
-请        给     这      书     给  玛丽
-
-为什么用 to？
-书从"我"转移到"Mary"。
-
-画面：
-我 ---书---→ Mary
-      ↑
-   转移方向
-```
-
-**例 3：**
-
-```
-This is important to me.
-This   is   important   to   me
-这      是    重要       对   我
-
-为什么用 to？
-"重要性"指向"我"这个方向。
-
-画面：
-[重要] ----→ 我
-           ↑
-        指向我
-```
-
-**例 4：**
-
-```
-It's ten minutes to five.
-It's   ten   minutes   to   five
-现在   十    分钟       到   五点
-
-为什么用 to？
-时间正在"走向"5点。
-
-画面：
-4:50 ---10分钟---→ 5:00
-```
-
-**例 5：**
-
-```
-Lead to success.
-Lead   to   success
-带领   到    成功
-
-抽象用法：
-成功被看作"目的地"，努力是"通往"的路。
-
-画面：
-努力 -----→ 成功
+I look forward to your visit.            我期待你的来访。（固定搭配→to）
+According to the news, it will rain.     根据新闻，天会下雨。（固定搭配→to）
+The game was canceled due to rain.       比赛因雨取消。（固定搭配→to）
+Thanks to your help, I finished early.   多亏了你的帮助，我早早完成了。（固定搭配→to）
+This road leads to the station.          这条路通往车站。（固定搭配→to）
+This book belongs to me.                 这本书属于我。（固定搭配→to）
+Please add sugar to the coffee.          请往咖啡里加糖。（固定搭配→to）
 ```
 
 ## 8. 常见错误
@@ -1508,24 +1279,6 @@ look forward to 中 to 是介词，
 区分：
 to + 动词原形 = 不定式
 to + 名词/-ing = 介词
-```
-
-## 9. 母语者思维
-
-```
-母语者脑中：
-
-to = 方向箭头 + 到达目标
-
-当他们说 to，他们"感觉"到：
-- 一条路径
-- 指向目标
-- 到达感
-- 转移感
-
-go to school → 路 + 学校（目的地）
-give to me → 物品在空间中移动到我
-important to me → 重要性指向我
 ```
 
 ---
@@ -1617,159 +1370,85 @@ I bought this for you:
 
 ## 6. 所有主要用法
 
-### ① 目的 / 用途
+### ① 目的 / 用途：为了...
 
 ```
-for sale              为了出售
-for rent              为了出租
-for breakfast         作为早餐
-for example           例如
-for this reason       因为这个原因
-used for cooking      用于烹饪
-study for the exam    为考试学习
-go for a walk         去散步
+The house is for sale.                这房子出售。（目的用途→for）
+This apartment is for rent.           这公寓出租。（目的用途→for）
+I eat eggs for breakfast.             我早餐吃鸡蛋。（目的用途→for）
+For example, look at this one.        例如，看这个。（目的用途→for）
+For this reason, I agreed.            因为这个原因，我同意了。（目的用途→for）
+This knife is used for cooking.       这把刀用于烹饪。（目的用途→for）
+She studies for the exam every night.   她每晚为考试学习。（目的用途→for）
+Let's go for a walk after dinner.      我们晚饭后去散步吧。（目的用途→for）
 ```
 
-### ② 受益者
+### ② 受益者：为...
 
 ```
-for you               为了你
-for me                为了我
-for the team          为了团队
-for the company       为了公司
-for my family         为了我的家人
-do it for yourself    为了自己做
+I bought this gift for you.          我买了这个礼物给你。（为了受益→for）
+She did it for me.                    她为了我做了这件事。（为了受益→for）
+He works hard for the team.           他为团队努力工作。（为了受益→for）
+I work for the company.               我为这家公司工作。（为了受益→for）
+She cares for my family.              她关心我的家人。（为了受益→for）
+You should do it for yourself.        你应该为了自己做。（为了受益→for）
 ```
 
-### ③ 交换 / 价格
+### ③ 交换 / 价格：以...换
 
 ```
-buy for $10           用10美元买
-sell for $100         以100美元卖
-pay for the meal      付餐费
-exchange A for B      用A换B
-substitute for        替代
+I bought this book for $10.         我用10美元买了这本书。（等价交换→for）
+She sold her bike for $100.           她以100美元卖了她的自行车。（等价交换→for）
+I pay for the meal.                   我付餐费。（等价交换→for）
+Can I exchange this for a larger one?   我能把这个换个大号吗？（等价交换→for）
+You can substitute honey for sugar.    你可以用蜂蜜代替糖。（等价交换→for）
 ```
 
-### ④ 时间 / 距离
+### ④ 时间 / 距离：持续...
 
 ```
-for two hours         持续两小时
-for a week            持续一周
-for a long time       很长时间
-for miles             数英里
-walk for 5km          走5公里
+I waited for two hours.              我等了两小时。（持续长度→for）
+She stayed there for a week.          她在那里待了一周。（持续长度→for）
+I haven't seen him for a long time.   我很久没见他了。（持续长度→for）
+We can see for miles from here.      从这里能看到数英里远。（持续长度→for）
+We walked for 5 kilometers.           我们走了5公里。（持续长度→for）
 ```
 
-### ⑤ 支持 / 赞成
+### ⑤ 支持 / 赞成：支持...
 
 ```
-vote for              投票支持
-stand for             代表
-be for something       支持某事
-I'm for the plan.     我支持这个计划。
+I will vote for her.                  我会投票支持她。（支持立场→for）
+What does this symbol stand for?       这个符号代表什么？（支持立场→for）
+I am for the new policy.               我支持新政策。（支持立场→for）
+I'm for the plan.                      我支持这个计划。（支持立场→for）
 ```
 
-### ⑥ 原因
+### ⑥ 原因：因为...
 
 ```
-famous for            因...出名
-sorry for             为...抱歉
-thank you for         因...感谢
-punish for            因...惩罚
-cry for joy           因为高兴而哭
+This city is famous for its food.          这个城市因美食出名。（原因理由→for）
+I am sorry for being late.                  我为迟到抱歉。（原因理由→for）
+Thank you for your help.                    感谢你的帮助。（原因理由→for）
+The teacher punished him for cheating.       老师因作弊惩罚了他。（原因理由→for）
+She cried for joy when she heard the news.  她听到消息高兴得哭了。（原因理由→for）
 ```
 
 ### ⑦ 固定搭配
 
 ```
-look for              寻找
-wait for              等待
-ask for               请求
-hope for              希望
-care for              关心
-apply for             申请
-search for            搜索
-prepare for           准备
-account for           解释
-blame for             责备
-for example           例如
-for instance          例如
-for the first time    第一次
-```
-
-## 7. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-This gift is for you.
-This   gift   is   for   you
-这     礼物   是   给    你
-
-为什么用 for？
-你是受益者，礼物是"为了你"的。
-
-画面：
-[礼物] ----→ 你（你受益）
-```
-
-**例 2：**
-
-```
-I am looking for my keys.
-I   am   looking   for   my   keys
-我   在    寻找      找   我的  钥匙
-
-为什么用 for？
-寻找 = "为了"找到。
-
-画面：
-视野扫描 ---为了--> 找到钥匙
-```
-
-**例 3：**
-
-```
-I paid $10 for this book.
-I   paid   $10   for   this   book
-我   付了   10元   换    这个   书
-
-为什么用 for？
-$10 和书之间是"交换"关系。
-
-画面：
-[$10] ----- 交换 ----- [书]
-            for
-```
-
-**例 4：**
-
-```
-She studied for three hours.
-She   studied   for   three   hours
-她     学习了   长达   三个    小时
-
-为什么用 for？
-三个小时是"为了"学习而度过的时间。
-
-画面：
-学习 ──────── 时间盒子 ────────→
-        3小时（for = 持续时间）
-```
-
-**例 5：**
-
-```
-Thank you for your help.
-Thank   you   for   your   help
-感谢    你     因为   你的   帮助
-
-为什么用 for？
-你的帮助是"感谢的原因"。
-
-画面：
-感谢 -----因为----→ 你的帮助（原因）
+I am looking for my keys.                我在找我的钥匙。（固定搭配→for）
+Please wait for me.                       请等我。（固定搭配→for）
+She asked for help.                       她请求帮助。（固定搭配→for）
+We hope for good weather.                 我们希望有好天气。（固定搭配→for）
+She cares for her grandmother.            她关心她的奶奶。（固定搭配→for）
+I applied for the job.                    我申请了这份工作。（固定搭配→for）
+The police are searching for the man.     警察在搜索那个男人。（固定搭配→for）
+I need to prepare for the exam.           我需要准备考试。（固定搭配→for）
+How do you account for the mistake?       你怎么解释这个错误？（固定搭配→for）
+Don't blame me for the accident.          不要为事故责备我。（固定搭配→for）
+For example, take this situation.         例如，拿这个情况来说。（固定搭配→for）
+For instance, look at this case.          例如，看这个案例。（固定搭配→for）
+For the first time, I felt happy.         第一次，我感到开心。（固定搭配→for）
 ```
 
 ## 8. 常见错误
@@ -1839,25 +1518,6 @@ search + 地点 = 搜索某个地方
 search for + 物品 = 寻找某物
 ```
 
-## 9. 母语者思维
-
-```
-母语者脑中：
-
-for = 目的 / 受益 / 交换 / 替代
-
-当他们说 for，他们"感觉"到：
-- 一个目标
-- 一种受益关系
-- 一种等价交换
-- 一个支持/代表的关系
-
-for you → 你受益
-for money → 为了钱这个目标
-for 2 hours → 时间流逝为了等待
-for $10 → 等价交换
-```
-
 ---
 
 # from
@@ -1922,47 +1582,41 @@ Beijing ────────────→ Shanghai
 
 ## 5. 所有主要用法
 
-### ① 空间起点
+### ① 空间起点：从...
 
 ```
-come from Beijing        从北京来
-from here to there       从这里到那里
-from the top to bottom   从顶部到底部
-walk from home           从家出发走
-depart from               从...出发
-from the beginning       从一开始
+She comes from Beijing.                  她从北京来。（空间起点→from）
+Walk from here to there.                 从这里走到那里。（空间起点→from）
+Clean it from the top to the bottom.     从顶部到底部清理。（空间起点→from）
+I walk from home to school every day.    我每天从家走去学校。（空间起点→from）
+The train departs from platform 3.       火车从3站台出发。（空间起点→from）
+Let's start from the beginning.          让我们从一开始。（空间起点→from）
 ```
 
-### ② 时间起点
+### ② 时间起点：从...
 
 ```
-from Monday to Friday    从周一到周五
-from 9am to 5pm          从早上9点到下午5点
-from now on              从现在开始
-from childhood           从童年起
-from the start           从一开始
-from 1990 to 2020        从1990到2020
+The store is open from Monday to Friday.    商店从周一到周五营业。（时间起点→from）
+I work from 9am to 5pm.                     我从早上9点工作到下午5点。（时间起点→from）
+From now on, I will be careful.             从现在开始，我会小心。（时间起点→from）
+She has loved music from childhood.          她从童年起就热爱音乐。（时间起点→from）
+From the start, he was honest.               从一开始，他就是诚实的。（时间起点→from）
+She lived in London from 1990 to 2020.       她从1990到2020年住在伦敦。（时间起点→from）
 ```
 
-### ③ 来源 / 起源
+### ③ 来源 / 起源：来自...
 
 ```
-from John                来自约翰
-from China               来自中国
-from my mother           来自我母亲
-quote from a book        引自一本书
-borrow from               从...借
-steal from                从...偷
-a letter from home        家信
+This gift is from John.                      这个礼物来自约翰。（来源出处→from）
+I am from China.                              我来自中国。（来源出处→from）
+This ring was from my mother.                 这枚戒指来自我母亲。（来源出处→from）
+She quoted a line from a book.                她引用了书中的一句话。（来源出处→from）
+Can I borrow money from you?                  我能向你借钱吗？（来源出处→from）
+Someone stole money from my wallet.            有人从我钱包里偷了钱。（来源出处→from）
+I received a letter from home.                 我收到一封家信。（来源出处→from）
 ```
 
-### ④ 材料 / 组成
-
-```
-made from wood           用木头做的
-made from recycled materials  由回收材料制成
-from flour and water     用面粉和水
-```
+### ④ 材料 / 组成：由...制成
 
 **注意：** `made from` vs `made of`：
 - `made from` = 原材料本质改变（看不到原样）
@@ -1973,127 +1627,52 @@ Paper is made FROM wood.（木头变成纸，看不到原样）
 The table is made OF wood.（还能看出是木头）
 ```
 
-### ⑤ 原因 / 因为
+### ⑤ 原因 / 因为：因...
 
 ```
-suffer from             遭受
-die from                死于
-tired from              因...而累
-from what I know        据我所知
-act from kindness       出于善意行事
+She suffers from headaches.                     她遭受头痛的困扰。（原因来源→from）
+He died from a heart attack.                    他死于心脏病发作。（原因来源→from）
+I am tired from running.                        我因跑步而累。（原因来源→from）
+From what I know, she is honest.                据我所知，她是诚实的。（原因来源→from）
+She acted from kindness.                        她出于善意行事。（原因来源→from）
 ```
 
-### ⑥ 分离 / 区别
+### ⑥ 分离 / 区别：与...不同
 
 ```
-different from          与...不同
-separate from           与...分离
-far from                远离
-away from               离开
-free from               免于
-protect from            保护免受
-prevent from            阻止
-stop from               阻止
-hide from               躲避
-resign from             辞职
-dismiss from            解雇
+This is different from that one.                 这个与那个不同。（分离区别→from）
+She separated from her husband.                  她与丈夫分开了。（分离区别→from）
+The school is far from my house.                  学校远离我家。（分离区别→from）
+Stay away from the fire.                          远离火源。（分离区别→from）
+The country is free from war now.                 这个国家现在免于战争。（分离区别→from）
+Sunscreen protects you from the sun.             防晒霜保护你免受日晒。（分离区别→from）
+The rain prevented us from going out.             雨阻止了我们外出。（分离区别→from）
+Nothing can stop me from trying.                  没有什么能阻止我尝试。（分离区别→from）
+The child hid from his mother.                    孩子躲避他的母亲。（分离区别→from）
+She decided to resign from her job.               她决定辞职。（分离区别→from）
+The boss dismissed him from the company.           老板把他从公司解雇了。（分离区别→from）
 ```
 
-### ⑦ 范围
+### ⑦ 范围：从...到...
 
 ```
-from ... to ...
-from 1 to 10            从1到10
-from A to Z             从A到Z
-from head to toe        从头到脚
-from start to finish    从头到尾
+Count from 1 to 10.                         从1数到10。（范围起始→from）
+She knows the alphabet from A to Z.          她从A到Z都认识字母。（范围起始→from）
+She was dressed from head to toe in black.   她从头到脚穿着黑色。（范围起始→from）
+He read the book from start to finish.       他从头到尾读了这本书。（范围起始→from）
 ```
 
 ### ⑧ 固定搭配
 
 ```
-from then on            从那时起
-from now on             从现在起
-from time to time       时不时
-from day to day         一天又一天
-from my point of view   从我的角度看
-from scratch            从零开始
-from memory             凭记忆
-from experience         从经验中
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-I am from China.
-I   am   from   China
-我   是   来自   中国
-
-为什么用 from？
-China 是"来源点"。
-
-画面：
-我 ←---- 来自 ---- 中国
-              from
-```
-
-**例 2：**
-
-```
-She suffers from headaches.
-She   suffers   from   headaches
-她    遭受      因为    头痛
-
-为什么用 from？
-头痛是"痛苦的来源"。
-
-画面：
-痛苦 ←---- 来自 ---- 头痛
-```
-
-**例 3：**
-
-```
-This letter is from my mother.
-This   letter   is   from   my   mother
-这      信      是   来自   我的  母亲
-
-为什么用 from？
-母亲是信的来源/发出者。
-
-画面：
-母亲 ---from---→ 信 ---→ 我
-```
-
-**例 4：**
-
-```
-It is different from what I expected.
-It   is   different   from   what   I   expected
-它    是    不同的     与     什么   我   期望的
-
-为什么用 from？
-差异 = "分离"。
-
-画面：
-现实 ←--不同/分离--→ 期望
-                from
-```
-
-**例 5：**
-
-```
-The train from London arrives at 3pm.
-The   train   from   London   arrives   at   3pm
-那    火车   从     伦敦      到达      在   3点
-
-为什么用 from？
-伦敦是火车旅程的"起点"。
-
-画面：
-伦敦 ---from---→ 火车 ---→ 此处（3pm到达）
+From then on, they were friends.                 从那时起，他们成了朋友。（固定搭配→from）
+From now on, I will exercise every day.          从现在起，我会每天锻炼。（固定搭配→from）
+She visits me from time to time.                  她时不时来看我。（固定搭配→from）
+The weather changes from day to day.             天气一天又一天变化。（固定搭配→from）
+From my point of view, this is fair.              从我的角度看，这是公平的。（固定搭配→from）
+She built the business from scratch.              她从零开始建立了这个事业。（固定搭配→from）
+He recited the poem from memory.                  他凭记忆背诵了这首诗。（固定搭配→from）
+I know this from experience.                      我从经验中知道这一点。（固定搭配→from）
 ```
 
 ## 7. 常见错误
@@ -2143,25 +1722,6 @@ from = 来源
 
 The gift is from my mother.（来源）
 The gift was given by my mother.（行为者）
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-from = 起点 + 来源 + 分离
-
-当他们说 from，他们"感觉"到：
-- 离开一个点
-- 一个来源/源头
-- 拉开的距离
-- 因果关系（原因来自...）
-
-from China → 离开中国这个起点
-from my mother → 源头是我母亲
-different from → 两者之间的距离/分离
-suffer from → 痛苦的来源
 ```
 
 ---
@@ -2223,175 +1783,98 @@ I cut the paper with scissors:
 
 ## 5. 所有主要用法
 
-### ① 伴随
+### ① 伴随：和...一起
 
 ```
-go with someone        和某人一起去
-come with me             跟我一起来
-stay with                 和...一起待
-work with                 和...一起工作
-live with                 和...一起住
-play with                和...一起玩
-talk with                和...交谈
-agree with               同意某人
-along with               和...一起
-together with            和...一起
+I go with my friend.           我和朋友一起去。（伴随一起→with）
+She comes with me.             她跟我一起来。（伴随一起→with）
+He stays with his family.      他和家人一起待。（伴随一起→with）
+I work with my team.           我和团队一起工作。（伴随一起→with）
+She lives with her parents.    她和父母一起住。（伴随一起→with）
+The kids play with the dog.    孩子们和狗一起玩。（伴随一起→with）
+I talk with my teacher.        我和老师交谈。（伴随一起→with）
+I agree with you.              我同意你。（伴随一起→with）
+I sing along with the music.   我随着音乐一起唱。（伴随一起→with）
+We go together with them.      我们和他们一起去。（伴随一起→with）
 ```
 
-### ② 工具 / 方式
+### ② 工具 / 方式：用...
 
 ```
-write with a pen         用笔写
-cut with a knife         用刀切
-eat with chopsticks      用筷子吃饭
-hit with a stick         用棍子打
-open with a key          用钥匙打开
-see with your eyes       用眼睛看
-hear with your ears      用耳朵听
-with patience            耐心地
-with care                小心地
-with pleasure            愉快地
+I write with a pen.            我用笔写。（工具方式→with）
+She cuts with a knife.         她用刀切。（工具方式→with）
+He eats with chopsticks.       他用筷子吃饭。（工具方式→with）
+He hits the ball with a stick. 他用棍子打球。（工具方式→with）
+She opens the door with a key. 她用钥匙打开门。（工具方式→with）
+I see with my eyes.            我用眼睛看。（工具方式→with）
+I hear with my ears.           我用耳朵听。（工具方式→with）
+She waits with patience.       她耐心地等待。（工具方式→with）
+He drives with care.           他小心地开车。（工具方式→with）
+I accept with pleasure.        我愉快地接受。（工具方式→with）
 ```
 
-### ③ 特征 / 状态
+### ③ 特征 / 状态：带有...
 
 ```
-a man with a hat         戴帽子的男人
-a girl with blue eyes    蓝眼睛的女孩
-a room with a view      有风景的房间
-a house with a garden    带花园的房子
-a person with experience 有经验的人
-with confidence          有自信地
-with difficulty          困难地
+I see a man with a hat.             我看见一个戴帽子的男人。（特征伴随→with）
+She is a girl with blue eyes.       她是一个蓝眼睛的女孩。（特征伴随→with）
+I want a room with a view.          我想要一个有风景的房间。（特征伴随→with）
+He has a house with a garden.       他有一栋带花园的房子。（特征伴随→with）
+We need a person with experience.   我们需要一个有经验的人。（特征伴随→with）
+He speaks with confidence.          他有自信地说话。（特征伴随→with）
+She walks with difficulty.          她困难地行走。（特征伴随→with）
 ```
 
-### ④ 关系 / 连接
+### ④ 关系 / 连接：与...
 
 ```
-connected with          与...连接
-associated with         与...关联
-related with            与...相关
-familiar with           熟悉
-popular with            受欢迎
-friendly with          和...友好
-patient with           对...耐心
-busy with              忙于
-angry with             对...生气
-satisfied with         对...满意
-happy with            对...开心
-deal with             处理
-compare with          比较
-communicate with      沟通
+This road is connected with the highway.      这条路与高速公路连接。（关系连接→with）
+This disease is associated with smoking.      这种病与吸烟有关。（关系连接→with）
+This topic is related with history.           这个主题与历史相关。（关系连接→with）
+I am familiar with this area.                 我熟悉这个地区。（关系连接→with）
+This song is popular with young people.       这首歌在年轻人中受欢迎。（关系连接→with）
+She is friendly with everyone.                她对每个人都友好。（关系连接→with）
+The teacher is patient with students.         老师对学生耐心。（关系连接→with）
+I am busy with my work.                       我忙于工作。（关系连接→with）
+My mom is angry with me.                      我妈妈对我生气。（关系连接→with）
+I am satisfied with the result.               我对结果满意。（关系连接→with）
+She is happy with her life.                   她对生活开心。（关系连接→with）
+I need to deal with this problem.             我需要处理这个问题。（关系连接→with）
+Compare this with that one.                   把这个和那个比较。（关系连接→with）
+I communicate with my family every day.       我每天和家人沟通。（关系连接→with）
 ```
 
-### ⑤ 原因 / 因为
+### ⑤ 原因 / 因为：因...
 
 ```
-tremble with fear      害怕得发抖
-shake with anger       气得发抖
-jump with joy          高兴得跳
-sick with a cold       感冒了
-red with embarrassment 尴尬得脸红
+She trembles with fear.             她害怕得发抖。（伴随原因→with）
+He shakes with anger.               他气得发抖。（伴随原因→with）
+The children jump with joy.         孩子们高兴得跳。（伴随原因→with）
+I am sick with a cold.              我感冒了。（伴随原因→with）
+His face is red with embarrassment. 他的脸尴尬得脸红。（伴随原因→with）
 ```
 
-### ⑥ 虽然 / 尽管
+### ⑥ 虽然 / 尽管：尽管...
 
 ```
 With all his money, he is unhappy.
-尽管他有很多钱，他不快乐。
+尽管他有很多钱，他不快乐。（伴随让步→with）
 
 With all her efforts, she failed.
-尽管她付出了所有努力，她还是失败了。
+尽管她付出了所有努力，她还是失败了。（伴随让步→with）
 ```
 
 ### ⑦ 固定搭配
 
 ```
-with regard to         关于
-in accordance with     按照
-in line with           符合
-compared with          与...相比
-together with         和...一起
-along with            和...一起
-what with             由于（几个原因）
-with respect to       关于
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-I went to the park with my friend.
-I    went   to   the   park   with   my   friend
-我    去了   到   那   公园   和    我的  朋友
-
-为什么用 with？
-我和朋友"一起"去。
-
-画面：
-[我] ---- with ---- [朋友]
-      一起走→公园
-```
-
-**例 2：**
-
-```
-Write with a pen.
-Write   with   a   pen
-写      用     一   笔
-
-为什么用 with？
-pen 是"工具"。
-
-画面：
-我 ---- with(用) ---- 笔
-            ↓
-          写字
-
-笔是"伴随"我写字的工具。
-```
-
-**例 3：**
-
-```
-She is a woman with great courage.
-She   is   a   woman   with   great   courage
-她    是   一  女人    具有   巨大    勇气
-
-为什么用 with？
-勇气是"伴随"她的特征。
-
-画面：
-[woman] ---- with(具有) ---- [courage]
-```
-
-**例 4：**
-
-```
-I agree with you.
-I   agree   with   you
-我   同意    和     你
-
-为什么用 with？
-同意 = 和你的立场"站在一起"。
-
-画面：
-我的立场 ---- with(一致) ---- 你的立场
-```
-
-**例 5：**
-
-```
-He trembled with fear.
-He   trembled   with   fear
-他    发抖       因为   恐惧
-
-为什么用 with？
-恐惧是发抖的"伴随原因"。
-
-画面：
-发抖 ←--with(伴随)-- 恐惧
+With regard to your question, I have an answer.  关于你的问题，我有一个答案。（固定搭配→with）
+We act in accordance with the rules.             我们按照规则行事。（固定搭配→with）
+This is in line with our policy.                 这符合我们的政策。（固定搭配→with）
+Compared with him, I am short.                   与他相比，我很矮。（固定搭配→with）
+I will go together with you.                     我和你一起去。（固定搭配→with）
+She came along with her brother.                 她和她的兄弟一起来。（固定搭配→with）
+What with the rain and the cold, we stayed home. 由于下雨又冷，我们待在家里。（固定搭配→with）
+With respect to your request, we will help.      关于你的请求，我们会帮忙。（固定搭配→with）
 ```
 
 ## 7. 常见错误
@@ -2454,25 +1937,6 @@ filled by = 被某人填满（行为者）
 
 The glass was filled with water. ✅
 The glass was filled by the waiter. ✅
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-with = 伴随 + 工具 + 连接
-
-当他们说 with，他们"感觉"到：
-- 两个人/物在一起（伴随）
-- 一个工具在手中（工具）
-- 一个特征附着（属性）
-- 一种连接关系（关系）
-
-with Tom → 和Tom在一起
-with a pen → 笔在手
-with courage → 勇气附身
-agree with → 立场一致
 ```
 
 ---
@@ -2545,197 +2009,120 @@ by 的核心 = 靠近（proximity）
 ### ① 空间：在...旁边 / 靠近
 
 ```
-by the window         在窗边
-by the door           在门边
-by the river          在河边
-by the sea            在海边
-by my side            在我身边
-stand by me           站在我身边
-by the way           顺便说一下（路旁）
+The cat sits by the window.    猫坐在窗边。（空间靠近→by）
+He stands by the door.         他站在门边。（空间靠近→by）
+We walk by the river.          我们在河边散步。（空间靠近→by）
+She lives by the sea.          她住在海边。（空间靠近→by）
+My dog stays by my side.       我的狗待在我身边。（空间靠近→by）
+Please stand by me.            请站在我身边。（空间靠近→by）
+By the way, I like your hat.   顺便说一下，我喜欢你的帽子。（空间靠近→by）
 ```
 
 ### ② 时间：到...之前 / 不迟于
 
 ```
-by 5 o'clock          在5点前
-by tomorrow           明天之前
-by next week          下周前
-by the end of the day 今天结束前
-by then               到那时
-by now                到现在
+I will finish by 5 o'clock.           我将在5点前完成。（时间截止→by）
+Please finish it by tomorrow.         请在明天之前完成。（时间截止→by）
+I will be ready by next week.         我下周前准备好。（时间截止→by）
+We must finish by the end of the day. 我们必须在今天结束前完成。（时间截止→by）
+I will be there by then.              到那时我会在那里。（时间截止→by）
+He should be here by now.             他现在应该到了。（时间截止→by）
 ```
 
-**画面：** 时间接近某个截止点。
+**画面：** 时间接近某个截止点。（时间截止→by）
 
 ```
-      时间线
+      时间线（时间截止→by）
 ──┬──┬──┬──┬──┬──┬──→
   1  2  3  4  5  6
             ↑
-         by 5pm = 靠近或不迟于5点
+         by 5pm = 靠近或不迟于5点（时间截止→by）
 ```
 
-### ③ 方式 / 手段
+### ③ 方式 / 手段：通过...
 
 ```
-by bus                坐公交车
-by car                坐汽车
-by train              坐火车
-by plane              坐飞机
-by bike               骑自行车
-by air                乘飞机
-by sea                乘船
-by land               走陆路
-by hand               手工
-by mistake            错误地
-by accident           意外地
-by force              用武力
-by heart              用心背
-by check              用支票
-by credit card        用信用卡
+I go to school by bus.         我坐公交车去上学。（方式手段→by）
+She goes to work by car.       她坐汽车去上班。（方式手段→by）
+He travels by train.           他坐火车旅行。（方式手段→by）
+We go to Japan by plane.       我们坐飞机去日本。（方式手段→by）
+I ride by bike.                我骑自行车。（方式手段→by）
+We travel by air.              我们乘飞机旅行。（方式手段→by）
+The goods travel by sea.       货物乘船运输。（方式手段→by）
+We go by land.                 我们走陆路。（方式手段→by）
+This is made by hand.          这是手工制作的。（方式手段→by）
+I took your bag by mistake.    我错误地拿了你的包。（方式手段→by）
+I found it by accident.        我意外地发现了它。（方式手段→by）
+They entered by force.         他们用武力进入。（方式手段→by）
+I learn the poem by heart.     我用心背这首诗。（方式手段→by）
+I pay by check.                我用支票支付。（方式手段→by）
+She pays by credit card.       她用信用卡支付。（方式手段→by）
 ```
 
-**画面：** "通过"某种方式到达。
+**画面：** "通过"某种方式到达。（方式手段→by）
 
 ```
-我 ----by(通过)---- bus ---→ 目的地
+我 ----by(通过)---- bus ---→ 目的地（方式手段→by）
 ```
 
-### ④ 被动语态：行为者
+### ④ 被动语态：被...
 
 ```
-written by Shakespeare   由莎士比亚写
-made by hand             手工制作
-caused by                由...引起
-surrounded by            被...包围
-affected by              受...影响
-inspired by              受...启发
+This play is written by Shakespeare.  这个剧本由莎士比亚写。（行为者→by）
+These shoes are made by hand.         这些鞋是手工制作的。（行为者→by）
+The accident is caused by rain.       事故由雨引起。（行为者→by）
+The house is surrounded by trees.     房子被树包围。（行为者→by）
+My health is affected by stress.      我的健康受压力影响。（行为者→by）
+This song is inspired by love.        这首歌受爱情启发。（行为者→by）
 ```
 
-**画面：** 行为者"靠近"这个动作。
+**画面：** 行为者"靠近"这个动作。（行为者→by）
 
 ```
-[书 written] ←---- by ---- [莎士比亚]
+[书 written] ←---- by ---- [莎士比亚（行为者→by）]
                         ↑
-                      作者"靠近"了这本书
+                      作者"靠近"了这本书（行为者→by）
 ```
 
-### ⑤ 数量 / 程度
+### ⑤ 数量 / 程度：相差...
 
 ```
-by far                  远远地
-by a lot                很多
-by a little             一点点
-by 10%                  10%
-increase by 20%         增长20%
-by the dozen            按打
-by the hour             按小时
-one by one              一个一个地
-step by step            一步一步地
-little by little        一点点地
+She is by far the best student.  她远远地是最好的学生。（差异程度→by）
+My score is higher by a lot.     我的分数高很多。（差异程度→by）
+The price went up by a little.   价格上涨一点点。（差异程度→by）
+Prices increased by 10%.         价格上涨了10%。（差异程度→by）
+Sales increased by 20%.          销售额增长了20%。（差异程度→by）
+Eggs are sold by the dozen.      鸡蛋按打出售。（差异程度→by）
+I am paid by the hour.           我按小时获得报酬。（差异程度→by）
+Please enter one by one.         请一个一个地进入。（差异程度→by）
+Learn step by step.              一步一步地学习。（差异程度→by）
+The water rose little by little. 水一点点地上涨。（差异程度→by）
 ```
 
-### ⑥ 根据 / 按照
+### ⑥ 根据 / 按照：根据...
 
 ```
-by law                  根据法律
-by the rules            按照规则
-by your standards       按你的标准
-by the looks of it      从表面看
-judge by                根据...判断
-know by                 通过...知道
+This is required by law.             这是根据法律要求的。（依据标准→by）
+You must play by the rules.          你必须按照规则玩。（依据标准→by）
+This is good by your standards.      按你的标准，这很好。（依据标准→by）
+By the looks of it, it will rain.    从表面看，要下雨了。（依据标准→by）
+Don't judge by appearance.           不要根据外表判断。（依据标准→by）
+I know him by his voice.             我通过声音知道是他。（依据标准→by）
 ```
 
 ### ⑦ 固定搭配
 
 ```
-by the way              顺便说一下
-by all means            当然/一定
-by no means             绝不
-by myself               我自己（独自）
-by the time            到...的时候
-by chance              偶然
-by nature              天生
-by the way             顺便说一下
-stand by               支持/准备
-go by                  经过/依据
-come by                经过/获得
-```
-
-## 7. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-The book is by the lamp.
-The   book   is   by   the   lamp
-那    书    是   在旁  那   灯
-
-为什么用 by？
-书"靠近"灯。
-
-画面：
-[书] ---靠近(by)--- [灯]
-```
-
-**例 2：**
-
-```
-Please finish it by Friday.
-Please   finish   it   by   Friday
-请        完成     它   在   周五前
-
-为什么用 by？
-时间接近周五（周五是截止点）。
-
-画面：
-周一 ---→ 周二 ---→ 周三 ---→ 周四 ---→ 周五
-                              ↑
-                          by Friday = 在周五或之前
-```
-
-**例 3：**
-
-```
-I go to work by bus.
-I   go   to   work   by   bus
-我   去   到   工作   坐   公交
-
-为什么用 by？
-bus 是"方式/手段"。
-
-画面：
-我 ----通过(by)---- bus ----→ 工作
-```
-
-**例 4：**
-
-```
-The book was written by Mark Twain.
-The   book   was   written   by   Mark   Twain
-那    书     被     写        由   马克   吐温
-
-为什么用 by？
-Mark Twain 是"行为者"（作者）。
-
-画面：
-[书] ←--被写(by)-- [马克吐温]
-```
-
-**例 5：**
-
-```
-The price increased by 20%.
-The   price   increased   by   20%
-那    价格     增长了       了   20%
-
-为什么用 by？
-by 表示"差异的程度"。
-
-画面：
-原来价格 ---→ 新价格（增长了20%）
-                ↑
-              差异程度
+By the way, what is your name?   顺便说一下，你叫什么名字？（固定搭配→by）
+By all means, come in.           当然，请进。（固定搭配→by）
+This is by no means easy.        这绝不简单。（固定搭配→by）
+I did it by myself.              我自己做的。（固定搭配→by）
+By the time we arrived, it was dark.  到我们到的时候，天已经黑了。（固定搭配→by）
+I met her by chance.             我偶然遇见她。（固定搭配→by）
+He is kind by nature.            他天生善良。（固定搭配→by）
+I will stand by you.             我会支持你。（固定搭配→by）
+Time goes by quickly.            时间过得很快。（固定搭配→by）
+She came by my house.            她经过我家。（固定搭配→by）
 ```
 
 ## 8. 常见错误
@@ -2800,26 +2187,6 @@ live near me = 住在我附近（不一定隔壁）
 by + 交通工具 = 不加冠词/所有格
 by bus / by car / by train ✅
 on foot / on horseback ✅（固定搭配）
-```
-
-## 9. 母语者思维
-
-```
-母语者脑中：
-
-by = 靠近（proximity）+ 通过（method）
-
-当他们说 by，他们"感觉"到：
-- 空间上的紧邻
-- 时间上的接近（截止）
-- 通过某种方式
-- 动作背后的行为者
-
-by the door → 紧靠门
-by 5pm → 接近5点
-by bus → 通过公交车
-by Shakespeare → 作品的行为者
-one by one → 一个一个"靠近"排列
 ```
 
 ---
@@ -2905,172 +2272,100 @@ the book cover（名词修饰名词）
 
 ## 5. 所有主要用法
 
-### ① 所属关系
+### ① 所属关系：...的
 
 ```
-the color of the sky      天空的颜色
-the door of the house     房子的门
-the name of the book      书名
-the capital of China      中国的首都
-the size of the room      房间的大小
-the age of the universe   宇宙的年龄
+The color of the sky is blue.        天空的颜色是蓝色。（所属关系→of）
+The door of the house is red.        房子的门是红色的。（所属关系→of）
+The name of the book is "Sophie's World".  书名是《苏菲的世界》。（所属关系→of）
+Beijing is the capital of China.     北京是中国的首都。（所属关系→of）
+The size of the room is small.       房间的大小很小。（所属关系→of）
+What is the age of the universe?     宇宙的年龄是多少？（所属关系→of）
 ```
 
-### ② 部分 vs 整体
+### ② 部分 vs 整体：...的...
 
 ```
-a piece of cake           一块蛋糕
-a slice of bread          一片面包
-a cup of coffee           一杯咖啡
-a bottle of water         一瓶水
-a group of people         一群人
-a pair of shoes           一双鞋
-half of the money         一半的钱
-the rest of the team      队伍的其他成员
-the top of the mountain   山顶
-the end of the story      故事的结尾
+I eat a piece of cake.            我吃了一块蛋糕。（部分整体→of）
+She has a slice of bread.         她有一片面包。（部分整体→of）
+I drink a cup of coffee.          我喝一杯咖啡。（部分整体→of）
+He buys a bottle of water.        他买了一瓶水。（部分整体→of）
+A group of people are waiting.    一群人在等。（部分整体→of）
+I need a pair of shoes.           我需要一双鞋。（部分整体→of）
+She spends half of the money.     她花了一半的钱。（部分整体→of）
+The rest of the team arrives later.    队伍的其他成员稍后到。（部分整体→of）
+We reach the top of the mountain. 我们到达山顶。（部分整体→of）
+I like the end of the story.      我喜欢故事的结尾。（部分整体→of）
 ```
 
-### ③ 材料 / 组成
+### ③ 材料 / 组成：由...制成
 
 ```
-made of gold              金子做的
-a house of stone          石头房子
-a crown of thorns         荆棘冠冕
-a ring of fire            火环
-a circle of friends       朋友圈
-a collection of art       艺术收藏
+The ring is made of gold.          这个戒指是金子做的。（材料组成→of）
+He lives in a house of stone.      他住在一个石头房子里。（材料组成→of）
+The statue has a crown of thorns.  雕像有一个荆棘冠冕。（材料组成→of）
+The dancers form a ring of fire.   舞者形成一个火环。（材料组成→of）
+She has a circle of friends.       她有一个朋友圈。（材料组成→of）
+The museum has a collection of art.    博物馆有一个艺术收藏。（材料组成→of）
 ```
 
-### ④ 描述性
+### ④ 描述性：具有...的
 
 ```
-a man of courage          勇敢的人（有勇气的人）
-a woman of wisdom         智慧的女人
-a place of beauty         美丽的地方
-a matter of importance    重要的事
-a moment of silence       沉默的时刻
-a sense of humor          幽默感
-a feeling of joy          喜悦感
-a sign of respect         尊重的标志
+He is a man of courage.          他是一个勇敢的人。（属性描述→of）
+She is a woman of wisdom.        她是一个智慧的女人。（属性描述→of）
+This is a place of beauty.       这是一个美丽的地方。（属性描述→of）
+This is a matter of importance.  这是重要的事。（属性描述→of）
+We have a moment of silence.     我们有一个沉默的时刻。（属性描述→of）
+She has a sense of humor.        她有一种幽默感。（属性描述→of）
+I have a feeling of joy.         我有一种喜悦感。（属性描述→of）
+Bowing is a sign of respect.     鞠躬是尊重的标志。（属性描述→of）
 ```
 
-### ⑤ 数量 / 计量
+### ⑤ 数量 / 计量：...个...
 
 ```
-a lot of money            很多钱
-a number of people        很多人
-hundreds of students      数百名学生
-thousands of years        数千年
-millions of dollars       数百万美元
-two pounds of apples      两磅苹果
-three liters of water     三升水
+He has a lot of money.           他有很多钱。（数量计量→of）
+A number of people came.         很多人来了。（数量计量→of）
+Hundreds of students study here.      数百名学生在这里学习。（数量计量→of）
+This city is thousands of years old.  这座城市有数千年历史。（数量计量→of）
+The house costs millions of dollars.  这栋房子价值数百万美元。（数量计量→of）
+I buy two pounds of apples.       我买了两磅苹果。（数量计量→of）
+She drinks three liters of water. 她喝了三升水。（数量计量→of）
 ```
 
-### ⑥ 原因 / 来源
+### ⑥ 原因 / 来源：因...
 
 ```
-die of hunger             死于饥饿
-die of cancer             死于癌症
-afraid of                  害怕
-ashamed of                羞愧
-proud of                  骄傲
-tired of                  厌倦
-sick of                   厌烦
-fond of                   喜欢
-because of                因为
-of course                 当然
+Many people die of hunger.      许多人死于饥饿。（原因来源→of）
+He died of cancer.              他死于癌症。（原因来源→of）
+I am afraid of spiders.         我害怕蜘蛛。（原因来源→of）
+She is ashamed of her mistake.  她为自己的错误羞愧。（原因来源→of）
+I am proud of my son.           我为我儿子骄傲。（原因来源→of）
+I am tired of waiting.          我厌倦了等待。（原因来源→of）
+He is sick of lies.             他厌烦谎言。（原因来源→of）
+She is fond of cats.            她喜欢猫。（原因来源→of）
+We stay home because of the rain.    因为下雨我们待在家里。（原因来源→of）
+Of course, I will help you.     当然，我会帮你。（原因来源→of）
 ```
 
 ### ⑦ 固定搭配
 
 ```
-of course                 当然
-of all time              有史以来
-out of                    从...出来
-because of                因为
-instead of                代替
-in spite of               尽管
-ahead of                  在...前面
-regardless of             不顾
-on behalf of              代表
-for the sake of           为了
-in the middle of          在...中间
-at the age of             在...岁时
-at the speed of           以...速度
-at the cost of            以...代价
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-The color of the sky is blue.
-The   color   of   the   sky   is   blue
-那    颜色    的   那   天空   是   蓝色
-
-为什么用 of？
-天空"拥有"颜色，颜色属于天空。
-
-画面：
-[颜色] ←--- of ---→ [天空]
-```
-
-**例 2：**
-
-```
-I want a cup of coffee.
-I   want   a   cup   of   coffee
-我   想要   一   杯    的   咖啡
-
-为什么用 of？
-咖啡是一个整体，杯子是"部分"。
-
-画面：
-[一杯] ←--- of ---→ [咖啡]
-  部分             整体
-```
-
-**例 3：**
-
-```
-He died of cancer.
-He   died   of   cancer
-他   死了   因为  癌症
-
-为什么用 of？
-癌症是死亡的"来源/原因"。
-
-画面：
-[死] ←--- of ---→ [癌症]
-  结果          原因
-```
-
-**例 4：**
-
-```
-She is a woman of wisdom.
-She   is   a   woman   of   wisdom
-她    是   一   女人    的   智慧
-
-为什么用 of？
-wisdom 是 woman 的"属性"。
-
-画面：
-[woman] ←--- of ---→ [wisdom]
-                    （她拥有智慧）
-```
-
-**例 5：**
-
-```
-It's very kind of you.
-It's   very   kind   of   you
-这是    很    善良    的   你
-
-为什么用 of？
-善良是"来自"你的品质。
+Of course, you can come.         当然，你可以来。（固定搭配→of）
+He is the best of all time.      他是有史以来最好的。（固定搭配→of）
+She walks out of the room.       她从房间里走出来。（固定搭配→of）
+We stopped because of the weather.   因为天气我们停止了。（固定搭配→of）
+I drink tea instead of coffee.   我喝茶代替咖啡。（固定搭配→of）
+We went out in spite of the rain.    尽管下雨我们还是出去了。（固定搭配→of）
+She is ahead of me.              她在我的前面。（固定搭配→of）
+We go regardless of the cost.    不顾成本我们也去。（固定搭配→of）
+I speak on behalf of my team.    我代表我的团队说话。（固定搭配→of）
+He works for the sake of his family.  他为了他的家人而工作。（固定搭配→of）
+I am in the middle of a meeting. 我在会议中间。（固定搭配→of）
+She learned English at the age of ten.  她在十岁时学了英语。（固定搭配→of）
+The car moves at the speed of light.   汽车以光速行驶。（固定搭配→of）
+He succeeded at the cost of his health. 他以健康为代价成功了。（固定搭配→of）
 ```
 
 ## 7. 常见错误
@@ -3127,26 +2422,6 @@ Paper is made FROM wood.（看不出是木头）
 
 ❌ instead go
 ✅ instead of going
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-of = 连接 / 所属 / 来源
-
-当他们说 of，他们"感觉"到：
-- 两个事物之间的连接
-- 所属关系（A属于B）
-- 部分与整体的关系
-- 来源/材料关系
-- 描述性连接
-
-the cover of the book → 封面和书的连接
-a cup of coffee → 杯子和咖啡的部分-整体关系
-a man of honor → 人和品质的连接
-die of cancer → 死亡和癌症的因果连接
 ```
 
 ---
@@ -3226,155 +2501,79 @@ about = "围绕"
 ### ① 主题：关于
 
 ```
-talk about               谈论关于
-think about              考虑/想关于
-read about               读关于
-learn about              学习关于
-hear about               听说关于
-know about               知道关于
-tell me about            告诉我关于
-a book about history     关于历史的书
-a question about         关于...的问题
-information about        关于...的信息
-a discussion about       关于...的讨论
-news about               关于...的新闻
+We talk about the movie.              我们谈论那部电影。（话题围绕→about）
+I think about you.                    我想着你。（话题围绕→about）
+I read about history.                 我阅读历史相关的内容。（话题围绕→about）
+She learns about science.             她学习科学知识。（话题围绕→about）
+I hear about the news.                我听说那个消息。（话题围绕→about）
+He knows about the plan.              他知道那个计划。（话题围绕→about）
+Tell me about your day.               告诉我你的一天。（话题围绕→about）
+I read a book about history.          我读了一本关于历史的书。（话题围绕→about）
+I have a question about the test.     我有一个关于考试的问题。（话题围绕→about）
+I need information about the school.  我需要关于学校的信息。（话题围绕→about）
+We had a discussion about politics.   我们讨论了政治。（话题围绕→about）
+I heard news about the storm.         我听到了关于风暴的新闻。（话题围绕→about）
 ```
 
-### ② 大约：接近/近似
+### ② 大约：...左右
 
 ```
-about 5 o'clock          大约5点
-about 10 people          大约10人
-about 3 years            大约3年
-about $50                大约50美元
-about this size           大约这个大小
-about the same           差不多相同
-just about enough        差不多够了
+It is about 5 o'clock.               现在大约5点。（数量大约→about）
+There are about 10 people.           大约有10个人。（数量大约→about）
+It has been about 3 years.           大约有3年了。（数量大约→about）
+It costs about $50.                  大约50美元。（数量大约→about）
+It is about this size.               大约这个大小。（数量大约→about）
+They are about the same.             它们差不多相同。（数量大约→about）
+That is just about enough.           那差不多够了。（数量大约→about）
 ```
 
-### ③ 情感 / 状态
+### ③ 情感 / 状态：对...感到...
 
 ```
-worried about            担心
-anxious about            焦虑
-excited about            兴奋
-happy about              对...开心
-angry about              对...生气
-sad about                对...难过
-nervous about            对...紧张
-crazy about              对...疯狂/热爱
-serious about            认真对待
-sorry about              对...抱歉
-feel strongly about      强烈感受
+I am worried about you.              我担心你。（情感围绕→about）
+She is anxious about the exam.       她对考试感到焦虑。（情感围绕→about）
+He is excited about the trip.        他对这次旅行感到兴奋。（情感围绕→about）
+I am happy about the result.         我对结果感到开心。（情感围绕→about）
+She is angry about the delay.        她对延误感到生气。（情感围绕→about）
+He is sad about the news.            他对这个消息感到难过。（情感围绕→about）
+I am nervous about the interview.    我对面试感到紧张。（情感围绕→about）
+He is crazy about soccer.            他对足球很狂热。（情感围绕→about）
+She is serious about her job.        她认真对待她的工作。（情感围绕→about）
+I am sorry about the mistake.        我对这个错误感到抱歉。（情感围绕→about）
+I feel strongly about this issue.    我对这个问题感受强烈。（情感围绕→about）
 ```
 
-### ④ 四处 / 到处
+### ④ 四处 / 到处：在...周围
 
 ```
-walk about               四处走动
-run about                四处跑
-move about               四处移动
-lie about                乱放/散布
-go about                 到处走/着手做
-look about               环顾四周
-travel about             四处旅行
-scattered about          散落各处
+We walk about the park.              我们在公园里四处走动。（四处环绕→about）
+The kids run about the garden.       孩子们在花园里四处跑。（四处环绕→about）
+People move about the room.          人们在房间里四处移动。（四处环绕→about）
+Papers lie about the desk.           文件散落在桌子上。（四处环绕→about）
+She goes about her business.         她着手做她的事。（四处环绕→about）
+He looks about the room.             他环顾房间四周。（四处环绕→about）
+They travel about the country.       他们在全国各地旅行。（四处环绕→about）
+Toys are scattered about the floor.  玩具散落在地板上各处。（四处环绕→about）
 ```
 
 **画面：** 动作"围绕"一个区域，没有固定方向。
 
-### ⑤ 常见的 about 短语
+### ⑤ 常见短语：关于...
 
 ```
-how about                怎么样？
-what about               那...呢？
-be about to              即将
-it is about time         差不多是时候了
-set about                开始做
-go about                 着手做
-come about               发生
-bring about              导致
-hang about               闲逛
-mess about               胡闹
-order about              指使
-see about                处理
-that's about it         差不多就这样
-```
-
-## 7. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-We talked about the movie.
-We    talked   about   the   movie
-我们   谈论了    关于    那   电影
-
-为什么用 about？
-电影是谈论的"中心话题"。
-
-画面：
-[谈论的内容] ←---围绕---→ [电影]
-                    about
-```
-
-**例 2：**
-
-```
-There are about 20 people here.
-There   are   about   20   people   here
-有        有    大约   20   人       这里
-
-为什么用 about？
-"大约" = 围绕20这个数字的范围。
-
-画面：
-[18, 19, 20, 21, 22]
-        ↑ about 20
-      围绕20的范围
-```
-
-**例 3：**
-
-```
-I am worried about you.
-I   am   worried   about   you
-我   是    担心的    关于   你
-
-为什么用 about？
-你是"担忧"的中心。
-
-画面：
-[担忧] ←---围绕---→ [你]
-```
-
-**例 4：**
-
-```
-I am about to leave.
-I   am   about   to   leave
-我   是   即将    要   离开
-
-为什么用 about？
-"即将" = 动作"围绕"在边缘，即将发生。
-
-画面：
-[即将离开] ←---about(to)---→ [离开的动作]
-  准备状态                      即将发生
-```
-
-**例 5：**
-
-```
-What about going for a walk?
-What   about   going   for   a   walk
-什么   怎么样   去      为了  一   散步
-
-为什么用 about？
-"关于"某个建议。
-
-画面：
-[建议：散步] ←---about---→ [我们考虑一下]
+How about some coffee?               来点咖啡怎么样？（固定短语→about）
+What about going out?                出去怎么样？（固定短语→about）
+I am about to leave.                 我即将离开。（固定短语→about）
+It is about time to go.              差不多是时候走了。（固定短语→about）
+She set about cleaning the room.     她开始打扫房间。（固定短语→about）
+He went about his work.              他着手做他的工作。（固定短语→about）
+How did this come about?             这是怎么发生的？（固定短语→about）
+The change brought about improvement. 这个改变导致了改善。
+They hang about the street.          他们在街上闲逛。
+The kids mess about in class.        孩子们在课堂上胡闹。
+He orders his staff about.           他指使他的员工。
+I will see about the tickets.        我来处理票的事。
+That's about it for today.           今天差不多就这样了。
 ```
 
 ## 8. 常见错误
@@ -3435,27 +2634,6 @@ will = 将来（可以是较远的未来）
 
 The movie is about to start!（马上开始！）
 The movie will start at 7pm.（7点才开始）
-```
-
-## 9. 母语者思维
-
-```
-母语者脑中：
-
-about = 围绕（surrounding）
-
-当他们说 about，他们"感觉"到：
-- 话题围绕中心
-- 数量围绕一个范围
-- 情感围绕对象
-- 动作围绕空间
-- 即将发生在边缘
-
-talk about → 话题是中心，话语围绕它
-about 20 → 数字在20周围
-worried about → 担忧围绕着你
-walk about → 走动围绕某个区域
-about to → 在边缘状态，即将发生
 ```
 
 ---
@@ -3561,193 +2739,111 @@ over 是一个"多画面"介词，主要有四个核心：
 ### ① 空间：在...正上方（不接触）
 
 ```
-over the table         在桌子上方
-over the city          在城市上空
-over my head           在我头上方
-over the door          在门上方
-hold over              举在...上方
-fly over               飞过...上方
-hang over              悬挂在...上方
+The lamp is over the table.          灯在桌子上方。（正上方→over）
+The plane flies over the city.       飞机飞过城市上空。（正上方→over）
+The ball is over my head.            球在我头上方。（正上方→over）
+A sign is over the door.             门上方有一个标志。（正上方→over）
+She holds the umbrella over me.      她举着伞在我上方。（正上方→over）
+A bird flies over the house.         一只鸟飞过房子上方。（正上方→over）
+The picture hangs over the bed.      画悬挂在床上方。（正上方→over）
 ```
 
-### ② 跨越：从一边到另一边
+### ② 跨越：越过...
 
 ```
-jump over the fence     跳过篱笆
-walk over the bridge    走过桥
-go over the hill        翻过山
-fly over the ocean      飞过海洋
-climb over the wall     翻过墙
-cross over              穿越
-over the river          在河对岸
+The cat jumps over the fence.        猫跳过篱笆。（跨越越过→over）
+We walk over the bridge.             我们走过桥。（跨越越过→over）
+They go over the hill.               他们翻过山。（跨越越过→over）
+The plane flies over the ocean.      飞机飞过海洋。（跨越越过→over）
+He climbs over the wall.             他翻过墙。（跨越越过→over）
+We cross over the border.            我们穿越边境。（跨越越过→over）
+The bridge is over the river.        桥横跨在河上。（跨越越过→over）
 ```
 
 **画面：** 从 A 到 B，中间"跨越"了某个障碍物。
 
-### ③ 覆盖：遮住表面
+### ③ 覆盖：覆盖在...上
 
 ```
-put a cloth over the table  在桌上铺布
-hold an umbrella over me    举伞在我头上
-wear a jacket over a shirt  衬衫外穿夹克
-cover over                 覆盖
-clouds over the mountain    山上覆盖云
-write over                 覆盖写
-paint over                 用油漆覆盖
+She puts a cloth over the table.     她在桌上铺了块布。（覆盖表面→over）
+I hold an umbrella over me.          我举着伞在我头上。（覆盖表面→over）
+He wears a jacket over his shirt.    他在衬衫外穿了件夹克。（覆盖表面→over）
+Snow covers over the ground.         雪覆盖了地面。（覆盖表面→over）
+Clouds are over the mountain.        云笼罩着山。（覆盖表面→over）
+I write over the mistake.            我覆盖写掉了错误。（覆盖表面→over）
+We paint over the old color.         我们用油漆覆盖旧颜色。（覆盖表面→over）
 ```
 
-### ④ 数量：超过/多于
+### ④ 数量：超过...
 
 ```
-over 100 people          超过100人
-over $50                 超过50美元
-over 3 hours             超过3小时
-over 10 years            超过10年
-children over 12         12岁以上的孩子
-over half                超过一半
-over the limit           超过限制
+There are over 100 people.           超过100人。（数量超过→over）
+It costs over $50.                   超过50美元。（数量超过→over）
+It took over 3 hours.                花了超过3小时。（数量超过→over）
+It has been over 10 years.           已经超过10年了。（数量超过→over）
+The class is for children over 12.   这个班面向12岁以上的孩子。（数量超过→over）
+Over half of them agree.             超过一半的人同意。（数量超过→over）
+His speed is over the limit.         他的速度超过限制。（数量超过→over）
 ```
 
 ### ⑤ 时间：在...期间 / 直到...结束
 
 ```
-over the weekend         在周末期间
-over the summer         在整个夏天
-over the years          这些年来
-over time               随着时间的推移
-over the next few days  在接下来的几天
-over night              过夜/一夜之间
-over the years          年复一年
+We will meet over the weekend.       我们周末见面。（期间跨越→over）
+They travel over the summer.         他们整个夏天都在旅行。（期间跨越→over）
+Things have changed over the years.  这些年来事情发生了变化。（期间跨越→over）
+Skills improve over time.             技能随着时间的推移而提高。（期间跨越→over）
+We will finish it over the next few days. 我们将在接下来的几天完成。（期间跨越→over）
+We stayed over night.                我们过夜了。（期间跨越→over）
+The city grew over the years.        这座城市年复一年地发展。（期间跨越→over）
 ```
 
-### ⑥ 控制 / 影响
+### ⑥ 控制 / 影响：控制...
 
 ```
-have power over           有...的权力
-control over              控制
-influence over            影响
-victory over              战胜
-advantage over            优势
-triumph over              战胜
-win over                  争取过来
-watch over                照看/监督
-rule over                 统治
-preside over              主持
+The king has power over the land.       国王拥有这片土地的权力。（控制影响→over）
+She has control over the team.          她控制着团队。（控制影响→over）
+He has influence over the decision.     他对决定有影响力。（控制影响→over）
+They won victory over the enemy.        他们战胜了敌人。（控制影响→over）
+We have an advantage over them.         我们比他们有优势。（控制影响→over）
+She achieved triumph over difficulty.   她战胜了困难。（控制影响→over）
+The coach won over the crowd.           教练赢得了人群的支持。（控制影响→over）
+The mother watches over her child.      母亲照看她的孩子。（控制影响→over）
+The queen rules over the country.       女王统治着这个国家。（控制影响→over）
+The judge presides over the court.      法官主持法庭。（控制影响→over）
 ```
 
-### ⑦ 关于 / 涉及
+### ⑦ 关于 / 涉及：关于...
 
 ```
-an argument over money    关于钱的争吵
-a dispute over territory  关于领土的争端
-talk over the plan        讨论计划
-think over                仔细考虑
-go over                   复习/检查
-look over                 浏览
-run over                  碾过/快速过一遍
+They had an argument over money.        他们为钱争吵。（关于涉及→over）
+There is a dispute over territory.      有关于领土的争端。（关于涉及→over）
+We talk over the plan.                  我们讨论计划。（关于涉及→over）
+Please think it over.                   请仔细考虑。（关于涉及→over）
+Let's go over the lesson.               我们来复习课文。（关于涉及→over）
+She looks over the report.              她浏览了报告。（关于涉及→over）
+The car runs over a stick.              车子碾过一根棍子。（关于涉及→over）
 ```
 
 ### ⑧ 固定搭配
 
 ```
-over there               在那里
-all over                 到处/遍布
-over and over            一遍又一遍
-once over                彻底地
-over here                在这里
-over the phone           通过电话
-over the counter         柜台交易（非处方）
-over the top             过度/夸张
-get over                 克服
-take over                接管
-turn over                翻转
-hand over                移交
-come over                过来
-run over                 撞倒/超出
-lean over                俯身
-bend over                弯腰
-```
-
-## 7. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-A bird flew over my head.
-A    bird    flew   over   my   head
-一    鸟     飞过   上方   我的  头
-
-为什么用 over？
-鸟在头的上方，不接触。
-
-画面：
-      [鸟]
-       ↑ over
-      [我的头]
-```
-
-**例 2：**
-
-```
-He jumped over the wall.
-He   jumped   over   the   wall
-他    跳过     跨越   那   墙
-
-为什么用 over？
-从墙的一边"跨越"到另一边。
-
-画面：
-[他] ----跳跃跨越(over)----→ [另一边]
-                   ↑
-                 墙在下方
-```
-
-**例 3：**
-
-```
-Put a blanket over the bed.
-Put   a   blanket   over   the   bed
-放    一   毯子     覆盖   那   床
-
-为什么用 over？
-毯子"覆盖"整个床面。
-
-画面：
-  ┌─────────┐
-  │ 毯子    │ ← over
-  │ ─────── │
-  └─────────┘
-     床
-```
-
-**例 4：**
-
-```
-Over 200 people attended.
-Over   200   people   attended
-超过   200   人       参加了
-
-为什么用 over？
-"超过"200这个数量。
-
-画面：
-[0] ---- [200] -------→ [201, 202...]
-            ↑             ↑
-          exactly        over
-```
-
-**例 5：**
-
-```
-We talked over coffee.
-We   talked   over   coffee
-我们  聊了     在...期间  咖啡
-
-为什么用 over？
-"在喝咖啡的整个时间段期间"。
-
-画面：
-[聊天] ←--覆盖整个咖啡时间--→ [coffee time]
+The book is over there.             书在那里。（固定搭配→over）
+The paint is all over the floor.    油漆遍布地板。（固定搭配→over）
+He says it over and over.           他一遍又一遍地说。（固定搭配→over）
+I will look it over once over.      我会彻底检查一遍。（固定搭配→over）
+Come over here.                     到这里来。（固定搭配→over）
+We talked over the phone.           我们通过电话交谈。（固定搭配→over）
+You can buy it over the counter.    你可以直接在柜台买到。（固定搭配→over）
+His reaction was over the top.      他的反应过度了。（固定搭配→over）
+She needs to get over her fear.     她需要克服恐惧。（固定搭配→over）
+He will take over the company.      他将接管公司。（固定搭配→over）
+Turn over the page.                 翻到下一页。（固定搭配→over）
+Hand over the keys.                 交出钥匙。（固定搭配→over）
+Come over to my house.              到我家里来。（固定搭配→over）
+The car ran over a branch.          车撞倒了一根树枝。（固定搭配→over）
+She leans over the table.           她俯身在桌子上。（固定搭配→over）
+He bends over to pick it up.        他弯腰捡起来。（固定搭配→over）
 ```
 
 ## 8. 常见错误
@@ -3808,27 +2904,6 @@ all over = 遍布/到处都是
 over 本身不表达"遍布"，需要加 all
 
 The news spread all over the world.
-```
-
-## 9. 母语者思维
-
-```
-母语者脑中：
-
-over = 上方 + 跨越 + 覆盖 + 超过
-
-当他们说 over，他们"感觉"到：
-- 正上方不接触
-- 从一边到另一边（跨越）
-- 完全遮盖
-- 超过某个界限
-
-fly over → 上方的鸟
-jump over → 跨越障碍
-put over → 覆盖表面
-over 100 → 超出界限
-talk over coffee → 在一段时间内
-all over → 遍布每个角落
 ```
 
 ---
@@ -3913,144 +2988,81 @@ under 的"控制"画面：
 ### ① 空间：在...正下方
 
 ```
-under the table         在桌子下
-under the bed           在床下
-under the tree          在树下
-under the bridge        在桥下
-under the water         在水下
-under the ground        在地下
-under the sun           在阳光下
-under the roof          在屋檐下
+The cat is under the table.          猫在桌子下。（正下方→under）
+The box is under the bed.            盒子在床下。（正下方→under）
+We sit under the tree.               我们坐在树下。（正下方→under）
+The boat is under the bridge.        船在桥下。（正下方→under）
+Fish swim under the water.           鱼在水下游。（正下方→under）
+The pipe is under the ground.        管道在地下。（正下方→under）
+We play under the sun.               我们在阳光下玩耍。（正下方→under）
+We stay under the roof.              我们在屋檐下待着。（正下方→under）
 ```
 
-### ② 数量：少于 / 低于
+### ② 数量：低于...
 
 ```
-under 10 dollars        低于10美元
-under 18                未满18岁
-under 5%                低于5%
-under age              未到达定年龄
-under the limit         低于限制
-well under              远低于
-under budget            低于预算
+It costs under 10 dollars.            它低于10美元。（数量低于→under）
+He is under 18.                       他未满18岁。（数量低于→under）
+The rate is under 5%.                 利率低于5%。（数量低于→under）
+She is under age.                     她未达到法定年龄。（数量低于→under）
+The speed is under the limit.         速度低于限制。（数量低于→under）
+The price is well under $100.         价格远低于100美元。（数量低于→under）
+The project is under budget.          项目低于预算。（数量低于→under）
 ```
 
 ### ③ 状态：在...状态中
 
 ```
-under construction      建设中
-under control           受控制
-under attack            受攻击中
-under pressure          在压力下
-under threat            受威胁
-under treatment         治疗中
-under consideration     在考虑中
-under investigation     调查中
-under repair            维修中
-under review            审查中
-under way               进行中
-under the influence     受影响（酒驾）
+The building is under construction.      大楼正在建设中。（状态之下→under）
+The situation is under control.          情况已受控制。（状态之下→under）
+The city is under attack.                城市正受攻击。（状态之下→under）
+He works under pressure.                 他在压力下工作。（状态之下→under）
+The forest is under threat.              森林受到威胁。（状态之下→under）
+She is under treatment.                  她在治疗中。（状态之下→under）
+The proposal is under consideration.     提案正在考虑中。（状态之下→under）
+The case is under investigation.         案件正在调查中。（状态之下→under）
+The road is under repair.                道路在维修中。（状态之下→under）
+The paper is under review.               论文正在审查中。（状态之下→under）
+The project is under way.                项目正在进行中。（状态之下→under）
+He drives under the influence.           他酒后驾车。（状态之下→under）
 ```
 
-### ④ 控制 / 管理
+### ④ 控制 / 管理：在...之下
 
 ```
-under his leadership    在他的领导下
-under management        在管理下
-under my command        在我的指挥下
-under the law           根据法律
-under the rules         根据规则
-under the agreement     根据协议
-under the circumstances 在这种情况下
+We work under his leadership.            我们在他的领导下工作。（控制之下→under）
+The store is under new management.       这家店在新的管理下。（控制之下→under）
+The army is under my command.            军队在我的指挥下。（控制之下→under）
+Everyone is equal under the law.         法律面前人人平等。（控制之下→under）
+We act under the rules.                  我们按照规则行事。（控制之下→under）
+They signed under the agreement.         他们根据协议签署。（控制之下→under）
+Under the circumstances, we leave.       在这种情况下，我们离开。（控制之下→under）
 ```
 
-### ⑤ 分类 / 类别
+### ⑤ 分类 / 类别：在...类下
 
 ```
-under this category     在这个类别下
-under the heading       在这个标题下
-under the name of       以...的名义
-under the alias         用化名
-under the code name     用代号
+This falls under this category.          这属于这个类别。（类别之下→under）
+It is listed under the heading.          它列在这个标题下。（类别之下→under）
+He writes under the name of Smith.       他以史密斯的名字写作。（类别之下→under）
+He travels under the alias of John.      他用约翰的化名旅行。（类别之下→under）
+The project is under the code name Hawk. 这个项目的代号是鹰。（类别之下→under）
 ```
 
 ### ⑥ 固定搭配
 
 ```
-under way               进行中
-under fire              受攻击/受批评
-under the weather       身体不适
-under the impression    以为
-under cover             在掩护下
-under lock and key      锁好
-under the table         秘密地/私下
-under the radar         不引人注意
-under age              未达到法定年龄
-under your breath       低声说
-under the sun           世界上（一切）
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-The cat is under the table.
-The   cat   is   under   the   table
-那    猫    是   在...下  那   桌子
-
-为什么用 under？
-猫在桌子的正下方，被桌面覆盖。
-
-画面：
-   ┌───────┐
-   │ 桌子  │
-   └───────┘
-      ↓ under
-     [猫]
-```
-
-**例 2：**
-
-```
-The road is under repair.
-The   road   is   under   repair
-那    路     是   在...中  维修
-
-为什么用 under？
-路处于"维修状态"之下。
-
-画面：
-[路] ←--在...状态之下--→ [维修]
-```
-
-**例 3：**
-
-```
-Children under 12 are free.
-Children   under   12   are   free
-孩子们     低于    12   是   免费
-
-为什么用 under？
-年龄"低于"12这个数字。
-
-画面：
-[0, 1, 2, ... 11] ← under 12
-[12] ← 临界点
-```
-
-**例 4：**
-
-```
-Everything is under control.
-Everything   is   under   control
-一切         是   在...下  控制
-
-为什么用 under？
-一切都在"控制"的覆盖之下。
-
-画面：
-[一切] ←--在...之下--→ [控制]
+The work is under way.                 工作正在进行中。（固定搭配→under）
+The soldier is under fire.             士兵在受攻击。（固定搭配→under）
+I feel under the weather.              我感觉身体不适。（固定搭配→under）
+I am under the impression he is right. 我以为他是对的。（固定搭配→under）
+The spy is under cover.                间谍在掩护下。（固定搭配→under）
+The jewels are under lock and key.     珠宝被锁好了。（固定搭配→under）
+They paid him under the table.         他们私下付给他钱。（固定搭配→under）
+The deal stayed under the radar.       这笔交易不引人注意。（固定搭配→under）
+She is under age.                      她未达到法定年龄。（固定搭配→under）
+He speaks under his breath.            他低声说话。（固定搭配→under）
+There is nothing new under the sun.    太阳底下无新事。（固定搭配→under）
 ```
 
 ## 7. 常见错误
@@ -4097,26 +3109,6 @@ not under the sun = 绝不可能
 
 There's nothing new under the sun.
 日光之下无新事。
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-under = 正下方 + 被覆盖 + 受控制 + 低于
-
-当他们说 under，他们"感觉"到：
-- 一个物体在另一个物体正下方
-- 被上方的东西覆盖/遮挡
-- 在某种状态/条件的"覆盖下"
-- 低于某个标准
-
-under the table → 在桌面下方被遮挡
-under construction → 被"施工"状态覆盖
-under 18 → 低于18岁
-under his control → 在他的掌控之下
-under the weather → 被"不适"状态覆盖
 ```
 
 ---
@@ -4189,42 +3181,42 @@ across（2D 横穿 - 表面穿过）：
 
 ## 5. 所有主要用法
 
-### ① 空间：从内部穿越
+### ① 空间：穿过...（内部）
 
 ```
-walk through the forest    穿过森林
-drive through the tunnel   开车穿过隧道
-go through the door        穿过门
-fly through the clouds     穿过云层
-look through the window    透过窗户看
-pass through the city      穿过城市
-cut through                抄近路穿过
-slide through              滑过
+We walk through the forest.           我们穿过森林。（内部穿越→through）
+He drives through the tunnel.         他开车穿过隧道。（内部穿越→through）
+She goes through the door.            她穿过门。（内部穿越→through）
+The plane flies through the clouds.   飞机穿过云层。（内部穿越→through）
+I look through the window.            我透过窗户看。（内部穿越→through）
+We pass through the city.             我们穿过城市。（内部穿越→through）
+He cuts through the parking lot.      他抄近路穿过停车场。（内部穿越→through）
+The snake slides through the grass.   蛇滑过草丛。（内部穿越→through）
 ```
 
-### ② 时间：从头到尾
+### ② 时间：从...到...
 
 ```
-through the night          整夜
-through the year           整年
-through the ages           世世代代
-through the week           整个星期
-through winter             整个冬天
-all through                一直
-through the years          这些年来
+He works through the night.              他整夜工作。（从头到尾→through）
+She studies through the year.            她整年学习。（从头到尾→through）
+This tradition continues through the ages. 这个传统世世代代延续。（从头到尾→through）
+It rains through the week.               整个星期都在下雨。（从头到尾→through）
+They travel through winter.              他们整个冬天都在旅行。（从头到尾→through）
+She stays awake all through the night.   她整夜都醒着。（从头到尾→through）
+I have known him through the years.      这些年来我一直认识他。（从头到尾→through）
 ```
 
-### ③ 经历 / 忍受
+### ③ 经历 / 忍受：经历...
 
 ```
-go through a difficult time   经历困难时期
-get through the exam          通过考试
-live through the war          经历过战争活着
-come through                  挺过来
-see through                   看透/识破
-pull through                  渡过难关
-make it through               挺过去
-suffer through                忍受过去
+She goes through a difficult time.   她经历困难时期。（经历过程→through）
+He gets through the exam.            他通过了考试。（经历过程→through）
+They live through the war.           他们经历战争活下来。（经历过程→through）
+He comes through the crisis.         他挺过了危机。（经历过程→through）
+I see through his lies.              我看穿了他的谎言。（经历过程→through）
+The patient pulls through.           病人渡过了难关。（经历过程→through）
+We make it through the night.        我们挺过了一夜。（经历过程→through）
+She suffers through the pain.        她忍受着痛苦。（经历过程→through）
 ```
 
 **画面：** 把困难时期想象为"隧道"，你要"穿越"它。
@@ -4236,122 +3228,48 @@ suffer through                忍受过去
   └────────────┘
 ```
 
-### ④ 方法 / 手段 / 通过
+### ④ 方法 / 手段：通过...
 
 ```
-through hard work          通过努力
-through the internet       通过互联网
-through the mail           通过邮件
-through a friend           通过朋友
-through the proper channels 通过正规渠道
-through the process        通过这个过程
+He succeeds through hard work.          他通过努力成功。（通过方式→through）
+I find it through the internet.         我通过互联网找到它。（通过方式→through）
+She sends it through the mail.          她通过邮件发送。（通过方式→through）
+He gets the job through a friend.       他通过朋友得到这份工作。（通过方式→through）
+We apply through the proper channels.   我们通过正规渠道申请。（通过方式→through）
+We learn through the process.           我们通过这个过程学习。（通过方式→through）
 ```
 
-### ⑤ 完成 / 结束
+### ⑤ 完成 / 结束：完成...
 
 ```
-be through with             完成/结束
-get through                 完成/打通电话
-put through                 接通（电话）
-see through                 坚持到底
-carry through               完成/贯彻
-follow through              跟进到底
+He is through with his work.             他完成了工作。（完成到底→through）
+She gets through the report.             她完成了报告。（完成到底→through）
+I put through the call.                  我接通了电话。（完成到底→through）
+I see the project through to the end.    我坚持到底完成项目。（完成到底→through）
+We carry through the plan.               我们贯彻计划。（完成到底→through）
+She follows through on her promise.      她跟进到底兑现承诺。（完成到底→through）
 ```
 
 ### ⑥ 固定搭配
 
 ```
-through and through       完全地/彻底地
-go through                经历/检查
-come through              成功/出现
-look through              浏览/看穿
-break through             突破
-get through               通过/完成
-see through               看穿
-carry through             完成
-put through               接通
-pull through              挺过来
-think through             想清楚
-read through              读完
-walk through              走一遍/演练
-live through              经历...活着
-sit through               坐到结束
-talk through              详细讨论
-write through            写完
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-We walked through the forest.
-We    walked   through   the   forest
-我们   走       穿过      那   森林
-
-为什么用 through？
-我们在森林"内部"穿越。
-
-画面：
-森林入口 → 在树间穿越 → 森林出口
-            ↑
-         through（内部）
-```
-
-**例 2：**
-
-```
-I saw him through the window.
-I    saw   him   through   the   window
-我   看见   他    透过      那   窗户
-
-为什么用 through？
-视线"穿越"玻璃。
-
-画面：
-[我] --视线穿越(through)--→ [玻璃] --→ [他]
-```
-
-**例 3：**
-
-```
-She got through the exam.
-She   got   through   the   exam
-她    通过了          那   考试
-
-为什么用 through？
-考试被想象为需要"穿越"的隧道/过程。
-
-画面：
-[准备] → 考试过程(through) → [通过]
-```
-
-**例 4：**
-
-```
-He succeeded through hard work.
-He   succeeded   through   hard   work
-他   成功        通过      努力   工作
-
-为什么用 through？
-努力工作"贯穿"了整个成功过程。
-
-画面：
-[成功] ←--通过(through)-- [努力工作]
-```
-
-**例 5：**
-
-```
-I'm through with this job.
-I'm   through   with   this   job
-我是   完成了    和     这    工作
-
-为什么用 through？
-"完成了" = 从工作的这一端走到了另一端。
-
-画面：
-[开始] →→through(穿越)→→ [完成]
+He is a professional through and through.   他完全是个专业人士。（固定搭配→through）
+I go through the documents.                 我检查文件。（固定搭配→through）
+She comes through in the end.               她最后成功了。（固定搭配→through）
+I look through the photos.                  我浏览照片。（固定搭配→through）
+We break through the barrier.               我们突破障碍。（固定搭配→through）
+He gets through the interview.              他通过了面试。（固定搭配→through）
+I see through the trick.                    我看穿了把戏。（固定搭配→through）
+We carry through the mission.               我们完成任务。（固定搭配→through）
+She puts through the call.                  她接通电话。（固定搭配→through）
+The patient pulls through.                  病人挺过来了。（固定搭配→through）
+I think through the problem.                我想清楚问题。（固定搭配→through）
+He reads through the article.               他读完文章。（固定搭配→through）
+We walk through the procedure.              我们演练程序。（固定搭配→through）
+They live through the disaster.             他们经历灾难活下来。（固定搭配→through）
+I sit through the lecture.                  我坐到讲座结束。（固定搭配→through）
+We talk through the issue.                  我们详细讨论问题。（固定搭配→through）
+She writes through the report.              她写完报告。（固定搭配→through）
 ```
 
 ## 7. 常见错误
@@ -4409,25 +3327,6 @@ go over = 过一遍（在表面）
 
 go through your notes = 仔细看笔记
 go over your notes = 浏览笔记
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-through = 内部穿越（从一端到另一端）
-
-当他们说 through，他们"感觉"到：
-- 进入一个空间内部
-- 在内部穿行
-- 从另一端出来
-- 完整的过程
-
-walk through → 进入→内部穿行→出来
-look through → 视线穿越物体
-get through → 穿越困难/过程
-through hard work → 努力工作贯穿整个过程
 ```
 
 ---
@@ -4489,126 +3388,54 @@ through = 3D 内部穿越
 
 ## 5. 所有主要用法
 
-### ① 空间：横穿表面
+### ① 空间：穿过...（表面）
 
 ```
-walk across the street      横穿马路
-run across the field        跑过田野
-swim across the river       游过河流
-drive across the country    开车横穿国家
-fly across the ocean        飞过海洋
-go across the bridge        走过桥
+We walk across the street.           我们横穿马路。（表面横穿→across）
+He runs across the field.            他跑过田野。（表面横穿→across）
+She swims across the river.          她游过河流。（表面横穿→across）
+They drive across the country.       他们开车横穿国家。（表面横穿→across）
+The plane flies across the ocean.    飞机飞过海洋。（表面横穿→across）
+I go across the bridge.              我走过桥。（表面横穿→across）
 ```
 
 ### ② 在...对面
 
 ```
-the store across the street  街对面的商店
-live across the river        住在河对岸
-across the room              在房间对面
-across the table             在桌子对面
-sit across from me           坐在我对面
+The store is across the street.            商店在街对面。（在对面→across）
+She lives across the river.                她住在河对岸。（在对面→across）
+He is across the room.                     他在房间对面。（在对面→across）
+She sits across the table from me.         她坐在桌子对面。（在对面→across）
+He sits across from me.                    他坐在我对面。（在对面→across）
 ```
 
-### ③ 范围 / 分布
+### ③ 范围 / 分布：遍布...
 
 ```
-across the world            全世界
-across the country           全国
-across all platforms         所有平台
-across different cultures    不同文化之间
-across the board             全面/整体
+The news spreads across the world.          新闻传遍全世界。（遍布范围→across）
+She travels across the country.             她走遍全国。（遍布范围→across）
+The app works across all platforms.         这个应用在所有平台都可用。（遍布范围→across）
+This idea appears across different cultures.  这个想法在不同文化间都出现。（遍布范围→across）
+The changes apply across the board.         这些改变全面适用。（遍布范围→across）
 ```
 
-### ④ 发现 / 偶然遇到
+### ④ 发现 / 偶遇：偶然...到
 
 ```
-come across                 偶然遇到/发现
-run across                  偶然碰到
-stumble across              意外发现
+I come across an old photo.           我偶然发现一张老照片。（偶遇发现→across）
+He runs across his friend.            他偶然碰到他的朋友。（偶遇发现→across）
+She stumbles across a secret.         她意外发现一个秘密。（偶遇发现→across）
 ```
 
 ### ⑤ 固定搭配
 
 ```
-across from                 在...对面
-come across                 偶然遇到
-get across                  传达/使理解
-put across                  表达清楚
-cut across                  抄近路/跨越
-across the board            全面地
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-Walk across the street.
-Walk   across   the   street
-走      横穿     那   街道
-
-为什么用 across？
-在街道"表面"横穿。
-
-画面：
-这边 ─═══ 横穿(across) ═══→ 那边
-```
-
-**例 2：**
-
-```
-There is a bank across the street.
-There   is   a   bank   across   the   street
-有        是   一  银行   对面       那   街道
-
-为什么用 across？
-银行在街道的"对面"。
-
-画面：
-[这里] ---- 街道(across) ---- [银行]
-```
-
-**例 3：**
-
-```
-He swam across the river.
-He   swam   across   the   river
-他   游泳   横穿     那   河流
-
-为什么用 across？
-从河的一边游到另一边（水面表面）。
-
-画面：
-[岸边A] --游泳横穿(across)-- [岸边B]
-```
-
-**例 4：**
-
-```
-I came across an old photo.
-I   came   across   an   old   photo
-我   偶然   碰到     一   老   照片
-
-为什么用 across？
-偶然"横穿"到视野中。
-
-画面：
-[我] --搜索--→ 突然横穿(across)进入视野 ← [旧照片]
-```
-
-**例 5：**
-
-```
-The news spread across the world.
-The   news   spread   across   the   world
-那    新闻   传播     遍布      那   世界
-
-为什么用 across？
-新闻如表面覆盖般"遍布"世界。
-
-画面：
-[新闻] --→ across(遍布) → [全世界]
+The bank is across from the station.         银行在车站对面。（固定搭配→across）
+I come across an interesting article.        我看到一篇有趣的文章。（固定搭配→across）
+She gets her point across.                   她清楚地表达了观点。（固定搭配→across）
+He puts the message across.                  他把信息表达清楚。（固定搭配→across）
+The new policy cuts across all departments.  新政策跨越所有部门。（固定搭配→across）
+The rules change across the board.           规则全面地改变了。（固定搭配→across）
 ```
 
 ## 7. 常见错误
@@ -4655,25 +3482,6 @@ I walked across the street. ✅（介词）
 I crossed the street. ✅（动词）
 
 动词用 cross，介词/副词用 across
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-across = 表面横穿 + 对面
-
-当他们说 across，他们"感觉"到：
-- 一个平面
-- 从一边到另一边
-- 表面运动
-- 对面位置
-
-walk across → 在表面横穿
-across the street → 在街道对面
-come across → 偶然"横穿"进入视线
-across the world → 遍布世界表面
 ```
 
 ---
@@ -4795,101 +3603,101 @@ between 是严格的两个
 
 ## 5. between 的所有主要用法
 
-### ① 空间：两个位置之间
+### ① 空间：在...和...之间
 
 ```
-between the two buildings    在两栋建筑之间
-between the chair and desk   在椅子和桌子之间
-between the river and hill   在河和山之间
+The park is between the two buildings.         公园在两栋建筑之间。（两者之间→between）
+The bag is between the chair and desk.         包在椅子和桌子之间。（两者之间→between）
+The village lies between the river and hill.   村庄在河和山之间。（两者之间→between）
 ```
 
-### ② 时间：两个时间点之间
+### ② 时间：在...和...之间
 
 ```
-between 2pm and 3pm         在2点到3点之间
-between Monday and Friday    在周一和周五之间
-between the ages of 10 and 15 在10到15岁之间
+The meeting is between 2pm and 3pm.              会议在2点到3点之间。（时间之间→between）
+The store is open between Monday and Friday.     商店在周一到周五之间营业。（时间之间→between）
+He grew a lot between the ages of 10 and 15.     他在10到15岁之间长大了很多。（时间之间→between）
 ```
 
-### ③ 选择：二选一
+### ③ 选择：在...和...中选择
 
 ```
-choose between A and B       在A和B之间选择
-decide between the two       在两者之间决定
-difference between           之间的区别
-distinguish between         区分
+I choose between tea and coffee.             我在茶和咖啡之间选择。（两者选一→between）
+She decides between the two options.         她在两个选项之间决定。（两者选一→between）
+I see a difference between them.             我看到它们之间的区别。（两者选一→between）
+He distinguishes between right and wrong.    他区分对与错。（两者选一→between）
 ```
 
-### ④ 共享：两者之间
+### ④ 共享：在...之间共享
 
 ```
-between us                   我们之间
-between you and me           就你我知道
-share between the two        两人分享
+This secret stays between us.                  这个秘密留在我们之间。（之间共享→between）
+Just between you and me, he is leaving.        就你我知道，他要走了。（之间共享→between）
+They share the cake between the two of them.   他们两人分享蛋糕。（之间共享→between）
 ```
 
-### ⑤ 关系：两者关系
+### ⑤ 关系：...和...的关系
 
 ```
-relationship between         之间的关系
-connection between           之间的连接
-agreement between            之间的协议
+The relationship between them is strong.        他们之间的关系很强。（两者关系→between）
+There is a connection between the two events.   这两个事件之间有联系。（两者关系→between）
+There is an agreement between the two parties.  双方之间有协议。（两者关系→between）
 ```
 
 ### ⑥ 固定搭配（between）
 
 ```
-between you and me       就你我知道（秘密）
-in between               在...之间
-read between the lines   理解言外之意
-few and far between      很少/稀少
+Between you and me, I don't trust him.          就你我知道，我不信任他。（固定搭配→between）
+The park is in between the two buildings.       公园在两栋建筑之间。（固定搭配→between）
+She reads between the lines of his message.     她理解他字里行间的言外之意。（固定搭配→between）
+Opportunities like this are few and far between.  这样的机会很少。（固定搭配→between）
 ```
 
 ## 6. among 的所有主要用法
 
-### ① 空间：被群体包围
+### ① 空间：在...之中
 
 ```
-among the crowd          在人群中
-among the trees          在树丛中
-among the ruins          在废墟中
-among the stars          在群星中
+He stands among the crowd.         他站在人群中。（群体之中→among）
+She walks among the trees.         她在树丛中走。（群体之中→among）
+The temple lies among the ruins.   寺庙位于废墟中。（群体之中→among）
+The Earth is among the stars.      地球在群星之中。（群体之中→among）
 ```
 
 ### ② 群体成员：是...之一
 
 ```
-among the best           在最好的之中
-among the top 10         在前10名中
-among the first          在第一批中
-among my friends         在我的朋友中
+She is among the best students.       她是最好的学生之一。（其中之一→among）
+He is among the top 10 players.       他在前10名选手中。（其中之一→among）
+We are among the first to arrive.     我们是第一批到达的。（其中之一→among）
+I feel comfortable among my friends.  我在朋友中感到自在。（其中之一→among）
 ```
 
-### ③ 分配：在多个之间
+### ③ 分配：在...中分配
 
 ```
-distribute among        在...中分配
-divide among            在...中划分
-share among             在...中分享
-among themselves        在他们之间
+They distribute food among the villagers.         他们在村民中分配食物。（群体分配→among）
+We divide the work among the team members.        我们在团队成员中划分工作。（群体分配→among）
+They share the money among themselves.            他们自己之间分享这笔钱。（群体分配→among）
+They settled the matter among themselves.         他们自己在之间解决了问题。（群体分配→among）
 ```
 
 ### ④ 在...中（范围）
 
 ```
-among other things      在其他事物中
-among the reasons       在原因中
-among the options       在选项中
+Among other things, he mentioned the plan.   在其他事物中，他提到了这个计划。（范围之中→among）
+Among the reasons, cost is the main one.     在所有原因中，成本是主要的。（范围之中→among）
+This is among the options we have.           这是我们的选项之一。（范围之中→among）
 ```
 
 ### ⑤ 固定搭配（among）
 
 ```
-among others           以及其他
-among other things      除此之外
-among themselves       在他们之间
-first among equals      同辈中的领袖
-one among many         众多之一
+Among others, John and Mary attended.        其他人中，约翰和玛丽参加了。（固定搭配→among）
+Among other things, I learned to cook.       除此之外，我学会了做饭。（固定搭配→among）
+They discussed it among themselves.          他们自己之间讨论了这件事。（固定搭配→among）
+He is the first among equals in the team.    他是团队中同辈中的领袖。（固定搭配→among）
+This is just one among many examples.        这只是众多例子之一。（固定搭配→among）
 ```
 
 ## 7. between 和 among 的区分
@@ -4918,47 +3726,6 @@ the difference between the three methods
 ```
 among the crowd（人群中——不区分个体）
 among the books（书堆中——群体概念）
-```
-
-## 8. 大量例句
-
-**例 1（between）：**
-
-```
-Sit between John and Mary.
-Sit   between   John   and   Mary
-坐    在...之间  约翰   和   玛丽
-
-为什么用 between？
-约翰和玛丽是两个明确的个体。
-
-画面：
-[John] ←── 之间(between) ──→ [Mary]
-```
-
-**例 2（among）：**
-
-```
-He is among the crowd.
-He   is   among   the   crowd
-他   是   在...中   那   人群
-
-为什么用 among？
-人群是"群体"，不是明确的两个个体。
-
-画面：
-人群：● ● ● ● ●
-      ● [他] ●
-      ● ● ● ● ●
-```
-
-**例 3（between 例外）：**
-
-```
-The differences between these three paintings are subtle.
-这三幅画之间的差异很细微。
-
-（虽然是三个，但强调"两两对比"，所以用 between）
 ```
 
 ## 9. 常见错误
@@ -4998,30 +3765,6 @@ between him and her ✅
 
 among = 美式/通用
 amongst = 英式/正式/文学化
-```
-
-## 10. 母语者思维
-
-```
-母语者脑中：
-
-between = 两个独立个体之间（清晰/明确）
-among = 群体中（模糊/混合）
-
-当他们说 between：
-- "我在A和B之间"
-- 两个清晰的位置/人/选择
-- 两两关系
-
-当他们说 among：
-- "我在群体中"
-- 被包围/混在一起
-- 不分你我
-
-between the two trees → 两棵树之间
-among the trees → 在树丛中（多棵树）
-between you and me → 我们两个人之间（秘密）
-among the people → 在人群中（不区分个体）
 ```
 
 ---
@@ -5125,83 +3868,83 @@ onto = 动态：从上方到接触表面
 
 ## 5. into 的所有主要用法
 
-### ① 空间：进入内部
+### ① 空间：进入...
 
 ```
-walk into the room         走进房间
-come into the house        走进房子
-jump into the water         跳入水中
-get into the car            上车
-put into the box            放进盒子
+She walks into the room.            她走进房间。（从外到内）
+He comes into the house.            他走进房子。（从外到内）
+The boy jumps into the water.       男孩跳入水中。（从外到内）
+We get into the car.                我们上车。（从外到内）
+I put the books into the box.       我把书放进盒子。（从外到内）
 ```
 
-### ② 变化 / 转变
+### ② 变化 / 转变：变成...
 
 ```
-turn into                  变成
-change into                变为
-transform into             转变成为
-develop into               发展为
-translate into             翻译成
-divide into                分成
+The caterpillar turns into a butterfly.     毛毛虫变成蝴蝶。（转变进入）
+Water changes into ice.                      水变成冰。（转变进入）
+The small town transforms into a big city.   小镇变成大城市。（转变进入）
+The seed develops into a plant.              种子发展成植物。（转变进入）
+Translate this sentence into Chinese.        把这句话翻译成中文。（转变进入）
+Divide the cake into four pieces.            把蛋糕分成四块。（转变进入）
 ```
 
-### ③ 涉及 / 参与
+### ③ 涉及 / 参与：参与到...
 
 ```
-get into                   参与/陷入
-go into                    进入/从事
-look into                  调查
-inquire into               调查
+She gets into trouble.           她陷入麻烦。（参与进入）
+He goes into business.           他从事商业。（参与进入）
+I look into the problem.         我调查这个问题。（参与进入）
+They inquire into the matter.    他们调查此事。（参与进入）
 ```
 
-### ④ 碰撞 / 偶遇
+### ④ 碰撞 / 偶遇：撞上...
 
 ```
-run into                   偶然遇到/撞上
-bump into                  撞到/偶遇
-crash into                 撞上
-break into                 闯入
+I run into an old friend.         我偶然遇到一位老朋友。（碰撞遇到）
+He bumps into the door.           他撞到门上。（碰撞遇到）
+The car crashes into the tree.    汽车撞上树。（碰撞遇到）
+Someone breaks into the house.    有人闯入房子。（碰撞遇到）
 ```
 
 ### ⑤ 固定搭配（into）
 
 ```
-be into                    对...感兴趣
-look into                  调查
-run into                   偶遇
-get into                   参与/进入
-turn into                  变成
-talk into                  说服
+She is into music.                      她对音乐感兴趣。（固定搭配）
+I look into the details.                我调查细节。（固定搭配）
+He runs into his neighbor.              他偶遇邻居。（固定搭配）
+They get into an argument.              他们陷入争论。（固定搭配）
+The frog turns into a prince.           青蛙变成王子。（固定搭配）
+She talks him into going.               她说服他去。（固定搭配）
 ```
 
 ## 6. onto 的所有主要用法
 
-### ① 空间：移动到表面
+### ① 空间：到...上
 
 ```
-jump onto the table        跳上桌子
-climb onto the roof        爬上屋顶
-step onto the platform     踏上平台
-get onto the bus           上公交车
+The cat jumps onto the table.        猫跳上桌子。（到表面）
+He climbs onto the roof.             他爬上屋顶。（到表面）
+She steps onto the platform.         她踏上平台。（到表面）
+We get onto the bus.                 我们上公交车。（到表面）
 ```
 
-### ② 抽象：进入某个状态/话题
+### ② 抽象：进入...话题
 
 ```
-move onto the next topic   进入下一个话题
-get onto the subject       进入这个话题
-hold onto                  抓住/坚持
-onto something             发现/找到线索
+Let's move onto the next topic.      让我们进入下一个话题。（进入话题）
+He gets onto the subject quickly.    他很快进入这个话题。（进入话题）
+Hold onto the rope.                  抓住绳子。（进入话题）
+I think I am onto something.         我想我发现了线索。（进入话题）
 ```
 
 ### ③ 固定搭配（onto）
 
 ```
-hold onto                  抓住/坚持
-get onto                   上/联系（话题）
-be onto                    发现/意识到
-move onto                  继续到
+Hold onto your hat.                     抓住你的帽子。（固定搭配）
+She gets onto the next issue.           她继续到下一个问题。（固定搭配）
+The police are onto him.                警察发现了他。（固定搭配）
+We move onto the final topic.           我们继续到最后一个话题。（固定搭配）
 ```
 
 ## 7. into 和 onto 的对比
@@ -5226,64 +3969,6 @@ onto：
        ↓
   ════════════
   接触表面
-```
-
-## 8. 大量例句
-
-**例 1（into）：**
-
-```
-She walked into the room.
-She   walked   into   the   room
-她    走       进入    那   房间
-
-为什么用 into？
-从房间外面"进入"房间内部。
-
-画面：
-[走廊] →→→(walk into)→→→ [房间内部]
-```
-
-**例 2（onto）：**
-
-```
-The cat jumped onto the table.
-The   cat   jumped   onto   the   table
-那    猫     跳        上    那   桌子
-
-为什么用 onto？
-从下方"跳"到桌面表面。
-
-画面：
-[地板] → 跳(onto) → [桌面]
-```
-
-**例 3（into 抽象）：**
-
-```
-The caterpillar turned into a butterfly.
-The   caterpillar   turned   into   a   butterfly
-那    毛毛虫        变成        一   蝴蝶
-
-为什么用 into？
-毛毛虫到蝴蝶的"转变"被看作从一种状态"进入"另一种状态。
-
-画面：
-[毛毛虫] →→→→(into)→→→→ [蝴蝶]
-```
-
-**例 4（onto 抽象）：**
-
-```
-Let's move onto the next topic.
-Let's   move   onto   the   next   topic
-让我们   继续    到     那   下一个  话题
-
-为什么用 onto？
-话题被想象为一个"平面"，我们从当前话题"移动到"下一个话题的表面。
-
-画面：
-[当前话题] →→(move onto)→→ [下一个话题]
 ```
 
 ## 9. 常见错误
@@ -5324,32 +4009,6 @@ into = 动态运动（从外到内）
 
 静态：The book is in the bag. ✅
 动态：Put the book into the bag. ✅
-```
-
-## 10. 母语者思维
-
-```
-母语者脑中：
-
-into = 从外到内的运动（进入容器）
-onto = 从上方到表面的运动（接触表面）
-
-当他们说 into：
-- "从外面进到里面"
-- 穿越过边界
-- 被包围
-- 状态改变
-
-当他们说 onto：
-- "从上方落到表面"
-- 接触
-- 新的表面/话题
-- 抓住/坚持
-
-walk into → 穿越门进入房间
-turn into → 变成另一种形态
-jump onto → 跳到表面
-hold onto → 抓住（不让离开）
 ```
 
 ---
@@ -5416,24 +4075,24 @@ from = 从某点开始（不强调内部/外部）
 ### ① 空间：从...出来
 
 ```
-walk out of the room      走出房间
-come out of the house     从房子出来
-get out of the car        下车
-jump out of the window    跳出窗户
-take out of the box       从盒子取出
-run out of the building   从建筑跑出
+She walks out of the room.              她走出房间。（从内到外）
+He comes out of the house.              他从房子出来。（从内到外）
+We get out of the car.                  我们下车。（从内到外）
+The cat jumps out of the window.        猫跳出窗户。（从内到外）
+I take the gift out of the box.         我从盒子取出礼物。（从内到外）
+They run out of the building.           他们从建筑跑出。（从内到外）
 ```
 
-### ② 缺少 / 用完
+### ② 缺少 / 用完：用完了...
 
 ```
-run out of                用完
-out of stock              缺货
-out of time               没时间了
-out of money              没钱了
-out of breath             喘不过气
-out of fuel               没油了
-out of ideas              没主意了
+We run out of milk.                        我们用完了牛奶。（耗尽了）
+The item is out of stock.                  该商品缺货。（耗尽了）
+I am out of time.                          我没时间了。（耗尽了）
+He is out of money.                        他没钱了。（耗尽了）
+She is out of breath after running.        她跑完后喘不过气。（耗尽了）
+The car is out of fuel.                    车没油了。（耗尽了）
+I am out of ideas.                         我没主意了。（耗尽了）
 ```
 
 **画面：** 从一个容器中"耗尽"内容物。
@@ -5446,109 +4105,53 @@ out of ideas              没主意了
 ### ③ 状态：不在...状态中
 
 ```
-out of danger             脱离危险
-out of trouble            无麻烦
-out of order             出故障/失控
-out of control           失控
-out of date              过时
-out of fashion           不流行
-out of place             不合适
-out of practice          生疏
-out of work              失业
+The patient is out of danger.               病人脱离危险。（脱离状态）
+We are out of trouble now.                  我们现在没有麻烦了。（脱离状态）
+The machine is out of order.                机器出故障了。（脱离状态）
+The situation is out of control.            情况失控了。（脱离状态）
+This information is out of date.            这个信息过时了。（脱离状态）
+That style is out of fashion.               那个风格不流行了。（脱离状态）
+His comment seems out of place.             他的评论似乎不合适。（脱离状态）
+I am out of practice at playing piano.      我弹钢琴生疏了。（脱离状态）
+He is out of work at the moment.            他目前失业了。（脱离状态）
 ```
 
 **画面：** 从某种状态中"出来"。
 
-### ④ 来源 / 材料
+### ④ 来源 / 材料：出于...
 
 ```
-made out of wood         用木头做的
-build out of stone        用石头建造
-out of kindness           出于善意
-out of curiosity          出于好奇
-out of fear               出于恐惧
-out of love               出于爱
+This table is made out of wood.             这张桌子是用木头做的。（出于来源）
+They build the wall out of stone.           他们用石头建造墙。（出于来源）
+He helps out of kindness.                   他出于善意帮忙。（出于来源）
+She asks out of curiosity.                  她出于好奇询问。（出于来源）
+He acts out of fear.                        他出于恐惧行动。（出于来源）
+She does it out of love.                    她出于爱做这件事。（出于来源）
 ```
 
-### ⑤ 比例 / 从...中
+### ⑤ 比例：...中有...
 
 ```
-two out of three          三个中的两个
-one out of ten            十个中的一个
-nine out of ten           十有八九
-out of everyone           在所有人中
+Two out of three people agree.              三个中的两个人同意。（从中比例）
+One out of ten students passes.             十个中有一个学生通过。（从中比例）
+Nine out of ten customers are satisfied.    十个顾客中有九个满意。（从中比例）
+He scored the highest out of everyone.      他是所有人中得分最高的。（从中比例）
 ```
 
 ### ⑥ 固定搭配
 
 ```
-out of the window         从窗户/被忽略
-out of the blue           突然地
-out of the question       不可能
-out of this world         出类拔萃
-out of the ordinary       不寻常
-out of sight              看不见
-out of touch              失去联系
-out of hand               失控
-out of the way            不妨碍/偏远
-out of bounds             越界
-out of line               出格/越线
-```
-
-## 6. 大量例句（逐词解释）
-
-**例 1：**
-
-```
-She walked out of the room.
-She   walked   out   of   the   room
-她    走       出     那   房间
-
-为什么用 out of？
-从房间内部"出来"到外部。
-
-画面：
-[房间内部] →→→(out of)→→→ [走廊]
-```
-
-**例 2：**
-
-```
-We are out of milk.
-We   are   out   of   milk
-我们   是    没了   牛奶
-
-为什么用 out of？
-牛奶"从容器里出来完了"。
-
-画面：
-[冰箱：满] →→→ [冰箱：空]
-               out of
-```
-
-**例 3：**
-
-```
-He did it out of kindness.
-He   did   it   out   of   kindness
-他    做    它   出于   善意
-
-为什么用 out of？
-善意是行动的"来源"。
-
-画面：
-[行动] ←--来源(out of)-- [善意]
-```
-
-**例 4：**
-
-```
-Nine out of ten people agree.
-Nine   out   of   ten   people   agree
-九     个    的    十    人       同意
-
-为什么用 out of？
-"从十个人中"选出的九个。
+All my plans go out of the window.          我所有的计划都被忽略了。（固定搭配）
+The news came out of the blue.              消息突然传来。（固定搭配）
+Buying a car is out of the question.        买车是不可能的。（固定搭配）
+The view is out of this world.              景色出类拔萃。（固定搭配）
+Nothing out of the ordinary happened.       没有发生不寻常的事。（固定搭配）
+The ship is out of sight.                   船看不见了。（固定搭配）
+We are out of touch with each other.        我们彼此失去联系。（固定搭配）
+The situation is getting out of hand.       情况正在失控。（固定搭配）
+Step out of the way.                        让开路。（固定搭配）
+The ball is out of bounds.                  球越界了。（固定搭配）
+His behavior is out of line.                他的行为出格了。（固定搭配）
 ```
 
 ## 7. 常见错误
@@ -5590,27 +4193,6 @@ run out（没有宾语，东西作主语）
 
 I ran out of time. ✅
 Time ran out. ✅
-```
-
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-out of = 从内部到外部（进入的反面）
-
-当他们说 out of，他们"感觉"到：
-- 离开一个封闭空间
-- 从内部出来
-- 离开某个状态
-- 耗尽/用完
-- 来源
-
-walk out of → 从房间内走到外
-run out of → 东西"出来"完了
-out of danger → 离开危险状态
-out of kindness → 善意作为"来源"出来
-nine out of ten → 从十个中"出来"九个
 ```
 
 ---
@@ -5669,79 +4251,32 @@ while I was sleeping → 当我在睡觉时（平行事件）
 ### ① 在...期间（已知时间段）
 
 ```
-during the meeting        会议期间
-during the summer        夏季期间
-during the war           战争期间
-during the night         夜间
-during the day           白天
-during the week          这周期间
-during the holidays      假期期间
-during the movie         电影播放期间
+He falls asleep during the meeting.        他在会议期间睡着了。（在期间内）
+We travel during the summer.               我们在夏季期间旅行。（在期间内）
+Many people suffer during the war.         许多人在战争期间受苦。（在期间内）
+It rains during the night.                 夜间下雨。（在期间内）
+She works during the day.                  她白天工作。（在期间内）
+I will finish it during the week.          我在这周期间完成它。（在期间内）
+They visit family during the holidays.     他们在假期期间拜访家人。（在期间内）
+He eats popcorn during the movie.          他在电影播放期间吃爆米花。（在期间内）
 ```
 
-### ② 在...过程中
+### ② 在...过程中：在...期间
 
 ```
-during the operation     手术过程中
-during the conversation  谈话过程中
-during the performance   表演过程中
-during the interview     面试过程中
+The patient is asleep during the operation.      病人在手术过程中睡着。（过程期间）
+She stays quiet during the conversation.          她在谈话过程中保持安静。（过程期间）
+The audience claps during the performance.        观众在表演过程中鼓掌。（过程期间）
+He gets nervous during the interview.             他在面试过程中紧张。（过程期间）
 ```
 
-### ③ 在...某个时间点（在时间段内）
+### ③ 在...某个时间点：在...时
 
 ```
-during my stay          在我停留期间
-during his childhood    在他的童年
-during the 1990s        在1990年代
-during the pandemic     疫情期间
-```
-
-## 6. 大量例句
-
-**例 1：**
-
-```
-He fell asleep during the movie.
-He   fell   asleep   during   the   movie
-他    睡着了      在...期间   那   电影
-
-为什么用 during？
-电影播放的时间段是已知的"容器"。
-
-画面：
-[电影开始] ────during──── [电影结束]
-                ↑
-           他睡着了（在时间段内）
-```
-
-**例 2：**
-
-```
-During the summer, we went to the beach.
-During   the   summer   we   went   to   the   beach
-在...期间   那   夏天    我们   去了    到   那   海滩
-
-为什么用 during？
-夏天是一个已知的时间段。
-
-画面：
-[春天] ── [夏季(during)] ── [秋天]
-```
-
-**例 3：**
-
-```
-No talking during the exam.
-No   talking   during   the   exam
-不    说话     在...期间  考试
-
-为什么用 during？
-考试时间段内禁止说话。
-
-画面：
-[考试开始] ──during── [考试结束]
-    禁止说话↑
+I made friends during my stay.              我在停留期间交了朋友。（时间段内）
+He learned piano during his childhood.       他在童年学了钢琴。（时间段内）
+The internet grew rapidly during the 1990s.  互联网在1990年代快速发展。（时间段内）
+Many people worked from home during the pandemic.  许多人在疫情期间在家工作。（时间段内）
 ```
 
 ## 7. 常见错误
@@ -5793,23 +4328,6 @@ I was born in 1990. ✅（一般时间表达）
 Many changes happened during the 1990s. ✅（强调这个十年期间的变化）
 ```
 
-## 8. 母语者思维
-
-```
-母语者脑中：
-
-during = 在时间容器内部
-
-当他们说 during，他们"感觉"到：
-- 一个已知的时间段
-- 事件在这个时间段内发生
-- 时间段像容器一样包围事件
-
-during the meeting → 会议这个"时间容器"
-during the war → 战争这个"时间容器"
-during my childhood → 童年这个"时间容器"
-```
-
 ---
 
 # before / after
@@ -5834,15 +4352,15 @@ during my childhood → 童年这个"时间容器"
 ### 3. 常用用法
 
 ```
-before 3pm              在3点前
-before Monday           在周一前
-before the meeting      会议前
-before dinner           晚饭前
-before you go           你走之前
-before my time          在我之前
-before class            上课前
-before that             在那之前
-before long             不久后（注意：是"不久后"）
+I arrive before 3pm.                我在3点前到。
+She comes before Monday.            她在周一前来。
+We meet before the meeting.         我们在会议前碰面。
+I wash my hands before dinner.      我饭前洗手。
+Think before you go.                你走之前想一想。
+This was before my time.            这在我之前。
+I review notes before class.        我上课前复习笔记。
+Check it before that.               在那之前检查一下。
+It will end before long.            不久后就会结束。
 ```
 
 ---
@@ -5867,16 +4385,16 @@ before long             不久后（注意：是"不久后"）
 ### 3. 常用用法
 
 ```
-after 3pm               在3点后
-after Monday            在周一后
-after the meeting       会议后
-after dinner            晚饭后
-after you go            你走后
-after all               毕竟
-after that              在那之后
-after class             下课后
-after a while           过了一会儿
-day after day           日复一日
+I leave after 3pm.                  我在3点后离开。
+She arrives after Monday.           她在周一后到达。
+We talk after the meeting.          我们会议后交谈。
+I take a walk after dinner.         我晚饭后散步。
+I clean up after you go.            你走后我打扫。
+After all, it's not so bad.         毕竟，也没那么糟。
+We go home after that.              那之后我们回家。
+I play soccer after class.          我下课后踢足球。
+I feel better after a while.        过了一会儿我感觉好多了。
+Day after day passes quickly.       日复一日过得很快。
 ```
 
 ---
@@ -5921,20 +4439,20 @@ day after day           日复一日
 ## 5. 主要用法
 
 ```
-sit around the table     围桌而坐
-walk around the park     绕公园走
-travel around the world  环游世界
-around the corner        在拐角处/即将来临
-around 5 o'clock         大约5点
-around 20 people         大约20人
-turn around              转身
-go around                绕路
-around here              在这附近
-fool around              胡闹
-get around               到处走动/回避
-look around              环顾四周
-all around               到处
-around the clock         24小时不停
+They sit around the table.           他们围桌而坐。（环绕周围）
+I walk around the park.              我绕公园走。（环绕周围）
+She travels around the world.        她环游世界。（环绕周围）
+The store is around the corner.      商店在拐角处。（环绕周围）
+We go around the lake.               我们绕湖走。（环绕周围）
+I arrive around 5 o'clock.           我大约5点到。（大约范围）
+There are around 20 people.          大约有20人。（大约范围）
+He lives around here.                他住在这附近。（大约范围）
+She turns around.                    她转身。（四处移动）
+I get around by bike.                我骑自行车到处走。（四处移动）
+She looks around.                    她环顾四周。（四处移动）
+Flowers bloom all around.            到处花都开了。（四处移动）
+Don't fool around.                   别胡闹。（固定搭配）
+The shop is open around the clock.   这家店24小时营业。（固定搭配）
 ```
 
 ## 6. 例句
@@ -6001,31 +4519,29 @@ There   are   trees   around   the   house
 ## 5. 主要用法
 
 ```
-lean against the wall    靠在墙上
-stand against the door   靠门站着
-put against the wall     靠墙放
+He leans against the wall.             他靠在墙上。（紧贴支撑）
+She stands against the door.           她靠门站着。（紧贴支撑）
+I put the ladder against the wall.     我把梯子靠在墙上。（紧贴支撑）
 
-fight against            对抗
-struggle against         斗争
-argue against            反对
-vote against             投票反对
-go against               违背
-stand up against         反抗
+We fight against injustice.            我们与不公抗争。（反对对抗）
+They struggle against poverty.         他们与贫困斗争。（反对对抗）
+She argues against the plan.           她反对这个计划。（反对对抗）
+I vote against the proposal.           我投票反对这个提案。（反对对抗）
+Don't go against the rules.            不要违背规则。（反对对抗）
+We stand up against bullying.          我们反抗霸凌。（反对对抗）
 
-against the law          违法
-against the rules        违规
-against my will          违背我的意愿
-against the odds         尽管困难
+This act is against the law.           这种行为违法。（违反违背）
+That is against the rules.             那是违规的。（违反违背）
+It is against my will.                 这违背我的意愿。（违反违背）
+He wins against the odds.              他克服困难获胜了。（固定搭配）
 
-protect against          保护免受
-insure against           为...保险
-guard against            防范
-prevent against          预防
+Sunscreen protects against sunburn.    防晒霜防晒伤。（预防抵挡）
+We insure against fire damage.         我们保火灾险。（预防抵挡）
+Guard against danger.                  防范危险。（预防抵挡）
+Vaccines prevent against disease.      疫苗预防疾病。（预防抵挡）
 
-against the background   以...为背景
-against the sky          映衬天空
-as against               与...对比
-over against             在...对面
+The tree stands against the sky.       树木映衬着天空。（映衬对比）
+We see her silhouette against the sky. 我们看到她映衬天空的剪影。（映衬对比）
 ```
 
 ## 6. 例句
