@@ -504,44 +504,42 @@ at  = 状态像"坐标点"，你刚好在那个位置上 → 中性标记
       at work（坐标点标记为"工作中"）
 ```
 
-### ④ 主题：关于...
+### ④ 领域 / 涉及：在...方面 / 在...领域
 
 ```
-I read a book on history.             我读了一本关于历史的书。（话题表面→on）
-He gave a lecture on physics.         他做了一个关于物理的讲座。（话题表面→on）
-She wrote an article on AI.           她写了一篇关于AI的文章。（话题表面→on）
+She works in education.          她在教育领域工作。（范围领域→in）
+He is an expert in physics.      他是物理学专家。（知识领域→in）
+She believes in hard work.       她相信努力工作的价值。（涉及领域→in）
+He is interested in art.         他对艺术感兴趣。（情感领域→in）
+They succeeded in the end.       他们最终成功了。（结果领域→in）
+I am involved in the project.    我参与了那个项目。（参与范围→in）
+She specializes in medicine.     她专攻医学。（专业领域→in）
 ```
 
-**为什么用 on？**
-
-`on` 比 `about` 更正式、更深入。
-
-`on` 的画面：说话者"站在"某个话题的"表面"上进行深入探讨。
-
-### ⑤ 设备 / 媒介：在...上
+### ⑤ 形式 / 媒介：以...形式
 
 ```
-She is on the phone.         她在打电话。（媒介平台→on）
-The news is on TV.           新闻在电视上。（媒介平台→on）
-I heard it on the radio.     我在收音机上听到的。（媒介平台→on）
-Find it on the internet.     在互联网上找。（媒介平台→on）
-I work on a computer.        我在电脑上工作。（媒介平台→on）
-The app runs on a device.    这个应用在设备上运行。（媒介平台→on）
+Please write it in English.      请用英语写。（语言形式→in）
+The report is in writing.        报告是书面形式的。（形式媒介→in）
+He paid in cash.                 他用现金支付。（支付方式→in）
+The statue is in bronze.         雕像是青铜做的。（材料形式→in）
+She spoke in a loud voice.       她大声说话。（方式形式→in）
+The room is in good order.       房间很整齐。（状态形式→in）
 ```
 
 ### ⑥ 固定搭配
 
 ```
-It depends on the weather.                  这取决于天气。（固定搭配→on）
-You can rely on me.                         你可以依赖我。（固定搭配→on）
-He insists on going.                        他坚持要去。（固定搭配→on）
-Focus on your work.                         专注于你的工作。（固定搭配→on）
-Please comment on this.                     请评论这个。（固定搭配→on）
-I congratulate you on your success.         我祝贺你的成功。（固定搭配→on）
-The movie is based on a true story.         这部电影基于真实故事。（固定搭配→on）
-Carry on with your work.                    继续你的工作。（固定搭配→on）
-Please go on.                               请继续。（固定搭配→on）
-Hold on, please.                            请稍等。（固定搭配→on）
+In fact, I agree with you.       事实上，我同意你。（固定搭配→in）
+Take an umbrella in case it rains. 带把伞以防下雨。（固定搭配→in）
+He explained it in detail.       他详细解释了。（固定搭配→in）
+Please arrive in advance.        请提前到达。（固定搭配→in）
+She said it in public.           她公开说了。（固定搭配→in）
+In general, the plan works.      总的来说，计划可行。（固定搭配→in）
+In my opinion, it is right.      在我看来，这是对的。（固定搭配→in）
+The machine is in use.           机器正在使用中。（固定搭配→in）
+He is in charge of the team.     他负责这个团队。（固定搭配→in）
+They are in trouble.             他们遇到了麻烦。（固定搭配→in）
 ```
 
 ## 7. 常见错误
@@ -1370,17 +1368,17 @@ I bought this for you:
 
 ## 6. 所有主要用法
 
-### ① 目的 / 用途：为了...
+### ① 充当 / 用途：作为... / 为了...
 
 ```
-The house is for sale.                这房子出售。（目的用途→for）
-This apartment is for rent.           这公寓出租。（目的用途→for）
-I eat eggs for breakfast.             我早餐吃鸡蛋。（目的用途→for）
-For example, look at this one.        例如，看这个。（目的用途→for）
-For this reason, I agreed.            因为这个原因，我同意了。（目的用途→for）
-This knife is used for cooking.       这把刀用于烹饪。（目的用途→for）
-She studies for the exam every night.   她每晚为考试学习。（目的用途→for）
-Let's go for a walk after dinner.      我们晚饭后去散步吧。（目的用途→for）
+The house is for sale.                这房子（挂牌）出售。（充当状态→for）
+This apartment is for rent.           这公寓出租。（充当状态→for）
+I had an egg for breakfast.           我早餐吃了个鸡蛋。（充当餐品→for）
+For example, look at this one.        例如，看这个。（充当例子→for）
+For this reason, I agreed.            因为这个原因，我同意了。（充当原因→for）
+This knife is for cutting bread.      这把刀是用来切面包的。（充当用途→for）
+She studies for the exam.             她为考试而学习。（瞄准目标→for）
+Let's go for a walk.                  我们去散个步吧。（充当活动→for）
 ```
 
 ### ② 受益者：为...
