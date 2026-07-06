@@ -494,70 +494,84 @@ I am waiting for you.     → ✓（加 for 再接宾语）
 将来    I will eat   I will be eating I will have eaten I will have been eating
 ```
 
-## 3.2 一般现在时
+## 3.2 一般现在时（Simple Present）
 
 ### 结构
 
 ```
-肯定：   主语 + V（第三人称单数加 -s）
-否定：   主语 + do/does + not + V
-疑问：   Do/Does + 主语 + V?
+肯定：   主语 + 动词原形（第三人称单数加 -s）
+否定：   主语 + do/does + not + 动词原形
+疑问：   Do/Does + 主语 + 动词原形?
 
-I eat.            → 肯定
-I do not eat.     → 否定
-Do you eat?       → 疑问
-
-He eats.          → 第三人称单数肯定
-He does not eat.  → 否定
-Does he eat?      → 疑问
+I eat.            He eats.
+I do not eat.     He does not eat.
+Do you eat?       Does he eat?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-I eat breakfast at 7.            → "我每天7点吃早餐。"（"每天"暗示习惯）
-Water boils at 100°C.            → "水在100°C沸腾。"（真理：不加"了"）
-He works in a bank.              → "他在银行工作。"（常态：不加"正在"）
-I like coffee.                   → "我喜欢咖啡。"（状态：不加"了"/"正在"）
+| 时间词 | 汉语意思 | 使用提示 |
+|--------|---------|---------|
+| always | 总是 | 频率最高 |
+| usually | 通常 | 频率很高 |
+| often | 经常 | 频率中等 |
+| sometimes | 有时 | 频率较低 |
+| seldom / rarely | 很少 | 频度低（否定含义） |
+| never | 从不 | 零频率 |
+| every day / week / month / year | 每天/每周/每月/每年 | 固定频率 |
+| on Mondays / on weekends | 每周一/每周末 | 特定日期重复 |
+| in the morning / afternoon / evening | 在早上/下午/晚上 | 一天中的时段 |
+| once / twice a week | 一周一次/两次 | 具体频率 |
 
-中文翻译要点：
-  习惯 → 加"每天/通常"
-  真理 → 不加任何时间词
-  状态 → 不加"了/正在"
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**频率副词：**
 
-```
-always, usually, often, sometimes, seldom, never
-every day / week / month / year
-in the morning / afternoon / evening
-on Mondays / on weekends
-```
+| 英文 | 中文 |
+|------|------|
+| I **always** drink coffee in the morning. | 我早上**总是**喝咖啡。 |
+| She **usually** takes the bus to work. | 她**通常**坐公交车上班。 |
+| He **often** reads before bed. | 他**经常**睡前看书。 |
+| They **sometimes** eat out on weekends. | 他们**有时**周末出去吃。 |
+| We **seldom** watch TV. | 我们**很少**看电视。 |
+| I **never** eat meat. | 我**从不**吃肉。 |
 
-### 更多例句
+**every / on / in 短语：**
 
-```
-习惯：
-  I always drink coffee in the morning.      → 我早上总是喝咖啡。
-  She goes to the gym every Tuesday.         → 她每周二去健身房。
-  They never eat meat.                       → 他们从不吃肉。
+| 英文 | 中文 |
+|------|------|
+| She goes to the gym **every Tuesday**. | 她**每周二**去健身房。 |
+| I visit my parents **every month**. | 我**每个月**去看父母。 |
+| We play football **on Saturdays**. | 我们**每周六**踢足球。 |
+| He walks his dog **in the morning**. | 他**早上**遛狗。 |
+| I brush my teeth **twice a day**. | 我**一天刷两次**牙。 |
 
-真理/事实：
-  The sun rises in the east.                 → 太阳从东方升起。
-  Water freezes at 0°C.                      → 水在0°C结冰。
-  The earth goes around the sun.             → 地球绕着太阳转。
+**客观真理/事实（不用时间词）：**
 
-状态（非动作动词）：
-  I understand the question.                 → 我理解这个问题。
-  She knows the answer.                      → 她知道答案。
-  He wants a new car.                        → 他想要一辆新车。
+| 英文 | 中文 |
+|------|------|
+| The sun rises in the east. | 太阳从东方升起。 |
+| Water boils at 100°C. | 水在100°C沸腾。 |
+| The earth goes around the sun. | 地球绕着太阳转。 |
+| Water freezes at 0°C. | 水在0°C结冰。 |
 
-时间表（将来）：
-  The train leaves at 6 PM.                  → 火车下午6点发车。
-  The store opens at 9 AM.                   → 商店早上9点开门。
-  The meeting starts at 2 PM.                → 会议下午2点开始。
-```
+**状态动词（描述状态，不用时间词）：**
+
+| 英文 | 中文 |
+|------|------|
+| I understand the question. | 我理解这个问题。 |
+| She knows the answer. | 她知道答案。 |
+| He wants a new car. | 他想要一辆新车。 |
+| I like coffee. | 我喜欢咖啡。 |
+| This belongs to me. | 这是我的。 |
+
+**固定时间表（表将来）：**
+
+| 英文 | 中文 |
+|------|------|
+| The train **leaves** at 6 PM. | 火车下午6点发车。 |
+| The store **opens** at 9 AM. | 商店早上9点开门。 |
+| The meeting **starts** at 2 PM. | 会议下午2点开始。 |
 
 ### 中国学习者常见错误
 
@@ -572,7 +586,7 @@ on Mondays / on weekends
 ✅ I like coffee.
 ```
 
-## 3.3 现在进行时
+## 3.3 现在进行时（Present Continuous）
 
 ### 结构
 
@@ -581,70 +595,69 @@ on Mondays / on weekends
 否定：   主语 + am/is/are + not + V-ing
 疑问：   Am/Is/Are + 主语 + V-ing?
 
-I am eating.           → 肯定
-I am not eating.       → 否定
-Are you eating?        → 疑问
-
-He is sleeping.        → 第三人称
-She is not sleeping.
-Is she sleeping?
+I am eating.              I am not eating.
+He is sleeping.           He is not sleeping.
+Are you eating?           Is she sleeping?
 ```
 
 ### V-ing 变化规则
 
 ```
-一般动词加 -ing：           eat → eating, read → reading
-以 e 结尾去 e 加 -ing：    make → making, write → writing
-重读闭音节双写辅音加 -ing：  sit → sitting, run → running, swim → swimming
+一般动词加 -ing：             eat → eating, read → reading
+以 e 结尾去 e 加 -ing：      make → making, write → writing
+重读闭音节双写辅音加 -ing：    sit → sitting, run → running, swim → swimming
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-I am eating right now.          → "我正在吃饭。"（"正在……"）
-She is studying for the exam.   → "她在为考试复习。"（"在……"）
-The world is changing.          → "世界在变化。"（"在……"）
-He is always complaining.       → "他总是在抱怨。"（"总是……"带感情色彩）
+| 时间词 | 汉语意思 | 使用说明 |
+|--------|---------|---------|
+| now | 现在 | 此刻正在发生 |
+| right now | 就在现在 | 强调当下此刻 |
+| at the moment | 此刻 | 同 now，更正式 |
+| at present | 目前 | 较正式，表现阶段 |
+| currently | 目前 | 同 at present |
+| these days | 这些天/最近 | 表近期阶段 |
+| this week / month / year | 这周/这个月/今年 | 尚未结束的时间段 |
+| Look! / Listen! | 看！/听！ | 引起注意，提示即刻发生 |
 
-中文翻译要点：
-  此刻正在 → "正在……呢 / 在……呢"
-  现阶段 → "在……"（不加"正"）
-  带感情 → "总是……"
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**此刻正在（now / right now / at the moment）：**
 
-```
-now, right now, at the moment, at present
-currently, these days, this week / month / year
-Look! / Listen!（引起注意时）
-```
+| 英文 | 中文 |
+|------|------|
+| I am reading a book **right now**. | 我**现在**正在看书。 |
+| The baby is sleeping **at the moment**. | 宝宝**此刻**正在睡觉。 |
+| What are you doing **now**? | 你**现在**在做什么？ |
+| **Look!** It is snowing. | **看！** 在下雪了。 |
+| **Listen!** Someone is singing. | **听！** 有人在唱歌。 |
 
-### 更多例句
+**现阶段（currently / these days / this week）：**
 
-```
-此刻正在：
-  I am reading a book right now.            → 我现在正在看书。
-  The baby is sleeping at the moment.       → 宝宝此刻正在睡觉。
-  Look! It is snowing.                      → 看！在下雪了。
+| 英文 | 中文 |
+|------|------|
+| She is working on a new project. | 她正在做一个新项目。 |
+| They are learning Chinese **this year**. | 他们**今年**在学中文。 |
+| I am living in Shanghai **for now**. | 我**目前**住在上海。 |
+| He is studying for exams **these days**. | 他**最近**在为考试复习。 |
 
-现阶段（不一定此刻做）：
-  She is working on a new project.          → 她正在做一个新项目。
-  They are learning Chinese this year.      → 他们今年在学中文。
-  I am living in Shanghai for now.          → 我目前住在上海。
+**临时 vs 长期对比：**
 
-临时 vs 长期对比：
-  I live in Beijing.（长期居住）            → 我住在北京。
-  I am living in Beijing.（临时）           → 我目前住在北京。
+| 英文 | 中文 | 说明 |
+|------|------|------|
+| I **live** in Beijing. | 我住在北京。 | 长期定居 |
+| I **am living** in Beijing. | 我目前住在北京。 | 临时居住 |
+| He **works** at a bank. | 他在银行工作。 | 固定职业 |
+| He **is working** on a project. | 他在做一个项目。 | 当前任务 |
 
-  He works at a bank.（固定工作）           → 他在银行工作。
-  He is working on a project.（目前在做）   → 他在做一个项目。
+**带感情色彩（与 always / forever / constantly 连用）：**
 
-带感情色彩（与 always/forever 连用）：
-  He is always losing his keys.             → 他总是丢钥匙。（不满）
-  She is forever complaining.               → 她老是抱怨。（厌烦）
-  You are always helping others.            → 你总是在帮别人。（赞赏）
-```
+| 英文 | 中文 | 语气 |
+|------|------|------|
+| He **is always** losing his keys. | 他**总是**丢钥匙。 | 不满 |
+| She **is forever** complaining. | 她**老是**抱怨。 | 厌烦 |
+| You **are always** helping others. | 你**总是在**帮别人。 | 赞赏 |
 
 ### 不能用于进行时的动词（状态动词）
 
@@ -655,99 +668,106 @@ Look! / Listen!（引起注意时）
 拥有：      have（拥有）, own, belong, possess
 其他：      be, seem, appear, look（看起来）, need
 
-❌ I am knowing the answer.
-✅ I know the answer.
-
-❌ I am wanting a coffee.
-✅ I want a coffee.
-
-❌ This is belonging to me.
-✅ This belongs to me.
+❌ I am knowing the answer.     ✅ I know the answer.
+❌ I am wanting a coffee.       ✅ I want a coffee.
+❌ This is belonging to me.     ✅ This belongs to me.
 ```
 
-## 3.4 现在完成时
+## 3.4 现在完成时（Present Perfect）
 
 ### 结构
 
 ```
-肯定：   主语 + have/has + 过去分词（V-ed / 不规则第三列）
+肯定：   主语 + have/has + 过去分词
 否定：   主语 + have/has + not + 过去分词
 疑问：   Have/Has + 主语 + 过去分词?
 
-I have eaten.             → 肯定
-I have not eaten.         → 否定
-Have you eaten?           → 疑问
-
-He has arrived.           → 第三人称
-He has not arrived.
-Has he arrived?
+I have eaten.          I have not eaten.
+He has arrived.        He has not arrived.
+Have you eaten?        Has she arrived?
 ```
 
-### 过去分词的两种形式
+### 关键时间词及翻译
 
-```
-规则动词：加 -ed（和过去式相同）
-  I walked → I have walked
-  I played → I have played
+| 时间词 | 汉语意思 | 使用场景 |
+|--------|---------|---------|
+| already | 已经 | 肯定句，已完成（可放句中或句尾） |
+| yet | 还/已经 | 疑问句（已经？）/否定句（还没） |
+| just | 刚刚 | 刚完成 |
+| ever | 曾经 | 疑问句，问经历 |
+| never | 从未 | 否定经历 |
+| recently / lately | 最近 | 近期发生 |
+| so far / up to now | 到目前为止 | 从过去到现在的总结 |
+| until now | 直到现在 | 强调持续到此刻 |
+| for + 时间段 | （持续）……时间 | for two hours, for a week, for years |
+| since + 时间点 | 自从…… | since 2020, since Monday, since I was born |
+| in the last / past + 时间段 | 在过去……里 | in the last 3 years, in the past week |
+| this week / month / year | 这周/月/年 | 时间段尚未结束 |
+| once / twice / ... times | 一次/两次/……次 | 次数经历 |
+| before | 以前 | 泛指过去经历 |
 
-不规则动词：第三列（需要记忆）
-  eat → ate → eaten
-  go → went → gone
-  see → saw → seen
-  write → wrote → written
-```
+### 按时间词分组的例句
 
-### 中文翻译模式
+**already / just / yet：**
 
-```
-I have eaten.                       → "我吃过了。"（"……过了"）
-She has lived here for 10 years.    → "她在这里住了10年。"（"……了"至今）
-He has never been to Japan.         → "他从没去过日本。"（"从没……过"）
-I have just finished it.            → "我刚做完。"（"刚……了"）
-Have you ever seen that movie?     → "你曾经看过那部电影吗？"（"曾经……过"）
+| 英文 | 中文 | 说明 |
+|------|------|------|
+| I have **already** eaten lunch. | 我**已经**吃过午饭了。 | 已完成，不饿了 |
+| She has **already** left the office. | 她**已经**离开办公室了。 | 人走了 |
+| Have you finished **yet**? | 你做完了**吗**？ | 疑问：还没完成？ |
+| I haven't finished **yet**. | 我**还**没做完。 | 否定：仍然未完成 |
+| She has **just** left. | 她**刚刚**离开。 | 几分钟前刚走 |
+| They have **just** arrived. | 他们**刚刚**到。 | 刚到 |
 
-中文翻译要点：
-  已完成（有结果） → "……过了 / ……了"
-  经历            → "曾经……过 / 从没……过"
-  持续至今        → "……了"（至今）
-  刚完成          → "刚……了"
-```
+**ever / never / before：**
 
-### 关键时间词
+| 英文 | 中文 |
+|------|------|
+| Have you **ever** been to Japan? | 你**曾经**去过日本吗？ |
+| I have **never** eaten sushi. | 我从**没**吃过寿司。 |
+| Have you seen that movie **before**? | 你**以前**看过那部电影吗？ |
+| This is the best meal I have **ever** had. | 这是我吃过最好的饭。 |
 
-```
-already（已经）, yet（还）, just（刚刚）
-ever（曾经）, never（从不）
-recently, lately（最近）
-so far, up to now（到目前为止）
-for + 时间段, since + 时间点
-this week / month / year（还没结束）
-```
+**for / since（持续至今）：**
 
-### 更多例句
+| 英文 | 中文 |
+|------|------|
+| I have lived here **for 5 years**. | 我在这里住了**5年**。（还住着） |
+| She has worked here **since 2018**. | 她从**2018年**就在这工作。 |
+| They have been married **for 20 years**. | 他们结婚**20年**了。 |
+| I have known him **since I was a child**. | 我从**小时候**就认识他。 |
 
-已完成（强调结果）：
-  I have already eaten lunch.                 → 我已经吃过午饭了。（不饿了）
-  She has just left the office.               → 她刚离开办公室。（人不在）
-  They have finished the project.              → 他们完成了项目。（项目已完成）
+**recently / lately：**
 
-经历（强调经验）：
-  I have been to Japan twice.                 → 我去过日本两次。
-  She has never eaten sushi.                   → 她从没吃过寿司。
-  Have you ever seen a whale?                  → 你见过鲸鱼吗？
+| 英文 | 中文 |
+|------|------|
+| I have **recently** started learning French. | 我**最近**开始学法语。 |
+| Have you seen him **lately**? | 你**最近**见过他吗？ |
+| She has been very busy **recently**. | 她**最近**很忙。 |
 
-持续至今（与 for/since 连用）：
-  I have lived here for 5 years.               → 我在这里住了5年。（还住着）
-  She has worked at this company since 2018.   → 她从2018年就在这家公司工作。
-  They have been married for 20 years.         → 他们结婚20年了。
+**so far / up to now：**
+
+| 英文 | 中文 |
+|------|------|
+| **So far**, I have read 3 books this month. | **到目前为止**，我这个月读了3本书。 |
+| **Up to now**, everything has gone well. | **到目前为止**，一切顺利。 |
+| We have received 50 applications **so far**. | **到目前为止**我们收到了50份申请。 |
+
+**this week / month / year + in the last + 时间段：**
+
+| 英文 | 中文 |
+|------|------|
+| I have seen him three times **this week**. | **这周**我见过他三次。 |
+| She has traveled to 5 countries **in the past year**. | **过去一年**她去了5个国家。 |
+| Sales have increased **this month**. | **这个月**销售额增长了。 |
 
 ### 中文最难的点：been to vs gone to
 
 ```
-I have been to Japan.          → 去过日本（去过了，回来了）
+I have been to Japan.        → 去过日本（去过了，回来了）
   （你问我去过日本没有？去过。）
 
-He has gone to Japan.          → 去了日本（去了，还没回来）
+He has gone to Japan.        → 去了日本（去了，还没回来）
   （他现在不在，他去了日本。）
 
 She has been in Japan for a week.  → 在日本待了一周（还在那里）
@@ -761,20 +781,17 @@ She has been in Japan for a week.  → 在日本待了一周（还在那里）
 一般过去 = 只说过去的事，和现在没关系
 
 I have lost my keys.              → 钥匙现在还没找到（着急）
-I lost my keys yesterday.         → 昨天丢了，可能找到了，也可能还在丢（只陈述过去的事）
+I lost my keys yesterday.         → 昨天丢了，可能已找到（只陈述）
 
 I have seen that movie.           → 我看过，知道内容（和现在相关）
 I saw that movie last week.       → 上周看了（只陈述事实）
-
-She has lived in London.          → 她有在伦敦生活的经历（不说明现在在哪）
-She lived in London for 5 years.  → 她在伦敦生活过5年（现在不住那了）
 
 有明确过去时间词（yesterday, last year, ago）→ 必须用一般过去：
 ❌ I have seen him yesterday.
 ✅ I saw him yesterday.
 ```
 
-## 3.5 现在完成进行时
+## 3.5 现在完成进行时（Present Perfect Continuous）
 
 ### 结构
 
@@ -783,49 +800,52 @@ She lived in London for 5 years.  → 她在伦敦生活过5年（现在不住�
 否定：   主语 + have/has + not + been + V-ing
 疑问：   Have/Has + 主语 + been + V-ing?
 
-I have been waiting.          → 肯定
-I have not been waiting.      → 否定
-Have you been waiting?        → 疑问
+I have been waiting.         I have not been waiting.
+Have you been waiting?       Has she been waiting?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-I have been waiting for an hour.          → "我已经等了一个小时了。"（"已经……了"，强调持续时长）
-She has been studying all day.             → "她学了一整天了。"（"……了一整天"）
-It has been raining since morning.         → "从早上到现在一直在下雨。"（"一直在……"）
+| 时间词 | 汉语意思 | 使用提示 |
+|--------|---------|---------|
+| for + 时间段 | （持续）……时间 | for two hours, for a week |
+| since + 时间点 | 自从…… | since morning, since 2020 |
+| all day / all morning / all week | 一整天/一早上/一整周 | 强调整个时段 |
+| recently / lately | 最近 | 近期持续发生 |
+| how long | 多久了 | 问持续时长 |
 
-中文翻译要点：
-  持续长度 → "已经……了 + 时间段"
-  强调持续 → "一直在……"
-  原因/结果 → "……了这么久，所以……"
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**for / since（强调动作持续未完成）：**
 
-```
-for + 时间段（for two hours, for a week）
-since + 时间点（since morning, since 2020）
-all day / all morning / all week
-recently, lately
-how long（问持续多久）
-```
+| 英文 | 中文 | 说明 |
+|------|------|------|
+| I have been reading **for three hours**. | 这本书我已经看了**三小时了**。 | 还没看完 |
+| She has been practicing **since 2 PM**. | 她从**下午2点**就在练钢琴。 | 还在练 |
+| They have been building **for over a year**. | 这房子他们盖了**一年多了**。 | 还没盖完 |
 
-### 更多例句
+**all day / all morning：**
 
-强调动作持续未完成：
-  I have been reading this book for three hours.         → 这本书我已经看了三小时了。（还没看完）
-  She has been practicing the piano since 2 PM.          → 她从下午2点就在练钢琴。（还在练）
-  They have been building this house for over a year.     → 这房子他们盖了一年多了。（还没盖完）
+| 英文 | 中文 |
+|------|------|
+| She has been studying **all day**. | 她学了**一整天**了。 |
+| I have been working **all morning**. | 我**一早上**都在工作。 |
+| It has been raining **all week**. | **整周**都在下雨。 |
 
-强调动作刚结束，有可见结果：
-  Your eyes are red. Have you been crying?               → 你眼睛红了，你哭了吗？
-  It's wet outside. It has been raining.                 → 外面是湿的，一直在下雨。
-  I'm so tired. I have been working all day.             → 我好累，工作了一整天。
+**刚结束有可见结果（不用具体时间词）：**
 
-问持续时长：
-  How long have you been learning English?               → 你学英语多久了？
-  How long has she been waiting?                         → 她等了多久了？
+| 英文 | 中文 |
+|------|------|
+| Your eyes are red. Have you been crying? | 你眼睛红了，你哭了吗？ |
+| It's wet outside. It has been raining. | 外面是湿的，一直在下雨。 |
+| I'm so tired. I have been working all day. | 我好累，干了一整天活。 |
+
+**how long（问持续时长）：**
+
+| 英文 | 中文 |
+|------|------|
+| **How long** have you been learning English? | 你学英语**多久了**？ |
+| **How long** has she been waiting? | 她等了**多久了**？ |
 
 ### 现在完成 vs 现在完成进行
 
@@ -833,95 +853,85 @@ how long（问持续多久）
 现在完成 = 强调完成/结果
 现在完成进行 = 强调持续/未完成
 
-I have read this book.              → 读完了（强调结果：完成了）
-I have been reading this book.      → 一直在读（强调过程：还没读完）
+I have read this book.              → 读完了（结果）
+I have been reading this book.      → 一直在读（过程，还没读完）
 
-I have lived here for 5 years.      → 事实陈述（住在这里5年了）
-I have been living here for 5 years. → 强调持续（一直住在这里）
+I have lived here for 5 years.      → 事实陈述
+I have been living here for 5 years. → 强调一直住在这里
 
 静态动词通常只用完成，不用完成进行：
 I have known him for years.         → ✓
 I have been knowing him...          → ❌ know 是静态动词
 ```
 
-## 3.6 一般过去时
+---
 
+## 3.6 一般过去时（Simple Past）
 ### 结构
 
 ```
-肯定：   主语 + V-ed / 不规则过去式
-否定：   主语 + did + not + V（动词用原形）
-疑问：   Did + 主语 + V（动词用原形）?
+肯定：   主语 + 动词过去式（V-ed / 不规则）
+否定：   主语 + did + not + 动词原形
+疑问：   Did + 主语 + 动词原形?
 
-I ate.                → 肯定（不规则）
-I walked.             → 肯定（规则）
-I did not eat.        → 否定
-Did you eat?          → 疑问
+I ate.              I walked.
+I did not eat.      I did not walk.
+Did you eat?        Did you walk?
 ```
 
 ### 动词过去式变化
 
 ```
 规则动词加 -ed：
-  walk → walked
-  play → played
-  study → studied
-  stop → stopped
+  walk → walked,  play → played,  study → studied,  stop → stopped
 
 不规则动词（需要背诵）：
-  go → went
-  eat → ate
-  see → saw
-  buy → bought
-  take → took
+  go → went,  eat → ate,  see → saw,  buy → bought,  take → took
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-I ate breakfast at 7 this morning.        → "我今天早上7点吃了早餐。"（"……了"）
-She visited London last year.              → "她去年去了伦敦。"（"……了"）
-He was a teacher.                          → "他以前是老师。"（"以前……"）
-I didn't see him yesterday.                → "我昨天没看到他。"（"没……"）
+| 时间词 | 汉语意思 | 例句 |
+|--------|---------|------|
+| yesterday | 昨天 | I saw him yesterday. |
+| the day before yesterday | 前天 | It happened the day before yesterday. |
+| last night / week / month / year | 昨晚/上周/上个月/去年 | She left last week. |
+| ... ago | ……以前 | two days ago, a year ago |
+| in + 过去年份 | 在……年 | in 2020, in 1998 |
+| when I was young / a child | 我年轻时/小时候 | I lived there when I was young. |
+| just now | 刚才 | I saw him just now. |
 
-中文翻译要点：
-  完成动作 → "……了"
-  过去状态 → "以前……"
-  否定     → "没……"
-  习惯     → "过去常常……"
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**yesterday / the day before yesterday：**
 
-```
-yesterday, the day before yesterday
-last night / week / month / year / weekend
-ago（two days ago, a year ago）
-in + 过去年份（in 2020, in 1998）
-when I was young, when I was a child
-just now, a moment ago
-this morning（如果现在已经不是早上）
-```
+| 英文 | 中文 |
+|------|------|
+| I watched a movie **yesterday**. | 我**昨天**看了一部电影。 |
+| She bought a new car **yesterday**. | 她**昨天**买了一辆新车。 |
+| They arrived **the day before yesterday**. | 他们**前天**到的。 |
 
-### 更多例句
+**last... / ...ago：**
 
-过去完成的动作：
-  I watched a movie last night.                     → 我昨晚看了一部电影。
-  She bought a new car yesterday.                   → 她昨天买了一辆新车。
-  They arrived at 8 PM.                             → 他们晚上8点到的。
+| 英文 | 中文 |
+|------|------|
+| I visited my parents **last weekend**. | 我**上周末**去看父母了。 |
+| I met him **two days ago**. | 我**两天前**见到他。 |
+| She left **an hour ago**. | 她**一小时前**离开了。 |
+| We went to Japan **last year**. | 我们**去年**去了日本。 |
 
-过去的状态：
-  He lived in London when he was young.             → 他年轻时住在伦敦。
-  I had a dog when I was a child.                   → 我小时候养过一条狗。
-  She was very shy as a kid.                        → 她小时候很害羞。
+**in + 过去年份 / when I was：**
 
-过去的习惯：
-  I walked to school every day when I was a kid.    → 我小时候每天走路去上学。
-  My grandfather always told us stories.            → 我祖父总是给我们讲故事。
-  We visited my grandmother every summer.           → 我们每个夏天都去看我奶奶。
+| 英文 | 中文 |
+|------|------|
+| She was born **in 1995**. | 她**1995年**出生。 |
+| He lived in London **when he was young**. | 他**年轻时**住在伦敦。 |
+| I **walked** to school every day **when I was a kid**. | 我**小时候**每天走路去上学。 |
+| She **was** very shy **as a kid**. | 她**小时候**很害羞。 |
 
-## 3.7 过去进行时
+---
 
+## 3.7 过去进行时（Past Continuous）
 ### 结构
 
 ```
@@ -929,53 +939,52 @@ this morning（如果现在已经不是早上）
 否定：   主语 + was/were + not + V-ing
 疑问：   Was/Were + 主语 + V-ing?
 
-I was eating.             → 肯定
-I was not eating.         → 否定
-Were you eating?          → 疑问
-
-He was sleeping.
-She was not sleeping.
-Were they sleeping?
+I was eating.          He was sleeping.
+I was not eating.      She was not sleeping.
+Were you eating?       Were they sleeping?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-I was eating when you called.                → "你打电话时我正在吃饭。"（"正在……"）
-She was studying all night.                   → "她一整晚都在学习。"（"一直在……"）
-At 8 PM, I was watching TV.                  → "晚上8点我正看电视。"（"正……"）
+| 时间词 | 汉语意思 | 使用场景 |
+|--------|---------|---------|
+| at + 过去时间点 | 在……（时） | at 8 PM yesterday, at that time |
+| when + 一般过去从句 | 当……的时候 | （被另一个动作打断） |
+| while | 当……时/与此同时 | （两个动作同时进行） |
+| all + 过去时间 | 整个……期间 | all night, all morning, all day |
+| from ... to ... | 从……到…… | from 2 to 4 PM |
+| this time + 过去时间 | 在过去的这个时候 | this time last year / week |
 
-中文翻译要点：
-  被打断 → "正在……（这时……）"
-  背景   → "当时在……"
-  持续整段 → "一直在……"
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**at + 过去时间点 / this time：**
 
-```
-when + 一般过去（when you called, when I saw him）
-while（while I was eating, while she was sleeping）
-at + 过去时间点（at 8 PM yesterday, at that time）
-all + 过去时间（all night, all morning, all day yesterday）
-from ... to ...（from 2 to 4 PM）
-```
+| 英文 | 中文 |
+|------|------|
+| I was sleeping **at midnight last night**. | **昨晚半夜**我在睡觉。 |
+| **At 3 PM yesterday**, she was having a meeting. | **昨天下午3点**她在开会。 |
+| **This time last year**, I was living in Beijing. | **去年这个时候**我住在北京。 |
 
-### 更多例句
+**when（被打断）：**
 
-过去某个时刻正在做：
-  I was sleeping at midnight last night.              → 昨晚半夜我在睡觉。
-  At 3 PM yesterday, she was having a meeting.        → 昨天下午3点她在开会。
-  This time last year, I was living in Beijing.       → 去年这个时候我住在北京。
+| 英文 | 中文 |
+|------|------|
+| I was taking a shower **when the phone rang**. | 我正在洗澡**这时电话响了**。 |
+| She was walking home **when it started to rain**. | 她走路回家**这时开始下雨了**。 |
 
-两个过去动作同时进行（while）：
-  I was cooking while he was watching TV.             → 我在做饭，他在看电视。
-  While I was studying, my sister was playing games.  → 我在学习时，我妹妹在玩游戏。
+**while（同时进行）：**
 
-被打断的背景动作（when）：
-  I was taking a shower when the phone rang.          → 我正在洗澡时电话响了。
-  She was walking home when it started to rain.       → 她走路回家时开始下雨了。
-  They were driving to work when they saw the accident. → 他们开车上班时看到了事故。
+| 英文 | 中文 |
+|------|------|
+| I was cooking **while** he was watching TV. | 我在做饭，**同时**他在看电视。 |
+| **While** I was studying, my sister was playing games. | **在我学习时**，我妹妹在玩游戏。 |
+
+**all / from...to...（持续整段）：**
+
+| 英文 | 中文 |
+|------|------|
+| She was studying **all night**. | 她**一整晚**都在学习。 |
+| I was working **from 9 AM to 5 PM**. | 我**从早上9点到下午5点**在工作。 |
 
 ### 一般过去 vs 过去进行
 
@@ -985,13 +994,11 @@ from ... to ...（from 2 to 4 PM）
 
 I ate dinner.                     → 吃了晚饭（完整动作）
 I was eating dinner when...       → 正在吃晚饭时发生了别的事（背景）
-
-I called her.                     → 我给她打了电话（完整动作）
-I was calling her...              → 我正在给她打电话（背景）
 ```
 
-## 3.8 过去完成时
+---
 
+## 3.8 过去完成时（Past Perfect）
 ### 结构
 
 ```
@@ -999,46 +1006,45 @@ I was calling her...              → 我正在给她打电话（背景）
 否定：   主语 + had + not + 过去分词
 疑问：   Had + 主语 + 过去分词?
 
-I had eaten.             → 肯定
-I had not eaten.         → 否定
-Had you eaten?           → 疑问
+I had eaten.       I had not eaten.
+Had you eaten?     Had she arrived?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-I had already eaten when she arrived.                → "她到的时候我已经吃过了。"
-She had finished her homework before dinner.         → "她在晚饭前就做完了作业。"
-By 2020, he had lived there for 10 years.            → "到2020年，他已经在那里住了10年。"
+| 时间词 | 汉语意思 | 使用说明 |
+|--------|---------|---------|
+| by + 过去时间 | 到……为止 | by 2020, by last week |
+| by the time + 从句 | 到……的时候 | by the time we arrived |
+| already | 已经 | 在过去的某个时间点之前已发生 |
+| just | 刚刚 | 在过去的某个时间点前刚完成 |
+| never ... before | 从未 | 之前从未发生 |
+| before + 过去时间/动作 | 在……之前 | before dinner, before she left |
+| when / after + 过去动作 | 当……/……之后 | when she arrived, after I left |
 
-中文翻译要点：
-  "已经……了"（在某个过去时间点之前）
-  "……的时候已经……了"
-  "到……之前就……了"
-  中文不需要特别标记，用"已经"或上下文暗示
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**by / by the time：**
 
-```
-by + 过去时间（by 2020, by last week, by that time）
-already, just, never（在过去的某个点之前）
-before + 过去时间（before dinner, before 2019）
-when / after + 过去动作（when she arrived, after I left）
-until / up to + 过去时间
-```
+| 英文 | 中文 |
+|------|------|
+| **By 2020**, he had lived there for 10 years. | **到2020年**，他已经在那里住了10年。 |
+| **By the time** we got there, the store had closed. | **到我们到的时候**商店已经关门了。 |
 
-### 更多例句
+**when（过去的过去）：**
 
-过去的过去（一个过去动作发生时，另一个已发生）：
-  When I arrived, the train had already left.           → 我到的时候火车已经开了。
-  She had already gone to bed when I got home.          → 我到家时她已经睡了。
-  I realized I had met him before.                      → 我意识到我之前见过他。
+| 英文 | 中文 |
+|------|------|
+| When I arrived, the train **had already** left. | 我到的时候火车**已经**开了。 |
+| She **had already** gone to bed when I got home. | 我到家时她**已经**睡了。 |
+| I realized I **had met** him before. | 我意识到我**之前见过**他。 |
 
-与 by / before 连用：
-  By the time we got there, the store had closed.       → 我们到的时候商店已经关门了。
-  He had never seen snow before he moved to Canada.     → 他搬到加拿大之前从没见过雪。
-  I had finished the report before the deadline.        → 我在截止日期前完成了报告。
+**before：**
+
+| 英文 | 中文 |
+|------|------|
+| He had never seen snow **before he moved to Canada**. | **他搬到加拿大之前**从没见过雪。 |
+| I had finished the report **before the deadline**. | 我**在截止日期前**完成了报告。 |
 
 ### 过去完成 vs 一般过去
 
@@ -1048,11 +1054,9 @@ until / up to + 过去时间
 
 按时间顺序（都用一般过去）：
   I woke up. I had breakfast. I went to work.
-  （醒来 → 吃早餐 → 上班）
 
 需要倒叙（用过去完成）：
   I went to work. I had already had breakfast.
-  （上班 ← 之前已经吃了早餐）
 
 画面：时间线
   过去完成             过去            现在
@@ -1060,8 +1064,9 @@ until / up to + 过去时间
   已经吃完 ←────── 她到达
 ```
 
-## 3.9 过去完成进行时
+---
 
+## 3.9 过去完成进行时（Past Perfect Continuous）
 ### 结构
 
 ```
@@ -1069,74 +1074,124 @@ until / up to + 过去时间
 否定：   主语 + had + not + been + V-ing
 疑问：   Had + 主语 + been + V-ing?
 
-I had been waiting.           → 肯定
-I had not been waiting.       → 否定
-Had you been waiting?         → 疑问
+I had been waiting.       I had not been waiting.
+Had you been waiting?     Had she been studying?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-I had been waiting for an hour when she arrived.           → "她到的时候我已经等了一个小时了。"
-She had been studying all day before the exam.             → "考试前她已经学了一整天了。"
+| 时间词 | 汉语意思 | 使用说明 |
+|--------|---------|---------|
+| for + 时间段 | （持续）了……时间 | 在某个过去时间点前已持续了多久 |
+| before + 过去动作 | 在……之前 | before the exam, before she arrived |
+| since + 时间点 | 自从…… | since morning |
+| all day | 一整天 | 强调贯穿整个时间段 |
+| when + 从句 | 当……的时候 | 提供一个过去参照时间点 |
 
-中文翻译要点：
-  "已经……了（之久）"
-  "一直在……（直到……之前）"
-```
+### 按时间词分组的例句
 
-### 例句
+**for（在某个过去时间点已持续了多久）：**
 
-```
-They had been driving for six hours when they finally arrived.     → 他们开了6小时车才到。
-I was tired because I had been working all day.                    → 我累了，因为干了一整天活。
-She had been waiting for 30 minutes before the bus came.          → 她等了30分钟公交才来。
-```
+| 英文 | 中文 |
+|------|------|
+| I had been waiting **for an hour** when she arrived. | 她到的时候我已经等了**一小时**了。 |
+| They had been driving **for six hours** when they arrived. | 他们开了**6小时**车才到。 |
 
-## 3.10 一般将来时
+**before：**
+
+| 英文 | 中文 |
+|------|------|
+| She had been studying all day **before the exam**. | **考试前**她已经学了一整天了。 |
+
+**原因（不用时间词，带结果）：**
+
+| 英文 | 中文 |
+|------|------|
+| I was tired because I had been working all day. | 我累了，因为干了一整天活。 |
+| She had been waiting for 30 minutes before the bus came. | 她等了30分钟公交才来。 |
+
+---
+
+## 3.10 一般将来时（Simple Future）
 
 ### 结构（三种形式）
 
+**will + 动词原形：**
 ```
-will + 动词原形：
-  肯定：  主语 + will + V
-  否定：  主语 + will not (won't) + V
-  疑问：  Will + 主语 + V?
-
-be going to + 动词原形：
-  肯定：  主语 + am/is/are + going to + V
-  否定：  主语 + am/is/are + not + going to + V
-  疑问：  Am/Is/Are + 主语 + going to + V?
-
-一般现在表将来（时间表）：
-  The train leaves at 6.
-  The meeting starts at 2.
+肯定：   主语 + will + 动词原形
+否定：   主语 + will not (won't) + 动词原形
+疑问：   Will + 主语 + 动词原形?
 ```
 
-### 中文翻译模式
-
+**be going to + 动词原形：**
 ```
-I will go tomorrow.                       → "我明天去。"（"会/要"）
-She is going to study abroad.              → "她打算出国留学。"（"打算"）
-The train leaves at 6 PM.                  → "火车下午6点发车。"（按计划）
-It will rain tomorrow.                     → "明天会下雨。"（"会"）
-
-中文翻译要点：
-  预测 → "会"
-  打算 → "打算/计划"
-  临时决定 → "就/会"
-  按计划 → 直接用将来时间词
+肯定：   主语 + am/is/are + going to + 动词原形
+否定：   主语 + am/is/are + not + going to + 动词原形
+疑问：   Am/Is/Are + 主语 + going to + 动词原形?
 ```
 
-### 关键时间词
+**一般现在表将来（固定时间表）：**
+```
+The train leaves at 6.        The meeting starts at 2.
+```
 
-```
-tomorrow, the day after tomorrow
-next week / month / year / weekend / Monday
-soon, later, in + 时间（in two days, in an hour）
-by + 将来时间
-tonight, this evening
-```
+### 关键时间词及翻译
+
+| 时间词 | 汉语意思 | 搭配说明 |
+|--------|---------|---------|
+| tomorrow | 明天 | will / going to |
+| the day after tomorrow | 后天 | will / going to |
+| next week / month / year | 下周/下个月/明年 | will / going to |
+| soon | 很快 | will（临时决定/预测） |
+| later | 稍后/以后 | will |
+| in + 时间段 | ……之后 | in two days, in an hour |
+| tonight / this evening | 今晚/今天晚上 | will / going to |
+| by + 将来时间 | 到……时 | 多与将来完成搭配 |
+
+### 按时间词分组的例句
+
+**will 表预测：**
+
+| 英文 | 中文 |
+|------|------|
+| I think it **will** be sunny **tomorrow**. | 我觉得**明天**会是晴天。 |
+| It **will** rain **tomorrow**. | **明天**会下雨。 |
+
+**will 表临时决定/承诺：**
+
+| 英文 | 中文 |
+|------|------|
+| A: The phone is ringing. B: I'll get it. | 我去接。（临时决定） |
+| I promise I **will** help you. | 我答应会帮你。（承诺） |
+| I **will** call you when I arrive. | 我到了会给你打电话。 |
+
+**be going to 表计划：**
+
+| 英文 | 中文 |
+|------|------|
+| I am going to visit my parents **next weekend**. | 我**下周末**打算去看父母。 |
+| She is going to study abroad **next year**. | 她**明年**打算出国留学。 |
+
+**be going to 表有迹象的预测：**
+
+| 英文 | 中文 |
+|------|------|
+| Look at those clouds! It's going to rain. | 看那些乌云！要下雨了！ |
+| Watch out! You are going to hit that tree! | 小心！你要撞树了！ |
+
+**一般现在表将来（固定时间表）：**
+
+| 英文 | 中文 |
+|------|------|
+| The movie **starts** at 7 PM **tonight**. | 电影**今晚**7点开始。 |
+| My flight **departs** at 8 AM **tomorrow**. | 我的航班**明天**早上8点起飞。 |
+
+**现在进行表将来（安排好的事情）：**
+
+| 英文 | 中文 |
+|------|------|
+| I **am meeting** my friends **tonight**. | 我**今晚**要见朋友。 |
+| She **is flying** to London **next week**. | 她**下周**飞伦敦。 |
 
 ### will vs be going to 详细对比
 
@@ -1144,50 +1199,20 @@ tonight, this evening
 will = 临时决定 / 预测 / 承诺/意愿
 be going to = 事先计划 / 有迹象表明
 
-临时决定：
-  A: The phone is ringing.
-  B: I'll get it.                                  → 临时决定去接（用 will）
-  （不能在这里用 going to，因为你之前没计划接电话）
+临时决定（用 will）：
+  A: The phone is ringing.  B: I'll get it.
 
-  A: I have a problem.
-  B: Don't worry, I'll help you.                   → 临时帮（用 will）
+事先计划（用 going to）：
+  I am going to visit my parents this weekend.
 
-事先计划：
-  I am going to visit my parents this weekend.     → 计划好的（用 going to）
-  She is going to study medicine at university.    → 长期计划
-
-预测（有证据 vs 无证据）：
-  Don't go outside. It will rain.                  → 预测（凭经验）
-  Look at those clouds! It's going to rain.        → 有迹象（乌云密布）
-  I think China will win the game.                 → 主观看法
-  China is going to win — they're leading 3-0.    → 有证据
+预测（无证据用 will，有迹象用 going to）：
+  It will rain tomorrow.              → 凭经验
+  Look at the clouds! It's going to rain.  → 有迹象
 ```
 
-### 更多例句
+---
 
-will（预测、临时决定、承诺）：
-  I think it will be sunny tomorrow.               → 我觉得明天会是晴天。
-  I will call you when I arrive.                    → 我到了会给你打电话。
-  I promise I will help you with the project.       → 我答应你会帮你做这个项目。
-
-be going to（有计划、有迹象）：
-  I am going to start my own business next year.    → 我打算明年自己创业。
-  She is going to have a baby in July.              → 她七月份要生了。
-  Watch out! You are going to hit that tree!        → 小心！你要撞树了！
-
-一般现在表将来（固定时间表）：
-  The movie starts at 7 PM tonight.                 → 电影今晚7点开始。
-  My flight departs at 8 AM tomorrow.               → 我的航班明早8点起飞。
-  The store opens at 10 AM on Sunday.               → 商店周日10点开门。
-
-现在进行表将来（安排好的事情）：
-  I am meeting my friends tonight.                  → 我今晚要见朋友。
-  She is flying to London next week.                → 她下周飞伦敦。
-  We are having a party on Saturday.                → 我们周六有个派对。
-```
-
-## 3.11 将来进行时
-
+## 3.11 将来进行时（Future Continuous）
 ### 结构
 
 ```
@@ -1195,50 +1220,46 @@ be going to（有计划、有迹象）：
 否定：   主语 + will + not + be + V-ing
 疑问：   Will + 主语 + be + V-ing?
 
-I will be waiting.              → 肯定
-I will not be waiting.          → 否定
-Will you be waiting?            → 疑问
+I will be waiting.       I will not be waiting.
+Will you be waiting?     Will she be coming?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-This time tomorrow, I will be flying to Tokyo.        → "明天这个时候，我正在飞往东京。"
-Don't call at 8; I will be having dinner.             → "别8点打，我那时在吃晚饭。"
-I will be waiting for you at the station.             → "我会在车站等你。"（到时会在等）
+| 时间词 | 汉语意思 | 使用说明 |
+|--------|---------|---------|
+| this time tomorrow | 明天这个时候 | 最典型的时间词 |
+| this time next week / year | 下周/明年这个时候 | 类比 tomorrow |
+| at + 将来时间点 | 在……（时） | at 8 PM tomorrow |
+| by then / by that time | 到那时候 | 表某个将来时间点 |
+| when + 从句（将来） | 当……时 | when you arrive |
 
-中文翻译要点：
-  "（将来某时）正在……"
-  "到时候会……"
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**this time tomorrow / next week：**
 
-```
-this time tomorrow / next week / next year
-at + 将来时间（at 8 PM tomorrow, at this time next week）
-when + 从句（表示将来）
-by then, by that time
-```
+| 英文 | 中文 |
+|------|------|
+| This time **tomorrow**, I will be flying to Tokyo. | **明天这个时候**，我正在飞往东京。 |
+| This time **next week**, I will be lying on a beach. | **下周这个时候**，我正躺在海滩上。 |
 
-### 更多例句
+**at + 将来时间点 / when + 从句：**
 
-将来某个时刻正在做：
-  This time next week, I will be lying on a beach.        → 下周这个时候我正躺在海滩上。
-  At 10 AM tomorrow, I will be taking an exam.            → 明早10点我正在参加考试。
-  When you arrive, I will be cooking dinner.              → 你到的时候我正做晚饭。
+| 英文 | 中文 |
+|------|------|
+| **At 10 AM tomorrow**, I will be taking an exam. | **明早10点**我正在参加考试。 |
+| **When you arrive**, I will be cooking dinner. | **你到的时候**我正做晚饭。 |
 
-委婉问计划（比 will 更礼貌）：
-  Will you be using the car tonight?                      → 你今晚用车吗？（问安排，不是要求）
-  Will you be joining us for dinner?                      → 你晚饭一起来吗？
+**委婉问计划：**
 
-将来已安排的事情：
-  I will be working on the project all next week.         → 我下周整个星期都在做那个项目。
-  She will be staying with her parents during the holiday. → 她假期将在父母家住。
-```
+| 英文 | 中文 |
+|------|------|
+| **Will you be using** the car tonight? | 你今晚用车吗？（问安排） |
+| **Will you be joining** us for dinner? | 你晚饭一起来吗？ |
 
-## 3.12 将来完成时
+---
 
+## 3.12 将来完成时（Future Perfect）
 ### 结构
 
 ```
@@ -1246,44 +1267,47 @@ by then, by that time
 否定：   主语 + will + not + have + 过去分词
 疑问：   Will + 主语 + have + 过去分词?
 
-I will have finished.           → 肯定
-I will not have finished.       → 否定
-Will you have finished?         → 疑问
+I will have finished.     I will not have finished.
+Will you have finished?   Will she have arrived?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-By next year, I will have graduated.                 → "到明年我就毕业了。"
-I will have finished this project by Friday.         → "周五前我就做完这个项目了。"
-By the time you arrive, I will have left.            → "你到的时候我已经走了。"
+| 时间词 | 汉语意思 | 使用说明 |
+|--------|---------|---------|
+| by + 将来时间 | 到……（时） | by Friday, by next year, by 2030 |
+| by the time + 从句 | 到……的时候 | by the time you arrive |
+| before + 将来时间 | 在……之前 | before next Monday |
+| when + 从句 | 当……时 | when you come back |
+| by the end of + 将来时间 | 到……底 | by the end of this year |
 
-中文翻译要点：
-  "到……就……了"
-  "已经……了（在将来某个时间点之前）"
-```
+### 按时间词分组的例句
 
-### 关键时间词
+**by + 将来时间：**
 
-```
-by + 将来时间（by Friday, by next year, by 2030）
-by the time + 从句（by the time you arrive）
-before + 将来时间
-when + 从句（when you come back）
-```
+| 英文 | 中文 |
+|------|------|
+| **By next year**, I will have graduated. | **到明年**我就毕业了。 |
+| She will have completed her PhD **by 2027**. | **到2027年**她就完成博士学业了。 |
+| **By the end of this year**, I will have saved $10,000. | **到今年底**我就存了$10,000了。 |
 
-### 更多例句
+**by the time + 从句：**
 
-```
-By the end of this year, I will have saved $10,000.         → 到今年底我就存了$10,000了。
-When you wake up, I will have already left for work.        → 你醒的时候我已经去上班了。
-She will have completed her PhD by 2027.                     → 到2027年她就完成博士学业了。
+| 英文 | 中文 |
+|------|------|
+| **By the time you arrive**, I will have left. | **你到的时候**我已经走了。 |
+| **By the time you wake up**, I will have left for work. | **你醒的时候**我已经去上班了。 |
 
-They will have been married for 50 years next June.         → 到明年六月他们就结婚50年了。
-We will have lived in this house for 10 years next month.   → 到下个月我们就住在这房子10年了。
-```
+**for + 时间段 + by（表持续到将来某时）：**
 
-## 3.13 将来完成进行时
+| 英文 | 中文 |
+|------|------|
+| They will have been married **for 50 years** next June. | **到明年六月**他们就结婚**50年**了。 |
+| We will have lived here **for 10 years** next month. | **到下个月**我们就住这里**10年**了。 |
+
+---
+
+## 3.13 将来完成进行时（Future Perfect Continuous）
 
 ### 结构
 
@@ -1292,28 +1316,36 @@ We will have lived in this house for 10 years next month.   → 到下个月我�
 否定：   主语 + will + not + have + been + V-ing
 疑问：   Will + 主语 + have + been + V-ing?
 
-I will have been waiting.         → 肯定
-I will not have been waiting.     → 否定
-Will you have been waiting?       → 疑问
+I will have been waiting.       I will not have been waiting.
+Will you have been waiting?     Will she have been studying?
 ```
 
-### 中文翻译模式
+### 关键时间词及翻译
 
-```
-By 2028, I will have been living here for 10 years.      → "到2028年，我就住在这里10年了。"
+| 时间词 | 汉语意思 | 使用说明 |
+|--------|---------|---------|
+| by + 将来时间 | 到……时 | by 2028, by next month |
+| for + 时间段 + by | 在……时间点已持续…… | for 10 years by 2028 |
+| when + 从句 | 当……时 | when she graduates, when you arrive |
+| by the time + 从句 | 到……的时候 | by the time you come |
 
-中文翻译要点：
-  "到……就已经……了（之久）"
-  强调持续长度
-```
+### 按时间词分组的例句
 
-### 例句
+**by + 将来时间（强调在某个将来时间点的持续长度）：**
 
-```
-By the end of this month, I will have been working here for 5 years.   → 到这个月底我就在这里工作5年了。
-When she graduates, she will have been studying English for 8 years.   → 她毕业时就已经学了8年英语了。
-When you arrive, I will have been waiting for over an hour.            → 你到的时候我已经等了一个多小时了。
-```
+| 英文 | 中文 |
+|------|------|
+| **By 2028**, I will have been living here **for 10 years**. | **到2028年**，我就住在这里**10年**了。 |
+| **By the end of this month**, I will have been working here **for 5 years**. | **到这个月底**我就在这里工作**5年**了。 |
+
+**when + 从句：**
+
+| 英文 | 中文 |
+|------|------|
+| **When she graduates**, she will have been studying English **for 8 years**. | **她毕业时**就已经学了**8年**英语了。 |
+| **When you arrive**, I will have been waiting **for over an hour**. | **你到的时候**我已经等了**一个多小时**了。 |
+
+---
 
 ## 3.14 12 时态总结表
 
