@@ -381,4 +381,266 @@ What we need **are** more chairs.     → "我们需要的"是椅子（复数）
 
 ---
 
+---
+
+# 第九部分：中国学习者常见错误汇总
+
+## 错误 1：主语和动词之间有干扰项时看错主语
+
+```
+❌ The teacher together with his students **are** here.
+✅ The teacher together with his students **is** here.
+    (主语是 The teacher，不是 students)
+
+❌ The box, along with its contents, **were** found.
+✅ The box, along with its contents, **was** found.
+    (主语是 The box)
+
+❌ My sister, as well as my parents, **are** coming.
+✅ My sister, as well as my parents, **is** coming.
+    (主语是 my sister)
+```
+
+**画面：**
+```
+The teacher together with his students is here.
+   ↑                        ↑                ↑
+ 真正主语（单数）      附加信息（忽略）    动词跟主语
+```
+
+## 错误 2：there be 句中 be 动词用错
+
+```
+❌ There **is** many people at the party.
+✅ There **are** many people at the party.
+    (many people = 复数)
+
+❌ There **are** a book on the table.
+✅ There **is** a book on the table.
+    (a book = 单数)
+
+❌ There **is** two pens and a book.
+✅ There **are** two pens and a book.
+    (就近原则：two pens = 复数，最近)
+```
+
+## 错误 3：each / every 后面用复数动词
+
+```
+❌ Each of the students **are** ready.
+✅ Each of the students **is** ready.
+    (each 永远是单数)
+
+❌ Every student **have** a book.
+✅ Every student **has** a book.
+    (every 永远是单数)
+
+❌ Each one **were** given a prize.
+✅ Each one **was** given a prize.
+```
+
+## 错误 4：either/or, neither/nor 的动词不就近
+
+```
+❌ Either the students or the teacher **are** wrong.
+✅ Either the students or the teacher **is** wrong.
+    (teacher 最近 → is)
+
+❌ Neither the teacher nor the students **is** ready.
+✅ Neither the teacher nor the students **are** ready.
+    (students 最近 → are)
+
+❌ Either John or his friends **is** coming.
+✅ Either John or his friends **are** coming.
+    (friends 最近 → are)
+```
+
+## 错误 5：one of + 复数用复数动词
+
+```
+❌ One of my friends **are** a doctor.
+✅ One of my friends **is** a doctor.
+    (one = 其中之一 → 单数)
+
+❌ One of the problems **were** solved.
+✅ One of the problems **was** solved.
+
+❌ One of the students **have** arrived.
+✅ One of the students **has** arrived.
+```
+
+## 错误 6：the number of vs a number of 混淆
+
+```
+❌ **The number of** students **are** increasing.
+✅ **The number of** students **is** increasing.
+    (the number of = ……的数量 → 单数)
+
+❌ **A number of** issues **is** unresolved.
+✅ **A number of** issues **are** unresolved.
+    (a number of = 许多 → 复数)
+```
+
+## 错误 7：时间/金钱/距离作主语用复数
+
+```
+❌ Ten dollars **are** enough for lunch. (整体金额)
+✅ Ten dollars **is** enough for lunch.
+    (整体视为一个金额)
+
+❌ Five years **are** a long time.
+✅ Five years **is** a long time.
+    (一段时间视为整体)
+
+❌ Ten kilometers **are** too far to walk.
+✅ Ten kilometers **is** too far to walk.
+    (一段距离)
+```
+
+## 错误 8：集合名词动词形式（美式用单数）
+
+```
+❌ The team **are** winning. (美式英语)
+✅ The team **is** winning. (美式：整体 → 单数)
+
+❌ The family **have** moved to London.
+✅ The family **has** moved to London.
+    (美式：作为一个整体搬家)
+
+❌ The committee **are** meeting tomorrow.
+✅ The committee **is** meeting tomorrow.
+    (美式)
+```
+
+## 错误 9：学科名以 -s 结尾用复数
+
+```
+❌ Mathematics **are** difficult.
+✅ Mathematics **is** difficult.
+
+❌ Physics **are** my favorite subject.
+✅ Physics **is** my favorite subject.
+
+❌ The news **are** good.
+✅ The news **is** good.
+    (news 形复意单，永远用单数)
+
+❌ Economics **are** interesting.
+✅ Economics **is** interesting.
+```
+
+## 错误 10：主语是"书名/电影名/国名"（形复意单）
+
+```
+❌ The United States **are** a big country.
+✅ The United States **is** a big country.
+
+❌ "The Three Musketeers" **are** a novel.
+✅ "The Three Musketeers" **is** a great novel.
+    (书是一本 → 单数)
+
+❌ The Philippines **are** an island nation.
+✅ The Philippines **is** an island nation.
+```
+
+## 错误 11：and 连接的两个名词视为复数（忽略整体例外）
+
+```
+❌ Bread and butter **are** my breakfast.
+✅ Bread and butter **is** my breakfast.
+    (黄油面包 = 一道食物 → 整体)
+
+❌ Fish and chips **are** a British dish.
+✅ Fish and chips **is** a British dish.
+    (一道菜名 → 整体)
+
+❌ The singer and songwriter **are** here. (同一个人)
+✅ The singer and songwriter **is** here.
+    (既是歌手又是词作者 → 同一个人)
+
+❌ Tom and Jerry **is** coming. (两个人)
+✅ Tom and Jerry **are** coming.
+    (两个不同的人 → 复数)
+```
+
+## 错误 12：定语从句中关系代词的指代错误
+
+```
+❌ This is one of the books that **was** published last year.
+✅ This is one of the books that **were** published last year.
+    (that 指 the books → 复数)
+
+❌ He is the only one of the students who **are** late.
+✅ He is the only one of the students who **is** late.
+    (the only one → 单数，由 the only 限制)
+
+❌ I know the people who **is** standing there.
+✅ I know the people who **are** standing there.
+    (who 指 people → 复数)
+```
+
+## 错误 13：不定式/动名词作主语用复数
+
+```
+❌ Learning English **are** fun.
+✅ Learning English **is** fun.
+    (动名词作主语 → 单数)
+
+❌ To see **are** to believe.
+✅ To see **is** to believe.
+    (不定式作主语 → 单数)
+
+❌ Swimming **are** good exercise.
+✅ Swimming **is** good exercise.
+```
+
+## 错误 14：从句作主语用复数
+
+```
+❌ What he said **are** true.
+✅ What he said **is** true.
+    (从句作主语 → 单数)
+
+❌ That she is right **are** obvious.
+✅ That she is right **is** obvious.
+```
+
+**例外：** 从句表达"复数内容"时用复数
+```
+What we need **are** more chairs.     → "我们需要的"是椅子（复数）
+What I want **are** some answers.     → "我想要的"是答案（复数）
+```
+
+## 错误 15："每……都"的中文直译
+
+```
+中文：每个男孩和每个女孩都有自己的梦想。
+       "每个" → 感觉是复数？
+
+英语：
+❌ Every boy and every girl have their own dreams.
+✅ Every boy and every girl has his or her own dreams.
+    (every...and every... → 单数)
+✅ Every boy and every girl has their own dreams.
+    (现代英语用单数动词 + their)
+```
+
+## 错误 16：百分比/分数 + of 的动词形式
+
+```
+❌ Half of the cake **are** gone.
+✅ Half of the cake **is** gone.
+    (cake = 不可数 → 单数)
+
+❌ 20% of the students **is** here.
+✅ 20% of the students **are** here.
+    (students = 复数 → 复数)
+
+❌ Some of the money **are** missing.
+✅ Some of the money **is** missing.
+    (money = 不可数 → 单数)
+```
+
+---
+
 > **一句话总结：** 每次写动词，回头看真正的主语——是单数还是复数？中文不需要这步，英语必须。

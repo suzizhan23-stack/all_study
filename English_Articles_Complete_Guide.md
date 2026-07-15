@@ -757,4 +757,280 @@ in bed, in town, in class
 
 ---
 
+---
+
+# 第八部分：中国学习者常见错误汇总
+
+## 错误 1：可数单数名词光秃秃（缺 a / the）
+
+```
+❌ I saw dog on the street.
+✅ I saw **a** dog on the street.
+
+❌ She is teacher.
+✅ She is **a** teacher.
+
+❌ He wants to become engineer.
+✅ He wants to become **an** engineer.
+```
+
+**为什么错：** 中文说"我看到狗了"——可以不加"一只"。英语可数单数必须加冠词或其他限定词。
+
+## 错误 2：复数/不可数名词滥用 the（泛指时）
+
+```
+❌ **The** dogs are animals.
+✅ Dogs are animals.
+
+❌ I love **the** music.
+✅ I love music.
+
+❌ **The** water is important for life.
+✅ Water is important for life.
+```
+
+**为什么错：** 中文说"狗是动物"——不加"那些"。英语泛指复数/不可数不用 the。
+
+## 错误 3：第一次提到用 the（听者还不知道）
+
+```
+❌ I saw **the** dog on the street. (第一次出现)
+✅ I saw **a** dog on the street.
+
+❌ **The** man called you. (你还没告诉我谁)
+✅ **A** man called you.
+```
+
+**为什么错：** 中文说"我看到那条狗了"——即使第一次出现也可以。英语第一次提到用 a，再次提到用 the。
+
+## 错误 4：国名/地名乱加 the
+
+```
+❌ I visited **the** China last year.
+✅ I visited China last year.
+
+❌ **The** Japan is beautiful.
+✅ Japan is beautiful.
+
+❌ I climbed **the** Mount Everest.
+✅ I climbed Mount Everest.
+```
+
+**例外：** United States / UK / Netherlands 等复合国名要加 the。
+
+## 错误 5：抽象概念/学科前加 the
+
+```
+❌ I study **the** mathematics.
+✅ I study mathematics.
+
+❌ **The** love is beautiful.
+✅ Love is beautiful.
+
+❌ **The** life is hard.
+✅ Life is hard.
+```
+
+## 错误 6：固定搭配中乱加/漏冠词
+
+```
+❌ I go to **the** school every day. (想说"上学")
+✅ I go to school.
+
+❌ She is in **the** hospital. (英式：想说"住院")
+✅ She is in hospital. (英式) / She is in the hospital. (美式，可接受)
+
+❌ I go to home.
+✅ I go home. (home 前不用 to，也不用冠词)
+
+❌ I go to **the** bed. (想说"去睡觉")
+✅ I go to bed.
+```
+
+## 错误 7：职业/身份前漏 a/an
+
+```
+❌ He is doctor.
+✅ He is **a** doctor.
+
+❌ She became teacher.
+✅ She became **a** teacher.
+
+❌ I want to be engineer.
+✅ I want to be **an** engineer.
+```
+
+**为什么错：** 中文说"他是医生"——不加"一个"。英语把"医生"视为一个类别成员，需要 a。
+
+## 错误 8：a 和 an 混淆（看音素不看字母）
+
+```
+❌ **a** apple
+✅ **an** apple
+
+❌ **a** hour
+✅ **an** hour (h 不发音)
+
+❌ **an** university
+✅ **a** university (/j/ 音，辅音开头)
+
+❌ **an** one-day trip
+✅ **a** one-day trip (/w/ 音)
+```
+
+## 错误 9：最高级/序数词前漏 the
+
+```
+❌ She is best student in class.
+✅ She is **the** best student in class.
+
+❌ He is first person to arrive.
+✅ He is **the** first person to arrive.
+
+❌ This is most expensive car.
+✅ This is **the** most expensive car.
+```
+
+## 错误 10：三餐/运动/学科前误加 the
+
+```
+❌ I had **the** breakfast at 7.
+✅ I had breakfast at 7.
+
+❌ He plays **the** basketball.
+✅ He plays basketball.
+
+❌ She studies **the** English.
+✅ She studies English.
+```
+
+**例外：** "The breakfast I had this morning was great." —这里特指某一餐，用 the ✓
+
+## 错误 11：物质名词看作可数（中文直译）
+
+```
+❌ I need **an** information.
+✅ I need information. / I need some information.
+
+❌ Can I have **a** water?
+✅ Can I have some water? / Can I have **a glass of** water?
+
+❌ He gave me **an** advice.
+✅ He gave me some advice.
+
+❌ I need **a** furniture.
+✅ I need some furniture. / I need **a piece of** furniture.
+```
+
+## 错误 12："such a" 结构中漏 a 或滥用 a
+
+```
+❌ It was **such** good movie. (缺 a)
+✅ It was **such a** good movie.
+
+❌ It was **such a** good weather. (weather 不可数，不用 a)
+✅ It was **such** good weather.
+
+❌ She is **such** nice person. (缺 a)
+✅ She is **such a** nice person.
+```
+
+## 错误 13：乐器和球类运动混淆
+
+```
+❌ I play **the** basketball.
+✅ I play basketball. (球类不用 the)
+
+❌ I play piano. (标准用法缺 the)
+✅ I play **the** piano. (乐器用 the，虽然口语也可省略)
+```
+
+## 错误 14：by + 交通工具前误加冠词
+
+```
+❌ I go to work **by a bus**.
+✅ I go to work **by bus**.
+
+❌ She travels **by the train**.
+✅ She travels **by train**.
+
+❌ He came **by a car**.
+✅ He came **by car**.
+```
+
+**对比：** 如果要说"具体的某一辆"，用 in/on + the/a：
+- I go to work **by bus**.（交通方式，泛指）
+- I saw him **on the bus**.（在那辆特定的公交车上）
+
+## 错误 15：所有格和冠词冲突
+
+```
+❌ **the** my book
+✅ my book / **the** book
+
+❌ **a** my friend
+✅ **a** friend of mine / my friend
+
+**规则：** 冠词和所有格不能同时出现（a my = ❌）
+```
+
+## 错误 16：乐器/身体部位用物主代词代替 the
+
+```
+❌ She hit me on **my** head.
+✅ She hit me on **the** head.
+
+❌ He grabbed me by **my** arm.
+✅ He grabbed me by **the** arm.
+
+**规则：** "打/抓/看+某人+部位"结构中，部位用 the 而不是物主代词。
+```
+
+## 错误 17：same/only 前漏 the
+
+```
+❌ They have **same** problem.
+✅ They have **the same** problem.
+
+❌ She is **only** child in her family.
+✅ She is **the only** child in her family.
+
+**规则：** same 和 only 前面几乎永远用 the。
+```
+
+## 错误 18：泛指类别时三种方式混用
+
+| 方式 | 正式度 | 例子 | 什么时候用 |
+|------|--------|------|-----------|
+| **The** + 单数 | 正式/学术 | **The** smartphone changed the world. | 把整个类当实体 |
+| **A** + 单数 | 中性 | **A** smartphone has a screen. | 该类中的任意个体 |
+| **∅** + 复数 | 自然/日常 | Smartphones are everywhere. | 该类整体 |
+
+```
+学术写作：The smartphone has revolutionized communication.
+教科书：  A smartphone is a portable device.
+日常口语：Smartphones are everywhere now.
+```
+
+## 快速自查表
+
+| 场景 | 用 | 不用 |
+|------|----|------|
+| 可数单数第一次提 | a/an | the / ∅ |
+| 可数单数已知/特指 | the | a / ∅ |
+| 复数/不可数泛指 | ∅ | the |
+| 复数/不可数特指 | the | a / ∅ |
+| 独一无二的（太阳/月亮） | the | a / ∅ |
+| 职业/身份 | a/an | ∅ |
+| 最高级/序数词 | the | a / ∅ |
+| 国名（大多数） | ∅ | the |
+| 河流/海洋/山脉 | the | ∅ |
+| 三餐/运动/学科 | ∅ | the |
+| 乐器 | the | a |
+| by + 交通工具 | ∅ | the/a |
+| same / only | the | a / ∅ |
+| 抽象概念 | ∅ | the |
+
+> **一句话总结：** 每次用名词前，问三个问题——可数还是不可数？泛指还是特指？听者知道是哪个吗？答案是 the，否是 a/∅。
+
 > **结语：** 冠词不是语法规则，是母语者的"认知状态标记"。学会冠词，就是学会从英语母语者的视角去看"这个名词在你脑中是怎么被认识的"。
